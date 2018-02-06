@@ -1,0 +1,260 @@
+%%% Presentaciones para Lenguajes de programacion y sus paradigmas
+
+%\documentclass[xcolor=dvipsnames,table,handout]{beamer}
+%\documentclass[xcolor=dvipsnames,table]{beamer}
+\documentclass[xcolor=dvipsnames,table,spanish]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+%%%% paquetes matematicas
+\usepackage{amssymb,amsmath,amscd}
+\usepackage{extarrows}
+\usepackage{stmaryrd}
+\usepackage{mathabx}
+\usepackage{mathrsfs}
+% \usepackage{mathabx}
+\usepackage{amsthm}
+
+%%%%%
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{pifont}
+\usepackage{xcolor}
+\usepackage{etex}
+\usepackage{tikz}
+\usepackage{array}
+%\usepackage{pgfplots}
+
+%%%% cosmetics
+% D.Remy package for pretty display of rules
+\usepackage{mathpartir}
+
+% para insertar codigo con formato particular
+\usepackage{listing}
+
+% comillas
+\usepackage[autostyle=true,spanish=mexican]{csquotes}
+
+% codigo
+\usepackage{verbatim}
+\usepackage{alltt}
+
+% footnotes
+\usepackage[bottom]{footmisc}
+\usepackage{setspace}
+
+\usepackage{wrapfig}
+\usepackage{caption}
+
+
+\hfuzz=5.002pt %parameter to allow hbox overfulled by length before error!
+
+% Options for presentation
+% ------------------------
+% \definecolor{mycolor}{RGB}{255,192,3}
+\definecolor{mycolor}{RGB}{17,132,221}
+\mode<presentation>
+{
+% \usetheme[secheader]{Boadilla}
+% \usecolortheme{orchid}
+\useoutertheme{infolines}
+\useinnertheme{rectangles}
+\setbeamertemplate{itemize items}[square]
+\setbeamertemplate{enumerate items}[square]
+\setbeamersize{text margin left=6mm, text margin right=6mm}
+
+\setbeamercolor{alerted text}{fg=red,bg=red!70!white}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{frametitle}{bg=mycolor,fg=white}
+\setbeamercolor{normal text}{bg=white,fg=black}
+\setbeamercolor{structure}{bg=black,fg=mycolor}
+\setbeamercolor{title}{bg=mycolor,fg=white}
+\setbeamercolor{subtitle}{bg=mycolor,fg=white}
+\setbeamercolor{titlelike}{bg=white,fg=mycolor}
+
+\setbeamercovered{invisible}
+
+\setbeamercolor*{palette primary}{fg=mycolor,bg=white}
+\setbeamercolor*{palette secondary}{bg=white,fg=white}
+\setbeamercolor*{palette tertiary}{fg=mycolor,bg=white}
+\setbeamercolor*{palette quaternary}{fg=white,bg=white}
+
+\setbeamercolor{separation line}{bg=mycolor,fg=mycolor}
+\setbeamercolor{fine separation line}{bg=white,fg=red}
+\setbeamercolor{author in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
+\setbeamercolor{title in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
+\setbeamercolor{date in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
+\setbeamercolor{institute in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
+\setbeamercolor{section in head/foot}{bg=mycolor!60!white, fg=Red}
+\setbeamercolor{subsection in head/foot}
+{bg=mycolor!50!white,fg=mycolor!50!white}
+
+
+\setbeamertemplate{headline}
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,center]{section in
+head/foot}%
+    \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,center]{subsection
+in head/foot}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+% \beamerdefaultoverlayspecification{<+->}
+\beamertemplatenavigationsymbolsempty
+% \setbeamertemplate{footline}[frame number]
+}
+
+\input{macroslc}
+
+\title[]{Lenguajes de programación y sus paradigmas}
+\subtitle{Tema: Excepciones}
+\author[]{}
+\institute[UNAM-FC]{Facultad de Ciencias\\
+Universidad Nacional Aut\'onoma de M\'exico}
+\date[]{\small{\today}
+\newline{\tiny{Material desarrollado bajo el proyecto UNAM-PAPIME PE102117.}}}
+
+
+\beamerdefaultoverlayspecification{<+->}
+
+\titlegraphic{\includegraphics[width=16mm]{fc2.png}
+}
+
+% Opciones extras
+% L5: beamer en español
+\usepackage[all]{xy}
+\decimalpoint
+% Counter para enumerates en varios frames
+\newcounter{saveenumi}
+\newcommand{\savei}{\setcounter{saveenumi}{\value{enumi}}}
+\newcommand{\conti}{\setcounter{enumi}{\value{saveenumi}}}
+\resetcounteronoverlays{saveenumi}
+\definecolor{light-gray}{gray}{0.75}
+\newcommand{\IF}{\operatorname{if}}
+\newcommand{\THEN}{\operatorname{then}}
+\newcommand{\ELSE}{\operatorname{else}}
+\newcommand{\qn}{\operatorname{qn}}
+\newcommand{\shift}{\operatorname{shift}}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+  \frametitle{Idea}
+	En la programación existen situaciones donde una función o 		procedimiento no pueda terminar su ejecución y deba de 			reportar este hecho a su emisor.
+
+	\begin{examples}
+	\begin{itemize}
+		\item División entre cero.
+		\item Desborde del rango aritmético.
+		\item Índice de un arreglo fuera de rango.
+        \item Archivo no accesible.
+        \item Sistema sin memoria.
+        \item Proceso terminado por usuario.
+	\end{itemize}
+    \end{examples}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Idea}
+	Algunas de las condiciones anteriores pueden ser manejadas al cambiar el rango de la función que las provoca.
+
+  	\begin{example}
+    La función predecesor regresaria lo siguiente:\newline
+    \begin{itemize}
+        \item \texttt{trivial()}, en caso de ser 0 el argumento.\newline
+  	    \item \texttt{Maybe Nat} $=_{def}$ 1 + \texttt{Nat}, en otro caso.
+    \end{itemize}
+  	\end{example}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Excepciones sin manejo}
+  La manera mas simple de introducir excepciones es mediante un costructor \textbf{error}, el cual causa la detención total del programa.\newline
+
+  La sintaxis se extiende con una constante de error:
+  \begin{center}
+      $e::=...|error$
+  \end{center}
+  La evaluacion se extiende de la siguiente manera:
+  \begin{center}
+      \begin{equation*}
+         \frac{}{app(error,e_2)\imp error}
+	  \end{equation*}
+      \begin{equation*}
+         \frac{}{app(v_1,error)\imp error}
+	  \end{equation*}
+  \end{center}
+Notese que \textbf{error} no es un valor, entonces el programa $(\lambda x: Nat.0)error$, por un lado se reduciria a 0 y por el otro a error.
+\end{frame}
+
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\begin{frame}
+
+\end{frame}
+
+\end{document}
