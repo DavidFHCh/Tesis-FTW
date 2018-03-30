@@ -30,6 +30,8 @@
 \usepackage{array}
 %\usepackage{pgfplots}
 
+\newtheorem{prop}{Proposición}
+
 %%%% cosmetics
 % D.Remy package for pretty display of rules
 \usepackage{mathpartir}
@@ -146,12 +148,22 @@ Universidad Nacional Aut\'onoma de M\'exico}
 \newcommand{\qn}{\operatorname{qn}}
 \newcommand{\shift}{\operatorname{shift}}
 
+\DeclareFontFamily{U}{mathb}{\hyphenchar\font45}
+\DeclareFontShape{U}{mathb}{m}{n}{
+<-6> mathb5 <6-7> mathb6 <7-8> mathb7
+<8-9> mathb8 <9-10> mathb9
+<10-12> mathb10 <12-> mathb12
+}{}
+\DeclareSymbolFont{mathb}{U}{mathb}{m}{n}
+\DeclareMathSymbol{\llcurly}{\mathrel}{mathb}{"CE}
+\DeclareMathSymbol{\ggcurly}{\mathrel}{mathb}{"CF}
+
 \begin{document}
 
 \frame{\titlepage}
 
 \begin{frame}
-  \frametitle{Idea}
+  \frametitle{1. Idea}
 	En la programación existen situaciones donde una función o 		procedimiento no pueda terminar su ejecución y deba de 			reportar este hecho a su emisor.
 
 	\begin{examples}
@@ -167,7 +179,7 @@ Universidad Nacional Aut\'onoma de M\'exico}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Idea}
+  \frametitle{1. Idea}
 	Algunas de las condiciones anteriores pueden ser manejadas al cambiar el rango de la función que las provoca.
 
   	\begin{example}
@@ -181,7 +193,7 @@ Universidad Nacional Aut\'onoma de M\'exico}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Excepciones sin manejo}
+  \frametitle{2. Excepciones sin manejo}
   La manera mas simple de introducir excepciones es mediante un costructor \textbf{error}, el cual causa la detención total del programa.\newline
 
   La sintaxis se extiende con una constante de error:
@@ -202,47 +214,164 @@ Notese que \textbf{error} no es un valor, entonces el programa $(\lambda x: Nat.
 
 
 \begin{frame}
+\frametitle{2. Excepciones sin manejo}
+	La semántica estática se extiende mediante:
+	\begin{equation*}
+         \frac{}{\Gamma \vdash error : T}
+	\end{equation*}
+    Esto permite que error reciba cualquier tipo. Esto es la unicidad de tipos, lo cual es importante a nivel practico. Se podría resolver esto de la siguiente manera:
+    \begin{equation*}
+         \frac{}{\Gamma \vdash error_T: T}
+	\end{equation*}
+    Sin embargo, de esta manera la preservación de tipos se destruye. Por lo siguiente:
+    \begin{equation*}
+         (\lambda x: Nat.x)((\lambda y:Bool.5)error_{Bool})\imp(\lambda x: Nat.x) error_{Bool}
+	\end{equation*}
+   Esto significa que tendremos que conformarnos con la perdida de la unicidad de tipos. Entonces se debe de reformular el progreso del sistema al ser que la expresión $error$ es una forma normal que no es un valor.
 
 \end{frame}
 
 \begin{frame}
+\frametitle{2. Excepciones sin manejo}
+\begin{prop}
+Si $\vdash e:T$ entonces sucede una y solo una de las siguientes situaciones:
+\begin{enumerate}
+\item $e$ es un valor
+\item Existe $e'$ tal que $e \imp e'$
+\item $e = error$
+\end{enumerate}
+\end{prop}
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Manejo de Excepciones}
+Ahora se mostrara un mejor uso de las excepciones al no abortar completamente la ejecución del programa y manejar las excepciones de manera que el programa de un salto.
 
 \end{frame}
 
 \begin{frame}
+\frametitle{3. Manejo de Excepciones}
+Hasta ahora lo que hacemos es detener la ejecución y devolver $error$ como resultado de la evaluación, lo cual quiere decir que lo que se hace es que se están eliminando los récords de activación de la pila de ejecución, otra manera de decirlo es que el error se propaga totalmente en la pila de ejecución.
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Manejo de Excepciones}
+Una opción menos radical es instalar \textit{manejadores de excepciones} de tal manera que al surgir un error, se lanza una excepción que elimina los récords de activación hasta que encuentra un manejador, al cual se le transfiere el control del programa.
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Manejo de Excepciones}
+Definimos ahora un lenguaje con una forma simple de manejo de excepciones.\newline
+La sintaxis concreta se extiende mediante:
+\begin{center}
+      $e::=...|error|try$ $e_1$ $catch$ $e_2$
+\end{center}
+La sintaxis abstracta es:
+\begin{center}
+      $e::=...|error|catch(e_1,e_2)$
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Manejo de Excepciones}
+La nueva expresión $catch(e_1,e_2)$ se evalúa como sigue: se intenta evaluar $e_1$ y si esta evaluación termina normalmente se devuelve su valor. Si la evaluación de $e_1$ resulta anormal, entonces surgirá un error y se procederá a evaluar $e_2$. Esto se formaliza de la siguiente manera:
+
+ \begin{center}
+      \begin{equation*}
+         \frac{e_1 \imp e_1'}{catch(e_1,e_2) \imp catch(e_1',e_2)}
+	  \end{equation*}
+      \begin{equation*}
+         \frac{}{catch(v,e_2) \imp v}
+         \qquad
+           \frac{}{catch(error,e_2) \imp e_2}
+	  \end{equation*}
+
+  \end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{3. Manejo de Excepciones}
+La semántica estática esta dada por la siguiente regla:
+\begin{center}
+      \begin{equation*}
+         \frac{\Gamma \vdash e_1:T \quad \Gamma \vdash e_2:T}{\Gamma \vdash catch(e_1,e_2):T}
+	  \end{equation*}
+  \end{center}
+  Con esto se observa que tanto $e_1$, $e_2$ y $catch(e_1,e_2)$ deben de tener el mismo tipo, ya que la evaluación del catch podría regresar $e_1$ o $e_2$.
+\end{frame}
+
+\begin{frame}
+\frametitle{3.1 Extensión de la máquina K}
+Extendemos la maquina K para modelar la idea de navegar la pila hasta hallar un manejador. Esto es como sigue:
+\begin{itemize}
+		\item La evaluación de un catch instala un manejador en la pila de control.
+		\item La evaluación de un error atraviesa la pila eliminando marcos hasta hallar el manejador mas cercano.
+		\item La evaluación continua según lo dictado por este manejador, el cual utiliza la misma pila de control de manera que si hay errores en él se propagarán de la misma manera.
+\end{itemize}
 
 \end{frame}
 
 \begin{frame}
+\frametitle{3.1 Extensión de la máquina K}
+Se introduce una nueva clase de estado, denotado como: \[\textrm{\textit{P}} \llcurly error\] Cuya intención es devolver y propagar un error en la pila \textrm{\textit{P}}, en búsqueda del manejador mas cercano.\newline El estado de la forma: \[ \square \llcurly error \] Se considera final y es el caso donde el error se propago completamente, vació la pila y aborto totalmente la ejecución del programa.
+\end{frame}
+
+\begin{frame}
+\frametitle{3.1 Extensión de la máquina K}
+La categoría de marcos se extiende con uno que indica el cómputo pendiente al evaluar la expresión $e_1$, es decir un manejador:
+
+\[\frac{}{catch(-,e_2) \quad marco}\]
 
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+A continuación enunciamos y explicamos las nuevas transiciones:
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+\begin{itemize}
+		\item Si se quiere evaluar un error entonces se causa el efecto de propagarlo en la pila.
+        \[ \frac{}{\textrm{\textit{P}} \succ error \imp _K  \textrm{\textit{P}} \llcurly error}\]
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+\begin{itemize}
+		\item La evaluación de un manejador $catch(e_1,e_2)$ se inicia al evaluar $e_1$
+        \[ \frac{}{\textrm{\textit{P}} \succ catch(e_1,e_2) \imp _K catch(-,e_2);\textrm{\textit{P}} \succ e_1} \]
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+\begin{itemize}
+		\item Si la evaluación de $e_1$ es exitosa, devolver su valor $v_1$ se elimina el marco manejador y el control del programa continua sin salto.
+        \[ \frac{}{catch(-,e2) ; \textrm{\textit{P}} \succ v \imp _K \textrm{\textit{P}} \succ v} \]
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+\begin{itemize}
+		\item Propagar un error en una pila $m;\textrm{\textit{P}}$  consiste en eliminar el marco tope $m$ y propagar el error
+en $\textrm{\textit{P}}$, siempre y cuando m no represente el computo pendiente de un manejador.
+        \[ \frac{m \neq catch(-,e_2)}{m;\textrm{\textit{P}} \llcurly error \imp _K \textrm{\textit{P}} \llcurly error} \]
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.1 Extensión de la máquina K}
+\begin{itemize}
+		\item Propagar un error en la pila con tope $catch(-,e_2)$ consiste en eliminar el manejador y continuar la evaluación con $e_2$.
+        \[ \frac{}{catch(-,e2);\textrm{\textit{P}} \llcurly error \imp _K \textrm{\textit{P}} \succ e_2} \]
+\end{itemize}
 \end{frame}
 
 \begin{frame}
-
+\frametitle{3.2 Resolución de alcance}
 \end{frame}
 
 \begin{frame}
