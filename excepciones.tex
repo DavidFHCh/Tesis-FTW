@@ -30,6 +30,7 @@
 \usepackage{array}
 %\usepackage{pgfplots}
 
+
 \newtheorem{prop}{Proposición}
 
 %%%% cosmetics
@@ -37,7 +38,7 @@
 \usepackage{mathpartir}
 
 % para insertar codigo con formato particular
-\usepackage{listing}
+\usepackage{listings}
 
 % comillas
 \usepackage[autostyle=true,spanish=mexican]{csquotes}
@@ -372,18 +373,121 @@ en $\textrm{\textit{P}}$, siempre y cuando m no represente el computo pendiente 
 
 \begin{frame}
 \frametitle{3.2 Resolución de alcance}
+El alcance de en una expresión \textbf{try...catch}, a diferencia de una expresión \textbf{let}, se resuelve de manera dinámica.
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{3.2 Resolución de alcance}
+Considérense los siguientes ejemplos:\newline
+Por la  resolución dinámica del \textbf{try...catch} el siguiente código se evalúa a 1.
+\begin{example}
+\begin{lstlisting}[language=Haskell]
+try
+  let f = fun(x:Nat) => error
+      g = fun(h:Nat->Nat) =>
+      	try (h 0) catch 1
+  in
+    try (g f) catch 2
+  end
+catch
+  3
+
+\end{lstlisting}
+\end{example}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{3.2 Resolución de alcance}
+Y en este código por la resolución estática del \textbf{let}, se regresa 3.
+\begin{example}
+\begin{lstlisting}[language=Haskell]
+let fail = 3 in
+  let f = fun(x:Nat) => fail
+      g = fun(h:Nat->Nat) =>
+      	let fail = 1 in (h 0) end
+  in
+    let fail = 2 in (g f) end
+  end
+end
+
+\end{lstlisting}
+\end{example}
+\end{frame}
+
+\begin{frame}
+\frametitle{3.3 Extensión con referencias y excepciones}
+La semántica que permite extender el lenguaje núcleo imperativo con excepciones requiere de una generalización de la maquina $\mathcal{K}$ con memorias, los estados son de la forma: $\langle \mu , \mathcal{P} , e \rangle$ y las transiciones de la siguiente forma.
+\[\langle \mu , \mathcal{P} , e \rangle \imp \langle \mu ', \mathcal{P}' , e' \rangle\]
+
+Donde $\mu$ es una memoria, $mathcal{P}$ es una pila de control y $e$ es una expresión.
+\end{frame}
+\begin{frame}
+\frametitle{3.3 Extensión con referencias y excepciones}
+Como antes el proceso para manejar una excepción consiste en atravesar la pila hasta donde se halle el manejador más cercano, es decir, un $catch(-,e_2)$. Pero existen dos maneras de definir la interacción entre referencias y excepciones:
+
+\begin{itemize}
+\item Semántica estándar: La memoria $\mu$ al iniciar la evaluación de $e_2$ es la misma que estaba en uso en el momento en que la excepción fue lanzada.
+\item Semántica transaccional: La memoria $\mu$ al iniciar la evaluación de $e_2$, aquella utilizada en el momento en el manejador $catch(-,e_2)$ fue instalado en la pila de control. Es decir, una excepción deshace cualquier efecto anterior.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{3.4 Uso de excepciones para optimizar programas}
+Las excepciones no solo se pueden usar para manejar errores, también pueden usarse para optimizar código. Por ejemplo para causar un corto circuito en la evaluación de una expresión profundamente anidada.
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{3.4 Uso de excepciones para optimizar programas}
+Consideremos el siguiente código que implementa la función de igualdad entre listas:
+
+\begin{lstlisting}[language=Haskell]
+fun lsteq(l1:[T],l2:[T]):Bool =>
+  lsteq ([],[]) = true
+| lsteq ((x:xs),(y:ys)) = x == y and lsteq (xs,ys)
+| lsteq (_,_) = false
+\end{lstlisting}
+
+Si comparáramos dos listas de tamaño 1000000 tales que solo difieren en su ultimo elemento, el programa anterior tendría que liberar 100000 cómputos antes de de contestar false. Entre otras cosas, se debe a que no es recursiva de cola.
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{3.4 Uso de excepciones para optimizar programas}
+En su lugar podemos implementar una función usando el poder del paradigma imperativo.
+
+\begin{lstlisting}[language=Haskell]
+fun leqaux(l1:[T],l2:[T]):Void =>
+  leqaux ([],[]) = void
+| leqaux ((x:xs),(y:ys)) = if x == y
+                           then leqaux(xs,ys)
+                           else error
+| leqaux (_,_) = error
+
+fun lsteq(l1:[T],l2:[T]):Bool =>
+  try (leqaux (l1,l2));true catch false
+\end{lstlisting}
+
+En este caso, al lanzar la excepción, no hay necesidad de liberar cómputos pendientes o atravesar la pila, pues se devolverá false de inmediato.
+\end{frame}
+\begin{frame}
+\frametitle{4 Excepciones con valor}
+La forma más general de manejo de errores, además de lanzar una excepción al surgir un error y permitir un salto en el control del programa, nos gustaría que  pudiera reportar el hecho por el que el error surgió. A continuación tratamos esta forma general de excepciones.
 \end{frame}
 
 \begin{frame}
 
-\end{frame}
+La sintaxis concreta se extiende como sigue:
 
+\[e::=...|raise \quad e|handle \quad e_1 \quad with \quad x \Rightarrow \quad e_2\]
+\newline
+La sintaxis abstracta se extiende como sigue:
+\[e::=...|raise(e)|handle(e_1,x.e_2\]
+\end{frame}
+\begin{frame}
+
+\end{frame}
 \begin{frame}
 
 \end{frame}
 
-\begin{frame}
-
-\end{frame}
 
 \end{document}
