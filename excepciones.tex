@@ -474,7 +474,7 @@ La forma más general de manejo de errores, además de lanzar una excepción al 
 \end{frame}
 
 \begin{frame}
-
+\frametitle{4 Excepciones con valor}
 La sintaxis concreta se extiende como sigue:
 
 \[e::=...|raise \quad e|handle \quad e_1 \quad with \quad x \Rightarrow \quad e_2\]
@@ -483,11 +483,88 @@ La sintaxis abstracta se extiende como sigue:
 \[e::=...|raise(e)|handle(e_1,x.e_2\]
 \end{frame}
 \begin{frame}
+\frametitle{4 Excepciones con valor}
+La semántica dinámica es parecida a la del lenguaje anterior, pero en vez de tener \textbf{error}, tenemos $\textbf{raise}(e)$, cuyo argumento se evalúa antes de propagarse para determinar el valor que recibirá el manejador respectivo. Además la instrucción \textbf{handle...with} presenta un ligado que recibe el valor de una excepción.
+\end{frame}
+\begin{frame}
+\frametitle{4 Excepciones con valor}
+La semántica operacional es:
+\begin{center}
+
+      \begin{equation*}
+         \frac{e \imp e'}{raise(e) \imp raise(e')}
+         \qquad
+           \frac{}{raise(raise(v)) \imp raise(v)}
+	  \end{equation*}
+
+      \begin{equation*}
+         \frac{e_1 \imp e_1'}{handle(e_1,x.e_2)\imp handle(e_1',x.e_2)}
+	  \end{equation*}
+
+      \begin{equation*}
+         \frac{}{handle(v_1,x.e_2) \imp v_1}
+         \qquad
+           \frac{}{handle(raise(v_1),x.e_2) \imp e_2[x:=v_1]}
+	  \end{equation*}
+  \end{center}
+\end{frame}
+\begin{frame}
+\frametitle{4 Excepciones con valor}
+La excepción se debe de propagar para todos los demás constructores, por ejemplo para la aplicación tenemos:
+
+\begin{center}
+
+      \begin{equation*}
+         \frac{}{app(raise(v_1),e_2) \imp raise(v_1)}
+         \qquad
+           \frac{}{app(v_1,raise(v_2)) \imp raise(v_2)}
+	  \end{equation*}
+
+  \end{center}
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+La categoría de marcos se extiende con:
+
+\begin{center}
+
+      \begin{equation*}
+         \frac{}{raise(-) marco}
+         \qquad
+           \frac{}{handle(-,x.e_2) marco}
+	  \end{equation*}
+
+  \end{center}
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+Las nuevas transiciones son:
+\begin{itemize}
+\item Evaluación de un lanzamiento.
+\end{itemize}
+\[ \frac{}{handle(-,x.e_2) marco}\]
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+Las nuevas transiciones son:
+\begin{itemize}
+\item El valor de la ecepción se devuelve al lanzador \textbf{raise}, el cual se propaga. Es decir, el valor que la excepción envia se encapsula en el lanzador \textbf{raise}.
+\end{itemize}
+\[ \frac{}{handle(-,x.e_2) marco}\]
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+Las nuevas transiciones son:
+\begin{itemize}
+\item Evaluación de un lanzamiento.
+\end{itemize}
 
 \end{frame}
 \begin{frame}
 
 \end{frame}
+\begin{frame}
 
+\end{frame}
 
 \end{document}
