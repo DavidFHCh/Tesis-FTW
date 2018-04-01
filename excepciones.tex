@@ -302,8 +302,8 @@ La semántica estática esta dada por la siguiente regla:
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
-Extendemos la maquina K para modelar la idea de navegar la pila hasta hallar un manejador. Esto es como sigue:
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
+Extendemos la máquina $\mathcal{K}$ para modelar la idea de navegar la pila hasta hallar un manejador. Esto es como sigue:
 \begin{itemize}
 		\item La evaluación de un catch instala un manejador en la pila de control.
 		\item La evaluación de un error atraviesa la pila eliminando marcos hasta hallar el manejador mas cercano.
@@ -313,12 +313,12 @@ Extendemos la maquina K para modelar la idea de navegar la pila hasta hallar un 
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 Se introduce una nueva clase de estado, denotado como: \[\mathcal{P} \llcurly error\] Cuya intención es devolver y propagar un error en la pila $\mathcal{P}$, en búsqueda del manejador mas cercano.\newline El estado de la forma: \[ \square \llcurly error \] Se considera final y es el caso donde el error se propago completamente, vació la pila y aborto totalmente la ejecución del programa.
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 La categoría de marcos se extiende con uno que indica el cómputo pendiente al evaluar la expresión $e_1$, es decir un manejador:
 
 \[\frac{}{catch(-,e_2) \quad marco}\]
@@ -326,12 +326,12 @@ La categoría de marcos se extiende con uno que indica el cómputo pendiente al 
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 A continuación enunciamos y explicamos las nuevas transiciones:
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 \begin{itemize}
 		\item Si se quiere evaluar un error entonces se causa el efecto de propagarlo en la pila.
         \[ \frac{}{\mathcal{P} \succ error \imp_{\mathcal{K}}  \mathcal{P} \llcurly error}\]
@@ -339,7 +339,7 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 \begin{itemize}
 		\item La evaluación de un manejador $catch(e_1,e_2)$ se inicia al evaluar $e_1$
         \[ \frac{}{\mathcal{P} \succ catch(e_1,e_2) \imp_{\mathcal{K}} catch(-,e_2);\mathcal{P} \succ e_1} \]
@@ -347,7 +347,7 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 \begin{itemize}
 		\item Si la evaluación de $e_1$ es exitosa, devolver su valor $v_1$ se elimina el marco manejador y el control del programa continua sin salto.
         \[ \frac{}{catch(-,e2) ; \mathcal{P} \succ v \imp_{\mathcal{K}} \mathcal{P} \succ v} \]
@@ -355,7 +355,7 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 \begin{itemize}
 		\item Propagar un error en una pila $m;\mathcal{P}$  consiste en eliminar el marco tope $m$ y propagar el error
 en $\mathcal{P}$, siempre y cuando m no represente el computo pendiente de un manejador.
@@ -364,7 +364,7 @@ en $\mathcal{P}$, siempre y cuando m no represente el computo pendiente de un ma
 \end{frame}
 
 \begin{frame}
-\frametitle{3.1 Extensión de la máquina K}
+\frametitle{3.1 Extensión de la máquina $\mathcal{K}$}
 \begin{itemize}
 		\item Propagar un error en la pila con tope $catch(-,e_2)$ consiste en eliminar el manejador y continuar la evaluación con $e_2$.
         \[ \frac{}{catch(-,e2);\mathcal{P} \llcurly error \imp_{\mathcal{K}} \mathcal{P} \succ e_2} \]
