@@ -314,7 +314,7 @@ Extendemos la maquina K para modelar la idea de navegar la pila hasta hallar un 
 
 \begin{frame}
 \frametitle{3.1 Extensión de la máquina K}
-Se introduce una nueva clase de estado, denotado como: \[\textrm{\textit{P}} \llcurly error\] Cuya intención es devolver y propagar un error en la pila \textrm{\textit{P}}, en búsqueda del manejador mas cercano.\newline El estado de la forma: \[ \square \llcurly error \] Se considera final y es el caso donde el error se propago completamente, vació la pila y aborto totalmente la ejecución del programa.
+Se introduce una nueva clase de estado, denotado como: \[\mathcal{P} \llcurly error\] Cuya intención es devolver y propagar un error en la pila $\mathcal{P}$, en búsqueda del manejador mas cercano.\newline El estado de la forma: \[ \square \llcurly error \] Se considera final y es el caso donde el error se propago completamente, vació la pila y aborto totalmente la ejecución del programa.
 \end{frame}
 
 \begin{frame}
@@ -334,7 +334,7 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \frametitle{3.1 Extensión de la máquina K}
 \begin{itemize}
 		\item Si se quiere evaluar un error entonces se causa el efecto de propagarlo en la pila.
-        \[ \frac{}{\textrm{\textit{P}} \succ error \imp _K  \textrm{\textit{P}} \llcurly error}\]
+        \[ \frac{}{\mathcal{P} \succ error \imp_{\mathcal{K}}  \mathcal{P} \llcurly error}\]
 \end{itemize}
 \end{frame}
 
@@ -342,7 +342,7 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \frametitle{3.1 Extensión de la máquina K}
 \begin{itemize}
 		\item La evaluación de un manejador $catch(e_1,e_2)$ se inicia al evaluar $e_1$
-        \[ \frac{}{\textrm{\textit{P}} \succ catch(e_1,e_2) \imp _K catch(-,e_2);\textrm{\textit{P}} \succ e_1} \]
+        \[ \frac{}{\mathcal{P} \succ catch(e_1,e_2) \imp_{\mathcal{K}} catch(-,e_2);\mathcal{P} \succ e_1} \]
 \end{itemize}
 \end{frame}
 
@@ -350,16 +350,16 @@ A continuación enunciamos y explicamos las nuevas transiciones:
 \frametitle{3.1 Extensión de la máquina K}
 \begin{itemize}
 		\item Si la evaluación de $e_1$ es exitosa, devolver su valor $v_1$ se elimina el marco manejador y el control del programa continua sin salto.
-        \[ \frac{}{catch(-,e2) ; \textrm{\textit{P}} \succ v \imp _K \textrm{\textit{P}} \succ v} \]
+        \[ \frac{}{catch(-,e2) ; \mathcal{P} \succ v \imp_{\mathcal{K}} \mathcal{P} \succ v} \]
 \end{itemize}
 \end{frame}
 
 \begin{frame}
 \frametitle{3.1 Extensión de la máquina K}
 \begin{itemize}
-		\item Propagar un error en una pila $m;\textrm{\textit{P}}$  consiste en eliminar el marco tope $m$ y propagar el error
-en $\textrm{\textit{P}}$, siempre y cuando m no represente el computo pendiente de un manejador.
-        \[ \frac{m \neq catch(-,e_2)}{m;\textrm{\textit{P}} \llcurly error \imp _K \textrm{\textit{P}} \llcurly error} \]
+		\item Propagar un error en una pila $m;\mathcal{P}$  consiste en eliminar el marco tope $m$ y propagar el error
+en $\mathcal{P}$, siempre y cuando m no represente el computo pendiente de un manejador.
+        \[ \frac{m \neq catch(-,e_2)}{m;\mathcal{P} \llcurly error \imp_{\mathcal{K}} \mathcal{P} \llcurly error} \]
 \end{itemize}
 \end{frame}
 
@@ -367,7 +367,7 @@ en $\textrm{\textit{P}}$, siempre y cuando m no represente el computo pendiente 
 \frametitle{3.1 Extensión de la máquina K}
 \begin{itemize}
 		\item Propagar un error en la pila con tope $catch(-,e_2)$ consiste en eliminar el manejador y continuar la evaluación con $e_2$.
-        \[ \frac{}{catch(-,e2);\textrm{\textit{P}} \llcurly error \imp _K \textrm{\textit{P}} \succ e_2} \]
+        \[ \frac{}{catch(-,e2);\mathcal{P} \llcurly error \imp_{\mathcal{K}} \mathcal{P} \succ e_2} \]
 \end{itemize}
 \end{frame}
 
@@ -542,28 +542,142 @@ Las nuevas transiciones son:
 \begin{itemize}
 \item Evaluación de un lanzamiento.
 \end{itemize}
-\[ \frac{}{handle(-,x.e_2) marco}\]
+\[ \frac{}{\mathcal{P} \succ raise(e) \imp_{\mathcal{K}} raise(-);\mathcal{P} \succ e}\]
 \end{frame}
 \begin{frame}
 \frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
-Las nuevas transiciones son:
 \begin{itemize}
-\item El valor de la ecepción se devuelve al lanzador \textbf{raise}, el cual se propaga. Es decir, el valor que la excepción envia se encapsula en el lanzador \textbf{raise}.
+\item El valor de la excepción se devuelve al lanzador \textbf{raise}, el cual se propaga. Es decir, el valor que la excepción envia se encapsula en el lanzador \textbf{raise}.
 \end{itemize}
-\[ \frac{}{handle(-,x.e_2) marco}\]
+\[ \frac{}{raise(-);\mathcal{P} \prec v \imp_{\mathcal{K}} \mathcal{P} \llcurly raise(v)}\]
 \end{frame}
 \begin{frame}
 \frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
-Las nuevas transiciones son:
 \begin{itemize}
-\item Evaluación de un lanzamiento.
+\item Evaluación de un manejador.
+\end{itemize}
+
+\[\frac{}{\mathcal{P} \succ handle(e_1,x.e_2) \imp_{\mathcal{K}} handle(-,x.e_2); \mathcal{P} \succ e_1}\]
+
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+\begin{itemize}
+\item Devolución del valor de un manejador.
+\end{itemize}
+
+\[\frac{}{handle(-,x.e_2);\mathcal{P} \prec v \imp_{\mathcal{K}} \mathcal{P} \prec v}\]
+
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+\begin{itemize}
+\item Propagar un valor de excepción en una pila \textit{m} y propagarlo en $\mathcal{P}$, siempre y cuando \textit{m} no sea un manejador.
+\end{itemize}
+
+\[\frac{m \neq handle(-,x.e_2)}{m; \mathcal{P} \llcurly raise(v) \imp_{\mathcal{K}} \mathcal{P} \llcurly raise(v)}\]
+
+\end{frame}
+\begin{frame}
+\frametitle{4.1 Extensión de la maquina $\mathcal{K}$}
+\begin{itemize}
+\item Propagar un valor de excepción $raise(v)$ en la pila con tope $handle(-,x.e_2)$ consiste en la captura de la excepción por el manejador e implica eliminar a éste del tope de la pila y pasar el valor guardado en la excepción para continuar con la evaluación de $e_2[x:=v]$.
+\end{itemize}
+
+\[\frac{}{handle(-,x.e_2);\mathcal{P} \llcurly raise(v) \imp_{\mathcal{K}} \mathcal{P} \succ e_2[x:=v]}\]
+
+\end{frame}
+\begin{frame}
+\frametitle{5 Acerca del paso de valores de excepción}
+Existen dos maneras de propagar una excepción, la que se mostrará consiste en encapsular el valor en el lanzador propagando el lanzador completo $raise(v)$, o bien propagando simplemente el valor de excepción $v$, para lo cual la máquina $\mathcal{K}$ se comportaría como sigue:
+
+\[\frac{}{raise(-); \mathcal{P} \prec v \imp_{\mathcal{K}} \mathcal{P} \llcurly v}\]
+
+\[\frac{}{handle(-,x.e_2); \mathcal{P} \llcurly v \imp_{\mathcal{K}} \mathcal{P} \succ e_2[x:=v]}\]
+
+\[\frac{m \neq handle(-,x.e_2)}{m; \mathcal{P} \llcurly v \imp_{\mathcal{K}} \mathcal{P} \llcurly v}\]
+\end{frame}
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
+Puesto que el lanzamiento de una excepción $raise(e)$ surge en cualquier contexto su tipo deber ser arbitrario. Además el valor de excepción puede ser cualquiera así que el tipo de e también es arbitrario y sin relación directa con el anterior.
+
+\[\frac{\Gamma \vdash e:S}{\Gamma \vdash raise(-):T} \qquad \frac{\Gamma \vdash e_1:T \quad \Gamma,x:S \vdash e_2:T}{\Gamma \vdash handle(e_1,x.e_2):T}\]
+\end{frame}
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
+Las reglas anteriores no son satisfactorias desde el punto de vista de la inferencia de tipos. Lo usual es usar un tipo para excepciones. Esto se discutirá a continuación.
+\end{frame}
+\begin{frame}
+\frametitle{5.2 Declaración de excepciones}
+En los lenguajes de programación reales existen varias clases de error estándar, por ejemplo:
+\begin{itemize}
+\item DivCero
+\item FueraDeRango
+\item ArchivoNoEncontrado
+\item SinMemoria
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{5.2 Declaración de excepciones}
+De esta manera podemos asociar excepciones específicas con programas particulares, facilitando el proceso de rastreo del punto de error.\newline
+
+A continuación describiremos sin detalles las principales ideas de esta extensión:
+\end{frame}
+\begin{frame}
+\frametitle{5.2 Declaración de excepciones}
+
+\begin{itemize}
+\item Declaración de excepciones: Se introduce una categoría de excepción mediante una declaración de la forma:
+\begin{center}
+\textbf{exception} $\ell$ \textbf{of T}
+\end{center}
+Este mecanismo introduce un tipado en la etiqueta de excepción, de la forma $\ell : T \imp TExn$, donde TExn es un nuevo tipo asociado a las excepciones.
 \end{itemize}
 
 \end{frame}
 \begin{frame}
+\frametitle{5.2 Declaración de excepciones}
+\begin{itemize}
+\item Expresiones: Las mismas que antes más la aplicación de una etiqueta de excepción:
+
+\[ e::=...|\ell e|raise(e)|handle(e_1,x.e_2)\]
+
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{5.2 Declaración de excepciones}
+\begin{itemize}
+\item Semantica estática:
+
+\[ \frac{\Gamma \vdash e:TExn}{\Gamma \vdash raise(e):T} \qquad \frac{\Gamma \vdash e_1:T \quad \Gamma,x:TExn \vdash e_2:T}{\Gamma \vdash handle(e_1,x.e_2):T}\]
+
+\[ \frac{\ell:T \imp TExn \quad \Gamma \vdash e:T}{\Gamma \vdash \ell e:TExn}\]
+\item La semántica dinámica es la misma que antes.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{5.3 Acerca del ligado en un manejador}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
 
 \end{frame}
 \begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
+
+\end{frame}
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
+
+\end{frame}
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
+
+\end{frame}
+\begin{frame}
+\frametitle{5.1 Acerca de la semántica estática}
 
 \end{frame}
 
