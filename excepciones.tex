@@ -657,28 +657,126 @@ Este mecanismo introduce un tipado en la etiqueta de excepción, de la forma $\e
 \end{frame}
 \begin{frame}
 \frametitle{5.3 Acerca del ligado en un manejador}
+En nuestro lenguaje un manejador es de la forma $handle$ $\mathit{e}$ $with$ $\mathit{x} \Rightarrow \mathit{e}$, siendo $\mathit{x}$ una variable de tipo \textbf{TExn} y estas solo son generadas por etiquetas de excepción. En la realidad es común que el manejo se defina mediante caza de patrones de acuerdo a dichas etiquetas.
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{5.3 Acerca del ligado en un manejador}
+\begin{example}
+\begin{lstlisting}[language=Haskell]
+exception CodErr of Nat
+exception MalaSuerte
+--tal caso se considera como
+--exception MalaSuerte of Void
+
+fun f(x:Nat):Nat =>
+  | x == 0 = raise (CodErr 0)
+  | x < 13 = raise (CodErr (x-7))
+  | x == 13 = raise MalaSuerte
+  | x > 13 = (x - 2) mod 4
+
+...
+\end{lstlisting}
+\end{example}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{5.3 Acerca del ligado en un manejador}
+\begin{example}
+\begin{lstlisting}
+...
+handle (f 10) with CodErr 0 => 0
+  | CodErr 1 => 1
+  | CodErr x => x + 8
+  | MalaSuerte => write (``Horror!!'')
+
+\end{lstlisting}
+\end{example}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{5.3 Acerca del ligado en un manejador}
+Nuestra forma de definir los manejadores es más simple de tratar formalmente y no pierde esta generalidad pues el código anterior puede considerarse como azúcar sintáctica para:
+\begin{example}
+\begin{lstlisting}
+handle (f 10) with x => exncase x of
+  | CodErr 0 => 0
+  | CodErr 1 => 1
+  | CodErr x => x + 8
+  | MalaSuerte => write (``Horror!!'')
+  ...
+\end{lstlisting}
+donde el operador $exncase$ es un operador de análisis de casos sobre el tipo de las excepciones.
+\end{example}
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{5.3 Acerca del ligado en un manejador}
+De manera general, una expresión de la forma:
+\begin{example}
+\begin{lstlisting}
+handle e with   l1 e1 => e1'
+              | l2 e2 => w2'
+              | ...
+              ...
+              | lk ek => ek'
+\end{lstlisting}
+\end{example}
+
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{5.3 Acerca del ligado en un manejador}
+Es azucar sintactica para:
+\begin{example}
+\begin{lstlisting}
+handle e with x => exncase x of
+                     l1 e1 => e1'
+                   | l2 e2 => e2'
+                   | ...
+                   ...
+                   | lk ek => ek'
+                   | otherwise => raise x
+
+
+\end{lstlisting}
+\end{example}
+
+\end{frame}
+\begin{frame}
+\frametitle{6 Acerca del tipo TExn}
+De acuerdo a la regla de tipado de $handle(e_1,x.e_2)$, la variable ligada $x$ debe ser del tipo TExn. Este tipo denota a los valores de excepción pero ¿Cómo es su estructura interna?, al respecto existen varias alternativas:
 \end{frame}
 
 \begin{frame}
-\frametitle{5.1 Acerca de la semántica estática}
+\frametitle{6 Acerca del tipo TExn}
+\begin{itemize}
+\item Podemos definir $TExn =_{def} Nat$, de manera que cada excepción será un número obtenido mediante una convención similar a la usada en los sistemas Unix (errno), es decir una excepción es simplemente un código de error.
 
+\end{itemize}
 \end{frame}
-\begin{frame}
-\frametitle{5.1 Acerca de la semántica estática}
 
+\begin{frame}
+\frametitle{6 Acerca del tipo TExn}
+\begin{itemize}
+\item Podemos definir $TExn =_{def} String$ de manera que cada excepción es simplemente un mensaje que reporta que algo inesperado ocurrió. El precio es que un manejador de errores tendría que hacer un análisis sintáctico del mensaje particular para poder proceder con la evaluación.
+
+\end{itemize}
 \end{frame}
-\begin{frame}
-\frametitle{5.1 Acerca de la semántica estática}
 
+\begin{frame}
+\frametitle{6 Acerca del tipo TExn}
+\begin{itemize}
+
+\item De manera más conveniente para un código legible podemos pensar en que TExn es un tipo variante donde cada opción es una excepción particular.
+
+\begin{example}
+\[TExn =_{def}\] \[[DivCero:(),FueraDeRango:(),\]\[ArchNoEnc:String,Insufic:Nat,...,l_n:T_n]\]
+\end{example}
+En este caso las excepciones son informativas y pueden llevar consigo distintos tipos de información. El problema es que un tipo variante se declara estáticamente en una implementación particular, lo cual implica que el conjunto de excepciones está previamente definido, esto es inaceptable.
+\end{itemize}
 \end{frame}
-\begin{frame}
-\frametitle{5.1 Acerca de la semántica estática}
 
-\end{frame}
 \begin{frame}
-\frametitle{5.1 Acerca de la semántica estática}
-
+\frametitle{6.1 TExn como tipo extensible}
+Para permitir la declaración de excepciones se puede utilizar un tipo variante extensible.\newline
+En este sentido la declaración de una excepción mediante la instrucción $exception l of T$ debe entenderse como sigue: Si antes de la declaración se tiene $TExn = [l_1 : T_1, . . . , l_n : T_n]$ entonces la definición de excepción causa que se verifique si la etiqueta $l$ es distinta a cualquier etiqueta ya presente $l_1, . . . , l_n$ en cuyo caso se extiende el tipo excepción quedando como TExn = [`1 : T1, . . . , `n : Tn, ` : T].
 \end{frame}
 
 \end{document}
