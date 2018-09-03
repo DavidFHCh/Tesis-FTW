@@ -27,7 +27,24 @@ join :: Eq a => AB a -> AB a -> AB a
 join E r = r
 join (T l x r) r2 = let k = mLeft r2
                             in T l x (T r k (remove k r2))
---minimo del arbol
+--minimo del arbol izquierdo
 mLeft :: AB a -> a
 mLeft (T E x r) = r
 mLeft (T l x r) = mLeft l
+
+--ARBOLES BINARIOS DE BUSQUEDA--
+
+data ABB a = E | T (ABB a) a (ABB a) deriving Show
+
+--Checa si es arbole binario de busqueda.
+checkABB :: Ord a => ABB a -> Bool
+checkABB E = True
+checkABB (T l x r) = minT x r && maxT x l
+
+minT :: Ord a => a -> ABB a -> Bool
+minT x E = True
+minT x (T l y r) = maxT x l && minT x r && x < y
+
+maxT :: Ord a => a -> ABB a -> Bool
+maxT x E = True
+maxT x (T l y r) = maxT x l && maxT x r && x < y
