@@ -1,6 +1,7 @@
 Archivos de Graciela Lopez Campos 
 AB.hs --> Sec 1.3
 ABB.has --> Sec 1.4
+----------------------------
 + ARNo.hs --> Sec 2.1
 + ARNci1.hs --> Sec 3.1
 + ARNci2.hs --> Sec 3.2
