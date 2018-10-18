@@ -32,6 +32,7 @@ member x (T _ a y b)
 redden:: RB a -> RB a
 redden (T c a x b) = T R a x b
 redden E = error "invariance violation" 
+redden EBB = error "nunca se cae en este caso"
 
 blacken:: RB a -> RB a
 blacken (T c a x b) = T B a x b
@@ -42,19 +43,23 @@ sucBlack:: Color -> Color
 sucBlack NB = R
 sucBlack R = B
 sucBlack B = BB
+sucBlack BB = error "no hay suc para BB"
 
 predBlack:: Color -> Color
 predBlack R = NB
 predBlack B = R
 predBlack BB = B
+sucBlack NB = error "no hay suc para NB"
 
 sucBlackTree :: RB a -> RB a
 sucBlackTree (T c a x b) = (T (sucBlack c) a x b)
 sucBlackTree E = EBB
+sucBlackTree EBB = error "nunca se cae en este caso"
 
 predBlackTree :: RB a -> RB a
 predBlackTree (T c a x b) = (T (predBlack c) a x b)
 predBlackTree EBB = E
+predBlackTree E = error "nunca se cae en este caso"
 
 bubble:: RB a -> RB a
 bubble E = E
@@ -88,6 +93,7 @@ removeMax :: RB a -> RB a
 removeMax E = E
 removeMax (T c l x E) = removeRoot (T c l x E)
 removeMax (T c l x r) = (T c l x (removeMax r))
+removeMax EBB = error "nunca se cae en este caso"
 
 removeRoot:: RB a -> RB a
 removeRoot (T R E x E) = E
@@ -99,6 +105,7 @@ removeRoot (T c l x r) = (T c (removeMax l) (getMax l) r)
 getMax :: RB a -> a
 getMax (T c l x E) = x
 getMax (T c l x r) = getMax r
+getMax _ = error "nunca se cae en este caso"
 
 delete :: Ord a => a -> RB a -> RB a
 delete x E = E
