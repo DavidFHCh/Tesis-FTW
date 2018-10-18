@@ -1,6 +1,3 @@
-{- 
-Ralf Hinze implementación
--}
 module ARNci2 (Color(R,B), RB(E,Node), member,insert,delete) where
 
 data Color = R | B deriving (Show, Eq)
@@ -17,7 +14,7 @@ make c (Node _ l a r) = Node c l a r
 blacken :: RB a -> RB a
 blacken t | color t == R = make B t
           | otherwise = Blacken t
-		  
+
 paint :: Color -> RB a -> RB a
 paint R t = t
 paint B t = blacken t
@@ -34,7 +31,7 @@ member a (Node _ l b r) = case compare a b of
                           GT -> member a r
 
 insert :: Ord a => a -> RB a -> RB a
-insert a t = make B (ins t) 
+insert a t = make B (ins t)
              where
              ins E = Node R E a E
              ins (Node c l b r) = case compare a b of
@@ -52,27 +49,27 @@ bal c a x b = Node c a x b
 -- Borrado
 
 delete :: Ord a => a -> RB a -> RB a
-delete a t = unBlack (del t) 
+delete a t = unBlack (del t)
              where
              del E = E
-             del (Node c l b r) 
-								| a < b = lbal c (del l) b r 
-								| a > b = rbal c l b (del r) 
+             del (Node c l b r)
+								| a < b = lbal c (del l) b r
+								| a > b = rbal c l b (del r)
 								| otherwise = join c l r
-								
+
 lbal :: Color -> RB a -> a -> RB a -> RB a
 lbal c (Blacken t1) a1 (Node R t2 a2 t3) = Node c (lbal R (Blacken t1) a1 t2) a2 t3
 lbal c (Blacken t1) a1 (Node B (Node R t2 a2 t3) a3 t4) = Node c (Node B t1 a1 t2) a2 (Node B t3 a3 t4)
 lbal c (Blacken t1) a1 (Node B t2 a2 (Node R t3 a3 t4)) = Node c (Node B t1 a1 t2) a2 (Node B t3 a3 t4)
 lbal c (Blacken t1) a1 (Node B t2 a2 t3) = blacken (Node c t1 a1 (Node R t2 a2 t3))
-lbal c t1 a1 t2 = Node c t1 a1 t2 
+lbal c t1 a1 t2 = Node c t1 a1 t2
 
 rbal :: Color -> RB a -> a -> RB a -> RB a
 rbal c (Node R t1 a1 t2) a2 (Blacken t3) = Node c t1 a1 (rbal R t2 a2 (Blacken t3))
 rbal c (Node B t1 a1 (Node R t2 a2 t3)) a3 (Blacken t4) = Node c (Node B t1 a1 t2) a2 (Node B t3 a3 t4)
 rbal c (Node B (Node R t1 a1 t2) a2 t3) a3 (Blacken t4) = Node c (Node B t1 a1 t2) a2 (Node B t3 a3 t4)
 rbal c (Node B t1 a1 t2) a2 (Blacken t3) = blacken (Node c (Node R t1 a1 t2) a2 t3)
-rbal c t1 a1 t2 = Node c t1 a1 t2 
+rbal c t1 a1 t2 = Node c t1 a1 t2
 
 join :: Color -> RB a -> RB a -> RB a
 join c l r = case splitLeftmost r of

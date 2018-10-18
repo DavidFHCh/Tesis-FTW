@@ -1,6 +1,4 @@
-{-
-Kahrs implementación tipos anidados
--}
+
 module ARNta (EmptyT(E), PRed(C,R), AddBLayer(B), RBT(Zero, Suc), member,insert,delete) where
 
 data EmptyT a = E deriving Show
@@ -71,7 +69,7 @@ instance Insertion t => Insertion (AddBLayer t) where
 	    | x<y = balance(ins x l) y (C r)
 	    | x>y = balance(C l) y (ins x r)
 	    | otherwise = C t
-		
+
 instance Insertion t => Insertion (PRed t) where
 	ins x (C t) = C(ins x t)
 	ins x t@(R(a,y,b))
@@ -175,4 +173,3 @@ blackenDel (R p) = Suc(Zero(B p))
 delete:: Ord a => a -> RBTree a -> RBTree a
 delete x (Zero E) = Zero E
 delete x (Suc u) = rbdelete x u
-
