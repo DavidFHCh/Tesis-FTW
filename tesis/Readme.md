@@ -1,13 +1,18 @@
 Makefile para un proyecto en Coq:
 - crear un archivo titulado "\_CoqProject" con la siguiente linea y los archivos con su extension .v
+
    -R . MiProyecto
-   el proyecto tendra por titulo MiProyecto
+
+  el proyecto tendra por titulo MiProyecto
 - para crear el makefile, desde una terminal ingresar la siguiente linea
-   coq_makefile -f \_CoqProyect -o Makefile
+  
+  coq_makefile -f \_CoqProyect -o Makefile
+  
 - el archivo se creara con el nombre Makefile y
-   para iniciar coqide con las rutas correctas para las dependencias 
-   se debe ejecutar mediante: 
-   coqide -R . MiProyecto miarchivo.v 
+  para iniciar coqide con las rutas correctas para las dependencias 
+  se debe ejecutar mediante: 
+  
+  coqide -R . MiProyecto miarchivo.v 
    
 -----------------------------------
 De los archivos de Graciela Lopez Campos 
