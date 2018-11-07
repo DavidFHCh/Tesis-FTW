@@ -1,0 +1,26 @@
+-Q . ""
+-Q ../hs-spec ""
+-R ../../../base ""
+-Q ../../../base-thy  Proofs
+-Q ../../containers/lib ""
+Tactics.v
+OrdTheories.v
+SetProofs.v
+MapProofs.v
+IntSetProofs.v
+IntSetWordProofs.v
+RevNatSlowProofs.v
+OrdTactic.v
+../hs-spec/IntSetProperties.v
+SortSorted.v
+HSUtil.v
+SortedUtil.v
+IntSetUtil.v
+IntSetPropertyProofs.v
+BitUtils.v
+DyadicIntervals.v
+Set.v
+IntMapProofs.v
+
+
+

@@ -1,0 +1,13 @@
+constructors:
+  ARNci1.Color: ! '[Qualified "ARNci1" "R",Qualified "ARNci1" "B"]'
+  ARNci1.RB: ! '[Qualified "ARNci1" "E",Qualified "ARNci1" "T"]'
+constructorFields:
+  ARNci1.T: NonRecordFields 4
+  ARNci1.B: NonRecordFields 0
+  ARNci1.R: NonRecordFields 0
+  ARNci1.E: NonRecordFields 0
+constructorTypes:
+  ARNci1.T: Qualified "ARNci1" "RB"
+  ARNci1.B: Qualified "ARNci1" "Color"
+  ARNci1.R: Qualified "ARNci1" "Color"
+  ARNci1.E: Qualified "ARNci1" "RB"

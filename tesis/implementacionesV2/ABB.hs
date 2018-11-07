@@ -1,10 +1,3 @@
-{-
-Universidad Nacional Autónoma de México
-Facultad de Ciencias
-
-Graciela López Campos
--}
-
 data ABB a = E | T (ABB a) a (ABB a) deriving Show
 
 checkABB :: Ord a => ABB a -> Bool
@@ -35,13 +28,13 @@ insert x (T tl y tr)
 
 remove :: Ord a => a -> ABB a -> ABB a
 remove x E = E
-remove x (T l y E) | x==y = l 
+remove x (T l y E) | x==y = l
 remove x (T E y r) | x==y = r
 remove x (T l y r)
-                   | x<y  = T (remove x l) y r 
-                   | x>y  = T l y (remove x r)  
+                   | x<y  = T (remove x l) y r
+                   | x>y  = T l y (remove x r)
                    | x==y = let k = minTree r in T l k (remove k r)
- 
+
 minTree :: Ord a => ABB a -> a
 minTree (T E y r) = y
-minTree (T l x r) = minTree l 
+minTree (T l x r) = minTree l

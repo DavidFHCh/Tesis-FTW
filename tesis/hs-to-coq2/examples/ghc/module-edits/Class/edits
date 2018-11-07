@@ -1,0 +1,10 @@
+# debugging, uses List.!!
+skip Core.classSCSelId
+
+# needs information about prelude (parameter in midamble)
+skip Core.naturallyCoherentClass
+
+# ppr
+skip Core.pprDefMethInfo
+skip Core.pprFunDep
+skip Core.pprFundeps
