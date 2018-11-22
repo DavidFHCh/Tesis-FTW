@@ -12,16 +12,19 @@ member x (T _ tl y tr)
 
 insert :: Ord a => a -> RB a -> RB a
 insert x s = T B a z b where
-  T _ a z b = ins s
-  ins E = T R E x E
-  ins s@(T B a y b)
-    | x<y = balance (ins a) y b
-    | x>y = balance a y (ins b)
-    | otherwise = s
-  ins s@(T R a y b)
-    | x<y = T R (ins a) y b
-    | x>y = T R a y (ins b)
-    | otherwise = s
+  T _ a z b = ins x s
+
+
+ins :: Ord a => a -> RB a -> RB a
+ins x E = T R E x E
+ins x s@(T B a y b)
+  | x<y = balance (ins a) y b
+  | x>y = balance a y (ins b)
+  | otherwise = s
+ins x s@(T R a y b)
+  | x<y = T R (ins a) y b
+  | x>y = T R a y (ins b)
+  | otherwise = s
 
 balance :: RB a -> a -> RB a -> RB a
 balance (T R a x b) y (T R c z d) = T R (T B a x b) y (T B c z d)
