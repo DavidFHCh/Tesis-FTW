@@ -18,12 +18,12 @@ insert x s = T B a z b where
 ins :: Ord a => a -> RB a -> RB a
 ins x E = T R E x E
 ins x s@(T B a y b)
-  | x<y = balance (ins a) y b
-  | x>y = balance a y (ins b)
+  | x<y = balance (ins x a) y b
+  | x>y = balance a y (ins x b)
   | otherwise = s
 ins x s@(T R a y b)
-  | x<y = T R (ins a) y b
-  | x>y = T R a y (ins b)
+  | x<y = T R (ins x a) y b
+  | x>y = T R a y (ins x b)
   | otherwise = s
 
 balance :: RB a -> a -> RB a -> RB a
