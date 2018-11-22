@@ -5,10 +5,10 @@ Extensión implementación Okasaki
 module ARNac (Color(R,B), RB(E,T), member,insert,deleteRB) where
 
 data Color = R | B | BB | NB deriving Show
-data RB a = E | EBB | T Color (RB a) a (RB a) deriving Show
+data RB a = E | EBB | T Color (RB Int) Int (RB Int) deriving Show
 
-insert :: Ord a => a -> RB a -> RB a
-insert x s = T B a z b where 
+insert :: Int -> RB Int -> RB Int
+insert x s = T B a z b where
              T _ a z b = ins s
 	     ins E = T R E x E
 	     ins s@(T B a y b)
@@ -20,7 +20,7 @@ insert x s = T B a z b where
 					| x>y = T R a y (ins b)
 					| otherwise = s
 
-member :: Ord a => a -> RB a -> Bool
+member Int -> RB a -> Bool
 member x E = False
 member x (T _ a y b)
 					| x<y = member x a
@@ -31,7 +31,7 @@ member x (T _ a y b)
 
 redden:: RB a -> RB a
 redden (T c a x b) = T R a x b
-redden E = error "invariance violation" 
+redden E = error "invariance violation"
 redden EBB = error "nunca se cae en este caso"
 
 blacken:: RB a -> RB a
@@ -65,18 +65,18 @@ bubble:: RB a -> RB a
 bubble E = E
 bubble EBB = EBB
 bubble (T B (T B a x b) y EBB) = balance BB (T R a x b) y E
-bubble (T R (T B a x b) y EBB) = balance B (T R a x b) y E	
+bubble (T R (T B a x b) y EBB) = balance B (T R a x b) y E
 bubble (T B (T R a x b) y EBB) = balance BB (T NB a x b) y E
 bubble (T B EBB y (T B a z b)) = balance BB E y  (T R a z b)
 bubble (T R EBB y (T B a z b)) = balance B E y  (T R a z b)
 bubble (T B EBB y (T R a z b)) = balance BB E y  (T NB a z b)
 bubble (T c (T BB a y b) x r) = balance (sucBlack c) (predBlackTree (T BB a y b)) x (predBlackTree r)
-bubble (T c l x (T BB a y b)) = balance (sucBlack c) (predBlackTree l) x (predBlackTree (T BB a y b))	
+bubble (T c l x (T BB a y b)) = balance (sucBlack c) (predBlackTree l) x (predBlackTree (T BB a y b))
 bubble (T c a x b) = (T c (bubble a) x (bubble b))
 
 balance :: Color -> RB a -> a -> RB a -> RB a
 balance B (T R a x b) y (T R c z d) = T R (T B a x b) y (T B c z d)
-balance B (T R (T R a x b) y c) z d = T R (T B a x b) y (T B c z d)	
+balance B (T R (T R a x b) y c) z d = T R (T B a x b) y (T B c z d)
 balance B (T R a x (T R b y c)) z d = T R (T B a x b) y (T B c z d)
 balance B a x (T R b y (T R c z d)) = T R (T B a x b) y (T B c z d)
 balance B a x (T R (T R b y c) z d) = T R (T B a x b) y (T B c z d)

@@ -27,6 +27,14 @@ Los archivos a traducir a Coq son:
 + ARNci2.hs --> Sec 3.2 -> no se puede porque la clase de EQ no esta traducida
 + ARNac.hs --> Sec 3.3 -> trabo mi computadora, aparte el insert no pasaba y lo tuve que borrar.
 + ARTa_V2_set.hs --> Sec 3.4
+
+
+
+
+
+
+
+
 [david@Stardust hs-to-coq]$ stack exec hs-to-coq -- -o ../output/ ../implementacionesV2/ARNTA_v2_set.hs
 
 ../implementacionesV2/ARNTA_v2_set.hs:148:22: error:

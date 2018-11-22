@@ -1,13 +1,13 @@
-data EmptyT a = E deriving Show
+data EmptyT a = E
 type Tr t a = (t a,a,t a)
 data PRed t a = C (t a) | R (Tr t a)
 
 instance (Show (t a), Show a) => Show (PRed t a)
  where showsPrec _ (C t) = shows t
        showsPrec _ (R(a,b,c)) =
-	    ("R ("++) . shows a . (","++) . shows b . (","++) . shows c . (")"++)
+        ("R ("++) . shows a . (","++) . shows b . (","++) . shows c . (")"++)
 
-data AddBLayer t a = B(Tr(PRed t) a) deriving Show
+data AddBLayer t a = B(Tr(PRed t) a)
 
 data RBT t a = Zero (t a) | Suc (RBT (AddBLayer t) a)
 
@@ -28,7 +28,7 @@ rbmember x (Suc u) m = rbmember x u (ablmem x m)
 ablmem :: Ord a => a -> (t a->Bool) -> AddBLayer t a -> Bool
 ablmem x m (B(l,y,r))
                      | x<y = prmem x m l
- 		     | x>y = prmem x m r
+              | x>y = prmem x m r
                      | otherwise = True
 
 prmem :: Ord a => a -> (t a->Bool) -> PRed t a->Bool
@@ -42,17 +42,17 @@ class Insertion t where ins :: Ord a => a -> t a -> PRed t a
 instance Insertion EmptyT where ins x E = R(E,x,E)
 
 instance Insertion t => Insertion (AddBLayer t) where
-	ins x t@(B(l,y,r))
-	    | x<y = balance(ins x l) y (C r)
-	    | x>y = balance(C l) y (ins x r)
-	    | otherwise = C t
-		
+    ins x t@(B(l,y,r))
+        | x<y = balance(ins x l) y (C r)
+        | x>y = balance(C l) y (ins x r)
+        | otherwise = C t
+
 instance Insertion t => Insertion (PRed t) where
-	ins x (C t) = C(ins x t)
-	ins x t@(R(a,y,b))
-	    | x<y = R(ins x a,y,C b)
-	    | x>y = R(C a,y,ins x b)
-	    | otherwise = C t
+    ins x (C t) = C(ins x t)
+    ins x t@(R(a,y,b))
+        | x<y = R(ins x a,y,C b)
+        | x>y = R(C a,y,ins x b)
+        | otherwise = C t
 
 rbinsert :: (Ord a,Insertion t) => a -> RBT t a -> RBT t a
 rbinsert x (Suc t) = Suc (rbinsert x t)
@@ -123,38 +123,38 @@ balrightB :: AddBLayer t a -> a -> RR t a -> RL t a
 balrightB (B y) x t = balance (R y) x t
 
 class Append t => Delred t where
-	delTup :: Ord a => a -> Tr t a -> PRed t a
-	delLeft :: Ord a => a -> t a -> a -> PRed t a -> RR t a
-	delRight :: Ord a => a -> PRed t a -> a -> t a -> RR t a
+    delTup :: Ord a => a -> Tr t a -> PRed t a
+    delLeft :: Ord a => a -> t a -> a -> PRed t a -> RR t a
+    delRight :: Ord a => a -> PRed t a -> a -> t a -> RR t a
 
 class Append t => Del t where
-	del :: Ord a => a -> AddBLayer t a -> RR t a
+    del :: Ord a => a -> AddBLayer t a -> RR t a
 
 class (Delred t, Del t) => Deletion t
 
 instance Delred EmptyT where
-	delTup z t@(E,x,E) = if x==z then C E else R t
-	delLeft x E y b = R(C E,y,b)
-	delRight x a y E = R(a,y,C E)
+    delTup z t@(E,x,E) = if x==z then C E else R t
+    delLeft x E y b = R(C E,y,b)
+    delRight x a y E = R(a,y,C E)
 
 instance Deletion t => Delred (AddBLayer t) where
-	delTup z (a,x,b)
-		| z<x = balleftB (del z a) x b
-		| z>x = balrightB a x (del z b)
-		| otherwise = app a b
-	delLeft x a y b = balleft (del x a) y b
-	delRight x a y b = balright a y (del x b)
+    delTup z (a,x,b)
+        | z<x = balleftB (del z a) x b
+        | z>x = balrightB a x (del z b)
+        | otherwise = app a b
+    delLeft x a y b = balleft (del x a) y b
+    delRight x a y b = balright a y (del x b)
 
 instance Delred t => Del t where
-	del z (B(a,x,b))
-	    | z<x = delfromLeft a
-	    | z>x = delfromRight b
-	    -- | otherwise = appred a b
+    del z (B(a,x,b))
+        | z<x = delfromLeft a
+        | z>x = delfromRight b
+        -- | otherwise = appred a b
             | otherwise = app a b
               where delfromLeft(C t) = delLeft z t x b
                     delfromLeft(R t) = R(delTup z t,x,b)
                     delfromRight(C t) = delRight z a x t
-		    delfromRight(R t) = R(a,x,delTup z t)
+            delfromRight(R t) = R(a,x,delTup z t)
 
 instance Deletion t => Deletion (AddBLayer t)
 instance Deletion EmptyT
@@ -170,82 +170,81 @@ blacken2 (R p) = Suc(Zero(B p))
 
 class Flatten t where
    flat :: t a -> [a]
-   
-   
+
+
 instance Flatten EmptyT where
    flat E = []
-   
+
 instance Flatten t => Flatten (PRed t) where
    flat (C x) = flat x
    flat (R (l,x,r)) = flat l ++ [x] ++ flat r
-   
+
 instance Flatten t => Flatten (AddBLayer t) where
    flat (B (l,x,r)) = flat l ++ [x] ++ flat r
-   
-   
+
+
 instance Flatten t => Flatten (RBT t) where
   flat (Zero b) = flat b
   flat (Suc b) = flat b
-  
+
 class Sizable t where
    size :: t a -> Int
-   
-   
+
+
 instance Sizable EmptyT where
    size E = 0
-   
+
 instance Sizable t => Sizable (PRed t) where
    size (C x) = size x
    size (R (l,x,r)) = size l + size r + 1
-   
+
 instance Sizable t => Sizable (AddBLayer t) where
    size (B (l,x,r)) = size l + size r + 1
-   
-   
+
+
 instance Sizable t => Sizable (RBT t) where
   size (Zero b) = size b
   size (Suc b) = size b
 
 class Set s where
-	empty :: Ord a => s a 
-	single :: Ord a => a -> s a
-	insert :: Ord a => a -> s a -> s a
-	member :: Ord a => a -> s a -> Bool
-	delete :: Ord a => a -> s a -> s a
-	ssize :: s a -> Int	
+    empty :: Ord a => s a
+    single :: Ord a => a -> s a
+    insert :: Ord a => a -> s a -> s a
+    member :: Ord a => a -> s a -> Bool
+    delete :: Ord a => a -> s a -> s a
+    ssize :: s a -> Int
         fromList :: Ord a => [a] -> s a
-	toList :: Ord a => s a -> [a]
+    toList :: Ord a => s a -> [a]
 
 instance Set (RBT EmptyT) where
 
-	empty = Zero E
-	
-	single x =Suc(Zero(B(C(E), x, C(E))))
+    empty = Zero E
+
+    single x =Suc(Zero(B(C(E), x, C(E))))
 
 --insert :: Ord a => a -> RBTree a -> RBTree a
         insert = rbinsert
-	
+
 --member :: Ord a => a -> RBTree a -> Bool
         member x t = rbmember x t (\ E -> False)
 
 --delete:: Ord a => a -> RBTree a -> RBTree a
-	delete x (Zero E) = Zero E
-	delete x (Suc u) = rbdelete x u
-	
-	ssize = size
---size :: s a -> Int
-	--size (Zero E) = 0
-	--size (Suc(Zero(B(C(E), x, C(E))))) = 1
-	--size (Suc u) = 1 + size u
+    delete x (Zero E) = Zero E
+    delete x (Suc u) = rbdelete x u
 
--- fromList :: Ord a => [a] -> RB a 
+    ssize = size
+--size :: s a -> Int
+    --size (Zero E) = 0
+    --size (Suc(Zero(B(C(E), x, C(E))))) = 1
+    --size (Suc u) = 1 + size u
+
+-- fromList :: Ord a => [a] -> RB a
 -- fromList [1,2,3]::RB Integer
-   	fromList = foldr insert (Zero E)
+       fromList = foldr insert (Zero E)
 
 -- toList :: Ord a => RB a -> [a]
-	toList = flat
-	
+    toList = flat
+
 b1 = Suc(Suc(Zero(B(R(B(C(E),1,C(E)),2,B(R(E,3,E),4,R(E,5,E))),
              6,
              C(B(C(E),8,R(E,9,E)))))))
-
