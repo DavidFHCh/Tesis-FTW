@@ -1,0 +1,31 @@
+Verificación formal de arboles rojinegros en Haskell con Coq
+
+
+Hoy en dia existen demasiados programas escritos en el lenguaje de programación Haskell,
+este lenguaje tiene una gran base de desarrolladores que constantemente lo estan mejorando y
+utilizando para crear nuevas cosas. El problema de Haskell es que es demasiado complejo
+poder verificar formalmente un programa escrito en el. Para poder verificar en Haskell lo
+que usualmente se hace es recurrir a las pruebas en papel, pero es sabido que estas pruebas
+son muy dadas a contener errores y por obvias razones, no son escalables.
+
+Nos gustaria poder usar una herramienta que nos ayude a hacer la verificación de programas
+escritos en Haskell. Hoy ya existe una herramienta que nos ayuda a eso, se llama hs-to-coq y
+es desarrollada por un equipo en la Universidad de Pensilvania, pero como todo hay ciertas
+limitantes y es que no todo programa en Haskell puede se traducido a Coq, hay un
+requerimiento en especial, que las funciones que se vayan a traducir sean totales.
+
+El objetivo de esta herramienta es hacer que le sea facil a un programador de haskell el
+verificar su codigo. En este momento ya existen varias bibliotecas de Haskell traducidas a
+Coq que pueden usarse para traducir mas codigo de este y seguir verificandolo.
+
+Esta herrmienta es creada para facilitar la verificación, siguiendo los siguientes pasos:
+1) Escribir un modulo de Haskell, digamos un modulo de Arboles Rojinegros.
+2) Probar ese codigo en Haskell, generar ejemplos.
+3) Utilizar hs-to-coq para traducir el codigo a Coq.
+4) ¡A verificar!
+
+Esto simplifica las cosas ya que el hecho de tener que traducir a mano todo el codigo de un programa puede resultar muy tedioso y poco practico, de esta manera puedes dedicar tu tiempo a lo que verdaderamente se busca, la Verificación
+
+Ejemplo de Arbol Rojinegro que hice compilar, agregarle ejemplos...
+
+Siento que le falta mucha carne a esto. jejeje
