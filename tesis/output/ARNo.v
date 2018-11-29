@@ -12,10 +12,10 @@ Require Coq.Program.Wf.
 
 (* Converted imports: *)
 
-Require GHC.Base.
+Require GHC.Classes.
 Require GHC.Err.
 Require GHC.Types.
-Import GHC.Base.Notations.
+Import GHC.Classes.Notations.
 
 (* Converted type declarations: *)
 
@@ -28,16 +28,17 @@ Arguments E {_}.
 Arguments T {_} _ _ _ _.
 
 Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
+
 (* Converted value declarations: *)
 
-Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
+Definition member {a} `{GHC.Classes.Ord a} : a -> RB a -> GHC.Types.Bool :=
   fix member arg_0__ arg_1__
         := match arg_0__, arg_1__ with
-           | x, E => false
+           | x, E => GHC.Types.False
            | x, T _ tl y tr =>
-               if x GHC.Base.< y : bool then member x tl else
-               if x GHC.Base.> y : bool then member x tr else
-               true
+               if x GHC.Classes.< y : bool then member x tl else
+               if x GHC.Classes.> y : bool then member x tr else
+               GHC.Types.True
            end.
 
 Definition balance {a} : RB a -> a -> RB a -> RB a :=
@@ -51,21 +52,23 @@ Definition balance {a} : RB a -> a -> RB a -> RB a :=
     | a, x, b => T B a x b
     end.
 
-Definition insert {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
+Definition ins {a} `{GHC.Classes.Ord a} : a -> RB a -> RB a :=
+  fix ins arg_0__ arg_1__
+        := match arg_0__, arg_1__ with
+           | x, E => T R E x E
+           | x, (T B a y b as s) =>
+               if x GHC.Classes.< y : bool then balance (ins x a) y b else
+               if x GHC.Classes.> y : bool then balance a y (ins x b) else
+               s
+           | x, (T R a y b as s) =>
+               if x GHC.Classes.< y : bool then T R (ins x a) y b else
+               if x GHC.Classes.> y : bool then T R a y (ins x b) else
+               s
+           end.
+
+Definition insert {a} `{GHC.Classes.Ord a} : a -> RB a -> RB a :=
   fun x s =>
-    let fix ins arg_0__
-              := match arg_0__ with
-                 | E => T R E x E
-                 | (T B a y b as s) =>
-                     if x GHC.Base.< y : bool then balance (ins a) y b else
-                     if x GHC.Base.> y : bool then balance a y (ins b) else
-                     s
-                 | (T R a y b as s) =>
-                     if x GHC.Base.< y : bool then T R (ins a) y b else
-                     if x GHC.Base.> y : bool then T R a y (ins b) else
-                     s
-                 end in
-    match ins s with
+    match ins x s with
     | T _ a z b => T B a z b
     | _ => GHC.Err.patternFailure
     end.
