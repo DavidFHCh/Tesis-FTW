@@ -12,10 +12,10 @@ Require Coq.Program.Wf.
 
 (* Converted imports: *)
 
-Require GHC.Classes.
+Require GHC.Base.
 Require GHC.Err.
 Require GHC.Types.
-Import GHC.Classes.Notations.
+Import GHC.Base.Notations.
 
 (* Converted type declarations: *)
 
@@ -31,14 +31,14 @@ Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
 
 (* Converted value declarations: *)
 
-Definition member {a} `{GHC.Classes.Ord a} : a -> RB a -> GHC.Types.Bool :=
+Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
   fix member arg_0__ arg_1__
         := match arg_0__, arg_1__ with
-           | x, E => GHC.Types.False
+           | x, E => false
            | x, T _ tl y tr =>
-               if x GHC.Classes.< y : bool then member x tl else
-               if x GHC.Classes.> y : bool then member x tr else
-               GHC.Types.True
+               if x GHC.Base.< y : bool then member x tl else
+               if x GHC.Base.> y : bool then member x tr else
+               true
            end.
 
 Definition balance {a} : RB a -> a -> RB a -> RB a :=
@@ -52,25 +52,27 @@ Definition balance {a} : RB a -> a -> RB a -> RB a :=
     | a, x, b => T B a x b
     end.
 
-Definition ins {a} `{GHC.Classes.Ord a} : a -> RB a -> RB a :=
+Definition ins {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
   fix ins arg_0__ arg_1__
         := match arg_0__, arg_1__ with
            | x, E => T R E x E
            | x, (T B a y b as s) =>
-               if x GHC.Classes.< y : bool then balance (ins x a) y b else
-               if x GHC.Classes.> y : bool then balance a y (ins x b) else
+               if x GHC.Base.< y : bool then balance (ins x a) y b else
+               if x GHC.Base.> y : bool then balance a y (ins x b) else
                s
            | x, (T R a y b as s) =>
-               if x GHC.Classes.< y : bool then T R (ins x a) y b else
-               if x GHC.Classes.> y : bool then T R a y (ins x b) else
+               if x GHC.Base.< y : bool then T R (ins x a) y b else
+               if x GHC.Base.> y : bool then T R a y (ins x b) else
                s
            end.
 
-Definition insert {a} `{GHC.Classes.Ord a} : a -> RB a -> RB a :=
+
+(* cambiar el tipo de regreso a un tipo error/option*)
+Definition insert {a} `{GHC.Base.Ord a} : a -> RB a -> option(RB a) :=
   fun x s =>
     match ins x s with
-    | T _ a z b => T B a z b
-    | _ => GHC.Err.patternFailure
+    | T _ a z b => Some(T B a z b)
+    | _ => None 
     end.
 
 (* External variables:
