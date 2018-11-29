@@ -42,13 +42,13 @@
 \usepackage{listings}
 % lstlisting Haskell style (inspired from a file of Assia Mahboubi)
 %
-\lstdefinelanguage{Haskell}{ 
+\lstdefinelanguage{Haskell}{
 %
 % Anything betweeen $ becomes LaTeX math mode
 mathescape=true,
 %
 % Comments may or not include Latex commands
-texcl=false, 
+texcl=false,
 %
 morekeywords=[1]{class, instance},
 %
@@ -124,13 +124,13 @@ literate=
 
 % lstlisting coq style (inspired from a file of Assia Mahboubi)
 %
-\lstdefinelanguage{Coq}{ 
+\lstdefinelanguage{Coq}{
 %
 % Anything betweeen $ becomes LaTeX math mode
 mathescape=true,
 %
 % Comments may or not include Latex commands
-texcl=false, 
+texcl=false,
 %
 % Vernacular commands
 morekeywords=[1]{Section, Module, End, Require, Import, Export,
@@ -231,9 +231,9 @@ literate=
     {->}{{$\rightarrow\;$}}1
     {<->}{{$\leftrightarrow\;$}}1
     {<==}{{$\leq\;$}}1
-    {\#}{{$^\star$}}1 
-    {\\o}{{$\circ\;$}}1 
-    {\@}{{$\cdot$}}1 
+    {\#}{{$^\star$}}1
+    {\\o}{{$\circ\;$}}1
+    {\@}{{$\cdot$}}1
     {\/\\}{{$\wedge\;$}}1
     {\\\/}{{$\vee\;$}}1
     {++}{{\code{++}}}1
@@ -251,22 +251,22 @@ literate=
 % pour inliner dans les tableaux / displaymath...
 \def\coqes{\lstinline[language=Coq, basicstyle=\scriptsize]}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% Local IspellDict: british
 %%% TeX-master: "main.tex"
-%%% End: 
+%%% End:
 
 % pour inliner dans le texte
 \def\hasqel{\lstinline[language=Haskell, basicstyle=\small]}
 % pour inliner dans les tableaux / displaymath...
 \def\haskels{\lstinline[language=Haskell, basicstyle=\scriptsize]}
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% Local IspellDict: british
 %%% TeX-master: "main.tex"
-%%% End: 
+%%% End:
 % comillas
 \usepackage[autostyle=true,spanish=mexican]{csquotes}
 
@@ -320,7 +320,7 @@ literate=
 \setbeamercolor{title in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
 \setbeamercolor{date in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
 \setbeamercolor{institute in head/foot}{bg=mycolor!30!white,fg=mycolor!80!black}
-\setbeamercolor{section in head/foot}{bg=mycolor!60!white, fg=Red}
+\setbeamercolor{section in head/foot}{bg=mycolor!60!white, fg=white}
 \setbeamercolor{subsection in head/foot}
 {bg=mycolor!50!white,fg=mycolor!50!white}
 
@@ -395,49 +395,46 @@ Universidad Nacional Aut\'onoma de M\'exico}
     Haskell es un lenguaje con una base muy grande de desarrolladores que constantemente están generando mas programas escritos en el.
     \newline Una de las cosas que se dice de Haskell es que la verificación de su código es bastante sencilla.
 
+\pause\newline\centering¿Pero qué tan cierto y escalable es esto?
 \end{frame}
 
-\begin{frame}
-  \frametitle{Verificación formal en Haskell}
-    \centering¿Pero que tan cierto y escalable es esto?
-\end{frame}
 \section{2.Coq}
 \begin{frame}
-  \frametitle{Verificación formal en Coq.}
-	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual tu puedes escribir un programa y a la par crear la especificación formal.
+  \frametitle{Verificación formal en Coq}
+	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se puede escribir un programa y a la par de demostrar su especificación formal.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Verificación formal en Coq.}
-    Las diferencias mas grandes entre la escritura de programas entre Haskell y Coq, es que Coq solo acepta funciones totales y que estas terminen e todos sus casos. 
+  \frametitle{Verificación formal en Coq}
+    Las diferencias mas grandes entre la escritura de programas entre Haskell y Coq, es que Coq solo acepta funciones totales y que estas terminen en todos sus casos.
 \end{frame}
 \section{3.Motivación}
 \begin{frame}
-  \frametitle{Problema.}
-       Nos gustaría una manera de traducir módulos de Haskell con funciones totales a Coq para poder verificarlas formalmente de una manera mas sencilla, ordenada y escalable.
+  \frametitle{Problema}
+       Nos gustaría una manera de traducir módulos de Haskell (con funciones totales) a Coq para poder verificarlas formalmente de una manera mas sencilla, ordenada y escalable.
 \end{frame}
-\section{4.hs-to-coq}
+\section{4.Haskell to Coq}
 \begin{frame}
   \frametitle{hs-to-coq}
-       Es una herramienta en desarrollo por un equipo de la Universidad de Pensilvania.
-       
-       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y también te da la facilidad de traducir tus propios programas de Haskell.
+       Es una herramienta en desarrollo por un equipo de la Universidad de Pensilvania (\url{https://github.com/antalsz/hs-to-coq}).
+
+       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y también permite traducir cualquier programa de Haskell.
 \end{frame}
 
 \begin{frame}
   \frametitle{hs-to-coq}
         Esta herramienta es creada para facilitar la verificación, siguiendo los siguientes pasos:
         \begin{enumerate}
-            \item Escribir un modulo de Haskell, digamos un modulo de Arboles Rojinegros.
-            \item Probar ese código en Haskell, generar ejemplos.
-            \item Utilizar hs-to-coq para traducir el codigo a Coq.
+            \item Escribir un módulo de Haskell, digamos un módulo de Arboles Rojinegros.
+            \item Probar ese código en Haskell por medio de ejemplos.
+            \item Utilizar hs-to-coq para traducir el código a Coq.
             \item ¡A verificar!
         \end{enumerate}
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{hs-to-coq}
+\begin{frame}[fragile]
+  \frametitle{Ventajas}
         Esto simplifica mucho la verificación en varios frentes:
          \begin{itemize}
             \item La traducción no se hace a mano.
@@ -445,6 +442,19 @@ Universidad Nacional Aut\'onoma de M\'exico}
         \end{itemize}
 \end{frame}
 \section{5.Ejemplos}
+
+\begin{frame}[fragile]
+  \frametitle{Ejemplos}
+
+  Definición de arboles rojinegros en Haskell
+  \begin{lstlisting}[language=haskell]
+  data Color = R | B
+
+  data RB a = E | T Color (RB a) a (RB a)
+  \end{lstlisting}
+
+\end{frame}
+
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
   Código de balance de Arboles Rojinegros en Haskell.
@@ -514,10 +524,12 @@ end.
        \end{lstlisting}
 \end{frame}
 
-\section{6.Observaciones}
+\section{6.Trabajo en desarrollo}
 \begin{frame}
-  \frametitle{Observaciones}
-  Este es un trabajo en curso, se busca poder traducir y verificar las operaciones de los arboles rojinegros.
+  \frametitle{Trabajo en desarrollo}
+  La herramienta que se usa (hs-to-coq) esta en desarrollo y se le esta integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
+
+  Este es un trabajo en curso, se busca poder traducir y verificar las operaciones de los arboles rojinegros y tambien as implementacioenes de estos (Implementaciones funcionales de árboles roji-negros,Graciela Lópesz Campos).
 \end{frame}
 
 
