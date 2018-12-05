@@ -385,20 +385,176 @@ Universidad Nacional Aut\'onoma de M\'exico}
 \DeclareMathSymbol{\llcurly}{\mathrel}{mathb}{"CE}
 \DeclareMathSymbol{\ggcurly}{\mathrel}{mathb}{"CF}
 
+%para pintar arboles bonitos...
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+\tikzset{
+  	treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  	arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black,
+    fill=black, text width=1.5em},% arbre rouge noir, noeud noir
+ 	arn_r/.style = {treenode, circle, white, draw=red, fill= red,
+    text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+  	arn_x/.style = {treenode, rectangle, white, draw=black, fill= black,
+    minimum width=0.5em, minimum height=0.5em},% arbre rouge noir, nil
+    arn_bb/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=gray,
+    fill=gray, text width=1.5em},
+    arn_nb/.style = {treenode, circle, black, font=\sffamily\bfseries, draw=black,
+    fill=white, text width=1.5em},
+    arn_w/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=brown,
+    fill=brown, text width=1.5em},
+    arn_xb/.style = {treenode, rectangle, white, draw=gray, fill= gray,
+    minimum width=0.5em, minimum height=0.5em}
+}
 \begin{document}
 
 \frame{\titlepage}
 
-\section{1.Haskell}
+\section{1.Arboles Rojinegros}
+\begin{frame}{Arboles Binarios}
+Un Árbol binario es una estructura de datos no lineal, una definición formal de estos seria:
+\begin{itemize}
+    \item Gráfica conexa con vértices de grado a lo mas 3.
+\end{itemize}
+Ejemplo:
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 3cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-8,-7) grid (8,0);
+\node [arn_nb] at (0,0) {}
+	child{ node [arn_nb] {}
+		   child{ node [arn_nb] {}}
+		   child{ node [arn_nb] {}
+			      child{ node [arn_nb] {}}
+			      child{ node [arn_nb] {}}
+		   }
+	}
+	child{ node [arn_nb] {}}
+
+;
+\draw node [text width=7cm] at (0,-4.5)
+{
+\'Arbol binario.
+}
+;
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Arboles Binarios de Búsqueda}
+Un Árbol binario de búsqueda es un caso particular de  un árbol binarios, el cual tiene las siguientes invariantes:
+\begin{itemize}
+    \item Todos los elementos del subárbol izquierdo son menores al elemento de la raíz.
+    \item Todos los elementos del subárbol derecho son mayores al elemento de la raíz.
+    \item Ambos subárboles también son de búsqueda.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Arboles Binarios de Búsqueda}
+Ejemplo:
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 3cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-8,-7) grid (8,0);
+\node [arn_nb] at (0,0) {7}
+	child{ node [arn_nb] {2}
+		   child{ node [arn_nb] {1}}
+		   child{ node [arn_nb] {4}
+			      child{ node [arn_nb] {3}}
+			      child{ node [arn_nb] {5}}
+		   }
+	}
+	child{ node [arn_nb] {10}}
+
+;
+\draw node [text width=7cm] at (0,-4.5)
+{
+\'Arbol binario de búsqueda.
+}
+;
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}{Arboles Rojinegros}
+Son un caso particular de arboles binarios de búsqueda, estos a su vez incluyen mas invariantes para garantizar una mayor eficiencia en las operaciones que se pueden realizar con ellos. Las invariantes son:
+\begin{itemize}
+    \item Todos los vértices son negros o rojos.
+    \item La raíz es negra.
+    \item Todas las hojas son negras, como la raíz.
+    \item Un vértice rojo siempre tiene dos hijos negros.
+    \item Para todo vértice $v$ de este árbol, todas las trayectorias de $v$ a alguna de sus hojas descendientes tiene el mismo número de vértices negros.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Arboles Rojinegros}
+Ejemplo:
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 4cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+    child{ node [arn_r] {2}
+            child{ node [arn_n] {1}
+            	child{ node [arn_x] {}} %for a named pointer
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+							child{ node [arn_r] {3}
+								child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+							child{ node [arn_r] {5}
+							    child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+            }
+    }
+    child{ node [arn_n] {8}
+            child{ node [arn_x] {}
+            }
+            child{ node [arn_r] {9}
+							child{ node [arn_x] {}}
+							child{ node [arn_x] {}}
+            }
+		}
+;
+\draw node [text width=7cm] at (-1,-4.5)
+{
+\'Arbol roji-negro con vac\'ios.
+}
+;
+
+\end{tikzpicture}
+\end{frame}
+
+
+\section{2.Verificación Formal}
+
+\begin{frame}
+  \frametitle{Verificación de Arboles Rojinegros.}
+
+  Los lenguajes de programación en los que generalmente se implementan este tipo de arboles son del paradigma imperativo, por ejemplo Java, en los cuales una manera de
+  intentar verificar que la estructura funciona es usar pruebas unitarias.
+
+\newline \newline \centering Pero esto no es verificar.
+
+\end{frame}
+
+\section{3.Haskell}
 \begin{frame}
   \frametitle{Verificación formal en Haskell}
     Haskell es un lenguaje con una base muy grande de desarrolladores que constantemente están generando mas programas escritos en el.
     \newline Una de las cosas que se dice de Haskell es que la verificación de su código es bastante sencilla.
 
-\pause\newline\centering¿Pero qué tan cierto y escalable es esto?
+\newline\centering{¿Pero qué tan cierto y escalable es esto?}
 \end{frame}
 
-\section{2.Coq}
+\section{4.Coq}
 \begin{frame}
   \frametitle{Verificación formal en Coq}
 	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se puede escribir un programa y a la par de demostrar su especificación formal.
@@ -413,7 +569,7 @@ Universidad Nacional Aut\'onoma de M\'exico}
   \frametitle{Problema}
        Nos gustaría una manera de traducir módulos de Haskell (con funciones totales) a Coq para poder verificarlas formalmente de una manera mas sencilla, ordenada y escalable.
 \end{frame}
-\section{4.Haskell to Coq}
+\section{5.Haskell to Coq}
 \begin{frame}
   \frametitle{hs-to-coq}
        Es una herramienta en desarrollo por un equipo de la Universidad de Pensilvania (\url{https://github.com/antalsz/hs-to-coq}).
@@ -441,7 +597,7 @@ Universidad Nacional Aut\'onoma de M\'exico}
             \item La cooperación en un equipo de trabajo se hace mas sencilla.
         \end{itemize}
 \end{frame}
-\section{5.Ejemplos}
+\section{6.Ejemplos}
 
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
@@ -524,7 +680,7 @@ end.
        \end{lstlisting}
 \end{frame}
 
-\section{6.Trabajo en desarrollo}
+\section{7.Trabajo en desarrollo}
 \begin{frame}
   \frametitle{Trabajo en desarrollo}
   La herramienta que se usa (hs-to-coq) esta en desarrollo y se le esta integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
