@@ -257,16 +257,12 @@ literate=
 %%% TeX-master: "main.tex"
 %%% End:
 
-% pour inliner dans le texte
-\def\hasqel{\lstinline[language=Haskell, basicstyle=\small]}
-% pour inliner dans les tableaux / displaymath...
-\def\haskels{\lstinline[language=Haskell, basicstyle=\scriptsize]}
+\definecolor{ltblue}{rgb}{0,0.4,0.4}
+\definecolor{dkblue}{rgb}{0,0.1,0.6}
+\definecolor{dkgreen}{rgb}{0,0.35,0}
+\definecolor{dkviolet}{rgb}{0.3,0,0.5}
+\definecolor{dkred}{rgb}{0.5,0,0}
 
-%%% Local Variables:
-%%% mode: latex
-%%% Local IspellDict: british
-%%% TeX-master: "main.tex"
-%%% End:
 % comillas
 \usepackage[autostyle=true,spanish=mexican]{csquotes}
 
@@ -346,12 +342,13 @@ in head/foot}%
 
 \input{macroslc}
 
-\title[]{Verificación formal de arboles rojinegros en Haskell con Coq}
-\author[]{David Felipe Hernández Chiapa}
-\institute[UNAM-FC]{Facultad de Ciencias\\
-Universidad Nacional Aut\'onoma de M\'exico}
-\date[]{\small{\today}}
-
+\title[]{Verificación formal de arboles rojinegros \\ en Haskell con Coq}
+\author[David Hernández Chiapa]{David Felipe Hernández Chiapa \\
+    \small{\texttt{davifep.96@gmail.com}}}
+\institute[UNAM-FC]{Facultad de Ciencias \\
+Universidad Nacional Aut\'onoma de M\'exico \\ \small{Proyecto 
+PAPIME PE102117}}
+\date[]{\small{7 de diciembre de 2018}}
 
 
 \beamerdefaultoverlayspecification{<+->}
@@ -411,11 +408,12 @@ Universidad Nacional Aut\'onoma de M\'exico}
 
 \frame{\titlepage}
 
-\section{1.Arboles Rojinegros}
-\begin{frame}{Arboles Binarios}
-Un Árbol binario es una estructura de datos no lineal, una definición formal de estos seria:
+\section{1.Árboles Rojinegros}
+\begin{frame}{Árboles Binarios}
+Un Árbol binario es una estructura de datos no lineal, una definición formal de 
+estos es:
 \begin{itemize}
-    \item Gráfica conexa con vértices de grado a lo mas 3.
+    \item Gráfica conexa con vértices de grado a lo más 3.
 \end{itemize}
 Ejemplo:
 
@@ -442,18 +440,21 @@ Ejemplo:
 \end{tikzpicture}
 \end{frame}
 
-\begin{frame}{Arboles Binarios de Búsqueda}
-Un Árbol binario de búsqueda es un caso particular de  un árbol binarios, el cual tiene las siguientes invariantes:
+\begin{frame}{Árboles Binarios de Búsqueda}
+Un Árbol binario de búsqueda es un caso particular de  un árbol binario, el 
+cual tiene las siguientes invariantes:
 \begin{itemize}
-    \item Todos los elementos del subárbol izquierdo son menores al elemento de la raíz.
-    \item Todos los elementos del subárbol derecho son mayores al elemento de la raíz.
+    \item Todos los elementos del subárbol izquierdo son menores al elemento de 
+la raíz.
+    \item Todos los elementos del subárbol derecho son mayores al elemento de la 
+raíz.
     \item Ambos subárboles también son de búsqueda.
 \end{itemize}
 
 \end{frame}
 
 
-\begin{frame}{Arboles Binarios de Búsqueda}
+\begin{frame}{Árboles Binarios de Búsqueda}
 Ejemplo:
 
 \centering
@@ -480,19 +481,22 @@ Ejemplo:
 
 \end{frame}
 
-\begin{frame}{Arboles Rojinegros}
-Son un caso particular de arboles binarios de búsqueda, estos a su vez incluyen mas invariantes para garantizar una mayor eficiencia en las operaciones que se pueden realizar con ellos. Las invariantes son:
+\begin{frame}{Árboles Rojinegros}
+Son un caso particular de arboles binarios de búsqueda, estos a su vez incluyen 
+más invariantes para garantizar una mayor eficiencia en las operaciones que se 
+pueden realizar con ellos. Las invariantes son:
 \begin{itemize}
     \item Todos los vértices son negros o rojos.
     \item La raíz es negra.
     \item Todas las hojas son negras, como la raíz.
     \item Un vértice rojo siempre tiene dos hijos negros.
-    \item Para todo vértice $v$ de este árbol, todas las trayectorias de $v$ a alguna de sus hojas descendientes tiene el mismo número de vértices negros.
+    \item Para todo vértice $v$ de este árbol, todas las trayectorias de $v$ a 
+alguna de sus hojas descendientes tiene el mismo número de vértices negros.
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Arboles Rojinegros}
+\begin{frame}{Árboles Rojinegros}
 Ejemplo:
 
 \centering
@@ -536,20 +540,27 @@ Ejemplo:
 \section{2.Verificación Formal}
 
 \begin{frame}
-  \frametitle{Verificación de Arboles Rojinegros.}
+  \frametitle{Verificación de Árboles Rojinegros.}
 
-  Los lenguajes de programación en los que generalmente se implementan este tipo de arboles son del paradigma imperativo, por ejemplo Java, en los cuales una manera de
+  Los lenguajes de programación en los que generalmente se implementan este tipo 
+de arboles son del paradigma imperativo, por ejemplo Java, en los cuales una 
+manera de
   intentar verificar que la estructura funciona es usar pruebas unitarias.
 
-\newline \newline \centering Pero esto no es verificar.
+  \vspace*{10pt}
+  \centering Pero esto no es verificar.
 
 \end{frame}
 
 \section{3.Haskell}
 \begin{frame}
   \frametitle{Verificación formal en Haskell}
-    Haskell es un lenguaje con una base muy grande de desarrolladores que constantemente están generando mas programas escritos en el.
-    \newline Una de las cosas que se dice de Haskell es que la verificación de su código es bastante sencilla.
+    Haskell es un lenguaje de programaci\'on funcional con una base muy grande 
+de desarrolladores que constantemente están generando mas programas escritos en 
+el.
+\vspace*{10pt}
+    \newline Una de las cosas que se dice de Haskell es que la verificación de 
+su código es bastante sencilla.
 
 \newline\centering{¿Pero qué tan cierto y escalable es esto?}
 \end{frame}
@@ -557,31 +568,40 @@ Ejemplo:
 \section{4.Coq}
 \begin{frame}
   \frametitle{Verificación formal en Coq}
-	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se puede escribir un programa y a la par de demostrar su especificación formal.
+	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se 
+puede escribir un programa y a la par de demostrar su especificación formal.
 \end{frame}
 
 \begin{frame}
   \frametitle{Verificación formal en Coq}
-    Las diferencias mas grandes entre la escritura de programas entre Haskell y Coq, es que Coq solo acepta funciones totales y que estas terminen en todos sus casos.
+    Las diferencias mas grandes entre la escritura de programas entre Haskell y 
+Coq, es que Coq solo acepta funciones totales y que estas terminen en todos sus 
+casos.
 \end{frame}
 \section{3.Motivación}
 \begin{frame}
   \frametitle{Problema}
-       Nos gustaría una manera de traducir módulos de Haskell (con funciones totales) a Coq para poder verificarlas formalmente de una manera mas sencilla, ordenada y escalable.
+       Nos gustaría una manera de traducir módulos de Haskell (con funciones 
+totales) a Coq para poder verificarlas formalmente de una manera mas sencilla, 
+ordenada y escalable.
 \end{frame}
 \section{5.Haskell to Coq}
 \begin{frame}
   \frametitle{hs-to-coq}
-       Es una herramienta en desarrollo por un equipo de la Universidad de Pensilvania (\url{https://github.com/antalsz/hs-to-coq}).
+       Es una herramienta en desarrollo por un equipo de la Universidad de 
+Pensilvania (\url{https://github.com/antalsz/hs-to-coq}).
 
-       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y también permite traducir cualquier programa de Haskell.
+       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y 
+también permite traducir cualquier programa de Haskell.
 \end{frame}
 
 \begin{frame}
   \frametitle{hs-to-coq}
-        Esta herramienta es creada para facilitar la verificación, siguiendo los siguientes pasos:
+        Esta herramienta es creada para facilitar la verificación, siguiendo los 
+siguientes pasos:
         \begin{enumerate}
-            \item Escribir un módulo de Haskell, digamos un módulo de Arboles Rojinegros.
+            \item Escribir un módulo de Haskell, digamos un módulo de Árboles 
+Rojinegros.
             \item Probar ese código en Haskell por medio de ejemplos.
             \item Utilizar hs-to-coq para traducir el código a Coq.
             \item ¡A verificar!
@@ -611,9 +631,10 @@ Ejemplo:
 
 \end{frame}
 
+
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
-  Código de balance de Arboles Rojinegros en Haskell.
+  Código de balance de Árboles Rojinegros en Haskell.
        \begin{lstlisting}[language=haskell]
     balance :: RB a -> a -> RB a -> RB a
     balance (T R a x b) y (T R c z d) = T R (T B a x b) y (T B c z d)
@@ -627,7 +648,7 @@ Ejemplo:
 
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
-  Código de balance de Arboles Rojinegros en Coq, traducido con hs-to-coq.
+  Código de balance de Árboles Rojinegros en Coq, traducido con hs-to-coq.
        \begin{lstlisting}[language=Coq]
  Definition balance {a} : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
@@ -645,7 +666,7 @@ Ejemplo:
 
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
-  Código de inserción de Arboles Rojinegros en Haskell.
+  Código de inserción de Árboles Rojinegros en Haskell.
        \begin{lstlisting}[language=haskell]
     ins :: Ord a => a -> RB a -> RB a
     ins x E = T R E x E
@@ -662,7 +683,7 @@ Ejemplo:
 
 \begin{frame}[fragile]
   \frametitle{Ejemplos}
-  Código de inserción de Arboles Rojinegros en Coq, traducido con hs-to-coq.
+  Código de inserción de Árboles Rojinegros en Coq, traducido con hs-to-coq.
        \begin{lstlisting}[language=Coq]
 Definition ins {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
   fix ins arg_0__ arg_1__
@@ -683,9 +704,16 @@ end.
 \section{7.Trabajo en desarrollo}
 \begin{frame}
   \frametitle{Trabajo en desarrollo}
-  La herramienta que se usa (hs-to-coq) esta en desarrollo y se le esta integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
+  La herramienta \textbf{hs-to-coq} est\'a en desarrollo y se le esta 
+integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
 
-  Este es un trabajo en curso, se busca poder traducir y verificar las operaciones de los arboles rojinegros y tambien as implementacioenes de estos (Implementaciones funcionales de árboles roji-negros,Graciela Lópesz Campos).
+\vspace*{10pt}
+
+  Este es un trabajo en curso, se busca poder traducir y verificar 
+  las operaciones de los \'arboles rojinegros y tambi\'en las implementaciones 
+  de estos (\textit{Implementaciones funcionales de árboles roji-negros} de 
+  Graciela López Campos).
+  
 \end{frame}
 
 
