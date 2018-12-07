@@ -346,7 +346,7 @@ in head/foot}%
 \author[David Hernández Chiapa]{David Felipe Hernández Chiapa \\
     \small{\texttt{davifep.96@gmail.com}}}
 \institute[UNAM-FC]{Facultad de Ciencias \\
-Universidad Nacional Aut\'onoma de M\'exico \\ \small{Proyecto 
+Universidad Nacional Aut\'onoma de M\'exico \\ \small{Proyecto
 PAPIME PE102117}}
 \date[]{\small{7 de diciembre de 2018}}
 
@@ -410,7 +410,7 @@ PAPIME PE102117}}
 
 \section{1.Árboles Rojinegros}
 \begin{frame}{Árboles Binarios}
-Un Árbol binario es una estructura de datos no lineal, una definición formal de 
+Un Árbol binario es una estructura de datos no lineal, una definición formal de
 estos es:
 \begin{itemize}
     \item Gráfica conexa con vértices de grado a lo más 3.
@@ -432,21 +432,17 @@ Ejemplo:
 	child{ node [arn_nb] {}}
 
 ;
-\draw node [text width=7cm] at (0,-4.5)
-{
-\'Arbol binario.
-}
-;
+
 \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Árboles Binarios de Búsqueda}
-Un Árbol binario de búsqueda es un caso particular de  un árbol binario, el 
+Un Árbol binario de búsqueda es un caso particular de  un árbol binario, el
 cual tiene las siguientes invariantes:
 \begin{itemize}
-    \item Todos los elementos del subárbol izquierdo son menores al elemento de 
+    \item Todos los elementos del subárbol izquierdo son menores al elemento de
 la raíz.
-    \item Todos los elementos del subárbol derecho son mayores al elemento de la 
+    \item Todos los elementos del subárbol derecho son mayores al elemento de la
 raíz.
     \item Ambos subárboles también son de búsqueda.
 \end{itemize}
@@ -472,25 +468,22 @@ Ejemplo:
 	child{ node [arn_nb] {10}}
 
 ;
-\draw node [text width=7cm] at (0,-4.5)
-{
-\'Arbol binario de búsqueda.
-}
-;
+
 \end{tikzpicture}
 
 \end{frame}
 
 \begin{frame}{Árboles Rojinegros}
-Son un caso particular de arboles binarios de búsqueda, estos a su vez incluyen 
-más invariantes para garantizar una mayor eficiencia en las operaciones que se 
+Son un caso particular de arboles binarios de búsqueda, estos a su vez incluyen
+más invariantes para garantizar una mayor eficiencia en las operaciones que se
 pueden realizar con ellos. Las invariantes son:
+\footnote[frame]{Estructuras de Datos con Java Moderno. Canek Paláez Váldes}
 \begin{itemize}
     \item Todos los vértices son negros o rojos.
     \item La raíz es negra.
     \item Todas las hojas son negras, como la raíz.
     \item Un vértice rojo siempre tiene dos hijos negros.
-    \item Para todo vértice $v$ de este árbol, todas las trayectorias de $v$ a 
+    \item Para todo vértice $v$ de este árbol, todas las trayectorias de $v$ a
 alguna de sus hojas descendientes tiene el mismo número de vértices negros.
 \end{itemize}
 
@@ -527,11 +520,7 @@ Ejemplo:
             }
 		}
 ;
-\draw node [text width=7cm] at (-1,-4.5)
-{
-\'Arbol roji-negro con vac\'ios.
-}
-;
+
 
 \end{tikzpicture}
 \end{frame}
@@ -542,8 +531,8 @@ Ejemplo:
 \begin{frame}
   \frametitle{Verificación de Árboles Rojinegros.}
 
-  Los lenguajes de programación en los que generalmente se implementan este tipo 
-de arboles son del paradigma imperativo, por ejemplo Java, en los cuales una 
+  Los lenguajes de programación en los que generalmente se implementan este tipo
+de arboles son del paradigma imperativo, por ejemplo Java, en los cuales una
 manera de
   intentar verificar que la estructura funciona es usar pruebas unitarias.
 
@@ -555,11 +544,11 @@ manera de
 \section{3.Haskell}
 \begin{frame}
   \frametitle{Verificación formal en Haskell}
-    Haskell es un lenguaje de programaci\'on funcional con una base muy grande 
-de desarrolladores que constantemente están generando mas programas escritos en 
+    Haskell es un lenguaje de programaci\'on funcional con una base muy grande
+de desarrolladores que constantemente están generando mas programas escritos en
 el.
 \vspace*{10pt}
-    \newline Una de las cosas que se dice de Haskell es que la verificación de 
+    \newline Una de las cosas que se dice de Haskell es que la verificación de
 su código es bastante sencilla.
 
 \newline\centering{¿Pero qué tan cierto y escalable es esto?}
@@ -568,39 +557,39 @@ su código es bastante sencilla.
 \section{4.Coq}
 \begin{frame}
   \frametitle{Verificación formal en Coq}
-	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se 
+	A diferencia de Haskell, Coq es un asistente de pruebas, con el cual se
 puede escribir un programa y a la par de demostrar su especificación formal.
 \end{frame}
 
 \begin{frame}
   \frametitle{Verificación formal en Coq}
-    Las diferencias mas grandes entre la escritura de programas entre Haskell y 
-Coq, es que Coq solo acepta funciones totales y que estas terminen en todos sus 
+    Las diferencias mas grandes entre la escritura de programas entre Haskell y
+Coq, es que Coq solo acepta funciones totales y que estas terminen en todos sus
 casos.
 \end{frame}
 \section{3.Motivación}
 \begin{frame}
   \frametitle{Problema}
-       Nos gustaría una manera de traducir módulos de Haskell (con funciones 
-totales) a Coq para poder verificarlas formalmente de una manera mas sencilla, 
+       Nos gustaría una manera de traducir módulos de Haskell (con funciones
+totales) a Coq para poder verificarlas formalmente de una manera mas sencilla,
 ordenada y escalable.
 \end{frame}
 \section{5.Haskell to Coq}
 \begin{frame}
   \frametitle{hs-to-coq}
-       Es una herramienta en desarrollo por un equipo de la Universidad de 
+       Es una herramienta en desarrollo por un equipo de la Universidad de
 Pensilvania (\url{https://github.com/antalsz/hs-to-coq}).
 
-       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y 
+       En esta herramienta ya existen bibliotecas de Haskell traducidas a Coq y
 también permite traducir cualquier programa de Haskell.
 \end{frame}
 
 \begin{frame}
   \frametitle{hs-to-coq}
-        Esta herramienta es creada para facilitar la verificación, siguiendo los 
+        Esta herramienta es creada para facilitar la verificación, siguiendo los
 siguientes pasos:
         \begin{enumerate}
-            \item Escribir un módulo de Haskell, digamos un módulo de Árboles 
+            \item Escribir un módulo de Haskell, digamos un módulo de Árboles
 Rojinegros.
             \item Probar ese código en Haskell por medio de ejemplos.
             \item Utilizar hs-to-coq para traducir el código a Coq.
@@ -678,6 +667,9 @@ Rojinegros.
       | x<y = T R (ins x a) y b
       | x>y = T R a y (ins x b)
       | otherwise = s
+
+    insert :: Ord a => a -> RB a -> RB a
+    insert x s = T B a z b where T _ a z b = ins x s
        \end{lstlisting}
 \end{frame}
 
@@ -701,19 +693,161 @@ end.
        \end{lstlisting}
 \end{frame}
 
+
+\begin{frame}{Ejemplo Práctico}
+Agregaremos el número 10:
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 4cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+    child{ node [arn_r] {2}
+            child{ node [arn_n] {1}
+            	child{ node [arn_x] {}} %for a named pointer
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+							child{ node [arn_r] {3}
+								child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+							child{ node [arn_r] {5}
+							    child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+            }
+    }
+    child{ node [arn_n] {8}
+            child{ node [arn_x] {}
+            }
+            child{ node [arn_r] {9}
+							child{ node [arn_x] {}}
+							child{ node [arn_x] {}}
+            }
+		}
+;
+
+
+\end{tikzpicture}
+
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo Práctico}
+Se agrega como hijo rojo del 9.
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 4cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+    child{ node [arn_r] {2}
+            child{ node [arn_n] {1}
+            	child{ node [arn_x] {}} %for a named pointer
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+							child{ node [arn_r] {3}
+								child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+							child{ node [arn_r] {5}
+							    child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+            }
+    }
+    child{ node [arn_n] {8}
+            child{ node [arn_x] {}
+            }
+            child{ node [arn_r] {9}
+							child{ node [arn_x] {}}
+							child{ node [arn_r] {10}
+							    child{ node [arn_x] {}}
+							    child{ node [arn_x] {}}}
+            }
+		}
+;
+
+\end{tikzpicture}
+\begin{lstlisting}
+case:10>9
+T R a 9 (T R E 10 E)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Ejemplo Práctico}
+La función de balanceo mantiene el invariante todo el tiempo.
+
+\centering
+    \begin{tikzpicture}[-,>=stealth',level/.style={sibling distance = 4cm/#1,
+  level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+    child{ node [arn_r] {2}
+            child{ node [arn_n] {1}
+            	child{ node [arn_x] {}} %for a named pointer
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+							child{ node [arn_r] {3}
+								child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+							child{ node [arn_r] {5}
+							    child{ node [arn_x] {}}
+								child{ node [arn_x] {}}}
+            }
+    }
+    child{ node [arn_r] {9}
+            child{ node [arn_n] {8}
+            child{ node [arn_x] {}}
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {10}
+							child{ node [arn_x] {}}
+							child{ node [arn_x] {}}
+            }
+		}
+;
+
+\end{tikzpicture}
+\begin{lstlisting}
+ balance E 8 (T R E 9 (T R E 10 E)) =
+                    T R (T B E 8 E) 9 (T B E 10 E)
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Por verificar...\footnote[frame]{https://softwarefoundations.cis.upenn.edu/draft/vfa-current/Redblack.html}}
+    \begin{lstlisting}[language=coq]
+Inductive is_redblack : tree -> color -> nat -> Prop :=
+ | IsRB_leaf: forall c, is_redblack E c 0
+ | IsRB_r: forall tl k kv tr n,
+          is_redblack tl Red n ->
+          is_redblack tr Red n ->
+          is_redblack (T Red tl v tr) Black n
+ | IsRB_b: forall c tl k kv tr n,
+          is_redblack tl Black n ->
+          is_redblack tr Black n ->
+          is_redblack (T Black tl v tr) c (S n).
+
+Lemma insert_is_redblack:
+  forall x s n, is_redblack s Red n ->
+                    exists n', is_redblack (insert x s) Red n'.
+    \end{lstlisting}
+
+\end{frame}
+
 \section{7.Trabajo en desarrollo}
 \begin{frame}
   \frametitle{Trabajo en desarrollo}
-  La herramienta \textbf{hs-to-coq} est\'a en desarrollo y se le esta 
+  La herramienta \textbf{hs-to-coq} est\'a en desarrollo y se le esta
 integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
 
 \vspace*{10pt}
 
-  Este es un trabajo en curso, se busca poder traducir y verificar 
-  las operaciones de los \'arboles rojinegros y tambi\'en las implementaciones 
-  de estos (\textit{Implementaciones funcionales de árboles roji-negros} de 
+  Este es un trabajo en curso, se busca poder traducir y verificar
+  las operaciones de los \'arboles rojinegros y tambi\'en las implementaciones
+  de estos (\textit{Implementaciones funcionales de árboles roji-negros} de
   Graciela López Campos).
-  
+
 \end{frame}
 
 
