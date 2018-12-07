@@ -667,7 +667,7 @@ Rojinegros.
       | x<y = T R (ins x a) y b
       | x>y = T R a y (ins x b)
       | otherwise = s
-
+      
     insert :: Ord a => a -> RB a -> RB a
     insert x s = T B a z b where T _ a z b = ins x s
        \end{lstlisting}
@@ -767,7 +767,7 @@ Se agrega como hijo rojo del 9.
 
 \end{tikzpicture}
 \begin{lstlisting}
-case:10>9
+case:10>9 
 T R a 9 (T R E 10 E)
 \end{lstlisting}
 \end{frame}
@@ -832,7 +832,7 @@ Lemma insert_is_redblack:
   forall x s n, is_redblack s Red n ->
                     exists n', is_redblack (insert x s) Red n'.
     \end{lstlisting}
-
+    
 \end{frame}
 
 \section{7.Trabajo en desarrollo}
@@ -845,9 +845,9 @@ integrando mas funcionalidades de Haskell, como clases, polimorfismos, etc.
 
   Este es un trabajo en curso, se busca poder traducir y verificar
   las operaciones de los \'arboles rojinegros y tambi\'en las implementaciones
-  de estos (\textit{Implementaciones funcionales de árboles roji-negros} de
-  Graciela López Campos).
-
+  de estos.
+\footnote[frame]{Implementaciones funcionales de árboles roji-negros.
+  Graciela López Campos}
 \end{frame}
 
 
