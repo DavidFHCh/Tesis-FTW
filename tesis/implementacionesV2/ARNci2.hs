@@ -1,7 +1,7 @@
 module ARNci2 (Color(R,B), RB(E,Node), member,insert,delete) where
 
-data Color = R | B deriving (Show, Eq)
-data RB a = E | Node Color (RB a) a (RB a) | Blacken (RB a) deriving (Show)
+data Color = R | B deriving (Eq)
+data RB a = E | Node Color (RB a) a (RB a) | Blacken (RB a)
 
 color :: RB a -> Color
 color E = B
@@ -35,9 +35,9 @@ insert a t = make B (ins t)
              where
              ins E = Node R E a E
              ins (Node c l b r) = case compare a b of
-                          	  LT -> bal c (ins l) b r
-                          	  EQ -> Node c l a r
-                          	  GT -> bal c l b (ins r)
+                              LT -> bal c (ins l) b r
+                              EQ -> Node c l a r
+                              GT -> bal c l b (ins r)
 
 bal:: Color -> RB a -> a -> RB a -> RB a
 bal B (Node R (Node R a x b) y c) z d = Node R (Node B a x b) y (Node B c z d)
@@ -46,16 +46,16 @@ bal B a x (Node R b y (Node R c z d)) = Node R (Node B a x b) y (Node B c z d)
 bal B a x (Node R (Node R b y c) z d) = Node R (Node B a x b) y (Node B c z d)
 bal c a x b = Node c a x b
 
--- Borrado
+
 
 delete :: Ord a => a -> RB a -> RB a
 delete a t = unBlack (del t)
              where
              del E = E
              del (Node c l b r)
-								| a < b = lbal c (del l) b r
-								| a > b = rbal c l b (del r)
-								| otherwise = join c l r
+                | a < b = lbal c (del l) b r
+                | a > b = rbal c l b (del r)
+                | otherwise = join c l r
 
 lbal :: Color -> RB a -> a -> RB a -> RB a
 lbal c (Blacken t1) a1 (Node R t2 a2 t3) = Node c (lbal R (Blacken t1) a1 t2) a2 t3
