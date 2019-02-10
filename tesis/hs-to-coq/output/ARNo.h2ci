@@ -1,0 +1,15 @@
+constructors:
+  ARNo.RB: ! '[Qualified "ARNo" "E",Qualified "ARNo" "EBB",Qualified "ARNo" "T"]'
+  ARNo.Color: ! '[Qualified "ARNo" "R",Qualified "ARNo" "B"]'
+constructorFields:
+  ARNo.T: NonRecordFields 4
+  ARNo.EBB: NonRecordFields 0
+  ARNo.E: NonRecordFields 0
+  ARNo.B: NonRecordFields 0
+  ARNo.R: NonRecordFields 0
+constructorTypes:
+  ARNo.T: Qualified "ARNo" "RB"
+  ARNo.EBB: Qualified "ARNo" "RB"
+  ARNo.E: Qualified "ARNo" "RB"
+  ARNo.B: Qualified "ARNo" "Color"
+  ARNo.R: Qualified "ARNo" "Color"
