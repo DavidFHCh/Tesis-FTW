@@ -54,9 +54,8 @@ Definition balance {a} : RB a -> a -> RB a -> RB a :=
     | a, x, b => T B a x b
     end.
 
-Definition ins {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
-  fix ins arg_0__ arg_1__
-        := match arg_0__, arg_1__ with
+Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
+   match arg_0__, arg_1__ with
            | x, E => T R E x E
            | x, (T B a y b as s) =>
                if x GHC.Base.< y : bool then balance (ins x a) y b else
@@ -68,14 +67,13 @@ Definition ins {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
                s
            end.
 
-
 (* cambiar el tipo de regreso a un tipo error/option ------2018*)
 (* No se eta usando option porque estorba y se esta simulando la funcion total al agregar el ultimo caso*)
 Definition insert {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
   fun x s =>
     match ins x s with
     | T _ a z b => T B a z b
-    | _ => E
+    | E => E
     end.
 
 
@@ -90,22 +88,90 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_b: forall c tl x tr n,
           is_redblack tl B n ->
           is_redblack tr B n ->
-          is_redblack (T B tl x tr) c (S n).
+          is_redblack (T B tl x tr) c (S n)
+| error : forall r1 x r2 n, is_redblack (T R r1 x r2) R n.
 
+Lemma subtreeEmpty: forall s c,is_redblack s c 0 -> s = E.
+Proof.
+Admitted.
 
+Lemma subtree0: forall n c, n = 0 -> is_redblack E c n.
+Proof.
+Admitted.
 
 Lemma insert_is_redblack:
   forall x s n, is_redblack s R n->
                     exists n', is_redblack (insert x s) R n'.
 Proof.
 intros.
+destruct s.
+induction insert.
+exists 0.
+apply IsRB_leaf.
+destruct c.
+exists n.
+apply error.
+exists (S n).
+apply IsRB_b.
+
+
+
+
+
+
+
+
+
+
+
+
+(*En esta se toman demasiados casos y la definicion de insert con el retorno de E en caso de error causa ruido.*)
+(* intros.
+exists n.
+induction H.
+- induction insert.
+  + apply IsRB_leaf.
+  + admit.
+- induction (insert x (T R tl x0 tr)).
+  + admit.
+  + destruct c.
+    * apply IsRB_r.
+     admit.
+     admit.
+    * admit. (*Tengo la sospecha de que estos casos no se pueden*)
+- induction (insert x (T B tl x0 tr)).
+  + admit.
+  + destruct c0.
+    * admit.
+    *apply IsRB_b.
+      admit.
+      admit.
+- destruct (insert x (T R r1 x0 r2)).
+  + admit.
+  + destruct c.
+    *apply error.
+    *admit. *)
+
+(* intros.
 induction insert.
 - exists 0.
   apply IsRB_leaf.
-- inversion IHr1; inversion IHr2. (*Necesito que x1 == x0, pero por alguna razon se desligan*)
-  exists (S x0).
+- induction c.
+  + exists n.
+    apply error.
+  + exists (S n).
+    apply IsRB_b.
+    apply sameHeight with x1.
+    trivial.
+    trivial.
+    .
+    apply IsRB_b.
+    destruct s.
+    destruct r1.
+   (*Necesito que x1 == x0, pero por alguna razon se desligan*)
+  
 admit.
-  apply IsRB_b.
+  apply IsRB_b. *)
 
 
 
