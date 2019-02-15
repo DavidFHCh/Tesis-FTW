@@ -42,6 +42,8 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
                if x GHC.Base.> y : bool then member x tr else
                true
            end.
+Hint Resolve member.
+
 
 Definition balance {a} : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
@@ -53,6 +55,8 @@ Definition balance {a} : RB a -> a -> RB a -> RB a :=
     | a, x, T R (T R b y c) z d => T R (T B a x b) y (T B c z d)
     | a, x, b => T B a x b
     end.
+    
+Hint Resolve balance.
 
 Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
    match arg_0__, arg_1__ with
@@ -66,6 +70,8 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
                if x GHC.Base.> y : bool then T R a y (ins x b) else
                s
            end.
+           
+Hint Unfold ins.
 
 (* cambiar el tipo de regreso a un tipo error/option ------2018*)
 (* No se eta usando option porque estorba y se esta simulando la funcion total al agregar el ultimo caso*)
@@ -76,6 +82,7 @@ Definition insert {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
     | E => E
     end.
 
+Hint Unfold insert.
 
 (* proofs *)
 
@@ -91,6 +98,8 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
           is_redblack (T B tl x tr) c (S n)
 | error : forall r1 x r2 n, is_redblack (T R r1 x r2) R n.
 
+Hint Constructors is_redblack.
+
 Lemma subtreeEmpty: forall s c,is_redblack s c 0 -> s = E.
 Proof.
 Admitted.
@@ -99,11 +108,29 @@ Lemma subtree0: forall n c, n = 0 -> is_redblack E c n.
 Proof.
 Admitted.
 
-Lemma insert_is_redblack:
-  forall x s n, is_redblack s R n->
+Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
+  forall (x: a) (s: RB a) (n: nat), is_redblack s R n->
                     exists n', is_redblack (insert x s) R n'.
 Proof.
 intros.
+
+dependent induction H1.
+- exists 1. 
+unfold insert.
+simpl.
+apply IsRB_b; apply IsRB_leaf.
+- exists n.
+(* unfold insert. *)
+case_eq (x GHC.Base.< x0); intros.
+-- unfold insert.
+ rewrite H1; simpl.
+ eapply IsRB_b.
+-- 
+
+simpl; rewrite H1.
+
+
+(*
 destruct s.
 induction insert.
 exists 0.
@@ -114,16 +141,7 @@ apply error.
 exists (S n).
 apply IsRB_b.
 
-
-
-
-
-
-
-
-
-
-
+*)
 
 (*En esta se toman demasiados casos y la definicion de insert con el retorno de E en caso de error causa ruido.*)
 (* intros.
