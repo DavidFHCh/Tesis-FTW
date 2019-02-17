@@ -108,6 +108,45 @@ Lemma subtree0: forall n c, n = 0 -> is_redblack E c n.
 Proof.
 Admitted.
 
+Inductive nearly_redblack {a} `{GHC.Base.Ord a}: RB a -> nat -> Prop :=
+| nrRB_r: forall tl k tr n,
+         is_redblack tl B n ->
+         is_redblack tr B n ->
+         nearly_redblack (T R tl k tr) n
+| nrRB_b: forall tl k tr n,
+         is_redblack tl B n ->
+         is_redblack tr B n ->
+         nearly_redblack (T B tl k tr) (S n).
+
+Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
+  forall (x: a) (s:RB a) (n:nat), 
+    (is_redblack s B n -> nearly_redblack (ins x s) n) /\
+    (is_redblack s R n -> is_redblack (ins x s) B n).
+Proof.
+dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor.
+- destruct (IHs1 n); clear IHs1.
+  destruct (IHs2 n); clear IHs2.
+  case_eq (x GHC.Base.< a0);intros.
+  -- apply nrRB_r.
+     --- apply H10.
+         trivial.
+     --- rewrite H2 in H8.
+         (* apply H8. *)
+          admit.
+  -- case_eq (x GHC.Base.> a0);intros.
+     apply nrRB_r.
+     --- admit.
+     --- apply H12.
+         trivial.
+     --- apply nrRB_r.
+         ---- admit.
+         ---- admit.
+- destruct (IHs1 n); clear IHs1.
+  destruct (IHs2 n); clear IHs2.
+  case_eq (x GHC.Base.< a0);intros.
+  unfold balance.
+
+
 Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
   forall (x: a) (s: RB a) (n: nat), is_redblack s R n->
                     exists n', is_redblack (insert x s) R n'.
@@ -119,11 +158,13 @@ dependent induction H1.
 unfold insert.
 simpl.
 apply IsRB_b; apply IsRB_leaf.
-- exists n.
+ - exists n.
 (* unfold insert. *)
 case_eq (x GHC.Base.< x0); intros.
 -- unfold insert.
- rewrite H1; simpl.
+   
+   rewrite H1.
+   
  eapply IsRB_b.
 -- 
 
