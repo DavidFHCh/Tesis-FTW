@@ -3,6 +3,8 @@
 (* Archivo traducido de ARNo.hs, se intenta hacer la prueba. *)
 Generalizable All Variables.
 
+Require Export Utf8_core.
+Require Import Coq.Classes.RelationClasses.
 Unset Implicit Arguments.
 Set Maximal Implicit Insertion.
 Unset Strict Implicit.
@@ -73,14 +75,16 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
            
 Hint Unfold ins.
 
+Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) := 
+  match t with 
+  | E => E
+  | T _ a x b => T B a x b
+  end.
+Hint Unfold makeBlack.
+
 (* cambiar el tipo de regreso a un tipo error/option ------2018*)
 (* No se eta usando option porque estorba y se esta simulando la funcion total al agregar el ultimo caso*)
-Definition insert {a} `{GHC.Base.Ord a} : a -> RB a -> RB a :=
-  fun x s =>
-    match ins x s with
-    | T _ a z b => T B a z b
-    | E => E
-    end.
+Definition insert x s:= makeBlack (ins x s).
 
 Hint Unfold insert.
 
@@ -95,18 +99,9 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_b: forall c tl x tr n,
           is_redblack tl B n ->
           is_redblack tr B n ->
-          is_redblack (T B tl x tr) c (S n)
-| error : forall r1 x r2 n, is_redblack (T R r1 x r2) R n.
+          is_redblack (T B tl x tr) c (S n).
 
 Hint Constructors is_redblack.
-
-Lemma subtreeEmpty: forall s c,is_redblack s c 0 -> s = E.
-Proof.
-Admitted.
-
-Lemma subtree0: forall n c, n = 0 -> is_redblack E c n.
-Proof.
-Admitted.
 
 Inductive nearly_redblack {a} `{GHC.Base.Ord a}: RB a -> nat -> Prop :=
 | nrRB_r: forall tl k tr n,
@@ -118,11 +113,276 @@ Inductive nearly_redblack {a} `{GHC.Base.Ord a}: RB a -> nat -> Prop :=
          is_redblack tr B n ->
          nearly_redblack (T B tl k tr) (S n).
 
+Lemma T_neq_E {a} `{GHC.Base.Ord a}:
+  ∀ (c:Color) (l: RB a) (k: a) (r: RB a), T c l k r ≠ E.
+Proof.
+intros. intro Hx. inversion Hx.
+Qed.
+
+Lemma ins_not_E{a} `{GHC.Base.Ord a}: forall (x: a) (s: RB a), ins x s ≠ E.
+Proof.
+intros.
+destruct s.
+- simpl.
+  apply T_neq_E.
+- remember (ins x s1) as a1.
+  remember (ins x s2) as a2.
+  simpl.
+  destruct c;case_eq (x GHC.Base.> a0);case_eq (x GHC.Base.< a0);intros.
+  -- rewrite <- Heqa1.
+     apply T_neq_E.
+  -- rewrite <- Heqa2.
+     apply T_neq_E.
+  -- apply T_neq_E.
+  -- apply T_neq_E.
+  -- rewrite <- Heqa1.
+     unfold balance.
+     destruct a1.
+     --- destruct s2.
+         ---- apply T_neq_E.
+         ---- destruct c.
+              ----- destruct s2_2.
+                    ------ destruct s2_1.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct s2_1.
+                           ------- destruct c; apply T_neq_E.
+                           ------- destruct c0; destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+              ----- destruct a1_1.
+                    ------ destruct a1_2.
+                           ------- destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E. 
+                   ------ destruct c; destruct a1_2.
+                           ------- destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E. 
+                           ------- destruct c; destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct s2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+              ----- destruct s2.
+                    ------ apply T_neq_E.
+                    ------ destruct c.
+                           ------- destruct s2_1.
+                                   -------- destruct s2_2.
+                                            --------- apply T_neq_E.
+                                            --------- destruct c; apply T_neq_E.
+                                   -------- destruct c; destruct s2_2.
+                                            --------- apply T_neq_E.
+                                            --------- destruct c; apply T_neq_E.
+                                            --------- apply T_neq_E.
+                                            --------- destruct c; apply T_neq_E.
+                          ------- apply T_neq_E.
+  -- rewrite <- Heqa2.
+     unfold balance.
+     destruct s1.
+     --- destruct a2.
+         ---- apply T_neq_E.
+         ---- destruct c.
+              ----- destruct a2_1.
+                    ------ destruct a2_2.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct c.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+         ---- destruct s1_1.
+              ----- destruct s1_2.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+              ----- destruct c; destruct s1_2.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E. 
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+         ---- destruct a2.
+              ----- apply T_neq_E.
+              ----- destruct c.
+                    ------ destruct a2_1.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                    ------ apply T_neq_E.
+  -- rewrite <- Heqa1.
+     unfold balance.
+     destruct a1.
+     --- destruct s2.
+         ---- apply T_neq_E.
+         ---- destruct c.
+              ----- destruct s2_2.
+                    ------ destruct s2_1.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct s2_1.
+                           ------- destruct c; apply T_neq_E.
+                           ------- destruct c0; destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+         ---- destruct a1_1.
+              ----- destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E. 
+              ----- destruct c; destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+         ---- destruct s2.
+              ----- apply T_neq_E.
+              ----- destruct c.
+                    ------ destruct s2_1.
+                           ------- destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                   ------ apply T_neq_E.
+  -- apply T_neq_E.
+Qed.
+
+Lemma is_redblack_toblack {a} `{GHC.Base.Ord a}:
+  ∀ (s:RB a) (n: nat), is_redblack s R n → is_redblack s B n.
+Proof.
+intros.
+destruct H1.
+- constructor.
+- constructor;trivial.
+- constructor;trivial.
+Qed.
+
+Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
+  ∀ (s: RB a)(n : nat), is_redblack s B n → 
+            ∃ n, is_redblack (makeBlack s) R n.
+Proof.
+intros.
+destruct H1.
+- exists 0.
+  simpl.
+  constructor.
+- simpl.
+  exists (S n).
+  constructor; apply is_redblack_toblack;trivial.
+- exists (S n).
+  constructor;trivial.
+Qed.
+
 Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
   forall (x: a) (s:RB a) (n:nat), 
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
+dependent induction s;intro n; simpl; split;intros;repeat constructor;trivial;inversion H1;destruct (IHs1 n); clear IHs1;destruct (IHs2 n); clear IHs2;case_eq (x GHC.Base.< a0);intros;remember (ins x s1) as a1;remember (ins x s2) as a2.
+- constructor;auto.
+  apply is_redblack_toblack;trivial.
+- case_eq (x GHC.Base.> a0);intros;constructor;auto.
+  -- apply is_redblack_toblack;trivial.
+  -- apply is_redblack_toblack;trivial.
+  -- apply is_redblack_toblack;trivial.
+- unfold balance.
+  destruct a1.
+  -- destruct s2.
+     constructor;trivial.
+     destruct c1.
+     --- destruct s2_1.
+         ---- destruct s2_2.
+              ----- repeat constructor;inversion H9;trivial.
+              apply is_redblack_toblack;trivial.
+              ----- destruct c1;repeat constructor;inversion H9;inversion H20.
+                    ------ rewrite H25.
+                           apply is_redblack_toblack;trivial.
+                    ------ rewrite H25;trivial.
+                    ------ rewrite H25;trivial.
+         ---- destruct c1;destruct s2_2;inversion H9;inversion H17.
+              ----- repeat constructor.
+                    ------ rewrite H25.
+                           apply is_redblack_toblack;trivial.
+                    ------ trivial.
+                    ------ trivial.
+                    ------ rewrite H25;trivial.
+              ----- destruct c1;symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+     --- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+  -- destruct c1.
+     --- destruct a1_1.
+         ---- destruct a1_2.
+              ----- destruct s2.
+                    ------ constructor;trivial.
+                           constructor;admit.
+                    ------ destruct c1;repeat constructor;inversion H9;trivial.
+                           
+
+
+
+
+
+
+
 dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor.
 - destruct (IHs1 n); clear IHs1.
   destruct (IHs2 n); clear IHs2.
@@ -144,7 +404,21 @@ dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor
 - destruct (IHs1 n); clear IHs1.
   destruct (IHs2 n); clear IHs2.
   case_eq (x GHC.Base.< a0);intros.
-  unfold balance.
+  -- unfold balance.
+     destruct (ins x s1).
+     --- destruct s2.
+         ---- constructor.
+              ----- trivial.
+              ----- trivial.
+         ---- destruct c1.
+              ----- destruct s2_1.
+                    ------ destruct s2_2.
+                           ------- constructor.
+                                   -------- admit.
+                                   -------- trivial.
+                           ------- destruct c1.
+                                   -------- constructor.
+                                            --------- constructor.
 
 
 Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
