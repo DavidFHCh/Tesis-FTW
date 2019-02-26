@@ -119,35 +119,37 @@ Proof.
 intros. intro Hx. inversion Hx.
 Qed.
 
+Hint Resolve T_neq_E.
+
 Lemma ins_not_E{a} `{GHC.Base.Ord a}: forall (x: a) (s: RB a), ins x s ≠ E.
 Proof.
 intros.
+(* dependent induction s. *)
 destruct s.
 - simpl.
   apply T_neq_E.
 - remember (ins x s1) as a1.
   remember (ins x s2) as a2.
   simpl.
-  destruct c;case_eq (x GHC.Base.> a0);case_eq (x GHC.Base.< a0);intros.
-  -- rewrite <- Heqa1.
+  destruct c;case_eq (x GHC.Base.> a0);case_eq (x GHC.Base.< a0);intros; eauto.
+(*   -- rewrite <- Heqa1.
      apply T_neq_E.
   -- rewrite <- Heqa2.
      apply T_neq_E.
   -- apply T_neq_E.
   -- apply T_neq_E.
-  -- rewrite <- Heqa1.
+ *)  -- rewrite <- Heqa1.
      unfold balance.
      destruct a1.
-     --- destruct s2.
-         ---- apply T_neq_E.
+     --- destruct s2; eauto.
+(*          ---- apply T_neq_E. *)
          ---- destruct c.
-              ----- destruct s2_2.
-                    ------ destruct s2_1.
-                           ------- apply T_neq_E.
-                           ------- destruct c;apply T_neq_E.
-                    ------ destruct s2_1.
-                           ------- destruct c; apply T_neq_E.
-                           ------- destruct c0; destruct c; apply T_neq_E.
+              ----- destruct s2_2; destruct s2_1; eauto.
+(*                     ------ apply T_neq_E. *)
+                       ------ destruct c;apply T_neq_E.
+(*                     ------ destruct s2_1. *)
+                           ------ destruct c; apply T_neq_E.
+                           ------ destruct c0; destruct c; apply T_neq_E.
               ----- apply T_neq_E.
      --- destruct c.
               ----- destruct a1_1.
@@ -193,8 +195,8 @@ destruct s.
   -- rewrite <- Heqa2.
      unfold balance.
      destruct s1.
-     --- destruct a2.
-         ---- apply T_neq_E.
+     --- destruct a2; eauto.
+(*          ---- apply T_neq_E. *)
          ---- destruct c.
               ----- destruct a2_1.
                     ------ destruct a2_2.
@@ -304,25 +306,32 @@ destruct s.
                                    -------- apply T_neq_E.
                                    -------- destruct c; apply T_neq_E.
                    ------ apply T_neq_E.
-  -- apply T_neq_E.
+(*   -- apply T_neq_E. *)
 Qed.
+
+Hint Resolve ins_not_E.
 
 Lemma is_redblack_toblack {a} `{GHC.Base.Ord a}:
   ∀ (s:RB a) (n: nat), is_redblack s R n → is_redblack s B n.
 Proof.
 intros.
-destruct H1.
-- constructor.
+destruct H1; auto.
+(* - constructor.
 - constructor;trivial.
 - constructor;trivial.
+ *)
 Qed.
+
+Hint Resolve is_redblack_toblack.
+
 
 Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
   ∀ (s: RB a)(n : nat), is_redblack s B n → 
             ∃ n, is_redblack (makeBlack s) R n.
 Proof.
 intros.
-destruct H1.
+dependent induction H1.
+(* destruct H1. *)
 - exists 0.
   simpl.
   constructor.
@@ -333,11 +342,18 @@ destruct H1.
   constructor;trivial.
 Qed.
 
+Hint Resolve makeblack_fiddle.
+
 Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
   forall (x: a) (s:RB a) (n:nat), 
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
+
+
+
+
+(* Pruebas David
 dependent induction s;intro n; simpl; split;intros;repeat constructor;trivial;inversion H1;destruct (IHs1 n); clear IHs1;destruct (IHs2 n); clear IHs2;case_eq (x GHC.Base.< a0);intros;remember (ins x s1) as a1;remember (ins x s2) as a2.
 - constructor;auto.
   apply is_redblack_toblack;trivial.
@@ -375,12 +391,6 @@ dependent induction s;intro n; simpl; split;intros;repeat constructor;trivial;in
                     ------ constructor;trivial.
                            constructor;admit.
                     ------ destruct c1;repeat constructor;inversion H9;trivial.
-                           
-
-
-
-
-
 
 
 dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor.
@@ -419,8 +429,13 @@ dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor
                            ------- destruct c1.
                                    -------- constructor.
                                             --------- constructor.
+*)
+admit.
+Admitted.
 
 
+(* Teorema principal *)
+(*
 Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
   forall (x: a) (s: RB a) (n: nat), is_redblack s R n->
                     exists n', is_redblack (insert x s) R n'.
@@ -444,7 +459,7 @@ case_eq (x GHC.Base.< x0); intros.
 
 simpl; rewrite H1.
 
-
+*)
 (*
 destruct s.
 induction insert.
