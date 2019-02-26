@@ -349,7 +349,23 @@ Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
+dependent induction s; intro n; split; intros; inversion H1; repeat constructor; auto.
 
+destruct (IHs1 n); destruct (IHs2 n); case_eq (x GHC.Base.< a0); intro Hltxa0.
+simpl; rewrite Hltxa0. 
+
+apply nrRB_r. apply H10; assumption. 
+apply is_redblack_toblack in H8; assumption.
+
+simpl. rewrite Hltxa0. 
+case_eq (x GHC.Base.> a0); intro Hgtxa0.
+apply nrRB_r. apply is_redblack_toblack in H7; assumption.
+apply H12; assumption.
+apply nrRB_r. apply is_redblack_toblack in H7; assumption. 
+apply is_redblack_toblack in H8; assumption.
+
+admit.
+admit.
 
 
 
@@ -430,9 +446,8 @@ dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor
                                    -------- constructor.
                                             --------- constructor.
 *)
-admit.
-Admitted.
 
+Admitted.
 
 (* Teorema principal *)
 (*
