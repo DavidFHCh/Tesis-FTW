@@ -364,6 +364,59 @@ apply H12; assumption.
 apply nrRB_r. apply is_redblack_toblack in H7; assumption. 
 apply is_redblack_toblack in H8; assumption.
 
+destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
+- simpl; rewrite Hltxa0.
+  remember (ins x s1) as a1.
+  destruct a1.
+-- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+-- specialize (H10 H8).
+   destruct c1.
+---- destruct a1_1.
+----- destruct a1_2.
+------ destruct s2.
+------- constructor;trivial.
+        inversion H10.
+  
+- simpl;case_eq (x GHC.Base.< a0);intros.
+-- remember (ins x s1) as a1.
+   unfold balance.
+   destruct a1.
+--- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+--- admit. (* destruct c1.
+---- destruct a1_1.
+----- destruct a1_2.
+------ destruct s2.
+------- repeat constructor. *)
+-- case_eq (x GHC.Base.> a0);intros.
+   remember (ins x s2) as a2.
+   destruct a2.
+--- symmetry in Heqa2;apply ins_not_E in Heqa2;contradiction.
+--- admit.
+--- repeat constructor; eauto.
+- simpl.
+
+-- simpl.
+--- destruct s2.
+    repeat constructor;trivial.
+
+
+
+
+
+
+
+
+
+
+-- simpl.
+   destruct c1.
+--- destruct a1_1.
+---- destruct a1_2.
+----- destruct s2;trivial.
+      constructor.
+      apply H11.
+      induction s1.
+      
 admit.
 admit.
 
