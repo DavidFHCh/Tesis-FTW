@@ -84,7 +84,7 @@ Hint Unfold makeBlack.
 
 (* cambiar el tipo de regreso a un tipo error/option ------2018*)
 (* No se eta usando option porque estorba y se esta simulando la funcion total al agregar el ultimo caso*)
-Definition insert x s:= makeBlack (ins x s).
+Definition insert{a} `{GHC.Base.Ord a} (x:a) (s: RB a):= makeBlack (ins x s).
 
 Hint Unfold insert.
 
@@ -327,7 +327,7 @@ Hint Resolve is_redblack_toblack.
 
 Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
   ∀ (s: RB a)(n : nat), is_redblack s B n → 
-            ∃ n, is_redblack (makeBlack s) R n.
+            ∃ (n:nat), is_redblack (makeBlack s) R n.
 Proof.
 intros.
 dependent induction H1.
@@ -374,9 +374,10 @@ destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
 ---- destruct a1_1.
 ----- destruct a1_2.
 ------ destruct s2.
-------- constructor;trivial.
+------- simpl. constructor;trivial.
         inversion H10.
-  
+Admitted.
+(*   
 - simpl;case_eq (x GHC.Base.< a0);intros.
 -- remember (ins x s1) as a1.
    unfold balance.
@@ -399,199 +400,23 @@ destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
 --- destruct s2.
     repeat constructor;trivial.
 
+ *)
 
 
 
-
-
-
-
-
-
--- simpl.
-   destruct c1.
---- destruct a1_1.
----- destruct a1_2.
------ destruct s2;trivial.
-      constructor.
-      apply H11.
-      induction s1.
-      
-admit.
-admit.
-
-
-
-(* Pruebas David
-dependent induction s;intro n; simpl; split;intros;repeat constructor;trivial;inversion H1;destruct (IHs1 n); clear IHs1;destruct (IHs2 n); clear IHs2;case_eq (x GHC.Base.< a0);intros;remember (ins x s1) as a1;remember (ins x s2) as a2.
-- constructor;auto.
-  apply is_redblack_toblack;trivial.
-- case_eq (x GHC.Base.> a0);intros;constructor;auto.
-  -- apply is_redblack_toblack;trivial.
-  -- apply is_redblack_toblack;trivial.
-  -- apply is_redblack_toblack;trivial.
-- unfold balance.
-  destruct a1.
-  -- destruct s2.
-     constructor;trivial.
-     destruct c1.
-     --- destruct s2_1.
-         ---- destruct s2_2.
-              ----- repeat constructor;inversion H9;trivial.
-              apply is_redblack_toblack;trivial.
-              ----- destruct c1;repeat constructor;inversion H9;inversion H20.
-                    ------ rewrite H25.
-                           apply is_redblack_toblack;trivial.
-                    ------ rewrite H25;trivial.
-                    ------ rewrite H25;trivial.
-         ---- destruct c1;destruct s2_2;inversion H9;inversion H17.
-              ----- repeat constructor.
-                    ------ rewrite H25.
-                           apply is_redblack_toblack;trivial.
-                    ------ trivial.
-                    ------ trivial.
-                    ------ rewrite H25;trivial.
-              ----- destruct c1;symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
-     --- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
-  -- destruct c1.
-     --- destruct a1_1.
-         ---- destruct a1_2.
-              ----- destruct s2.
-                    ------ constructor;trivial.
-                           constructor;admit.
-                    ------ destruct c1;repeat constructor;inversion H9;trivial.
-
-
-dependent induction s;intro n;simpl;split;intros;inversion H1;repeat constructor.
-- destruct (IHs1 n); clear IHs1.
-  destruct (IHs2 n); clear IHs2.
-  case_eq (x GHC.Base.< a0);intros.
-  -- apply nrRB_r.
-     --- apply H10.
-         trivial.
-     --- rewrite H2 in H8.
-         (* apply H8. *)
-          admit.
-  -- case_eq (x GHC.Base.> a0);intros.
-     apply nrRB_r.
-     --- admit.
-     --- apply H12.
-         trivial.
-     --- apply nrRB_r.
-         ---- admit.
-         ---- admit.
-- destruct (IHs1 n); clear IHs1.
-  destruct (IHs2 n); clear IHs2.
-  case_eq (x GHC.Base.< a0);intros.
-  -- unfold balance.
-     destruct (ins x s1).
-     --- destruct s2.
-         ---- constructor.
-              ----- trivial.
-              ----- trivial.
-         ---- destruct c1.
-              ----- destruct s2_1.
-                    ------ destruct s2_2.
-                           ------- constructor.
-                                   -------- admit.
-                                   -------- trivial.
-                           ------- destruct c1.
-                                   -------- constructor.
-                                            --------- constructor.
-*)
-
-Admitted.
 
 (* Teorema principal *)
-(*
+
 Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
   forall (x: a) (s: RB a) (n: nat), is_redblack s R n->
                     exists n', is_redblack (insert x s) R n'.
 Proof.
 intros.
-
-dependent induction H1.
-- exists 1. 
 unfold insert.
-simpl.
-apply IsRB_b; apply IsRB_leaf.
- - exists n.
-(* unfold insert. *)
-case_eq (x GHC.Base.< x0); intros.
--- unfold insert.
-   
-   rewrite H1.
-   
- eapply IsRB_b.
--- 
-
-simpl; rewrite H1.
-
-*)
-(*
-destruct s.
-induction insert.
-exists 0.
-apply IsRB_leaf.
-destruct c.
-exists n.
-apply error.
-exists (S n).
-apply IsRB_b.
-
-*)
-
-(*En esta se toman demasiados casos y la definicion de insert con el retorno de E en caso de error causa ruido.*)
-(* intros.
-exists n.
-induction H.
-- induction insert.
-  + apply IsRB_leaf.
-  + admit.
-- induction (insert x (T R tl x0 tr)).
-  + admit.
-  + destruct c.
-    * apply IsRB_r.
-     admit.
-     admit.
-    * admit. (*Tengo la sospecha de que estos casos no se pueden*)
-- induction (insert x (T B tl x0 tr)).
-  + admit.
-  + destruct c0.
-    * admit.
-    *apply IsRB_b.
-      admit.
-      admit.
-- destruct (insert x (T R r1 x0 r2)).
-  + admit.
-  + destruct c.
-    *apply error.
-    *admit. *)
-
-(* intros.
-induction insert.
-- exists 0.
-  apply IsRB_leaf.
-- induction c.
-  + exists n.
-    apply error.
-  + exists (S n).
-    apply IsRB_b.
-    apply sameHeight with x1.
-    trivial.
-    trivial.
-    .
-    apply IsRB_b.
-    destruct s.
-    destruct r1.
-   (*Necesito que x1 == x0, pero por alguna razon se desligan*)
-  
-admit.
-  apply IsRB_b. *)
-
-
-
-
+apply makeblack_fiddle with n.
+apply ins_is_redblack.
+trivial.
+Qed.
 
 
 
