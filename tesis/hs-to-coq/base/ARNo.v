@@ -47,6 +47,10 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
 Hint Resolve member.
 
 
+(* reorganiza los colores,
+si algun subarbol es rojo, hace rojo a la raiz y los subarboles los hace negros 
+en otro caso lo deja negro
+*)
 Definition balance {a} : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
@@ -90,6 +94,7 @@ Hint Unfold insert.
 
 (* proofs *)
 
+(* dos nodos sucesivos NO pueden ser rojos *)
 Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_leaf: forall c, is_redblack E c 0
  | IsRB_r: forall tl x tr n,
@@ -349,11 +354,11 @@ Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
-dependent induction s; intro n; split; intros; inversion H1; repeat constructor; auto.
-
+dependent induction s; intro n; split; intros; inversion H1.
+all: repeat constructor; auto.
++  
 destruct (IHs1 n); destruct (IHs2 n); case_eq (x GHC.Base.< a0); intro Hltxa0.
-simpl; rewrite Hltxa0. 
-
+simpl; rewrite Hltxa0.
 apply nrRB_r. apply H10; assumption. 
 apply is_redblack_toblack in H8; assumption.
 
@@ -364,18 +369,49 @@ apply H12; assumption.
 apply nrRB_r. apply is_redblack_toblack in H7; assumption. 
 apply is_redblack_toblack in H8; assumption.
 
++
 destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
-- simpl; rewrite Hltxa0.
-  remember (ins x s1) as a1.
-  destruct a1.
+(* all: simpl; rewrite Hltxa0. *)
+- simpl; rewrite Hltxa0. 
+remember (ins x s1) as a1.
+destruct a1.
 -- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
--- specialize (H10 H8).
-   destruct c1.
+-- subst. specialize (H10 H8). (* nearly_redblack (balance (ins x s1) a0 s2) Sn0*)
+(* unfold balance. *)
+admit.
+(*   destruct c1.
+   simpl.
 ---- destruct a1_1.
 ----- destruct a1_2.
 ------ destruct s2.
 ------- simpl. constructor;trivial.
         inversion H10.
+        subst. apply H11. intuition.
+*)
+- simpl. rewrite Hltxa0.
+case_eq (x GHC.Base.> a0); intro Hgtxa0.
+-- remember (ins x s2) as a2.
+destruct a2; subst.
+--- symmetry in Heqa2;apply ins_not_E in Heqa2;contradiction.
+--- admit.  (* nearly_redblack (balance s1 a0 (ins x s2)) Sn0*) 
+-- constructor; assumption.
+
++ admit.
+(*
+destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
+subst. 
+-- 
+simpl; rewrite Hltxa0.
+remember (ins x s1) as a1.
+destruct a1.
+--- symmetry in Heqa1; apply ins_not_E in Heqa1; contradiction.
+--- unfold balance.
+destruct c.
+destruct a1_1; destruct a1_2.
+destruct s2. 
+inversion H9; subst; repeat constructor.
+*)
+
 Admitted.
 (*   
 - simpl;case_eq (x GHC.Base.< a0);intros.
