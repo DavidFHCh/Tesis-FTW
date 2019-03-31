@@ -46,8 +46,25 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
            end.
 Hint Resolve member.
 
+Definition balance {a} `{GHC.Base.Ord a} (rb: Color) (t1: RB a) (k: a) (t2: RB a) :=
+ match rb with R => T R t1 k t2
+ | _ => 
+ match t1 with 
+ | T R (T R a x b) y c =>
+      T R (T B a x b) y (T B c k t2)
+ | T R a x (T R b y c) =>
+      T R (T B a x b) y (T B c k t2)
+ | a => match t2 with 
+            | T R (T R b y c) z d =>
+                T R (T B t1 k b) y (T B c z d)
+            | T R b y (T R c z d) =>
+                T R (T B t1 k b) y (T B c z d)
+            | _ => T B t1 k t2
+            end
+  end
+ end.
 
-Definition balance {a} : RB a -> a -> RB a -> RB a :=
+(* Definition balance {a} : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
     | T R a x b, y, T R c z d => T R (T B a x b) y (T B c z d)
@@ -57,10 +74,19 @@ Definition balance {a} : RB a -> a -> RB a -> RB a :=
     | a, x, T R (T R b y c) z d => T R (T B a x b) y (T B c z d)
     | a, x, b => T B a x b
     end.
-    
+     *)
 Hint Resolve balance.
 
-Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
+
+Fixpoint ins {a} `{GHC.Base.Ord a} (x: a) (s: RB a) :=
+ match s with 
+ | E => T R E x E
+ | T c a y b => if x GHC.Base.< y : bool then balance c (ins x a) y b
+                        else if y GHC.Base.< x : bool then balance c a y (ins x b)
+                        else T c a x b
+ end.
+
+(* Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
    match arg_0__, arg_1__ with
            | x, E => T R E x E
            | x, (T B a y b as s) =>
@@ -71,7 +97,7 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (arg_0__: a) (arg_1__: RB a):RB a :=
                if x GHC.Base.< y : bool then T R (ins x a) y b else
                if x GHC.Base.> y : bool then T R a y (ins x b) else
                s
-           end.
+           end. *)
            
 Hint Unfold ins.
 
@@ -131,7 +157,7 @@ destruct s.
 - remember (ins x s1) as a1.
   remember (ins x s2) as a2.
   simpl.
-  destruct c;case_eq (x GHC.Base.> a0);case_eq (x GHC.Base.< a0);intros; eauto.
+  destruct c;case_eq (x GHC.Base.< a0);case_eq (a0 GHC.Base.< x);intros; eauto.
 (*   -- rewrite <- Heqa1.
      apply T_neq_E.
   -- rewrite <- Heqa2.
@@ -142,6 +168,349 @@ destruct s.
      unfold balance.
      destruct a1.
      --- destruct s2; eauto.
+     --- apply T_neq_E.
+     -- simpl.
+       rewrite <- Heqa1.
+       apply T_neq_E.
+     -- simpl.
+       rewrite <- Heqa2.
+       apply T_neq_E.
+     -- rewrite <- Heqa1.
+        simpl.
+        destruct a1.
+        destruct s2.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c;destruct s2.
+        destruct a1_1.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct a1_1.
+        destruct a1_2.
+        destruct c.
+        destruct s2_1; destruct s2_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0;apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c ;apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct a1_2.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct a1_2.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+        destruct c;destruct s2_2;destruct s2_1.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        --rewrite <- Heqa1.
+        simpl.
+        destruct a1.
+        destruct s2.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c;destruct s2.
+        destruct a1_1.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct a1_1.
+        destruct a1_2.
+        destruct c.
+        destruct s2_1; destruct s2_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0;apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        destruct c0.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct s2_2.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        destruct c0.
+        apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.        
+        destruct a1_2.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct a1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        destruct s2_1.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+        -- rewrite <- Heqa2.
+        simpl.
+        destruct a2.
+        destruct s1.
+        apply T_neq_E.
+        destruct c.
+        destruct s1_1.
+        destruct s1_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s1_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c;destruct s1.
+        destruct a2_1.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct a2_1.
+        destruct a2_2.
+        destruct c.
+        destruct s1_1; destruct s1_2.
+        apply T_neq_E.
+        destruct c; apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0;apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        destruct s1_1.
+        destruct s1_2.
+        destruct c0.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s1_2.
+        destruct c0 ;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.        
+        destruct c0.
+        apply T_neq_E.
+        apply T_neq_E.
+        destruct c0;apply T_neq_E.
+        destruct c.
+        destruct s1_1.
+        destruct s1_2.
+        destruct c0.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s1_2.
+        destruct c0.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c0.
+        apply T_neq_E.
+        destruct a2_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+        destruct c.
+        destruct s1_1.
+        destruct s1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        destruct c.
+        apply T_neq_E.
+        destruct s1_2.
+        apply T_neq_E.
+        destruct c;apply T_neq_E.
+        apply T_neq_E.
+Qed.
+
+
+
+
+
+
+
+
+(* 
+        
 (*          ---- apply T_neq_E. *)
          ---- destruct c.
               ----- destruct s2_2; destruct s2_1; eauto.
@@ -306,9 +675,178 @@ destruct s.
                                    -------- apply T_neq_E.
                                    -------- destruct c; apply T_neq_E.
                    ------ apply T_neq_E.
+--rewrite <- Heqa1.
+     unfold balance.
+     destruct a1.
+     --- destruct s2.
+         ---- apply T_neq_E.
+         ---- destruct c.
+              ----- destruct s2_2.
+                    ------ destruct s2_1.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct s2_1.
+                           ------- destruct c; apply T_neq_E.
+                           ------- destruct c0; destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+         ---- destruct a1_1.
+              ----- destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E. 
+              ----- destruct c; destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+         ---- destruct s2.
+              ----- apply T_neq_E.
+              ----- destruct c.
+                    ------ destruct s2_1.
+                           ------- destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                   ------ apply T_neq_E.
+-- rewrite <- Heqa2.
+     unfold balance.
+     destruct s1.
+     --- destruct a2; eauto.
+(*          ---- apply T_neq_E. *)
+         ---- destruct c.
+              ----- destruct a2_1.
+                    ------ destruct a2_2.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct c.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+         ---- destruct s1_1.
+              ----- destruct s1_2.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+              ----- destruct c; destruct s1_2.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E. 
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct a2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+         ---- destruct a2.
+              ----- apply T_neq_E.
+              ----- destruct c.
+                    ------ destruct a2_1.
+                           ------- destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct a2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                    ------ apply T_neq_E.
+-- rewrite <- Heqa1.
+     unfold balance.
+     destruct a1.
+     --- destruct s2.
+         ---- apply T_neq_E.
+         ---- destruct c.
+              ----- destruct s2_2.
+                    ------ destruct s2_1.
+                           ------- apply T_neq_E.
+                           ------- destruct c;apply T_neq_E.
+                    ------ destruct s2_1.
+                           ------- destruct c; apply T_neq_E.
+                           ------- destruct c0; destruct c; apply T_neq_E.
+              ----- apply T_neq_E.
+     --- destruct c.
+         ---- destruct a1_1.
+              ----- destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E. 
+              ----- destruct c; destruct a1_2.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                    ------ destruct c; destruct s2.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+                           ------- apply T_neq_E.
+                           ------- destruct c; apply T_neq_E.
+         ---- destruct s2.
+              ----- apply T_neq_E.
+              ----- destruct c.
+                    ------ destruct s2_1.
+                           ------- destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                           ------- destruct c; destruct s2_2.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                                   -------- apply T_neq_E.
+                                   -------- destruct c; apply T_neq_E.
+                   ------ apply T_neq_E.
 (*   -- apply T_neq_E. *)
 Qed.
-
+ *)
 Hint Resolve ins_not_E.
 
 Lemma is_redblack_toblack {a} `{GHC.Base.Ord a}:
@@ -349,10 +887,71 @@ Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
-dependent induction s; intro n; split; intros; inversion H1; repeat constructor; auto.
+induction s; intro n; simpl; split; intros; inversion H1; repeat constructor; auto.
+-destruct (IHs1 n).
+destruct (IHs2 n).
+destruct (_GHC.Base.<_ x a0).
+specialize (H10 H7).
+specialize (H12 H8).
+unfold balance.
+remember (ins x s1) as a1.
+constructor.
+trivial.
+auto.
+destruct (_GHC.Base.<_ a0 x).
+unfold balance.
+constructor.
+eauto.
+specialize (H12 H8).
+trivial.
+constructor.
+auto.
+auto.
+-destruct (_GHC.Base.<_ x a0).
+destruct (IHs1 n0).
+destruct (IHs2 n0).
+specialize (H10 H8).
+specialize (H12 H9).
+remember (ins x s1) as a1.
+destruct a1.
+symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+unfold balance.
+destruct s2.
+destruct c1.
+destruct a1_1.
+destruct a1_2.
+repeat constructor.
+admit.
+admit.
+trivial.
+destruct c1.
+repeat constructor.
+trivial.
+inversion H10.
+inversion H19.
+auto.
+inversion H10.
+inversion H19.
+auto.
+auto.
+repeat constructor.
+admit.
+inversion H10.
+inversion H19.
+constructor.
+trivial.
+trivial.
+trivial.
+destruct c1.
+repeat constructor;inversion H10;inversion H18;auto.
+destruct a1_2.
+repeat constructor;inversion H10;inversion H18;try constructor;auto.
+(*Aqui estas tratando d probar algo falso, is_redblack E c (S n), por ser sucesor de n es turbo falso.*)
+(* a menos de que n = -1*)
 
-destruct (IHs1 n); destruct (IHs2 n); case_eq (x GHC.Base.< a0); intro Hltxa0.
-simpl; rewrite Hltxa0. 
+
+
+
 
 apply nrRB_r. apply H10; assumption. 
 apply is_redblack_toblack in H8; assumption.
@@ -368,14 +967,16 @@ destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
 - simpl; rewrite Hltxa0.
   remember (ins x s1) as a1.
   destruct a1.
--- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+-- 
 -- specialize (H10 H8).
    destruct c1.
----- destruct a1_1.
------ destruct a1_2.
------- destruct s2.
-------- simpl. constructor;trivial.
-        inversion H10.
+--- destruct a1_1.
+---- destruct a1_2.
+----- destruct s2.
+------ repeat constructor;eauto.
+       inversion H10.
+       assert (nearly_redblack (T B E a1 E)  (S n0) -> is_redblack (T R E a1 E) B n0).
+       intros.
 Admitted.
 (*   
 - simpl;case_eq (x GHC.Base.< a0);intros.
