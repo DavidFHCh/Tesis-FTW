@@ -48,13 +48,13 @@ Hint Resolve member.
 
 Definition balance {a} `{GHC.Base.Ord a} (rb: Color) (t1: RB a) (k: a) (t2: RB a) :=
  match rb with R => T R t1 k t2
- | _ => 
- match t1 with 
+ | _ =>
+ match t1 with
  | T R (T R a x b) y c =>
       T R (T B a x b) y (T B c k t2)
  | T R a x (T R b y c) =>
       T R (T B a x b) y (T B c k t2)
- | a => match t2 with 
+ | a => match t2 with
             | T R (T R b y c) z d =>
                 T R (T B t1 k b) y (T B c z d)
             | T R b y (T R c z d) =>
@@ -64,7 +64,11 @@ Definition balance {a} `{GHC.Base.Ord a} (rb: Color) (t1: RB a) (k: a) (t2: RB a
   end
  end.
 
-(* Definition balance {a} : RB a -> a -> RB a -> RB a :=
+(*(* reorganiza los colores,
+si algun subarbol es rojo, hace rojo a la raiz y los subarboles los hace negros
+en otro caso lo deja negro
+*)
+Definition balance {a} : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
     | T R a x b, y, T R c z d => T R (T B a x b) y (T B c z d)
@@ -79,7 +83,7 @@ Hint Resolve balance.
 
 
 Fixpoint ins {a} `{GHC.Base.Ord a} (x: a) (s: RB a) :=
- match s with 
+ match s with
  | E => T R E x E
  | T c a y b => if x GHC.Base.< y : bool then balance c (ins x a) y b
                         else if y GHC.Base.< x : bool then balance c a y (ins x b)
@@ -98,11 +102,11 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x: a) (s: RB a) :=
                if x GHC.Base.> y : bool then T R a y (ins x b) else
                s
            end. *)
-           
+
 Hint Unfold ins.
 
-Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) := 
-  match t with 
+Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) :=
+  match t with
   | E => E
   | T _ a x b => T B a x b
   end.
@@ -116,6 +120,7 @@ Hint Unfold insert.
 
 (* proofs *)
 
+(* dos nodos sucesivos NO pueden ser rojos *)
 Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_leaf: forall c, is_redblack E c 0
  | IsRB_r: forall tl x tr n,
@@ -360,7 +365,7 @@ destruct s.
         apply T_neq_E.
         destruct c; apply T_neq_E.
         destruct c0.
-        apply T_neq_E.        
+        apply T_neq_E.
         destruct a1_2.
         destruct c.
         apply T_neq_E.
@@ -448,7 +453,7 @@ destruct s.
         destruct s1_2.
         destruct c0 ;apply T_neq_E.
         destruct c.
-        apply T_neq_E.        
+        apply T_neq_E.
         destruct c0.
         apply T_neq_E.
         apply T_neq_E.
@@ -509,8 +514,8 @@ Qed.
 
 
 
-(* 
-        
+(*
+
 (*          ---- apply T_neq_E. *)
          ---- destruct c.
               ----- destruct s2_2; destruct s2_1; eauto.
@@ -530,11 +535,11 @@ Qed.
                                    -------- apply T_neq_E.
                                    -------- destruct c; apply T_neq_E.
                                    -------- apply T_neq_E.
-                                   -------- destruct c; apply T_neq_E. 
+                                   -------- destruct c; apply T_neq_E.
                    ------ destruct c; destruct a1_2.
                            ------- destruct s2.
                                    -------- apply T_neq_E.
-                                   -------- destruct c; apply T_neq_E. 
+                                   -------- destruct c; apply T_neq_E.
                            ------- destruct c; destruct s2.
                                    -------- apply T_neq_E.
                                    -------- destruct c; apply T_neq_E.
@@ -593,7 +598,7 @@ Qed.
               ----- destruct c; destruct s1_2.
                     ------ destruct a2.
                            ------- apply T_neq_E.
-                           ------- destruct c; apply T_neq_E. 
+                           ------- destruct c; apply T_neq_E.
                     ------ destruct c; destruct a2.
                            ------- apply T_neq_E.
                            ------- destruct c; apply T_neq_E.
@@ -644,7 +649,7 @@ Qed.
                            ------- apply T_neq_E.
                            ------- destruct c; apply T_neq_E.
                            ------- apply T_neq_E.
-                           ------- destruct c; apply T_neq_E. 
+                           ------- destruct c; apply T_neq_E.
               ----- destruct c; destruct a1_2.
                     ------ destruct s2.
                            ------- apply T_neq_E.
@@ -699,7 +704,7 @@ Qed.
                            ------- apply T_neq_E.
                            ------- destruct c; apply T_neq_E.
                            ------- apply T_neq_E.
-                           ------- destruct c; apply T_neq_E. 
+                           ------- destruct c; apply T_neq_E.
               ----- destruct c; destruct a1_2.
                     ------ destruct s2.
                            ------- apply T_neq_E.
@@ -762,7 +767,7 @@ Qed.
               ----- destruct c; destruct s1_2.
                     ------ destruct a2.
                            ------- apply T_neq_E.
-                           ------- destruct c; apply T_neq_E. 
+                           ------- destruct c; apply T_neq_E.
                     ------ destruct c; destruct a2.
                            ------- apply T_neq_E.
                            ------- destruct c; apply T_neq_E.
@@ -813,7 +818,7 @@ Qed.
                            ------- apply T_neq_E.
                            ------- destruct c; apply T_neq_E.
                            ------- apply T_neq_E.
-                           ------- destruct c; apply T_neq_E. 
+                           ------- destruct c; apply T_neq_E.
               ----- destruct c; destruct a1_2.
                     ------ destruct s2.
                            ------- apply T_neq_E.
@@ -864,7 +869,7 @@ Hint Resolve is_redblack_toblack.
 
 
 Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
-  ∀ (s: RB a)(n : nat), is_redblack s B n → 
+  ∀ (s: RB a)(n : nat), is_redblack s B n →
             ∃ (n:nat), is_redblack (makeBlack s) R n.
 Proof.
 intros.
@@ -883,7 +888,7 @@ Qed.
 Hint Resolve makeblack_fiddle.
 
 Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
-  forall (x: a) (s:RB a) (n:nat), 
+  forall (x: a) (s:RB a) (n:nat),
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
@@ -953,32 +958,61 @@ repeat constructor;inversion H10;inversion H18;try constructor;auto.
 
 
 
-apply nrRB_r. apply H10; assumption. 
+apply nrRB_r. apply H10; assumption.
 apply is_redblack_toblack in H8; assumption.
 
-simpl. rewrite Hltxa0. 
+simpl. rewrite Hltxa0.
 case_eq (x GHC.Base.> a0); intro Hgtxa0.
 apply nrRB_r. apply is_redblack_toblack in H7; assumption.
 apply H12; assumption.
-apply nrRB_r. apply is_redblack_toblack in H7; assumption. 
+apply nrRB_r. apply is_redblack_toblack in H7; assumption.
 apply is_redblack_toblack in H8; assumption.
 
++
 destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
+(* all: simpl; rewrite Hltxa0. *)
 - simpl; rewrite Hltxa0.
-  remember (ins x s1) as a1.
-  destruct a1.
--- 
--- specialize (H10 H8).
-   destruct c1.
---- destruct a1_1.
----- destruct a1_2.
------ destruct s2.
------- repeat constructor;eauto.
-       inversion H10.
-       assert (nearly_redblack (T B E a1 E)  (S n0) -> is_redblack (T R E a1 E) B n0).
-       intros.
+remember (ins x s1) as a1.
+destruct a1.
+-- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
+-- subst. specialize (H10 H8). (* nearly_redblack (balance (ins x s1) a0 s2) Sn0*)
+(* unfold balance. *)
+admit.
+(*   destruct c1.
+   simpl.
+---- destruct a1_1.
+----- destruct a1_2.
+------ destruct s2.
+------- simpl. constructor;trivial.
+        inversion H10.
+        subst. apply H11. intuition.
+*)
+- simpl. rewrite Hltxa0.
+case_eq (x GHC.Base.> a0); intro Hgtxa0.
+-- remember (ins x s2) as a2.
+destruct a2; subst.
+--- symmetry in Heqa2;apply ins_not_E in Heqa2;contradiction.
+--- admit.  (* nearly_redblack (balance s1 a0 (ins x s2)) Sn0*)
+-- constructor; assumption.
+
++ admit.
+(*
+destruct (IHs1 n0); destruct (IHs2 n0); case_eq (x GHC.Base.< a0); intro Hltxa0.
+subst.
+--
+simpl; rewrite Hltxa0.
+remember (ins x s1) as a1.
+destruct a1.
+--- symmetry in Heqa1; apply ins_not_E in Heqa1; contradiction.
+--- unfold balance.
+destruct c.
+destruct a1_1; destruct a1_2.
+destruct s2.
+inversion H9; subst; repeat constructor.
+*)
+
 Admitted.
-(*   
+(*
 - simpl;case_eq (x GHC.Base.< a0);intros.
 -- remember (ins x s1) as a1.
    unfold balance.
