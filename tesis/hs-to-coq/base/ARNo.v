@@ -892,41 +892,127 @@ Lemma ins_is_redblack {a} `{GHC.Base.Ord a}:
     (is_redblack s B n -> nearly_redblack (ins x s) n) /\
     (is_redblack s R n -> is_redblack (ins x s) B n).
 Proof.
+(* Appel's inv is defined as: inversion H; clear H; subst*)
+induction s; intro n; simpl; split; intros; inversion H1; clear H1; subst; repeat constructor; auto.
+*
+destruct (IHs1 n); clear IHs1.
+destruct (IHs2 n); clear IHs2.
+specialize (H2 H7).
+specialize (H4 H8).
+(* clear H H1. *)
+unfold balance.
+destruct (_GHC.Base.<_ x a0); subst; remember (ins x s1) as a1.
+constructor; auto.
+destruct (_GHC.Base.<_ a0 x); constructor; auto.
+
+*
+destruct (IHs1 n0); clear IHs1.
+destruct (IHs2 n0); clear IHs2.
+specialize (H1 H8).
+specialize (H3 H9).
+(* clear H H1. *)
+unfold balance.
+destruct (_GHC.Base.<_ x a0); subst; remember (ins x s1) as a1.
+-
+destruct a1.
+-- 
+destruct s2.
+--- 
+constructor; auto.
+---
+destruct c.
++ destruct s2_1.
+  destruct s2_2. 
+  ++ apply nrRB_b. 
+    +++ symmetry in Heqa1. eapply ins_not_E in Heqa1. inversion Heqa1.
+    +++ assumption.
+  ++ destruct c.
+    +++ admit.
+    +++ admit.
+  ++  destruct c.
+    +++ apply nrRB_r. 
+        rewrite Heqa1 in *. apply IsRB_b. 
+          destruct H1; intuition. admit.
+          inversion H9. inversion H7. 
+          apply IsRB_b; inversion H9; inversion H7.
+    +++ destruct s2_2.
+        rewrite Heqa1 in *. apply nrRB_b; auto. apply H2. admit.
+        (* como demostrar que is_redblack s1 R n0 sabiendo que is_redblack s1 B n0 *)
+        destruct c; repeat constructor; rewrite Heqa1 in *. 
+        1: apply H2. admit.
+        2: apply is_redblack_toblack. inversion H9; subst; intuition.
+        3: admit.
+        4: admit.
+        admit.
+        admit.
+        inversion H9; subst; assumption.
++ 
+        
+        
+(*
 induction s; intro n; simpl; split; intros; inversion H1; repeat constructor; auto.
--destruct (IHs1 n).
+-  
+destruct (IHs1 n).
 destruct (IHs2 n).
-destruct (_GHC.Base.<_ x a0).
+destruct (_GHC.Base.<_ x a0); subst.
++ 
 specialize (H10 H7).
 specialize (H12 H8).
 unfold balance.
 remember (ins x s1) as a1.
-constructor.
-trivial.
-auto.
+constructor; auto.
++ 
 destruct (_GHC.Base.<_ a0 x).
+-- 
 unfold balance.
-constructor.
-eauto.
-specialize (H12 H8).
-trivial.
-constructor.
-auto.
-auto.
--destruct (_GHC.Base.<_ x a0).
+constructor; eauto.
+-- 
+constructor; auto.
+
+-
+destruct (_GHC.Base.<_ x a0); subst.
+2: {
+destruct (_GHC.Base.<_ a0 x).
++ destruct H1;  unfold balance.
+++
+destruct c.
+destruct (IHs1 0).
+destruct (IHs2 0).
+apply nrRB_r. 
+
+
++ 
 destruct (IHs1 n0).
 destruct (IHs2 n0).
-specialize (H10 H8).
-specialize (H12 H9).
+specialize (H2 H8).
+specialize (H4 H9).
 remember (ins x s1) as a1.
-destruct a1.
+destruct a1; subst; unfold balance.
+-- 
 symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
-unfold balance.
-destruct s2.
-destruct c1.
+-- 
+(* destruct s2. *)
+destruct c.
+Focus 2.
+destruct s2. apply nrRB_b; intuition.
+destruct H2; subst; intuition.
+
+  destruct (IHs1 n).
+  apply H10.
+ apply IsRB_r.
+  apply makeblack_fiddle in H2. destruct H2. 
+
+
+++ 
 destruct a1_1.
 destruct a1_2.
-repeat constructor.
+destruct s2.
+  inversion H9. apply nrRB_b; intuition.
+  destruct c. inversion H9; subst.
+  (* repeat constructor. *)
+subst.
 admit.
+apply nrRB_b; intuition. constructor. inversion H10. apply IsRB_leaf.
 admit.
 trivial.
 destruct c1.
@@ -1009,6 +1095,7 @@ destruct c.
 destruct a1_1; destruct a1_2.
 destruct s2.
 inversion H9; subst; repeat constructor.
+*)
 *)
 
 Admitted.
