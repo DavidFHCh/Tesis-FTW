@@ -870,7 +870,7 @@ Hint Resolve is_redblack_toblack.
 
 Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
   ∀ (s: RB a)(n : nat), is_redblack s B n →
-            ∃ (n:nat), is_redblack (makeBlack s) R n.
+            ∃ (m:nat), is_redblack (makeBlack s) R m.
 Proof.
 intros.
 dependent induction H1.
