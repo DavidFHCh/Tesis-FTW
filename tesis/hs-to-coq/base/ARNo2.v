@@ -1525,39 +1525,6 @@ Admitted.
 
 
 
-
-
-
-
-
-(*
-- simpl;case_eq (x GHC.Base.< a0);intros.
--- remember (ins x s1) as a1.
-   unfold balance.
-   destruct a1.
---- symmetry in Heqa1;apply ins_not_E in Heqa1;contradiction.
---- admit. (* destruct c1.
----- destruct a1_1.
------ destruct a1_2.
------- destruct s2.
-------- repeat constructor. *)
--- case_eq (x GHC.Base.> a0);intros.
-   remember (ins x s2) as a2.
-   destruct a2.
---- symmetry in Heqa2;apply ins_not_E in Heqa2;contradiction.
---- admit.
---- repeat constructor; eauto.
-- simpl.
-
--- simpl.
---- destruct s2.
-    repeat constructor;trivial.
-
- *)
-
-
-
-
 (* Teorema principal *)
 
 Lemma insert_is_redblack {a} `{GHC.Base.Ord a}:
