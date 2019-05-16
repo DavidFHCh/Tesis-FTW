@@ -1,5 +1,15 @@
 (* Default settings (from HsToCoq.Coq.Preamble) *)
 
+(* Archivo que contiene la extension de las definiciones para eliminar elementos de un arbol rojinegro.
+
+En varias funciones se agregaron casos extras para volver a las funciones totales, se cree que en las demostraciones esto
+va causar ruido y se tengan que eliminar esos casos haciendo uso de admits, ya que aunque por construccion NO se puede caer
+en esos casos, Coq pide que se demuestren, es posible que algo asi pase en el script de insercion con los dos casos que no se han podido demostrar.
+ *)
+
+(* 
+Se entiende que esta es una estrucutura un tanto compleja y que la herramienta todavia esta en su infancia y no genere
+codigo 100% proof ready *)
 Generalizable All Variables.
 
 Unset Implicit Arguments.
@@ -9,110 +19,94 @@ Unset Printing Implicit Defensive.
 
 Require Coq.Program.Tactics.
 Require Coq.Program.Wf.
-Require Coq.Init.Nat.
 
 (* Converted imports: *)
 
+Require GHC.Base.
 Require GHC.Err.
 Require GHC.Types.
-
+Import GHC.Base.Notations.
 
 (* Converted type declarations: *)
 
 Inductive Color : Type := R : Color |  B : Color.
 
-Inductive RB a : Type := E : RB a |  T : Color -> option(RB a) -> a -> option(RB a) -> RB a.
+Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
 
 Arguments E {_}.
 
 Arguments T {_} _ _ _ _.
 
-
-Fixpoint leb n m : bool :=
-  match n, m with
-    | 0, _ => true
-    | _, 0 => false
-    | S n', S m' => leb n' m'
-  end.
-
-Definition ltb n m := leb (S n) m.
+Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
 
 (* Converted value declarations: *)
 
-Definition red : option(RB nat) -> option(RB nat) :=
+(* Pinta de rojo la raiz de un arbol
+ *)
+Definition red {a} `{GHC.Base.Ord a}: RB a -> RB a :=
   fun arg_0__ =>
     match arg_0__ with
-    | Some(T B a x b) => Some(T R a x b)
-    | _ => None
+    | T _ a x b => T R a x b
+    | _ => E
     end.
-(*
-Definition member : nat -> option(RB nat) -> bool :=
+
+Definition member {a} `{GHC.Base.Ord a}: a -> RB a -> bool :=
   fix member arg_0__ arg_1__
         := match arg_0__, arg_1__ with
-           | x, Some(E) => false
-           | x, Some(T _ tl y tr) =>
-               if ltb x y : bool then member x tl else
-               if ltb y x : bool then member x tr else
+           | x, E => false
+           | x, T _ tl y tr =>
+               if x GHC.Base.< y : bool then member x tl else
+               if x GHC.Base.> y : bool then member x tr else
                true
-           | _,_ => false
            end.
-*)
-Definition balance
-   : option(RB nat) -> nat -> option(RB nat) -> (RB nat) :=
+
+(* balancea un arbol despues de insertar o eliminar, de tal manera que las invariantes no se violen
+ *)
+Definition balance {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
-    | Some(T R a x b), y, Some(T R c z d) => T R (Some (T B a x b)) y (Some (T B c z d))
-    | Some(T R (Some(T R a x b)) y c), z, d => T R (Some (T B a x b)) y (Some (T B c z d))
-    | Some(T R a x (Some(T R b y c))), z, d => T R (Some (T B a x b)) y (Some (T B c z d))
-    | a, x, Some(T R b y (Some (T R c z d))) => T R (Some(T B a x b)) y (Some(T B c z d))
-    | a, x, Some(T R (Some (T R b y c)) z d) => T R (Some(T B a x b)) y (Some(T B c z d))
+    | T R a x b, y, T R c z d => T R (T B a x b) y (T B c z d)
+    | T R (T R a x b) y c, z, d => T R (T B a x b) y (T B c z d)
+    | T R a x (T R b y c), z, d => T R (T B a x b) y (T B c z d)
+    | a, x, T R b y (T R c z d) => T R (T B a x b) y (T B c z d)
+    | a, x, T R (T R b y c) z d => T R (T B a x b) y (T B c z d)
     | a, x, b => T B a x b
     end.
 
-Definition balleft
-   : option (RB nat) -> nat -> option(RB nat) -> option(RB nat) :=
+Definition balleft {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
-    | Some (T R a x b), y, c => Some(T R (Some(T B a x b)) y c)
-    | bl, x, Some(T B a y b) => Some(balance bl x (Some(T R a y b)))
-    | bl, x, Some(T R (Some (T B a y b)) z c) => Some(T R (Some(T B bl x a)) y (Some(balance b z (red c))))
-    | _, _, _ => None
+    | T R a x b, y, c => T R (T B a x b) y c
+    | bl, x, T B a y b => balance bl x (T R a y b)
+    | bl, x, T R (T B a y b) z c => T R (T B bl x a) y (balance b z (red c))
+    | ti, x, tr => T R ti x tr (*caso extra para hacerlo total...*)
     end.
 
-Definition balright
-   : option(RB nat) -> nat -> option(RB nat) -> option(RB nat) :=
+Definition balright {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
-    | a, x, Some(T R b y c) => Some(T R a x (Some(T B b y c)))
-    | Some(T B a x b), y, bl => Some(balance (Some(T R a x b)) y bl)
-    | Some(T R a x (Some(T B b y c))), z, bl => Some(T R (Some(balance (red a) x b)) y (Some(T B c z bl)))
-    | _, _, _ => None
+    | a, x, T R b y c => T R a x (T B b y c)
+    | T B a x b, y, bl => balance (T R a x b) y bl
+    | T R a x (T B b y c), z, bl => T R (balance (red a) x b) y (T B c z bl)
+    | ti, x, tr => T R ti x tr (*caso extra para hacerlo total...*)
     end.
 
-Definition insert : nat -> option(RB nat) -> option (RB nat) :=
-  fun x s =>
-    let fix ins arg_0__
-              := match arg_0__ with
-                 | E => T R (Some E) x (Some E)
-                 | (T B a y b as s) =>
-                     if ltb x y : bool then balance (ins a) y b else
-                     if ltb y x : bool then balance a y (ins b) else
-                     s
-                 | (T R a y b as s) =>
-                     if ltb x y : bool then T R (ins a) y b else
-                     if ltb y x : bool then T R a y (ins b) else
-                     s
-                 end in
-    match ins s with
-    | T _ a z b => T B a z b
-    | _ => GHC.Err.patternFailure
-    end.
+(* Fixpoint appaux {a} `{GHC.Base.Ord a} (a: RB a) (b: RB a) :=
+match a, b with  *)
 
-Definition app : RB nat -> RB nat -> RB nat :=
-  fix app arg_0__ arg_1__
-        := match arg_0__, arg_1__ with
+
+(* maybe separating this function making an auxiliar fn(?)
+ *)
+Definition app {a} `{GHC.Base.Ord a}: RB a -> RB a -> RB a :=
+  fun arg_0__ arg_1__ =>
+         match arg_0__, arg_1__ with
            | E, x => x
            | x, E => x
+           | a, b => appaux a b
+         end.
            | T R a x b, T R c y d =>
                match app b c with
                | T R b' z c' => T R (T R a x b') z (T R c' y d)
@@ -127,15 +121,15 @@ Definition app : RB nat -> RB nat -> RB nat :=
            | T R a x b, c => T R a x (app b c)
            end.
 
-Definition delete : nat -> RB nat -> RB nat :=
+Definition delete : a -> RB a -> RB a :=
   fun x t =>
     let del :=
       fix del arg_0__
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -151,8 +145,8 @@ Definition delete : nat -> RB nat -> RB nat :=
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -168,8 +162,8 @@ Definition delete : nat -> RB nat -> RB nat :=
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -186,7 +180,7 @@ Definition delete : nat -> RB nat -> RB nat :=
     end.
 
 (* External variables:
-     bool GHC.Classes.op_zg__ GHC.Classes.op_zl__ GHC.Err.Build_Default
+     bool GHC.Base.op_zg__ GHC.Base.op_zl__ GHC.Err.Build_Default
      GHC.Err.Default GHC.Err.error GHC.Err.patternFailure GHC.Types.Bool
-     GHC.Types.False nat GHC.Types.True
+     GHC.Types.False a GHC.Types.True
 *)
