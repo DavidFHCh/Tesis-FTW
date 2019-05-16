@@ -225,8 +225,8 @@ Definition reverse {a} : list a -> list a :=
 Definition product {a} `{(GHC.Num.Num a)} : list a -> a :=
   GHC.Base.foldl _GHC.Num.*_ #1.
 
-Definition prel_list_str : GHC.Base.String :=
-  GHC.Base.hs_string__ "Prelude.".
+(*Definition prel_list_str : GHC.Base.String :=
+  GHC.Base.hs_string__ ("prelude").*)
 
 Definition or : list bool -> bool :=
   fix or arg_0__

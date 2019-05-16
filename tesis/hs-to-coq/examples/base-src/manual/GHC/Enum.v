@@ -263,7 +263,7 @@ Instance instance__forall____Bounded_a______Bounded_b______Bounded_c______Bounde
                                                         maxBound) maxBound) maxBound) maxBound) maxBound) maxBound)
                     maxBound) }.
 
-Instance instance__forall____Bounded_a______Bounded_b______Bounded_c______Bounded_d______Bounded_e______Bounded_f______Bounded_g______Bounded_h______Bounded_i______Bounded_j______Bounded_k______Bounded_l______Bounded_m______Bounded_n______Bounded_o_____Bounded_______________a___b____c____d____e____f____g____h____i____j____k____l____m____n____o____168__
+(*Instance instance__forall____Bounded_a______Bounded_b______Bounded_c______Bounded_d______Bounded_e______Bounded_f______Bounded_g______Bounded_h______Bounded_i______Bounded_j______Bounded_k______Bounded_l______Bounded_m______Bounded_n______Bounded_o_____Bounded_______________a___b____c____d____e____f____g____h____i____j____k____l____m____n____o____168__
   : (forall `{(Bounded a)}
             `{(Bounded b)}
             `{(Bounded c)}
@@ -290,7 +290,7 @@ Instance instance__forall____Bounded_a______Bounded_b______Bounded_c______Bounde
                                                                           (pair (pair (pair maxBound maxBound) maxBound)
                                                                                 maxBound) maxBound) maxBound) maxBound)
                                                               maxBound) maxBound) maxBound) maxBound) maxBound)
-                                maxBound) maxBound) maxBound) }.
+                                maxBound) maxBound) maxBound) }.*)
 Definition minInt := Z.opp (Z.pow 2%Z 32%Z).
 Definition maxInt := Z.pow 2%Z 32%Z.
 Instance instance__Bounded_Int__183__ : (Bounded Int) := {
@@ -432,10 +432,10 @@ enumFromTo := (fix enumFromTo_comparison arg_4__ arg_5__ :=
  }.
 
 
-Instance instance__Bounded_Char__181__ : (Bounded Char) := {
+(*Instance instance__Bounded_Char__181__ : (Bounded Char) := {
   minBound := 0%N;
-  maxBound := &#"255" ;
-}.
+  maxBound := &#255 ;
+}.*)
 
 Definition toEnumChar (i : Integer) : Char :=
   if (Nless maxBound (Z.to_N i)) then maxBound

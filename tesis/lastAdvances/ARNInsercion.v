@@ -4,7 +4,7 @@ a un arbol rojinegro, da como resultado un arbol rojinegro *)
 (* Archivo traducido de ARNo.hs, se uso hs-to-coq para traducir pero las definiciones no pasaron inmediatamente despuesdes
 de hacer la traduccion, varias se tuvieron que mejorar para hacer la demostracion mas sencilla, otras como balance se reescribieron completamente
 
-Se puede decir que la traduccion que dio la herramienta se uso como guia para poder obtener un script que funcionara medianamente bien para lo que se 
+Se puede decir que la traduccion que dio la herramienta se uso como guia para poder obtener un script que funcionara medianamente bien para lo que se
 busca hacer.
 
 Se entiende que esta es una estrucutura un tanto compleja y que la herramienta todavia esta en su infancia y no genere
@@ -136,7 +136,7 @@ Hint Unfold insert.
 
 (* proofs *)
 
-(* definicion inductiva que ayuda a verificar que un arbol es rojinegro al llevar un contador de la altura 
+(* definicion inductiva que ayuda a verificar que un arbol es rojinegro al llevar un contador de la altura
 negra del arbol
  *)
 (* dos nodos sucesivos NO pueden ser rojos *)
@@ -179,7 +179,7 @@ Hint Resolve T_neq_E.
 (* Lema que prueba que la insercion en un arbol rojinegro no da como resultado un arbol vacio.
  *)
 (* La demostracion es bastante sencilla pero muy repetitiva, consiste en ir destruyendo la estructura hasta caer en los casos bases
-de las definiciones antes dadas, de tal manera que se pueda aplicar el lemma T_neq_E, que es a lo que siempre se llega 
+de las definiciones antes dadas, de tal manera que se pueda aplicar el lemma T_neq_E, que es a lo que siempre se llega
 despues de destruir la insercion.
  *)
 Lemma ins_not_E{a} `{GHC.Base.Ord a}: forall (x: a) (s: RB a), ins x s ≠ E.
@@ -558,7 +558,7 @@ Qed.
 
 Hint Resolve is_redblack_toblack.
 
-(* Al hacer makeBlack puede que la altura del arbol crezca en uno ya que la raiz puede ser roja(nearly_redblack) y 
+(* Al hacer makeBlack puede que la altura del arbol crezca en uno ya que la raiz puede ser roja(nearly_redblack) y
 tiene que ser pintada de negro.
  *)
 Lemma makeblack_fiddle {a} `{GHC.Base.Ord a}:
@@ -1588,4 +1588,3 @@ apply makeblack_fiddle with n.
 apply ins_is_redblack_1.
 intuition.
 Qed.
-
