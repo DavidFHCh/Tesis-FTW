@@ -24,14 +24,22 @@ Import GHC.Base.Notations.
 (* Converted type declarations: *)
 
 Inductive Color : Type := R : Color |  B : Color.
+Inductive ColorDelete : Type := RD : ColorDelete |  BD : ColorDelete |BB : ColorDelete | NB :ColorDelete.
 
 Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
+Inductive RBDel a : Type := EDel : RBDel a | EBB : RBDel a |  TDel : ColorDelete -> (RBDel a) -> a -> (RBDel a) -> RBDel a.
 
+(* Tree for insert*)
 Arguments E {_}.
-
 Arguments T {_} _ _ _ _.
 
+(* Tree for delete*) 
+Arguments EDel {_}. 
+Arguments EBB {_}.
+Arguments TDel {_} _ _ _ _.
+
 Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
+Instance Default__ColorDelete : GHC.Err.Default ColorDelete := GHC.Err.Build_Default _ RD.
 
 (* Converted value declarations: *)
 
@@ -45,6 +53,18 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
                true
            end.
 Hint Resolve member.
+
+Definition memberDel {a} `{GHC.Base.Ord a} : a -> RBDel a -> bool :=
+  fix memberDel arg_0__ arg_1__
+        := match arg_0__, arg_1__ with
+           | x, EDel => false
+           | x, EBB => false
+           | x, TDel _ tl y tr =>
+               if x GHC.Base.< y : bool then memberDel x tl else
+               if x GHC.Base.> y : bool then memberDel x tr else
+               true
+           end.
+Hint Resolve memberDel.
 
 Definition balance {a} `{GHC.Base.Ord a} (rb: Color) (t1: RB a) (k: a) (t2: RB a) :=
  match rb with R => T R t1 k t2
@@ -104,6 +124,55 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x: a) (s: RB a) :=
            end. *)
 
 Hint Unfold ins.
+
+Definition redden {a} `{GHC.Base.Ord a} (t: RBDel a) :=
+  match t with
+  | TDel _ a x b => TDel RD a x b
+  | x => x
+  end.
+Hint Unfold redden.
+
+Definition blacken {a} `{GHC.Base.Ord a} (t: RBDel a) :=
+  match t with
+  | TDel C a x b => TDel BD a x b
+  | EBB => EDel
+  | EDel => EDel
+  end.
+Hint Unfold blacken.
+
+Definition sucBlack (c: ColorDelete) :=
+  match c with
+  | NB => RD
+  | RD => BD
+  | BD => BB
+  | BB => BB
+  end.
+Hint Unfold sucBlack.
+
+Definition predBlack (c: ColorDelete) :=
+  match c with
+  | RD => NB
+  | BD => RD
+  | BB => BD
+  | NB => NB
+  end.
+Hint Unfold predBlack.
+
+Definition sucBlackTree {a} `{GHC.Base.Ord a} (t: RBDel a) :=
+  match t with
+  | TDel c a x b => TDel (sucBlack c) a x b
+  | EDel => EBB
+  | EBB => EBB
+  end.
+Hint Unfold sucBlackTree.
+
+Definition predBlackTree {a} `{GHC.Base.Ord a} (t: RBDel a) :=
+  match t with
+  | TDel c a x b => TDel (predBlack c) a x b
+  | EDel => EDel
+  | EBB => EDel
+  end.
+Hint Unfold predBlackTree.
 
 Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) :=
   match t with
