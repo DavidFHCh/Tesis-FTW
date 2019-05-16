@@ -174,6 +174,25 @@ Definition predBlackTree {a} `{GHC.Base.Ord a} (t: RBDel a) :=
   end.
 Hint Unfold predBlackTree.
 
+Fixpoint balanceDel {a} `{GHC.Base.Ord a} (c : ColorDelete) (tl : RBDel a) (a1 : a) (td : RBDel a) :RBDel a :=
+    match c, tl, a1, td with
+    | BD, TDel RD a x b, y, TDel RD c z d => TDel RD (TDel BD a x b) y (TDel RD c z d)
+    | BD, TDel RD (TDel RD a x b) y c, z, d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
+    | BD, TDel RD a x (TDel RD b y c), z, d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
+    | BD, a, x, TDel RD b y (TDel RD c z d)  => TDel RD (TDel BD a x b) y (TDel RD c z d)
+    | BD, a, x, TDel RD (TDel RD b y c) z d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
+    | BB, TDel RD a x b, y, TDel RD c z d => TDel BD (TDel BD a x b) y (TDel RD c z d)
+    | BB, TDel RD (TDel RD a x b) y c, z, d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
+    | BB, TDel RD a x (TDel RD b y c), z, d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
+    | BB, a, x, TDel RD b y (TDel RD c z d)  => TDel BD (TDel BD a x b) y (TDel RD c z d)
+    | BB, a, x, TDel RD (TDel RD b y c) z d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
+    | BB, a, x, TDel NB (TDel BD b y c) z (TDel BD d v e) => TDel BD (TDel BD a x b) y (balanceDel BD c z (redden (TDel BD d v e)))
+    | BB, TDel NB (TDel BD d v e) x (TDel BD b y c), z, a => TDel BD (balanceDel BD (redden (TDel BD d v e)) x b) y (TDel BD c z a) 
+    | c, tl, x, td => TDel c tl x td
+    end.
+     
+Hint Resolve balanceDel.
+
 Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) :=
   match t with
   | E => E
@@ -188,7 +207,7 @@ Definition insert{a} `{GHC.Base.Ord a} (x:a) (s: RB a):= makeBlack (ins x s).
 Hint Unfold insert.
 
 (* proofs *)
-
+ 
 (* dos nodos sucesivos NO pueden ser rojos *)
 Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_leaf: forall c, is_redblack E c 0
