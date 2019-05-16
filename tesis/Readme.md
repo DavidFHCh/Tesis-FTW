@@ -66,3 +66,22 @@ mismo error de arriba, relacionado con FlexibleInstances.
 Leyendo acerca de las FlexibleInstances, los foros y lugares de haskell dicen porque es bueno usarlas, pero no que son.
 
 Con Gilborto tenemos la sospecha de que de alguna manera le dicen a Haskell que no sea tan estricto con su chequeo de tipos, lo cual me causa ruido con el hecho de la traduccion a Coq.
+
+
+--------------------------------------------------------------------------------
+
+Si se quieren checar los archivos que se han generado hasta el momento se hace lo siguiente:
+
++ Se copia de la carpeta lastAdvances/ cualquiera de los archivos ahi encontrados a la carpeta hs-to-coq/bases
++ Se abre con Coqide y se pueden ver los archivos.
+
+
+
+Hasta ahorita el archivo mas cercano al exito es la insercion, hay dos casos que probablemte no se puedan solucionar.
+
+La eliminacion esta en sus primeras etapas ya que el script todavia no se logra que se ejecute correctamente.
+
+
+La herramienta hs-to-coq ha probado se util pero no tanto como se pensaba en un inicio, al ser una herramienta en desarrollo,
+esta no genera codigo 100% proof ready, se tienen que hacer ajustes al codigo, ya que suele traducir a cosas que todavia no tiene 
+implentadas por parte de la biblioteca estandar de haskell.
