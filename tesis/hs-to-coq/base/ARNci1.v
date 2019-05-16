@@ -12,10 +12,10 @@ Require Coq.Program.Wf.
 
 (* Converted imports: *)
 
-Require GHC.Classes.
+Require GHC.Base.
 Require GHC.Err.
 Require GHC.Types.
-Import GHC.Classes.Notations.
+Import GHC.Base.Notations.
 
 (* Converted type declarations: *)
 
@@ -31,25 +31,25 @@ Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
 
 (* Converted value declarations: *)
 
-Definition red : RB GHC.Types.Int -> RB GHC.Types.Int :=
+Definition red {a} `{GHC.Base.Ord a}: RB a -> RB a :=
   fun arg_0__ =>
     match arg_0__ with
-    | T B a x b => T R a x b
-    | _ => GHC.Err.error (GHC.Base.hs_string__ "invariance violation")
+    | T _ a x b => T R a x b
+    | _ => E
     end.
 
-Definition member : GHC.Types.Int -> RB GHC.Types.Int -> GHC.Types.Bool :=
+Definition member {a} `{GHC.Base.Ord a}: a -> RB a -> bool :=
   fix member arg_0__ arg_1__
         := match arg_0__, arg_1__ with
-           | x, E => GHC.Types.False
+           | x, E => false
            | x, T _ tl y tr =>
-               if x GHC.Classes.< y : bool then member x tl else
-               if x GHC.Classes.> y : bool then member x tr else
-               GHC.Types.True
+               if x GHC.Base.< y : bool then member x tl else
+               if x GHC.Base.> y : bool then member x tr else
+               true
            end.
 
-Definition balance
-   : RB GHC.Types.Int -> GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
+Definition balance {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
     | T R a x b, y, T R c z d => T R (T B a x b) y (T B c z d)
@@ -60,46 +60,29 @@ Definition balance
     | a, x, b => T B a x b
     end.
 
-Definition balleft
-   : RB GHC.Types.Int -> GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
+Definition balleft {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
     | T R a x b, y, c => T R (T B a x b) y c
     | bl, x, T B a y b => balance bl x (T R a y b)
     | bl, x, T R (T B a y b) z c => T R (T B bl x a) y (balance b z (red c))
-    | _, _, _ => GHC.Err.patternFailure
+    | ti, x, tr => T R ti x tr (*caso extra para hacerlo total...*)
     end.
 
-Definition balright
-   : RB GHC.Types.Int -> GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
+Definition balright {a} `{GHC.Base.Ord a}
+   : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
     match arg_0__, arg_1__, arg_2__ with
     | a, x, T R b y c => T R a x (T B b y c)
     | T B a x b, y, bl => balance (T R a x b) y bl
     | T R a x (T B b y c), z, bl => T R (balance (red a) x b) y (T B c z bl)
-    | _, _, _ => GHC.Err.patternFailure
+    | ti, x, tr => T R ti x tr (*caso extra para hacerlo total...*)
     end.
 
-Definition insert : GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
-  fun x s =>
-    let fix ins arg_0__
-              := match arg_0__ with
-                 | E => T R E x E
-                 | (T B a y b as s) =>
-                     if x GHC.Classes.< y : bool then balance (ins a) y b else
-                     if x GHC.Classes.> y : bool then balance a y (ins b) else
-                     s
-                 | (T R a y b as s) =>
-                     if x GHC.Classes.< y : bool then T R (ins a) y b else
-                     if x GHC.Classes.> y : bool then T R a y (ins b) else
-                     s
-                 end in
-    match ins s with
-    | T _ a z b => T B a z b
-    | _ => GHC.Err.patternFailure
-    end.
-
-Definition app : RB GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
+(* maybe separating this function making an auxiliar fn(?)
+ *)
+Definition app {a} `{GHC.Base.Ord a}: RB a -> RB a -> RB a :=
   fix app arg_0__ arg_1__
         := match arg_0__, arg_1__ with
            | E, x => x
@@ -118,15 +101,15 @@ Definition app : RB GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
            | T R a x b, c => T R a x (app b c)
            end.
 
-Definition delete : GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
+Definition delete : a -> RB a -> RB a :=
   fun x t =>
     let del :=
       fix del arg_0__
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -142,8 +125,8 @@ Definition delete : GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -159,8 +142,8 @@ Definition delete : GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
             := match arg_0__ with
                | E => E
                | T _ a y b =>
-                   if x GHC.Classes.< y : bool then delfromLeft a y b else
-                   if x GHC.Classes.> y : bool then delfromRight a y b else
+                   if x GHC.Base.< y : bool then delfromLeft a y b else
+                   if x GHC.Base.> y : bool then delfromRight a y b else
                    app a b
                end with delfromLeft arg_5__ arg_6__ arg_7__
                           := match arg_5__, arg_6__, arg_7__ with
@@ -177,7 +160,7 @@ Definition delete : GHC.Types.Int -> RB GHC.Types.Int -> RB GHC.Types.Int :=
     end.
 
 (* External variables:
-     bool GHC.Classes.op_zg__ GHC.Classes.op_zl__ GHC.Err.Build_Default
+     bool GHC.Base.op_zg__ GHC.Base.op_zl__ GHC.Err.Build_Default
      GHC.Err.Default GHC.Err.error GHC.Err.patternFailure GHC.Types.Bool
-     GHC.Types.False GHC.Types.Int GHC.Types.True
+     GHC.Types.False a GHC.Types.True
 *)
