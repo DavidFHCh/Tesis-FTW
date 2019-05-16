@@ -18,7 +18,6 @@ Require Coq.Program.Wf.
 
 Require GHC.Base.
 Require GHC.Err.
-Require GHC.Types.
 Import GHC.Base.Notations.
 
 (* Converted type declarations: *)

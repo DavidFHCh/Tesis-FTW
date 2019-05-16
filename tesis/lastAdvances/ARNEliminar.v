@@ -19,7 +19,9 @@ Unset Printing Implicit Defensive.
 
 Require Coq.Program.Tactics.
 Require Coq.Program.Wf.
+Require Import ARNDefiniciones.
 
+Print ARNDefiniciones.
 (* Converted imports: *)
 
 Require GHC.Base.
@@ -27,19 +29,6 @@ Require GHC.Err.
 Require GHC.Types.
 Import GHC.Base.Notations.
 
-(* Converted type declarations: *)
-
-Inductive Color : Type := R : Color |  B : Color.
-
-Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
-
-Arguments E {_}.
-
-Arguments T {_} _ _ _ _.
-
-Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
-
-(* Converted value declarations: *)
 
 (* Pinta de rojo la raiz de un arbol
  *)
@@ -50,18 +39,6 @@ Definition red {a} `{GHC.Base.Ord a}: RB a -> RB a :=
     | _ => E
     end.
 
-Definition member {a} `{GHC.Base.Ord a}: a -> RB a -> bool :=
-  fix member arg_0__ arg_1__
-        := match arg_0__, arg_1__ with
-           | x, E => false
-           | x, T _ tl y tr =>
-               if x GHC.Base.< y : bool then member x tl else
-               if x GHC.Base.> y : bool then member x tr else
-               true
-           end.
-
-(* balancea un arbol despues de insertar o eliminar, de tal manera que las invariantes no se violen
- *)
 Definition balance {a} `{GHC.Base.Ord a}
    : RB a -> a -> RB a -> RB a :=
   fun arg_0__ arg_1__ arg_2__ =>
@@ -92,7 +69,7 @@ Definition balright {a} `{GHC.Base.Ord a}
     | T B a x b, y, bl => balance (T R a x b) y bl
     | T R a x (T B b y c), z, bl => T R (balance (red a) x b) y (T B c z bl)
     | ti, x, tr => T R ti x tr (*caso extra para hacerlo total...*)
-    end.
+    end.  
 
 (* Fixpoint appaux {a} `{GHC.Base.Ord a} (a: RB a) (b: RB a) :=
 match a, b with  *)
