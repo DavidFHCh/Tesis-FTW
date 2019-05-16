@@ -24,22 +24,15 @@ Import GHC.Base.Notations.
 (* Converted type declarations: *)
 
 Inductive Color : Type := R : Color |  B : Color.
-Inductive ColorDelete : Type := RD : ColorDelete |  BD : ColorDelete |BB : ColorDelete | NB :ColorDelete.
 
 Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
-Inductive RBDel a : Type := EDel : RBDel a | EBB : RBDel a |  TDel : ColorDelete -> (RBDel a) -> a -> (RBDel a) -> RBDel a.
 
 (* Tree for insert*)
 Arguments E {_}.
 Arguments T {_} _ _ _ _.
 
-(* Tree for delete*) 
-Arguments EDel {_}. 
-Arguments EBB {_}.
-Arguments TDel {_} _ _ _ _.
 
 Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
-Instance Default__ColorDelete : GHC.Err.Default ColorDelete := GHC.Err.Build_Default _ RD.
 
 (* Converted value declarations: *)
 
@@ -54,17 +47,6 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
            end.
 Hint Resolve member.
 
-Definition memberDel {a} `{GHC.Base.Ord a} : a -> RBDel a -> bool :=
-  fix memberDel arg_0__ arg_1__
-        := match arg_0__, arg_1__ with
-           | x, EDel => false
-           | x, EBB => false
-           | x, TDel _ tl y tr =>
-               if x GHC.Base.< y : bool then memberDel x tl else
-               if x GHC.Base.> y : bool then memberDel x tr else
-               true
-           end.
-Hint Resolve memberDel.
 
 Definition balance {a} `{GHC.Base.Ord a} (rb: Color) (t1: RB a) (k: a) (t2: RB a) :=
  match rb with R => T R t1 k t2
@@ -125,74 +107,6 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x: a) (s: RB a) :=
 
 Hint Unfold ins.
 
-Definition redden {a} `{GHC.Base.Ord a} (t: RBDel a) :=
-  match t with
-  | TDel _ a x b => TDel RD a x b
-  | x => x
-  end.
-Hint Unfold redden.
-
-Definition blacken {a} `{GHC.Base.Ord a} (t: RBDel a) :=
-  match t with
-  | TDel C a x b => TDel BD a x b
-  | EBB => EDel
-  | EDel => EDel
-  end.
-Hint Unfold blacken.
-
-Definition sucBlack (c: ColorDelete) :=
-  match c with
-  | NB => RD
-  | RD => BD
-  | BD => BB
-  | BB => BB
-  end.
-Hint Unfold sucBlack.
-
-Definition predBlack (c: ColorDelete) :=
-  match c with
-  | RD => NB
-  | BD => RD
-  | BB => BD
-  | NB => NB
-  end.
-Hint Unfold predBlack.
-
-Definition sucBlackTree {a} `{GHC.Base.Ord a} (t: RBDel a) :=
-  match t with
-  | TDel c a x b => TDel (sucBlack c) a x b
-  | EDel => EBB
-  | EBB => EBB
-  end.
-Hint Unfold sucBlackTree.
-
-Definition predBlackTree {a} `{GHC.Base.Ord a} (t: RBDel a) :=
-  match t with
-  | TDel c a x b => TDel (predBlack c) a x b
-  | EDel => EDel
-  | EBB => EDel
-  end.
-Hint Unfold predBlackTree.
-
-Fixpoint balanceDel {a} `{GHC.Base.Ord a} (c : ColorDelete) (tl : RBDel a) (a1 : a) (td : RBDel a) :RBDel a :=
-    match c, tl, a1, td with
-    | BD, TDel RD a x b, y, TDel RD c z d => TDel RD (TDel BD a x b) y (TDel RD c z d)
-    | BD, TDel RD (TDel RD a x b) y c, z, d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
-    | BD, TDel RD a x (TDel RD b y c), z, d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
-    | BD, a, x, TDel RD b y (TDel RD c z d)  => TDel RD (TDel BD a x b) y (TDel RD c z d)
-    | BD, a, x, TDel RD (TDel RD b y c) z d  => TDel RD (TDel BD a x b) y (TDel RD c z d)
-    | BB, TDel RD a x b, y, TDel RD c z d => TDel BD (TDel BD a x b) y (TDel RD c z d)
-    | BB, TDel RD (TDel RD a x b) y c, z, d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
-    | BB, TDel RD a x (TDel RD b y c), z, d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
-    | BB, a, x, TDel RD b y (TDel RD c z d)  => TDel BD (TDel BD a x b) y (TDel RD c z d)
-    | BB, a, x, TDel RD (TDel RD b y c) z d  => TDel BD (TDel BD a x b) y (TDel RD c z d)
-    | BB, a, x, TDel NB (TDel BD b y c) z (TDel BD d v e) => TDel BD (TDel BD a x b) y (balanceDel BD c z (redden (TDel BD d v e)))
-    | BB, TDel NB (TDel BD d v e) x (TDel BD b y c), z, a => TDel BD (balanceDel BD (redden (TDel BD d v e)) x b) y (TDel BD c z a) 
-    | c, tl, x, td => TDel c tl x td
-    end.
-     
-Hint Resolve balanceDel.
-
 Definition makeBlack {a} `{GHC.Base.Ord a} (t: RB a) :=
   match t with
   | E => E
@@ -207,7 +121,7 @@ Definition insert{a} `{GHC.Base.Ord a} (x:a) (s: RB a):= makeBlack (ins x s).
 Hint Unfold insert.
 
 (* proofs *)
- 
+
 (* dos nodos sucesivos NO pueden ser rojos *)
 Inductive is_redblack {a} `{GHC.Base.Ord a} : RB a -> Color -> nat -> Prop :=
  | IsRB_leaf: forall c, is_redblack E c 0
