@@ -45,3 +45,39 @@ Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
                true
            end.
 Hint Resolve member.
+
+(* Pinta de rojo la raiz de un arbol
+ *)
+Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
+ match t with
+ | E => E
+ | T _ a x b => T B a x b
+ end.
+
+Hint Unfold makeBlack.
+
+Definition makeRed {a} `{GHC.Base.Ord a} (t:RB a) :=
+ match t with
+ | E => E
+ | T _ a x b => T R a x b
+ end.
+
+Hint Unfold makeRed.
+
+Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match l with
+ | T R (T R a x b) y c => T R (T B a x b) y (T B c k r)
+ | T R a x (T R b y c) => T R (T B a x b) y (T B c k r)
+ | _ => T B l k r
+ end.
+
+Hint Resolve lbal.
+
+Definition rbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
+ | T R b y (T R c z d) => T R (T B l k b) y (T B c z d)
+ | _ => T B l k r
+ end.
+
+Hint Resolve rbal.

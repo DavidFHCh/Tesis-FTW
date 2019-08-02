@@ -78,12 +78,10 @@ match a, b with  *)
 (* maybe separating this function making an auxiliar fn(?)
  *)
 Definition app {a} `{GHC.Base.Ord a}: RB a -> RB a -> RB a :=
-  fun arg_0__ arg_1__ =>
-         match arg_0__, arg_1__ with
+  fix app arg_0__ arg_1__
+        := match arg_0__, arg_1__ with
            | E, x => x
            | x, E => x
-           | a, b => appaux a b
-         end.
            | T R a x b, T R c y d =>
                match app b c with
                | T R b' z c' => T R (T R a x b') z (T R c' y d)
