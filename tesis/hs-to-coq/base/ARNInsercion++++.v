@@ -65,6 +65,8 @@ Definition notblack {a} `{GHC.Base.Ord a} (t : RB a) :=
 Definition notred {a} `{GHC.Base.Ord a} (t : RB a) :=
  match t with T R _ _ _ => False | _ => True end.
 
+
+(** un fold para arboles rojinegros cuando el arbol tiene raiz roja *)
 Definition rcase{a} `{GHC.Base.Ord a} {A} f g (t: RB a) : A :=
  match t with
  | T R a x b => f a x b
@@ -99,6 +101,7 @@ Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
 
 Class redblack {a} `{GHC.Base.Ord a} (t:RB a) := RedBlack : exists d, is_redblack d t.
 
+(** case analysis si es rojo aplica la primer funcion sino aplica la segunda *)
 Definition ifred {a} `{GHC.Base.Ord a} (s : RB a) (A B : Prop) := 
 rcase (fun _ _ _ => A) (fun _ => B) s.
 
@@ -197,7 +200,7 @@ trivial.
 inversion H3.
 Qed.
 
-Lemma rbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
+(* Lemma rbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
  is_redblack n l -> nearly_redblack n r -> is_redblack (S n) (rbal l k r).
 Proof.
 intros.
@@ -317,7 +320,7 @@ constructor;simpl;trivial.
 constructor;trivial.
 inversion H1.
 trivial.
-inversion H3.
+inversion H3. *)
 
 Lemma ifred_notred {a} `{GHC.Base.Ord a} (s : RB a) (A B : Prop) :
  notred s -> (ifred s A B <-> B).
@@ -340,13 +343,17 @@ right;trivial.
 Qed.
 
 
+(** insert de un termino en un redblacktree depende del color de la raiz:
+si es rojo da un arbol rojo-rojo
+sino da uno rojinegro *)
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
 is_redblack n s -> ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
 Proof.
-induction 1.
--simpl.
+intro.
+induction H1.
+- simpl.
 constructor;simpl;trivial.
--simpl.
+- simpl.
 destruct (x GHC.Base.< k).
 rewrite ifred_notred in IHis_redblack1.
 constructor;trivial.
@@ -356,19 +363,27 @@ rewrite ifred_notred in IHis_redblack2.
 constructor;trivial.
 trivial.
 constructor;trivial.
--simpl.
-rewrite ifred_notred in IHis_redblack1.
+(* induction 1. *)
+-
+rewrite ifred_notred.
+simpl.
 destruct (x GHC.Base.< k).
-apply lbal_rb.
-constructor;trivial.
-trivial.
-destruct (x GHC.Base.> k).
+3: simpl; trivial.
+--
 apply ifred_or in IHis_redblack1.
-
-
-
-Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t : nearly_redblack n t -> redblack (makeBlack t).
+intuition.
+apply lbal_rb.
+2: assumption.
+constructor 2; assumption.
+apply lbal_rb; [constructor; assumption | assumption].
+admit. (*falta rbal*)
 Admitted.
+
+
+Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t : 
+nearly_redblack n t -> redblack (makeBlack t).
+Admitted.
+
 Lemma makeRed_rr {a} `{GHC.Base.Ord a} t n :
  is_redblack (S n) t -> notred t -> redred_tree n (makeRed t).
 Admitted.
@@ -376,7 +391,8 @@ Admitted.
 
 
 
-Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : is_redblack n s -> nearly_redblack n (ins x s).
+Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : 
+is_redblack n s -> nearly_redblack n (ins x s).
 Proof.
 induction s;simpl;repeat constructor;trivial.
 destruct c.
@@ -392,5 +408,7 @@ constructor.
 
 simpl;trivial.
 simpl;trivial.
+
+
 
 Instance add_rb x s : redblack s -> redblack (insert x s).
