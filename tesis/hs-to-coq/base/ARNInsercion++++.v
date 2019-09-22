@@ -200,7 +200,7 @@ trivial.
 inversion H3.
 Qed.
 
-(* Lemma rbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
+Lemma rbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
  is_redblack n l -> nearly_redblack n r -> is_redblack (S n) (rbal l k r).
 Proof.
 intros.
@@ -215,112 +215,124 @@ simpl.
 destruct c.
 destruct r1.
 destruct r2.
-constructor;trivial.
+constructor.
+exact H1.
 inversion H2.
-trivial.
+exact H3.
 inversion H3.
 constructor;simpl;trivial.
 destruct c.
 constructor;simpl;trivial.
-inversion H1.
+inversion H2.
+constructor.
+exact H1.
 inversion H3.
-subst.
-constructor;trivial.
+exact H10.
+constructor.
+exact H1.
+inversion H3.
+exact H6.
+inversion H2.
+inversion H3.
+constructor.
 inversion H11.
-trivial.
+exact H18.
+inversion H11.
+exact H19.
 inversion H3.
-constructor;trivial.
+constructor.
 inversion H8.
-trivial.
-inversion H1.
-inversion H3.
-inversion H9.
-inversion H3.
+exact H15.
 inversion H8.
-constructor;trivial.
-inversion H1.
+exact H16.
+inversion H2.
+constructor.
+exact H1.
+exact H3.
+constructor.
+exact H1.
 inversion H3.
-constructor;trivial.
-constructor;trivial.
-inversion H3.
-constructor;simpl;trivial.
+constructor.
+simpl;trivial.
+simpl;trivial.
+exact H6.
+exact H8.
 destruct c.
-inversion H1.
+inversion H2.
+constructor.
+simpl;trivial.
+simpl;trivial.
 inversion H3.
-subst.
-constructor;simpl;trivial.
+constructor.
+exact H1.
 inversion H10.
-constructor;trivial.
-constructor;trivial.intros.
-destruct l.
-simpl.
+exact H18.
 constructor.
-inversion H1.
-trivial.
 inversion H3.
-trivial.
-simpl.
-destruct c.
-destruct l1.
-destruct l2.
-constructor;trivial.
-inversion H1.
-trivial.
+inversion H10.
+exact H19.
+inversion H3.
+exact H11.
+inversion H3.
+constructor.
+simpl;trivial.
+simpl;trivial.
+constructor.
+exact H1.
+inversion H6.
+exact H15.
+constructor.
+inversion H6.
+exact H16.
+exact H8.
+destruct r2.
+inversion H2.
+constructor.
+exact H1.
+exact H3.
 inversion H3.
 constructor;simpl;trivial.
-destruct c.
 constructor;simpl;trivial.
-inversion H1.
+destruct c.
+inversion H2.
 inversion H3.
-subst.
-constructor;trivial.
+constructor;simpl;trivial.
+constructor.
+exact H1.
+exact H10.
+constructor.
 inversion H11.
-trivial.
+exact H18.
+inversion H11.
+exact H19.
 inversion H3.
-constructor;trivial.
+constructor.
+constructor;simpl;trivial.
+constructor;simpl;trivial.
+constructor.
+exact H1.
+exact H6.
 inversion H8.
-trivial.
-inversion H3.
-constructor;simpl;trivial.
-inversion H6.
-constructor;trivial.
-constructor;trivial.
-destruct l2.
-inversion H1.
-inversion H3.
-constructor;trivial.
-constructor;trivial.
-inversion H3.
-inversion H6.
-constructor;simpl;trivial.
-constructor;trivial.
-subst;trivial.
-destruct c.
-inversion H1.
-inversion H3.
-constructor;simpl;trivial.
-constructor;trivial.
-inversion H11;trivial.
 constructor.
-inversion H11;trivial.
-trivial.
+exact H15.
+exact H16.
+inversion H2.
 inversion H3.
 constructor;simpl;trivial.
-constructor;trivial.
-inversion H8;trivial.
+inversion H3.
 constructor.
-inversion H8;trivial.
-trivial.
-inversion H1.
-inversion H3.
+exact H1.
+constructor.
 constructor;simpl;trivial.
-constructor;trivial.
-inversion H3.
 constructor;simpl;trivial.
-constructor;trivial.
-inversion H1.
-trivial.
-inversion H3. *)
+exact H6.
+exact H8.
+inversion H2.
+constructor.
+exact H1.
+exact H3.
+inversion H3.
+Qed.
 
 Lemma ifred_notred {a} `{GHC.Base.Ord a} (s : RB a) (A B : Prop) :
  notred s -> (ifred s A B <-> B).
@@ -376,12 +388,35 @@ apply lbal_rb.
 2: assumption.
 constructor 2; assumption.
 apply lbal_rb; [constructor; assumption | assumption].
-admit. (*falta rbal*)
-Admitted.
+--
+destruct (x GHC.Base.> k).
+apply ifred_or in IHis_redblack2.
+intuition.
+apply rbal_rb.
+assumption.
+constructor 2;assumption.
+apply rbal_rb; [assumption | constructor; assumption].
+constructor;assumption.
+Qed.
 
 
 Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t : 
 nearly_redblack n t -> redblack (makeBlack t).
+Proof.
+destruct t.
+exists 0.
+simpl;trivial.
+destruct 1.
+inversion H1.
+exists (S n).
+simpl.
+constructor.
+exact H9.
+exact H10.
+exists (S n).
+simpl.
+constructor.
+subst.
 Admitted.
 
 Lemma makeRed_rr {a} `{GHC.Base.Ord a} t n :
