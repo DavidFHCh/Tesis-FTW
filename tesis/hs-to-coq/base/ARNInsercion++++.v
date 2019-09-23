@@ -52,7 +52,7 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
 
 Hint Unfold ins.
 
-Definition insert x s := makeBlack (ins x s).
+Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 
 Hint Unfold insert.
 
@@ -413,37 +413,51 @@ simpl.
 constructor.
 exact H9.
 exact H10.
-exists (S n).
+exists (S n0).
 simpl.
 constructor.
-subst.
-Admitted.
+exact H5.
+exact H8.
+exists (S n).
+simpl.
+inversion H1.
+constructor.
+exact H4.
+exact H7.
+Qed.
 
 Lemma makeRed_rr {a} `{GHC.Base.Ord a} t n :
  is_redblack (S n) t -> notred t -> redred_tree n (makeRed t).
-Admitted.
-
-
-
+Proof.
+destruct t.
+inversion 1.
+inversion 1.
+simpl;contradiction.
+intro.
+constructor.
+exact H5.
+exact H8.
+Qed.
 
 Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : 
 is_redblack n s -> nearly_redblack n (ins x s).
 Proof.
-induction s;simpl;repeat constructor;trivial.
-destruct c.
-inversion H1.
-specialize (IHs1 H8).
-specialize (IHs2 H9).
-inversion IHs1.
-inversion H10.
-destruct (_GHC.Base.<_ x a0).
-subst.
+intros.
+apply (ins_rr_rb x) in H1.
+apply ifred_or in H1.
+destruct H1.
+constructor 2.
+exact H1.
 constructor.
+exact H1.
+Qed.
 
+Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) : redblack s -> redblack (insert x s).
+Proof.
+intros (n,H1).
+unfold insert.
+apply (makeBlack_rb n).
+apply ins_arb.
+exact H1.
+Qed.
 
-simpl;trivial.
-simpl;trivial.
-
-
-
-Instance add_rb x s : redblack s -> redblack (insert x s).
