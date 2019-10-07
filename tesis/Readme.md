@@ -85,3 +85,10 @@ La eliminacion esta en sus primeras etapas ya que el script todavia no se logra 
 La herramienta hs-to-coq ha probado se util pero no tanto como se pensaba en un inicio, al ser una herramienta en desarrollo,
 esta no genera codigo 100% proof ready, se tienen que hacer ajustes al codigo, ya que suele traducir a cosas que todavia no tiene 
 implentadas por parte de la biblioteca estandar de haskell.
+
+
+-------------------------------------------------------------------------------
+
+Se agrega la primera parte de la documentacion del archivo de insercion de arboles rojinegros.
+
+Se puede generar con make install-doc desde el directorio hs-to-coq/base.

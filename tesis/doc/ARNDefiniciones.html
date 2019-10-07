@@ -1,0 +1,391 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>ARNDefiniciones</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library ARNDefiniciones</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Unicode.Utf8_core.html#"><span class="id" title="library">Utf8_core</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Classes.RelationClasses.html#"><span class="id" title="library">Coq.Classes.RelationClasses</span></a>.<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Equality.html#"><span class="id" title="library">Coq.Program.Equality</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Tactics.html#"><span class="id" title="library">Coq.Program.Tactics</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Wf.html#"><span class="id" title="library">Coq.Program.Wf</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Err.html#"><span class="id" title="library">GHC.Err</span></a>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">GHC.Base.Notations</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="Color"><span class="id" title="inductive">Color</span></a> : <span class="id" title="keyword">Type</span> := <a name="R"><span class="id" title="constructor">R</span></a> : <a class="idref" href="ARNDefiniciones.html#Color"><span class="id" title="inductive">Color</span></a> |  <a name="B"><span class="id" title="constructor">B</span></a> : <a class="idref" href="ARNDefiniciones.html#Color"><span class="id" title="inductive">Color</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="RB"><span class="id" title="inductive">RB</span></a> <span class="id" title="var">a</span> : <span class="id" title="keyword">Type</span> := <a name="E"><span class="id" title="constructor">E</span></a> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> |  <a name="T"><span class="id" title="constructor">T</span></a> : <a class="idref" href="ARNDefiniciones.html#Color"><span class="id" title="inductive">Color</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> {<span class="id" title="var">_</span>}.<br/>
+<span class="id" title="var">Arguments</span> <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> {<span class="id" title="var">_</span>} <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="Default__Color"><span class="id" title="instance">Default__Color</span></a> : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">GHC.Err.Default</span></a> <a class="idref" href="ARNDefiniciones.html#Color"><span class="id" title="inductive">Color</span></a> := <a class="idref" href="GHC.Err.html#Build_Default"><span class="id" title="constructor">GHC.Err.Build_Default</span></a> <span class="id" title="var">_</span> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="member"><span class="id" title="definition">member</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fix</span> <span class="id" title="var">member</span> <span class="id" title="var">arg_0__</span> <span class="id" title="var">arg_1__</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:= <span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#arg_0__"><span class="id" title="variable">arg_0__</span></a>, <a class="idref" href="ARNDefiniciones.html#arg_1__"><span class="id" title="variable">arg_1__</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">x</span>, <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">x</span>, <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <span class="id" title="var">_</span> <span class="id" title="var">tl</span> <span class="id" title="var">y</span> <span class="id" title="var">tr</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">.&lt;</span></a> <span class="id" title="var">y</span> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> <span class="id" title="keyword">then</span> <a class="idref" href="ARNDefiniciones.html#member"><span class="id" title="variable">member</span></a> <span class="id" title="var">x</span> <span class="id" title="var">tl</span> <span class="id" title="keyword">else</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">.&gt;</span></a> <span class="id" title="var">y</span> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> <span class="id" title="keyword">then</span> <a class="idref" href="ARNDefiniciones.html#member"><span class="id" title="variable">member</span></a> <span class="id" title="var">x</span> <span class="id" title="var">tr</span> <span class="id" title="keyword">else</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#true"><span class="id" title="constructor">true</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+<span class="id" title="keyword">Hint Resolve</span> <span class="id" title="var">member</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="makeBlack"><span class="id" title="definition">makeBlack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <span class="id" title="var">_</span> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">x</span> <span class="id" title="var">b</span><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <a class="idref" href="ARNDefiniciones.html#makeBlack"><span class="id" title="definition">makeBlack</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="makeRed"><span class="id" title="definition">makeRed</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <span class="id" title="var">_</span> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">x</span> <span class="id" title="var">b</span><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <a class="idref" href="ARNDefiniciones.html#makeRed"><span class="id" title="definition">makeRed</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="lbal"><span class="id" title="definition">lbal</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">l</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">k</span>:<a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">r</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span>) <span class="id" title="var">y</span> <span class="id" title="var">c</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">x</span> <span class="id" title="var">b</span>) <span class="id" title="var">y</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">c</span> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>)<br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">a</span> <span class="id" title="var">x</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">b</span> <span class="id" title="var">y</span> <span class="id" title="var">c</span>) ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">x</span> <span class="id" title="var">b</span>) <span class="id" title="var">y</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">c</span> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>)<br/>
+&nbsp;| <span class="id" title="var">_</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Resolve</span> <span class="id" title="var">lbal</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="rbal"><span class="id" title="definition">rbal</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">l</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">k</span>:<a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">r</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">b</span> <span class="id" title="var">y</span> <span class="id" title="var">c</span>) <span class="id" title="var">z</span> <span class="id" title="var">d</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <span class="id" title="var">b</span>) <span class="id" title="var">y</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">c</span> <span class="id" title="var">z</span> <span class="id" title="var">d</span>)<br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">b</span> <span class="id" title="var">y</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">c</span> <span class="id" title="var">z</span> <span class="id" title="var">d</span>) ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <span class="id" title="var">b</span>) <span class="id" title="var">y</span> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">c</span> <span class="id" title="var">z</span> <span class="id" title="var">d</span>)<br/>
+&nbsp;| <span class="id" title="var">_</span> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Resolve</span> <span class="id" title="var">rbal</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="isblack"><span class="id" title="definition">isblack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span> <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#True"><span class="id" title="inductive">True</span></a> | <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#False"><span class="id" title="inductive">False</span></a> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="notblack"><span class="id" title="definition">notblack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span> <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#False"><span class="id" title="inductive">False</span></a> | <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#True"><span class="id" title="inductive">True</span></a> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="notred"><span class="id" title="definition">notred</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span> <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#False"><span class="id" title="inductive">False</span></a> | <span class="id" title="var">_</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#True"><span class="id" title="inductive">True</span></a> <span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="is_redblack"><span class="id" title="inductive">is_redblack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <span class="id" title="var">a</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;| <a name="RB_Leaf"><span class="id" title="constructor">RB_Leaf</span></a> : <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> 0 <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a><br/>
+&nbsp;| <a name="RB_R"><span class="id" title="constructor">RB_R</span></a> <span class="id" title="var">n</span> <span class="id" title="var">l</span> <span class="id" title="var">k</span> <span class="id" title="var">r</span> :<br/>
+&nbsp;&nbsp;&nbsp;<a class="idref" href="ARNDefiniciones.html#notred"><span class="id" title="definition">notred</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#notred"><span class="id" title="definition">notred</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>)<br/>
+&nbsp;| <a name="RB_B"><span class="id" title="constructor">RB_B</span></a> <span class="id" title="var">n</span> <span class="id" title="var">l</span> <span class="id" title="var">k</span> <span class="id" title="var">r</span> : <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a>) (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Constructors</span> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="redred_tree"><span class="id" title="inductive">redred_tree</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">n</span>:<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <span class="id" title="var">a</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;| <a name="RR_Rd"><span class="id" title="constructor">RR_Rd</span></a> <span class="id" title="var">l</span> <span class="id" title="var">k</span> <span class="id" title="var">r</span> : <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#redred_tree"><span class="id" title="inductive">redred_tree</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Inductive</span> <a name="nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">n</span>:<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>)(<span class="id" title="var">t</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) : <span class="id" title="keyword">Prop</span> :=<br/>
+&nbsp;| <a name="ARB_RB"><span class="id" title="constructor">ARB_RB</span></a> : <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a><br/>
+&nbsp;| <a name="ARB_RR"><span class="id" title="constructor">ARB_RR</span></a> : <a class="idref" href="ARNDefiniciones.html#redred_tree"><span class="id" title="inductive">redred_tree</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Class</span> <a name="redblack"><span class="id" title="record">redblack</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">t</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) := <a name="RedBlack"><span class="id" title="projection">RedBlack</span></a> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">∃</span></a> <span class="id" title="var">d</span><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#a883bdd010993579f99d60b3775bcf54"><span class="id" title="notation">,</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#d"><span class="id" title="variable">d</span></a> <a class="idref" href="ARNDefiniciones.html#t"><span class="id" title="variable">t</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="lbal_rb"><span class="id" title="lemma">lbal_rb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">n</span>:<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">l</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">k</span>:<a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">r</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :<br/>
+&nbsp;<a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a>) (<a class="idref" href="ARNDefiniciones.html#lbal"><span class="id" title="definition">lbal</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">l</span>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">l1</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">l2</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">subst</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H9</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">subst</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">l2</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">subst</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <a name="rbal_rb"><span class="id" title="lemma">rbal_rb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">n</span>:<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) (<span class="id" title="var">l</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">k</span>:<a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">r</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNDefiniciones.html#a"><span class="id" title="variable">a</span></a>) :<br/>
+&nbsp;<a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <a class="idref" href="ARNDefiniciones.html#n"><span class="id" title="variable">n</span></a>) (<a class="idref" href="ARNDefiniciones.html#rbal"><span class="id" title="definition">rbal</span></a> <a class="idref" href="ARNDefiniciones.html#l"><span class="id" title="variable">l</span></a> <a class="idref" href="ARNDefiniciones.html#k"><span class="id" title="variable">k</span></a> <a class="idref" href="ARNDefiniciones.html#r"><span class="id" title="variable">r</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">r</span>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">r1</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">r2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H18</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H19</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H15</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H16</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H18</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H19</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H15</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H16</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">r2</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H18</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H11</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H19</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H15</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H16</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H6</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H2</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H3</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

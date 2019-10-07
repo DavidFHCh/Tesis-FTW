@@ -60,10 +60,6 @@ Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
    end
  end.
 
-(* Fixpoint appaux {a} `{GHC.Base.Ord a} (a: RB a) (b: RB a) :=
-match a, b with  *)
-(* --------------------------------coso de CoqInria
- *)
 
 Fixpoint append {a} `{GHC.Base.Ord a} (l:RB a) : RB a -> RB a :=
  match l with
@@ -117,12 +113,73 @@ Fixpoint del {a} `{GHC.Base.Ord a} (x:a) (t:RB a) :=
 
 Definition remove x t := makeBlack (del x t).
 
+(* Lemmas a demostrar *)
 
 
 
+Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : is_redblack n l -> is_redblack n r ->
+ (nearly_redblack n (append l r)) /\
+ (notred l -> notred r -> is_redblack n (append l r)).
+Proof.
+revert r n.
+induction l as [| lc ll _ lx lr IHlr].
+-
+intros;simpl.
+split.
+constructor;exact H2.
+intros.
+exact H2.
+-
+induction r as [| rc rl IHrl rx rr _].
+--
+simpl.
+intros.
+split.
+constructor.
+exact H1.
+destruct lc.
+contradiction.
+intros;exact H1.
+--
+destruct lc, rc.
+--- (*APPEND RED RED*)
+specialize (IHlr rl).
+intros.
+inversion H1.
+inversion H2.
+case (IHlr n).
+exact H10.
+exact H17.
+intros.
+--- (*APPEND RED BLACK*)
+admit.
+--- (*APPEND BLACK RED*)
+admit.
+--- (*APPEND BLACK BLACK*)
+admit.
+Admitted.
+destruct (append lr rl).
+constructor.
+ induction l as [| lc ll _ lx lr IHlr];
+ [intro r; simpl
+ |induction r as [| rc rl IHrl rx rr _];
+   [simpl
+   |destruct lc, rc;
+     [specialize (IHlr rl); clear IHrl
+     |simpl;
+      assert (Hr:notred (T B rl rx rr)) by (simpl; trivial);
+      set (r:= T B rl rx rr) in *; clearbody r; clear IHrl rl rx rr;
+      specialize (IHlr r)
+     |change (append _ _) with (T R (append (T B ll lx lr) rl) rx rr);
+      assert (Hl:notred (T B ll lx lr)) by (simpl; trivial);
+      set (l:=T B ll lx lr) in *; clearbody l; clear IHlr ll lx lr
+     |specialize (IHlr rl); clear IHrl]]].
 
-(* External variables:
-     bool GHC.Base.op_zg__ GHC.Base.op_zl__ GHC.Err.Build_Default
-     GHC.Err.Default GHC.Err.error GHC.Err.patternFailure GHC.Types.Bool
-     GHC.Types.False a GHC.Types.True
-*)
+
+
+Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) : is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+with del_rb s x n : is_redblack n s -> notblack s -> is_redblack n (del x s).
+Admitted.
+
+Instance remove_rb s x : redblack s -> redblack (remove x s).
+Admitted.

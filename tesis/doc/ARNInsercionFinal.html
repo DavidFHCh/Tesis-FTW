@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>ARNInsercionFinal</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library ARNInsercionFinal</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Insercion a arboles rojinegros.</h1>
+
+Este archivo, junto con ARNDefiniciones.v) contiene definiciones, lemas y teoremas necesarios para probar formalmente que la insercion en arboles rojinegros
+es correcta.
+
+<div class="paragraph"> </div>
+
+Se utilizan elementos obtenidos de la traduccion de las bibliotecas de Haskell traducidos con la ayuda de la herramienta <i>HS-TO-COQ</i>, en especial los booleanos y
+los elementos que se agregaran a los arboles.
+
+<div class="paragraph"> </div>
+
+Tambien se utilizan lemas y definiciones que ya habian sido previamente demostrados para la biblioteca de teorias de Coq.
+
+<div class="paragraph"> </div>
+
+En este archivo se presenta la idea de poder usar codigo traducido de Haskell usando la herramienta previamente mencionada y combinandolo con teoremas previamente
+demostrados con los tipos booleanos de Coq.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Unicode.Utf8_core.html#"><span class="id" title="library">Utf8_core</span></a>.<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Bibliotecas traducidas de Haskell a Coq y la biblioteca que contiene lemas y definiciones compartidos entre la insercion y eliminacion de elementos de un arbol rojinegro.
+</div>
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="ARNDefiniciones.html#"><span class="id" title="library">ARNDefiniciones</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">GHC.Base.Notations</span>.<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h2 class="section">Funciones de insercion.</h2>
+<a name="lab3"></a><h3 class="section">Funcion ins(a,s)</h3>
+
+Donde <i>a</i> es un elemento comparable y <i>s</i> es un arbol rojinegro.
+Se hace uso de funciones de balanceo separadas, una para el lado izquierdo y su equivalente para el lado derecho, esto para efectuar los giros necesarios en los subarboles
+y de esta manera conservar las invariantes de los arboles rojinegros.
+
+<div class="paragraph"> </div>
+
+Esta funcion puede regresar arboles <i>casi</i> rojinegros, los cuales pueden tener dos nodos rojos consecutivos pero solamente en la raiz.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Fixpoint</span> <a name="ins"><span class="id" title="definition">ins</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">x</span>:<a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">s</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNDefiniciones.html#E"><span class="id" title="constructor">E</span></a><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <span class="id" title="var">c</span> <span class="id" title="var">l</span> <span class="id" title="var">y</span> <span class="id" title="var">r</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">.&lt;</span></a> <span class="id" title="var">y</span> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> <span class="id" title="keyword">then</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">c</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="var">l</span>) <span class="id" title="var">y</span> <span class="id" title="var">r</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#lbal"><span class="id" title="definition">lbal</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="var">l</span>) <span class="id" title="var">y</span> <span class="id" title="var">r</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">.&gt;</span></a> <span class="id" title="var">y</span> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> <span class="id" title="keyword">then</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">c</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">l</span> <span class="id" title="var">y</span> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="var">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="ARNDefiniciones.html#B"><span class="id" title="constructor">B</span></a> ⇒ <a class="idref" href="ARNDefiniciones.html#rbal"><span class="id" title="definition">rbal</span></a> <span class="id" title="var">l</span> <span class="id" title="var">y</span> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <span class="id" title="var">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab4"></a><h3 class="section">Definicion insert(x,s)</h3>
+
+Donde <i>x</i> es un elemento comparable y <i>s</i> es un arbol rojinegro.
+
+<div class="paragraph"> </div>
+
+En esta definicion se arregla el resultado de la funcion anterior al pintar la raiz de negro y de esta manera preservando todas las invariantes de un arbol
+rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="insert"><span class="id" title="definition">insert</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">x</span>:<a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">s</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) := <a class="idref" href="ARNDefiniciones.html#makeBlack"><span class="id" title="definition">makeBlack</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <a class="idref" href="ARNInsercionFinal.html#insert"><span class="id" title="definition">insert</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h2 class="section">Lemas y pruebas</h2>
+
+Estos lemas enuncian que la insercion de elementos comparables a un arbol rojinegro, bajo las definiciones antes dadas, dan como resultado un arbol rojinegro.
+ 
+<div class="paragraph"> </div>
+
+<a name="lab6"></a><h3 class="section">Definiciones auxiliares para las pruebas</h3>
+
+Esta definicion es un fold para arboles rojinegros; cuando el arbol tiene raiz roja aplica una funcion <i>f</i> a sus subarboles y nodo, en otro caso aplica
+una funcion g al arbol que recibe como argumento. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="rcase"><span class="id" title="definition">rcase</span></a>{<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} {<span class="id" title="var">A</span>} <span class="id" title="var">f</span> <span class="id" title="var">g</span> (<span class="id" title="var">t</span>: <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) : <a class="idref" href="ARNInsercionFinal.html#A"><span class="id" title="variable">A</span></a> :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <a class="idref" href="ARNDefiniciones.html#T"><span class="id" title="constructor">T</span></a> <a class="idref" href="ARNDefiniciones.html#R"><span class="id" title="constructor">R</span></a> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span> ⇒ <a class="idref" href="ARNInsercionFinal.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a> <span class="id" title="var">x</span> <span class="id" title="var">b</span><br/>
+&nbsp;| <span class="id" title="var">_</span> ⇒ <a class="idref" href="ARNInsercionFinal.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+ Esta funcion solo es azucar sintactica para la definicion dada antes. 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <a name="ifred"><span class="id" title="definition">ifred</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">s</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) := <br/>
+<a class="idref" href="ARNInsercionFinal.html#rcase"><span class="id" title="definition">rcase</span></a> (<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="ARNInsercionFinal.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="ARNInsercionFinal.html#B"><span class="id" title="variable">B</span></a>) <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab7"></a><h2 class="section">Lemas auxiliares para las pruebas.</h2>
+<a name="lab8"></a><h3 class="section">Lema ifred_notred</h3>
+
+Este lema enuncia que si un arbol <i>no</i> tiene la raiz negra la proposicion B se comple.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="ifred_notred"><span class="id" title="lemma">ifred_notred</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">s</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) :<br/>
+&nbsp;<a class="idref" href="ARNDefiniciones.html#notred"><span class="id" title="definition">notred</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="ARNInsercionFinal.html#ifred"><span class="id" title="definition">ifred</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="ARNInsercionFinal.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="ARNInsercionFinal.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#4bfb4f2d0721ba668e3a802ab1b745a1"><span class="id" title="notation">↔</span></a> <a class="idref" href="ARNInsercionFinal.html#B"><span class="id" title="variable">B</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">s</span>;<span class="id" title="tactic">intros</span>;<span class="id" title="tactic">split</span>;<span class="id" title="tactic">intros</span>;<span class="id" title="tactic">trivial</span>;<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>;<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="var">contradiction</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H2</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="var">contradiction</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H2</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+
+<div class="doc">
+<a name="lab9"></a><h3 class="section">Lema ifred_or</h3>
+
+Este lema enuncia que si un arbol tiene la raiz roja, se cumple la propesicion A o B, de igual manera si la raiz es negra.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="ifred_or"><span class="id" title="lemma">ifred_or</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">s</span> : <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) :<br/>
+<a class="idref" href="ARNInsercionFinal.html#ifred"><span class="id" title="definition">ifred</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="ARNInsercionFinal.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="ARNInsercionFinal.html#B"><span class="id" title="variable">B</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNInsercionFinal.html#A"><span class="id" title="variable">A</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#f031fe1957c4a4a8e217aa46af2b4e25"><span class="id" title="notation">∨</span></a> <a class="idref" href="ARNInsercionFinal.html#B"><span class="id" title="variable">B</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">s</span>;<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">intro</span>;<span class="id" title="tactic">right</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>;<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">left</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">right</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab10"></a><h2 class="section">Lemas principales</h2>
+
+<a name="lab11"></a><h3 class="section">Lema ins_rr_rb</h3>
+
+Este lema enuncia que si la insercion de un elemento en un arbol rojinegro,usando la funcion <i>ins</i>, depende del color de la raiz 
+del arbol al cual se le insertara el elemento; si esta es roja, la insercion resultara en un arbol con dos nodos rojos en la raiz del arbol,
+en otro caso terminara con un arbol rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="ins_rr_rb"><span class="id" title="lemma">ins_rr_rb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">x</span>:<a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">s</span>: <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">n</span> : <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) :<br/>
+<a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNInsercionFinal.html#ifred"><span class="id" title="definition">ifred</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> (<a class="idref" href="ARNDefiniciones.html#redred_tree"><span class="id" title="inductive">redred_tree</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>)) (<a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">H1</span>.<br/>
+- <span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+- <span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">.&lt;</span></a> <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">rewrite</span> <a class="idref" href="ARNInsercionFinal.html#ifred_notred"><span class="id" title="lemma">ifred_notred</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack1</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">.&gt;</span></a> <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">rewrite</span> <a class="idref" href="ARNInsercionFinal.html#ifred_notred"><span class="id" title="lemma">ifred_notred</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack2</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+-<br/>
+<span class="id" title="tactic">rewrite</span> <a class="idref" href="ARNInsercionFinal.html#ifred_notred"><span class="id" title="lemma">ifred_notred</span></a>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#61361a1032bcd8bd27ce3f0d769120ad"><span class="id" title="notation">.&lt;</span></a> <span class="id" title="var">k</span>).<br/>
+3: <span class="id" title="tactic">simpl</span>; <span class="id" title="tactic">trivial</span>.<br/>
+--<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNInsercionFinal.html#ifred_or"><span class="id" title="lemma">ifred_or</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack1</span>.<br/>
+<span class="id" title="tactic">intuition</span>.<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNDefiniciones.html#lbal_rb"><span class="id" title="lemma">lbal_rb</span></a>.<br/>
+2: <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2; <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNDefiniciones.html#lbal_rb"><span class="id" title="lemma">lbal_rb</span></a>; [<span class="id" title="tactic">constructor</span>; <span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">assumption</span>].<br/>
+--<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#39d01e3f9139906393e0abdde23286c0"><span class="id" title="notation">.&gt;</span></a> <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNInsercionFinal.html#ifred_or"><span class="id" title="lemma">ifred_or</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack2</span>.<br/>
+<span class="id" title="tactic">intuition</span>.<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNDefiniciones.html#rbal_rb"><span class="id" title="lemma">rbal_rb</span></a>.<br/>
+<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNDefiniciones.html#rbal_rb"><span class="id" title="lemma">rbal_rb</span></a>; [<span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">constructor</span>; <span class="id" title="tactic">assumption</span>].<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab12"></a><h3 class="section">Lema makeBlack_rb</h3>
+
+Este lema enuncia que si se tiene un arbol casi rojinegro y se pinta su raiz de negro, este se vuelve un arbol rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="makeBlack_rb"><span class="id" title="lemma">makeBlack_rb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} <span class="id" title="var">n</span> <span class="id" title="var">t</span> : <br/>
+<a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#redblack"><span class="id" title="class">redblack</span></a> (<a class="idref" href="ARNDefiniciones.html#makeBlack"><span class="id" title="definition">makeBlack</span></a> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">t</span>.<br/>
+<span class="id" title="tactic">∃</span> 0.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> 1.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">∃</span> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H9</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">∃</span> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <span class="id" title="var">n0</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H5</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">∃</span> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H4</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H7</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab13"></a><h3 class="section">Lema makeRed_rr</h3>
+
+Este lema enuncia que si se tiene un arbol rojinegro y se pinta su raiz de rojo, este se vuelve un arbol casi rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="makeRed_rr"><span class="id" title="lemma">makeRed_rr</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} <span class="id" title="var">t</span> <span class="id" title="var">n</span> :<br/>
+&nbsp;<a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#S"><span class="id" title="constructor">S</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a>) <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#notred"><span class="id" title="definition">notred</span></a> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#redred_tree"><span class="id" title="inductive">redred_tree</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNDefiniciones.html#makeRed"><span class="id" title="definition">makeRed</span></a> <a class="idref" href="ARNInsercionFinal.html#t"><span class="id" title="variable">t</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">t</span>.<br/>
+<span class="id" title="tactic">inversion</span> 1.<br/>
+<span class="id" title="tactic">inversion</span> 1.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H5</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab14"></a><h3 class="section">Lema ins_arb</h3>
+
+Este lema enuncia que si se inserta, con la funcion ins, un elemento a un arbol casi rojinegro, el resultado es un arbol rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <a name="ins_arb"><span class="id" title="lemma">ins_arb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">x</span>:<a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">s</span>:<a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">n</span>:<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nat"><span class="id" title="inductive">nat</span></a>) : <br/>
+<a class="idref" href="ARNDefiniciones.html#is_redblack"><span class="id" title="inductive">is_redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#nearly_redblack"><span class="id" title="inductive">nearly_redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#n"><span class="id" title="variable">n</span></a> (<a class="idref" href="ARNInsercionFinal.html#ins"><span class="id" title="definition">ins</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span>.<br/>
+<span class="id" title="tactic">apply</span> (<a class="idref" href="ARNInsercionFinal.html#ins_rr_rb"><span class="id" title="lemma">ins_rr_rb</span></a> <span class="id" title="var">x</span>) <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNInsercionFinal.html#ifred_or"><span class="id" title="lemma">ifred_or</span></a> <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab15"></a><h3 class="section">Instancia de un arbol rojinegro.</h3>
+
+Esta instancia consolida las pruebas anteriores de coreccion de la insercion de elementos a un arbol rojinegro.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Instance</span> <a name="add_rb"><span class="id" title="instance">add_rb</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Ord"><span class="id" title="class">GHC.Base.Ord</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>} (<span class="id" title="var">x</span>:<a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) (<span class="id" title="var">s</span>: <a class="idref" href="ARNDefiniciones.html#RB"><span class="id" title="inductive">RB</span></a> <a class="idref" href="ARNInsercionFinal.html#a"><span class="id" title="variable">a</span></a>) : <a class="idref" href="ARNDefiniciones.html#redblack"><span class="id" title="class">redblack</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="ARNDefiniciones.html#redblack"><span class="id" title="class">redblack</span></a> (<a class="idref" href="ARNInsercionFinal.html#insert"><span class="id" title="definition">insert</span></a> <a class="idref" href="ARNInsercionFinal.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="ARNInsercionFinal.html#s"><span class="id" title="variable">s</span></a>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span> (<span class="id" title="var">n</span>,<span class="id" title="var">H1</span>).<br/>
+<span class="id" title="tactic">unfold</span> <a class="idref" href="ARNInsercionFinal.html#insert"><span class="id" title="definition">insert</span></a>.<br/>
+<span class="id" title="tactic">apply</span> (<a class="idref" href="ARNInsercionFinal.html#makeBlack_rb"><span class="id" title="lemma">makeBlack_rb</span></a> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">apply</span> <a class="idref" href="ARNInsercionFinal.html#ins_arb"><span class="id" title="lemma">ins_arb</span></a>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

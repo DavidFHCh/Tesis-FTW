@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>GHC.Prim</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library GHC.Prim</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="GHC.Types.html#"><span class="id" title="library">GHC.Types</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="arrow"><span class="id" title="definition">arrow</span></a>  := (<span class="id" title="keyword">fun</span> (<span class="id" title="var">x</span> <span class="id" title="var">y</span> :<span class="id" title="keyword">Type</span>) ⇒ <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#y"><span class="id" title="variable">y</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="seq"><span class="id" title="definition">seq</span></a> {<span class="id" title="var">A</span>} {<span class="id" title="var">B</span>} (<span class="id" title="var">a</span> : <a class="idref" href="GHC.Prim.html#A"><span class="id" title="variable">A</span></a>) (<span class="id" title="var">b</span>:<a class="idref" href="GHC.Prim.html#B"><span class="id" title="variable">B</span></a>) := <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="TYPE"><span class="id" title="definition">TYPE</span></a> (<span class="id" title="var">_</span> : <a class="idref" href="GHC.Types.html#RuntimeRep"><span class="id" title="inductive">RuntimeRep</span></a>) := <span class="id" title="keyword">Type</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Class</span> <a name="Unpeel"><span class="id" title="record">Unpeel</span></a> <span class="id" title="var">a</span> <span class="id" title="var">b</span> :=<br/>
+&nbsp;&nbsp;{ <a name="unpeel"><span class="id" title="projection">unpeel</span></a> : <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a><br/>
+&nbsp;&nbsp;; <a name="repeel"><span class="id" title="projection">repeel</span></a> : <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> }.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="Unpeel_refl"><span class="id" title="instance">Unpeel_refl</span></a> <span class="id" title="var">a</span> : <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> := <a class="idref" href="GHC.Prim.html#Build_Unpeel"><span class="id" title="constructor">Build_Unpeel</span></a> <span class="id" title="var">_</span> <span class="id" title="var">_</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> ⇒ <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a>) (<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> ⇒ <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="Unpeel_arrow"><span class="id" title="instance">Unpeel_arrow</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span> <span class="id" title="var">d</span><br/>
+&nbsp;&nbsp;`{<a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a>}<br/>
+&nbsp;&nbsp;`{<a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="GHC.Prim.html#d"><span class="id" title="variable">d</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> (<a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a>) (<a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#d"><span class="id" title="variable">d</span></a>) :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> := <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> (<a class="idref" href="GHC.Prim.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a>))<br/>
+&nbsp;&nbsp;; <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <span class="id" title="var">f</span> <span class="id" title="var">x</span> := <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> (<a class="idref" href="GHC.Prim.html#f"><span class="id" title="variable">f</span></a> (<a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a>))<br/>
+&nbsp;&nbsp;}.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="Unpeel_pair"><span class="id" title="instance">Unpeel_pair</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span> <span class="id" title="var">d</span><br/>
+&nbsp;&nbsp;`{<a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a>}<br/>
+&nbsp;&nbsp;`{<a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="GHC.Prim.html#d"><span class="id" title="variable">d</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> (<a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a>) (<a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="GHC.Prim.html#d"><span class="id" title="variable">d</span></a>) :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> '<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><span class="id" title="var">x</span><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a><span class="id" title="var">y</span><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <a class="idref" href="GHC.Prim.html#y"><span class="id" title="variable">y</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;; <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> '<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><span class="id" title="var">x</span><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a><span class="id" title="var">y</span><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">(</span></a><a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">,</span></a> <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <a class="idref" href="GHC.Prim.html#y"><span class="id" title="variable">y</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#e6756e10c36f149b18b4a8741ed83079"><span class="id" title="notation">)</span></a><br/>
+&nbsp;&nbsp;}.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Lists.List.html#"><span class="id" title="library">Coq.Lists.List</span></a>.<br/>
+<span class="id" title="keyword">Instance</span> <a name="Unpeel_list"><span class="id" title="instance">Unpeel_list</span></a> <span class="id" title="var">a</span> <span class="id" title="var">b</span><br/>
+&nbsp;&nbsp;&nbsp;`{<a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a>} : <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a>) (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a>) :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <span class="id" title="var">x</span> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">Coq.Lists.List.map</span></a> <a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a><br/>
+&nbsp;&nbsp;; <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <span class="id" title="var">x</span> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Lists.List.html#map"><span class="id" title="definition">Coq.Lists.List.map</span></a> <a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a><br/>
+&nbsp;&nbsp;}.<br/>
+
+<br/>
+<span class="id" title="keyword">Class</span> <a name="Coercible"><span class="id" title="record">Coercible</span></a> <span class="id" title="var">a</span> <span class="id" title="var">b</span> := { <a name="coerce"><span class="id" title="projection">coerce</span></a> : <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> }.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="Coercible_Unpeel"><span class="id" title="instance">Coercible_Unpeel</span></a><br/>
+&nbsp;&nbsp;<span class="id" title="var">a</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span><br/>
+&nbsp;&nbsp;{<span class="id" title="var">U1</span> : <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a>}<br/>
+&nbsp;&nbsp;{<span class="id" title="var">U2</span> : <a class="idref" href="GHC.Prim.html#Unpeel"><span class="id" title="class">Unpeel</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="GHC.Prim.html#c"><span class="id" title="variable">c</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="GHC.Prim.html#Coercible"><span class="id" title="class">Coercible</span></a> <a class="idref" href="GHC.Prim.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="GHC.Prim.html#b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Prim.html#coerce"><span class="id" title="method">coerce</span></a> <span class="id" title="var">x</span> := @<a class="idref" href="GHC.Prim.html#repeel"><span class="id" title="method">repeel</span></a> <span class="id" title="var">b</span> <span class="id" title="var">c</span> <span class="id" title="var">U2</span> (@<a class="idref" href="GHC.Prim.html#unpeel"><span class="id" title="method">unpeel</span></a> <span class="id" title="var">a</span> <span class="id" title="var">c</span> <span class="id" title="var">U1</span> <a class="idref" href="GHC.Prim.html#x"><span class="id" title="variable">x</span></a>) }.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

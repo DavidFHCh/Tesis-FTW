@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>GHC.Err</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library GHC.Err</h1>
+
+<div class="code">
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <a class="idref" href="GHC.Num.html#"><span class="id" title="library">GHC.Num</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Class</span> <a name="Default"><span class="id" title="record">Default</span></a> (<span class="id" title="var">a</span> :<span class="id" title="keyword">Type</span>) := {<br/>
+&nbsp;&nbsp;<a name="default"><span class="id" title="projection">default</span></a> : <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a><br/>
+}.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_num"><span class="id" title="instance">default_num</span></a> {<span class="id" title="var">a</span>} `{ <a class="idref" href="GHC.Num.html#Num"><span class="id" title="class">Num</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="GHC.Num.html#66e8f9d9f9894a066beff0d1c67d3c77"><span class="id" title="notation">#</span></a>0 }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_bool"><span class="id" title="instance">default_bool</span></a> : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#bool"><span class="id" title="inductive">bool</span></a> := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#false"><span class="id" title="constructor">false</span></a> }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_monoid"><span class="id" title="instance">default_monoid</span></a> {<span class="id" title="var">a</span>} `{ <a class="idref" href="GHC.Base.html#Monoid"><span class="id" title="class">Monoid</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> } : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="GHC.Base.html#mempty"><span class="id" title="definition">mempty</span></a> }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_applicative"><span class="id" title="instance">default_applicative</span></a> {<span class="id" title="var">a</span>}{<span class="id" title="var">f</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} `{<a class="idref" href="GHC.Base.html#Applicative"><span class="id" title="class">Applicative</span></a> <a class="idref" href="GHC.Err.html#f"><span class="id" title="variable">f</span></a>}<br/>
+&nbsp;&nbsp;: <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> (<a class="idref" href="GHC.Err.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> ) := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="GHC.Base.html#pure"><span class="id" title="definition">pure</span></a> <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_pair"><span class="id" title="instance">default_pair</span></a> {<span class="id" title="var">a</span>}{<span class="id" title="var">b</span>}`{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>}`{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#b"><span class="id" title="variable">b</span></a>} : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> (<a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#11c698c8685bb8ab1cf725545c085ac4"><span class="id" title="notation">×</span></a> <a class="idref" href="GHC.Err.html#b"><span class="id" title="variable">b</span></a>)%<span class="id" title="keyword">type</span> :=<br/>
+&nbsp;&nbsp;{ <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#pair"><span class="id" title="constructor">pair</span></a> <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> }.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_arr"><span class="id" title="instance">default_arr</span></a> {<span class="id" title="var">a</span>}{<span class="id" title="var">b</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#b"><span class="id" title="variable">b</span></a>} : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> (<a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Err.html#b"><span class="id" title="variable">b</span></a>) := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> ⇒ <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_option"><span class="id" title="instance">default_option</span></a> {<span class="id" title="var">a</span>} : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#option"><span class="id" title="inductive">option</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>) := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a> }.<br/>
+<span class="id" title="keyword">Instance</span> <a name="default_list"><span class="id" title="instance">default_list</span></a> {<span class="id" title="var">a</span>} : <a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> (<a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>) := { <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a> := <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a> } .<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="error"><span class="id" title="definition">error</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">exact</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> ⇒ <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a>). <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="undefined"><span class="id" title="definition">undefined</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">exact</span> <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="errorWithoutStackTrace"><span class="id" title="definition">errorWithoutStackTrace</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} :<br/>
+&nbsp;&nbsp;<a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a> := <a class="idref" href="GHC.Err.html#error"><span class="id" title="definition">error</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="patternFailure"><span class="id" title="definition">patternFailure</span></a> {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Err.html#Default"><span class="id" title="class">Default</span></a> <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>} : <a class="idref" href="GHC.Err.html#a"><span class="id" title="variable">a</span></a>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">exact</span> <a class="idref" href="GHC.Err.html#default"><span class="id" title="method">default</span></a>. <span class="id" title="keyword">Qed</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

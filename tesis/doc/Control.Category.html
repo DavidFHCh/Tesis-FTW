@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Control.Category</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Control.Category</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Tactics.html#"><span class="id" title="library">Coq.Program.Tactics</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Wf.html#"><span class="id" title="library">Coq.Program.Wf</span></a>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Prim.html#"><span class="id" title="library">GHC.Prim</span></a>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">GHC.Base.Notations</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Record</span> <a name="Category__Dict"><span class="id" title="record">Category__Dict</span></a> (<span class="id" title="var">cat</span> : <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span>) := <a name="Category__Dict_Build"><span class="id" title="constructor">Category__Dict_Build</span></a> {<br/>
+&nbsp;&nbsp;<a name="id__"><span class="id" title="projection">id__</span></a> : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> ;<br/>
+&nbsp;&nbsp;<a name="op_z2218U____"><span class="id" title="projection">op_z2218U____</span></a> : <span class="id" title="keyword">∀</span> {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} {<span class="id" title="var">a</span>}, <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> }.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="Category"><span class="id" title="definition">Category</span></a> (<span class="id" title="var">cat</span> : <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">r__</span>, <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="Control.Category.html#Category__Dict"><span class="id" title="record">Category__Dict</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#r__"><span class="id" title="variable">r__</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#r__"><span class="id" title="variable">r__</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Existing</span> <span class="id" title="keyword">Class</span> <span class="id" title="var">Category</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="id"><span class="id" title="definition">id</span></a> `{<span class="id" title="var">g__0__</span> : <a class="idref" href="Control.Category.html#Category"><span class="id" title="class">Category</span></a> <span class="id" title="var">cat</span>} : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Control.Category.html#g__0__"><span class="id" title="variable">g__0__</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Control.Category.html#id__"><span class="id" title="projection">id__</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_z2218U__"><span class="id" title="definition">op_z2218U__</span></a> `{<span class="id" title="var">g__0__</span> : <a class="idref" href="Control.Category.html#Category"><span class="id" title="class">Category</span></a> <span class="id" title="var">cat</span>}<br/>
+&nbsp;&nbsp;&nbsp;: <span class="id" title="keyword">∀</span> {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} {<span class="id" title="var">a</span>}, <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Control.Category.html#g__0__"><span class="id" title="variable">g__0__</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Control.Category.html#op_z2218U____"><span class="id" title="projection">op_z2218U____</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="ef12e37e40eb7e40519e84900bf07809"><span class="id" title="notation">&quot;</span></a>'_∘_'" := (<a class="idref" href="Control.Category.html#op_z2218U__"><span class="id" title="definition">op_z2218U__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="c90061783c20674b3a3a6b46d343da03"><span class="id" title="notation">&quot;</span></a>∘" := (<span class="id" title="var">_</span>∘<span class="id" title="var">_</span>) (<span class="id" title="tactic">left</span> <span class="id" title="keyword">associativity</span>, <span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 40).<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_zlzlzl__"><span class="id" title="definition">op_zlzlzl__</span></a> {<span class="id" title="var">cat</span>} {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} {<span class="id" title="var">a</span>} `{<a class="idref" href="Control.Category.html#Category"><span class="id" title="class">Category</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;: <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Control.Category.html#ef12e37e40eb7e40519e84900bf07809"><span class="id" title="notation">_</span></a>∘<span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="a0126f3956f59ba199b266a893d1296b"><span class="id" title="notation">&quot;</span></a>'_&lt;&lt;&lt;_'" := (<a class="idref" href="Control.Category.html#op_zlzlzl__"><span class="id" title="definition">op_zlzlzl__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="8b2996372e8f1e3c67da04ebe26f2c55"><span class="id" title="notation">&quot;</span></a>&lt;&lt;&lt;" := (<span class="id" title="var">_</span>&lt;&lt;&lt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_zgzgzg__"><span class="id" title="definition">op_zgzgzg__</span></a> {<span class="id" title="var">cat</span>} {<span class="id" title="var">a</span>} {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} `{<a class="idref" href="Control.Category.html#Category"><span class="id" title="class">Category</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;: <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Category.html#cat"><span class="id" title="variable">cat</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">f</span> <span class="id" title="var">g</span> ⇒ <a class="idref" href="Control.Category.html#g"><span class="id" title="variable">g</span></a> <a class="idref" href="Control.Category.html#c90061783c20674b3a3a6b46d343da03"><span class="id" title="notation">∘</span></a> <a class="idref" href="Control.Category.html#f"><span class="id" title="variable">f</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="b76278d1d46fc4a69d4079810b54d71c"><span class="id" title="notation">&quot;</span></a>'_&gt;&gt;&gt;_'" := (<a class="idref" href="Control.Category.html#op_zgzgzg__"><span class="id" title="definition">op_zgzgzg__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="e0ed7cfa6eddbb0bdd997b69ba91f3de"><span class="id" title="notation">&quot;</span></a>&gt;&gt;&gt;" := (<span class="id" title="var">_</span>&gt;&gt;&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a name="Category__arrow_id"><span class="id" title="definition">Category__arrow_id</span></a> : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="GHC.Prim.html#arrow"><span class="id" title="definition">GHC.Prim.arrow</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> {<span class="id" title="var">a</span>} ⇒ <a class="idref" href="GHC.Base.html#id"><span class="id" title="definition">GHC.Base.id</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a name="Category__arrow_op_z2218U__"><span class="id" title="definition">Category__arrow_op_z2218U__</span></a><br/>
+&nbsp;&nbsp;&nbsp;: <span class="id" title="keyword">∀</span> {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} {<span class="id" title="var">a</span>},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="GHC.Prim.html#arrow"><span class="id" title="definition">GHC.Prim.arrow</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#arrow"><span class="id" title="definition">GHC.Prim.arrow</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="GHC.Prim.html#arrow"><span class="id" title="definition">GHC.Prim.arrow</span></a> <a class="idref" href="Control.Category.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="Control.Category.html#c"><span class="id" title="variable">c</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> {<span class="id" title="var">b</span>} {<span class="id" title="var">c</span>} {<span class="id" title="var">a</span>} ⇒ <a class="idref" href="GHC.Base.html#1724aec9ff062ae5a1a39de592d06c2b"><span class="id" title="notation">_GHC.Base</span></a>.∘<span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Program Instance</span> <a name="Category__arrow"><span class="id" title="instance">Category__arrow</span></a> : <a class="idref" href="Control.Category.html#Category"><span class="id" title="class">Category</span></a> <a class="idref" href="GHC.Prim.html#arrow"><span class="id" title="definition">GHC.Prim.arrow</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> <span class="id" title="var">k__</span> ⇒<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Control.Category.html#k__"><span class="id" title="variable">k__</span></a> {| <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">id__</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">:=</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">fun</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">a</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">⇒</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">Category__arrow_id</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">;</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">op_z2218U____</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">:=</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">fun</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">b</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">c</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">a</span></a><a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">⇒</span></a> <a class="idref" href="Control.Category.html#Category__Dict_Build"><span class="id" title="constructor">Category__arrow_op_z2218U__</span></a> |}.<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="Notations"><span class="id" title="module">Notations</span></a>.<br/>
+<span class="id" title="keyword">Notation</span> <a name="cab53ab7566ef05ac6c9873a6fc0f8d2"><span class="id" title="notation">&quot;</span></a>'_Control.Category.∘_'" := (<a class="idref" href="Control.Category.html#op_z2218U__"><span class="id" title="definition">op_z2218U__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="f2a6b1ea982ffca59150aa45a365ab49"><span class="id" title="notation">&quot;</span></a>Control.Category.∘" := (<span class="id" title="var">_</span>∘<span class="id" title="var">_</span>) (<span class="id" title="tactic">left</span> <span class="id" title="keyword">associativity</span>, <span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 40).<br/>
+<span class="id" title="keyword">Notation</span> <a name="293f5cecc12723be198f337f17c1049c"><span class="id" title="notation">&quot;</span></a>'_Control.Category.&lt;&lt;&lt;_'" := (<a class="idref" href="Control.Category.html#op_zlzlzl__"><span class="id" title="definition">op_zlzlzl__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="4ddd7a499855746bc2ea399eb4ab5c03"><span class="id" title="notation">&quot;</span></a>Control.Category.&lt;&lt;&lt;" := (<span class="id" title="var">_</span>&lt;&lt;&lt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+<span class="id" title="keyword">Notation</span> <a name="4dbf86a45885f0b28c85d9603e5cac98"><span class="id" title="notation">&quot;</span></a>'_Control.Category.&gt;&gt;&gt;_'" := (<a class="idref" href="Control.Category.html#op_zgzgzg__"><span class="id" title="definition">op_zgzgzg__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="5c114dabe89db0859672b6c939d1400b"><span class="id" title="notation">&quot;</span></a>Control.Category.&gt;&gt;&gt;" := (<span class="id" title="var">_</span>&gt;&gt;&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Control.Category.html#Notations"><span class="id" title="module">Notations</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

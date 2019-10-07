@@ -113,8 +113,7 @@ Fixpoint del {a} `{GHC.Base.Ord a} (x:a) (t:RB a) :=
 
 Definition remove x t := makeBlack (del x t).
 
-(* Lemmas!
- *)
+(* Lemmas a demostrar *)
 
 
 
@@ -123,6 +122,44 @@ Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : is_redblack n l 
  (notred l -> notred r -> is_redblack n (append l r)).
 Proof.
 revert r n.
+induction l as [| lc ll _ lx lr IHlr].
+-
+intros;simpl.
+split.
+constructor;exact H2.
+intros.
+exact H2.
+-
+induction r as [| rc rl IHrl rx rr _].
+--
+simpl.
+intros.
+split.
+constructor.
+exact H1.
+destruct lc.
+contradiction.
+intros;exact H1.
+--
+destruct lc, rc.
+--- (*APPEND RED RED*)
+specialize (IHlr rl).
+intros.
+inversion H1.
+inversion H2.
+case (IHlr n).
+exact H10.
+exact H17.
+intros.
+--- (*APPEND RED BLACK*)
+admit.
+--- (*APPEND BLACK RED*)
+admit.
+--- (*APPEND BLACK BLACK*)
+admit.
+Admitted.
+destruct (append lr rl).
+constructor.
  induction l as [| lc ll _ lx lr IHlr];
  [intro r; simpl
  |induction r as [| rc rl IHrl rx rr _];

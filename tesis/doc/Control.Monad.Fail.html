@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Control.Monad.Fail</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Control.Monad.Fail</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Tactics.html#"><span class="id" title="library">Coq.Program.Tactics</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Wf.html#"><span class="id" title="library">Coq.Program.Wf</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Record</span> <a name="MonadFail__Dict"><span class="id" title="record">MonadFail__Dict</span></a> (<span class="id" title="var">m</span> : <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span>) := <a name="MonadFail__Dict_Build"><span class="id" title="constructor">MonadFail__Dict_Build</span></a> {<br/>
+&nbsp;&nbsp;<a name="fail__"><span class="id" title="projection">fail__</span></a> : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">GHC.Base.String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Monad.Fail.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Control.Monad.Fail.html#a"><span class="id" title="variable">a</span></a> }.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="MonadFail"><span class="id" title="definition">MonadFail</span></a> (<span class="id" title="var">m</span> : <span class="id" title="keyword">Type</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <span class="id" title="keyword">Type</span>) `{<a class="idref" href="GHC.Base.html#Monad"><span class="id" title="class">GHC.Base.Monad</span></a> <a class="idref" href="Control.Monad.Fail.html#m"><span class="id" title="variable">m</span></a>} :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">∀</span> <span class="id" title="var">r__</span>, <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict"><span class="id" title="record">MonadFail__Dict</span></a> <a class="idref" href="Control.Monad.Fail.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Monad.Fail.html#r__"><span class="id" title="variable">r__</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Monad.Fail.html#r__"><span class="id" title="variable">r__</span></a>.<br/>
+
+<br/>
+<span class="id" title="var">Existing</span> <span class="id" title="keyword">Class</span> <span class="id" title="var">MonadFail</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="fail"><span class="id" title="definition">fail</span></a> `{<span class="id" title="var">g__0__</span> : <a class="idref" href="Control.Monad.Fail.html#MonadFail"><span class="id" title="class">MonadFail</span></a> <span class="id" title="var">m</span>} : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">GHC.Base.String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Control.Monad.Fail.html#m"><span class="id" title="variable">m</span></a> <a class="idref" href="Control.Monad.Fail.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Control.Monad.Fail.html#g__0__"><span class="id" title="variable">g__0__</span></a> <span class="id" title="var">_</span> (<a class="idref" href="Control.Monad.Fail.html#fail__"><span class="id" title="projection">fail__</span></a> <a class="idref" href="Control.Monad.Fail.html#m"><span class="id" title="variable">m</span></a>).<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a name="MonadFail__list_fail"><span class="id" title="definition">MonadFail__list_fail</span></a> : <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">GHC.Base.String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> <a class="idref" href="Control.Monad.Fail.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> {<span class="id" title="var">a</span>} ⇒ <span class="id" title="keyword">fun</span> <span class="id" title="var">arg_0__</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#nil"><span class="id" title="constructor">nil</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Program Instance</span> <a name="MonadFail__list"><span class="id" title="instance">MonadFail__list</span></a> : <a class="idref" href="Control.Monad.Fail.html#MonadFail"><span class="id" title="class">MonadFail</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#list"><span class="id" title="inductive">list</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> <span class="id" title="var">k__</span> ⇒ <a class="idref" href="Control.Monad.Fail.html#k__"><span class="id" title="variable">k__</span></a> {| <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">fail__</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">:=</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">fun</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">a</span></a><a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">⇒</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">MonadFail__list_fail</span></a> |}.<br/>
+
+<br/>
+<span class="id" title="keyword">Local</span> <span class="id" title="keyword">Definition</span> <a name="MonadFail__option_fail"><span class="id" title="definition">MonadFail__option_fail</span></a><br/>
+&nbsp;&nbsp;&nbsp;: <span class="id" title="keyword">∀</span> {<span class="id" title="var">a</span>}, <a class="idref" href="GHC.Base.html#String"><span class="id" title="definition">GHC.Base.String</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#option"><span class="id" title="inductive">option</span></a> <a class="idref" href="Control.Monad.Fail.html#a"><span class="id" title="variable">a</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> {<span class="id" title="var">a</span>} ⇒ <span class="id" title="keyword">fun</span> <span class="id" title="var">arg_0__</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#None"><span class="id" title="constructor">None</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Program Instance</span> <a name="MonadFail__option"><span class="id" title="instance">MonadFail__option</span></a> : <a class="idref" href="Control.Monad.Fail.html#MonadFail"><span class="id" title="class">MonadFail</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#option"><span class="id" title="inductive">option</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> <span class="id" title="var">k__</span> ⇒ <a class="idref" href="Control.Monad.Fail.html#k__"><span class="id" title="variable">k__</span></a> {| <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">fail__</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">:=</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">fun</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">{</span></a><a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">a</span></a><a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">}</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">⇒</span></a> <a class="idref" href="Control.Monad.Fail.html#MonadFail__Dict_Build"><span class="id" title="constructor">MonadFail__option_fail</span></a> |}.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

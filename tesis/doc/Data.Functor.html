@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>Data.Functor</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Data.Functor</h1>
+
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Tactics.html#"><span class="id" title="library">Coq.Program.Tactics</span></a>.<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Program.Wf.html#"><span class="id" title="library">Coq.Program.Wf</span></a>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <a class="idref" href="GHC.Base.html#"><span class="id" title="library">GHC.Base</span></a>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">GHC.Base.Notations</span>.<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="void"><span class="id" title="definition">void</span></a> {<span class="id" title="var">f</span>} {<span class="id" title="var">a</span>} `{<a class="idref" href="GHC.Base.html#Functor"><span class="id" title="class">GHC.Base.Functor</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a>} : <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#unit"><span class="id" title="inductive">unit</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">x</span> ⇒ <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Datatypes.html#tt"><span class="id" title="constructor">tt</span></a> <a class="idref" href="GHC.Base.html#163c198cdf1013cbf14986923782177b"><span class="id" title="notation">GHC.Base</span></a><a class="idref" href="GHC.Base.html#163c198cdf1013cbf14986923782177b"><span class="id" title="notation">.&lt;$</span></a> <a class="idref" href="Data.Functor.html#x"><span class="id" title="variable">x</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_zlzdzg__"><span class="id" title="definition">op_zlzdzg__</span></a> {<span class="id" title="var">f</span>} {<span class="id" title="var">a</span>} {<span class="id" title="var">b</span>} `{<a class="idref" href="GHC.Base.html#Functor"><span class="id" title="class">GHC.Base.Functor</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;: <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="GHC.Base.html#fmap"><span class="id" title="definition">GHC.Base.fmap</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="7a4b57cddf877d78454e8692a4d1e064"><span class="id" title="notation">&quot;</span></a>'_&lt;$&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zlzdzg__"><span class="id" title="definition">op_zlzdzg__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="5494d9fb3f95ad72e37a7842466076ff"><span class="id" title="notation">&quot;</span></a>&lt;$&gt;" := (<span class="id" title="var">_</span>&lt;$&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_zlzazg__"><span class="id" title="definition">op_zlzazg__</span></a> {<span class="id" title="var">f</span>} {<span class="id" title="var">a</span>} {<span class="id" title="var">b</span>} `{<a class="idref" href="GHC.Base.html#Functor"><span class="id" title="class">GHC.Base.Functor</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a>}<br/>
+&nbsp;&nbsp;&nbsp;: <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">(</span></a><a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a><a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">fun</span> <span class="id" title="var">as_</span> <span class="id" title="var">f</span> ⇒ <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#5494d9fb3f95ad72e37a7842466076ff"><span class="id" title="notation">&lt;$&gt;</span></a> <a class="idref" href="Data.Functor.html#as_"><span class="id" title="variable">as_</span></a>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="6679987a8c17cadc3d13a59599b0d059"><span class="id" title="notation">&quot;</span></a>'_&lt;&amp;&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zlzazg__"><span class="id" title="definition">op_zlzazg__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="be53ac5b0d4dafc7962c5b82699bd751"><span class="id" title="notation">&quot;</span></a>&lt;&amp;&gt;" := (<span class="id" title="var">_</span>&lt;&amp;&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <a name="op_zdzg__"><span class="id" title="definition">op_zdzg__</span></a> {<span class="id" title="var">f</span>} {<span class="id" title="var">a</span>} {<span class="id" title="var">b</span>} `{<a class="idref" href="GHC.Base.html#Functor"><span class="id" title="class">GHC.Base.Functor</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a>} : <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#a"><span class="id" title="variable">a</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a> <a class="idref" href="http://coq.inria.fr/distrib/V8.9.0/stdlib//Coq.Init.Logic.html#1c93e43e07fbeaeb6a625cb6614beb5d"><span class="id" title="notation">→</span></a> <a class="idref" href="Data.Functor.html#f"><span class="id" title="variable">f</span></a> <a class="idref" href="Data.Functor.html#b"><span class="id" title="variable">b</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="GHC.Base.html#flip"><span class="id" title="definition">GHC.Base.flip</span></a> <a class="idref" href="GHC.Base.html#7c3f47169086a2efbbc6552ce9457f97"><span class="id" title="notation">_GHC.Base</span></a>.&lt;$<span class="id" title="var">_</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Notation</span> <a name="94dd7b17c4e45d45561ebe6ecee62b8d"><span class="id" title="notation">&quot;</span></a>'_$&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zdzg__"><span class="id" title="definition">op_zdzg__</span></a>).<br/>
+
+<br/>
+<span class="id" title="keyword">Infix</span> <a name="6f668fb1c9616b5febca812aed3c4802"><span class="id" title="notation">&quot;</span></a>$&gt;" := (<span class="id" title="var">_</span>$&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+
+<br/>
+<span class="id" title="keyword">Module</span> <a name="Notations"><span class="id" title="module">Notations</span></a>.<br/>
+<span class="id" title="keyword">Notation</span> <a name="92dbf95bbfb1269f46a49c3e679f97e1"><span class="id" title="notation">&quot;</span></a>'_Data.Functor.&lt;$&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zlzdzg__"><span class="id" title="definition">op_zlzdzg__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="d4e96c41d996d82e39cf98ace6415806"><span class="id" title="notation">&quot;</span></a>Data.Functor.&lt;$&gt;" := (<span class="id" title="var">_</span>&lt;$&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+<span class="id" title="keyword">Notation</span> <a name="d680d6e5d3ba85564c8c04c95729bd88"><span class="id" title="notation">&quot;</span></a>'_Data.Functor.&lt;&amp;&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zlzazg__"><span class="id" title="definition">op_zlzazg__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="e131b919759eee5e5980cf38b132ab1b"><span class="id" title="notation">&quot;</span></a>Data.Functor.&lt;&amp;&gt;" := (<span class="id" title="var">_</span>&lt;&amp;&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+<span class="id" title="keyword">Notation</span> <a name="deef3f59710ee52aba6656da0378841a"><span class="id" title="notation">&quot;</span></a>'_Data.Functor.$&gt;_'" := (<a class="idref" href="Data.Functor.html#op_zdzg__"><span class="id" title="definition">op_zdzg__</span></a>).<br/>
+<span class="id" title="keyword">Infix</span> <a name="5ad444708a0b02d6a8fbb5a75ec598f6"><span class="id" title="notation">&quot;</span></a>Data.Functor.$&gt;" := (<span class="id" title="var">_</span>$&gt;<span class="id" title="var">_</span>) (<span class="id" title="tactic">at</span> <span class="id" title="keyword">level</span> 99).<br/>
+<span class="id" title="keyword">End</span> <a class="idref" href="Data.Functor.html#Notations"><span class="id" title="module">Notations</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

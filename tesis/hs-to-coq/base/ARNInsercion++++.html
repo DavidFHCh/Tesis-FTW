@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link href="coqdoc.css" rel="stylesheet" type="text/css" />
+<title>ARNInsercion++++</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library ARNInsercion++++</h1>
+
+<div class="code">
+</div>
+
+<div class="doc">
+Este archivo contiene todas las definiciones y teoremas necesarios para probar que la insercion de elementos
+a un arbol rojinegro, da como resultado un arbol rojinegro 
+<div class="paragraph"> </div>
+
+ Archivo traducido de ARNo.hs, se uso hs-to-coq para traducir pero las definiciones no pasaron inmediatamente despuesdes
+de hacer la traduccion, varias se tuvieron que mejorar para hacer la demostracion mas sencilla, otras como balance se reescribieron completamente
+
+<div class="paragraph"> </div>
+
+Se puede decir que la traduccion que dio la herramienta se uso como guia para poder obtener un script que funcionara medianamente bien para lo que se
+busca hacer.
+
+<div class="paragraph"> </div>
+
+Se entiende que esta es una estrucutura un tanto compleja y que la herramienta todavia esta en su infancia y no genere
+codigo 100
+</div>
+<div class="code">
+<span class="id" title="keyword">Generalizable</span> <span class="id" title="keyword">All</span> <span class="id" title="keyword">Variables</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Export</span> <span class="id" title="var">Utf8_core</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Classes.RelationClasses</span>.<br/>
+<span class="id" title="keyword">Unset Implicit Arguments</span>.<br/>
+<span class="id" title="keyword">Set</span> <span class="id" title="var">Maximal</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Insertion</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Strict</span> <span class="id" title="keyword">Implicit</span>.<br/>
+<span class="id" title="keyword">Unset</span> <span class="id" title="keyword">Printing</span> <span class="id" title="keyword">Implicit</span> <span class="id" title="var">Defensive</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Coq.Program.Equality</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">MSetGenTree</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">Bool</span> <span class="id" title="var">List</span> <span class="id" title="var">BinPos</span> <span class="id" title="var">Pnat</span> <span class="id" title="var">Setoid</span> <span class="id" title="var">SetoidList</span> <span class="id" title="var">PeanoNat</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">Coq.Program.Tactics</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">Coq.Program.Wf</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="keyword">Import</span> <span class="id" title="var">ARNDefiniciones</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Converted imports: 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">GHC.Base</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">GHC.Err</span>.<br/>
+<span class="id" title="keyword">Require</span> <span class="id" title="var">GHC.Types</span>.<br/>
+<span class="id" title="keyword">Import</span> <span class="id" title="var">GHC.Base.Notations</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <span class="id" title="var">ins</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">x</span>:<span class="id" title="var">a</span>) (<span class="id" title="var">s</span>:<span class="id" title="var">RB</span> <span class="id" title="var">a</span>) :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">s</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <span class="id" title="var">E</span> =&gt; <span class="id" title="var">T</span> <span class="id" title="var">R</span> <span class="id" title="var">E</span> <span class="id" title="var">x</span> <span class="id" title="var">E</span><br/>
+&nbsp;| <span class="id" title="var">T</span> <span class="id" title="var">c</span> <span class="id" title="var">l</span> <span class="id" title="var">y</span> <span class="id" title="var">r</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&lt; <span class="id" title="var">y</span> : <span class="id" title="var">bool</span> <span class="id" title="keyword">then</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">c</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">R</span> =&gt; <span class="id" title="var">T</span> <span class="id" title="var">R</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">l</span>) <span class="id" title="var">y</span> <span class="id" title="var">r</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">B</span> =&gt; <span class="id" title="var">lbal</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">l</span>) <span class="id" title="var">y</span> <span class="id" title="var">r</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">if</span> <span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&gt; <span class="id" title="var">y</span> : <span class="id" title="var">bool</span> <span class="id" title="keyword">then</span> <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">c</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">R</span> =&gt; <span class="id" title="var">T</span> <span class="id" title="var">R</span> <span class="id" title="var">l</span> <span class="id" title="var">y</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">B</span> =&gt; <span class="id" title="var">rbal</span> <span class="id" title="var">l</span> <span class="id" title="var">y</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">r</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">else</span> <span class="id" title="var">s</span><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <span class="id" title="var">ins</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">insert</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">x</span>:<span class="id" title="var">a</span>) (<span class="id" title="var">s</span>:<span class="id" title="var">RB</span> <span class="id" title="var">a</span>) := <span class="id" title="var">makeBlack</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">s</span>).<br/>
+
+<br/>
+<span class="id" title="keyword">Hint Unfold</span> <span class="id" title="var">insert</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+un fold para arboles rojinegros cuando el arbol tiene raiz roja 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">rcase</span>{<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} {<span class="id" title="var">A</span>} <span class="id" title="var">f</span> <span class="id" title="var">g</span> (<span class="id" title="var">t</span>: <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) : <span class="id" title="var">A</span> :=<br/>
+&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">t</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;| <span class="id" title="var">T</span> <span class="id" title="var">R</span> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span> =&gt; <span class="id" title="var">f</span> <span class="id" title="var">a</span> <span class="id" title="var">x</span> <span class="id" title="var">b</span><br/>
+&nbsp;| <span class="id" title="var">_</span> =&gt; <span class="id" title="var">g</span> <span class="id" title="var">t</span><br/>
+&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+case analysis si es rojo aplica la primer funcion sino aplica la segunda 
+</div>
+<div class="code">
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">ifred</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">s</span> : <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) := <br/>
+<span class="id" title="var">rcase</span> (<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> <span class="id" title="var">_</span> =&gt; <span class="id" title="var">A</span>) (<span class="id" title="keyword">fun</span> <span class="id" title="var">_</span> =&gt; <span class="id" title="var">B</span>) <span class="id" title="var">s</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Proofs!!
+ 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">ifred_notred</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">s</span> : <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) :<br/>
+&nbsp;<span class="id" title="var">notred</span> <span class="id" title="var">s</span> -&gt; (<span class="id" title="var">ifred</span> <span class="id" title="var">s</span> <span class="id" title="var">A</span> <span class="id" title="var">B</span> &lt;-&gt; <span class="id" title="var">B</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">s</span>;<span class="id" title="tactic">intros</span>;<span class="id" title="tactic">split</span>;<span class="id" title="tactic">intros</span>;<span class="id" title="tactic">trivial</span>;<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>;<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>.<br/>
+<span class="id" title="var">contradiction</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H2</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="var">contradiction</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">simpl</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H2</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">ifred_or</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">s</span> : <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) (<span class="id" title="var">A</span> <span class="id" title="var">B</span> : <span class="id" title="keyword">Prop</span>) :<br/>
+<span class="id" title="var">ifred</span> <span class="id" title="var">s</span> <span class="id" title="var">A</span> <span class="id" title="var">B</span> -&gt; <span class="id" title="var">A</span> \/ <span class="id" title="var">B</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">s</span>;<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">intro</span>;<span class="id" title="tactic">right</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">c</span>;<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">left</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">right</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+insert de un termino en un redblacktree depende del color de la raiz:
+si es rojo da un arbol rojo-rojo
+sino da uno rojinegro 
+</div>
+<div class="code">
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">ins_rr_rb</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">x</span>:<span class="id" title="var">a</span>) (<span class="id" title="var">s</span>: <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) (<span class="id" title="var">n</span> : <span class="id" title="var">nat</span>) :<br/>
+<span class="id" title="var">is_redblack</span> <span class="id" title="var">n</span> <span class="id" title="var">s</span> -&gt; <span class="id" title="var">ifred</span> <span class="id" title="var">s</span> (<span class="id" title="var">redred_tree</span> <span class="id" title="var">n</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">s</span>)) (<span class="id" title="var">is_redblack</span> <span class="id" title="var">n</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">s</span>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">induction</span> <span class="id" title="var">H1</span>.<br/>
+- <span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+- <span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&lt; <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">rewrite</span> <span class="id" title="var">ifred_notred</span> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack1</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&gt; <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">rewrite</span> <span class="id" title="var">ifred_notred</span> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack2</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">trivial</span>.<br/>
+-<br/>
+<span class="id" title="tactic">rewrite</span> <span class="id" title="var">ifred_notred</span>.<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&lt; <span class="id" title="var">k</span>).<br/>
+3: <span class="id" title="tactic">simpl</span>; <span class="id" title="tactic">trivial</span>.<br/>
+--<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">ifred_or</span> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack1</span>.<br/>
+<span class="id" title="tactic">intuition</span>.<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">lbal_rb</span>.<br/>
+2: <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2; <span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">lbal_rb</span>; [<span class="id" title="tactic">constructor</span>; <span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">assumption</span>].<br/>
+--<br/>
+<span class="id" title="tactic">destruct</span> (<span class="id" title="var">x</span> <span class="id" title="var">GHC.Base</span>.&gt; <span class="id" title="var">k</span>).<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">ifred_or</span> <span class="id" title="tactic">in</span> <span class="id" title="var">IHis_redblack2</span>.<br/>
+<span class="id" title="tactic">intuition</span>.<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">rbal_rb</span>.<br/>
+<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">rbal_rb</span>; [<span class="id" title="tactic">assumption</span> | <span class="id" title="tactic">constructor</span>; <span class="id" title="tactic">assumption</span>].<br/>
+<span class="id" title="tactic">constructor</span>;<span class="id" title="tactic">assumption</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">makeBlack_rb</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} <span class="id" title="var">n</span> <span class="id" title="var">t</span> : <br/>
+<span class="id" title="var">nearly_redblack</span> <span class="id" title="var">n</span> <span class="id" title="var">t</span> -&gt; <span class="id" title="var">redblack</span> (<span class="id" title="var">makeBlack</span> <span class="id" title="var">t</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">t</span>.<br/>
+<span class="id" title="tactic">exists</span> 0.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="tactic">trivial</span>.<br/>
+<span class="id" title="tactic">destruct</span> 1.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">exists</span> (<span class="id" title="var">S</span> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H9</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H10</span>.<br/>
+<span class="id" title="tactic">exists</span> (<span class="id" title="var">S</span> <span class="id" title="var">n0</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H5</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="tactic">exists</span> (<span class="id" title="var">S</span> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">simpl</span>.<br/>
+<span class="id" title="tactic">inversion</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H4</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H7</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">makeRed_rr</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} <span class="id" title="var">t</span> <span class="id" title="var">n</span> :<br/>
+&nbsp;<span class="id" title="var">is_redblack</span> (<span class="id" title="var">S</span> <span class="id" title="var">n</span>) <span class="id" title="var">t</span> -&gt; <span class="id" title="var">notred</span> <span class="id" title="var">t</span> -&gt; <span class="id" title="var">redred_tree</span> <span class="id" title="var">n</span> (<span class="id" title="var">makeRed</span> <span class="id" title="var">t</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">t</span>.<br/>
+<span class="id" title="tactic">inversion</span> 1.<br/>
+<span class="id" title="tactic">inversion</span> 1.<br/>
+<span class="id" title="tactic">simpl</span>;<span class="id" title="var">contradiction</span>.<br/>
+<span class="id" title="tactic">intro</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H5</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H8</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">ins_arb</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">x</span>:<span class="id" title="var">a</span>) (<span class="id" title="var">s</span>:<span class="id" title="var">RB</span> <span class="id" title="var">a</span>) (<span class="id" title="var">n</span>:<span class="id" title="var">nat</span>) : <br/>
+<span class="id" title="var">is_redblack</span> <span class="id" title="var">n</span> <span class="id" title="var">s</span> -&gt; <span class="id" title="var">nearly_redblack</span> <span class="id" title="var">n</span> (<span class="id" title="var">ins</span> <span class="id" title="var">x</span> <span class="id" title="var">s</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span>.<br/>
+<span class="id" title="tactic">apply</span> (<span class="id" title="var">ins_rr_rb</span> <span class="id" title="var">x</span>) <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">ifred_or</span> <span class="id" title="tactic">in</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">destruct</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span> 2.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="tactic">constructor</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Instance</span> <span class="id" title="var">add_rb</span> {<span class="id" title="var">a</span>} `{<span class="id" title="var">GHC.Base.Ord</span> <span class="id" title="var">a</span>} (<span class="id" title="var">x</span>:<span class="id" title="var">a</span>) (<span class="id" title="var">s</span>: <span class="id" title="var">RB</span> <span class="id" title="var">a</span>) : <span class="id" title="var">redblack</span> <span class="id" title="var">s</span> -&gt; <span class="id" title="var">redblack</span> (<span class="id" title="var">insert</span> <span class="id" title="var">x</span> <span class="id" title="var">s</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+<span class="id" title="tactic">intros</span> (<span class="id" title="var">n</span>,<span class="id" title="var">H1</span>).<br/>
+<span class="id" title="tactic">unfold</span> <span class="id" title="var">insert</span>.<br/>
+<span class="id" title="tactic">apply</span> (<span class="id" title="var">makeBlack_rb</span> <span class="id" title="var">n</span>).<br/>
+<span class="id" title="tactic">apply</span> <span class="id" title="var">ins_arb</span>.<br/>
+<span class="id" title="tactic">exact</span> <span class="id" title="var">H1</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
