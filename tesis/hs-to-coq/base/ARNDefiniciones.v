@@ -1,6 +1,10 @@
-(* Default settings (from HsToCoq.Coq.Preamble) *)
+(** * ARNDefiniciones.v
+Este archivo contiene lemas y definiciones que definen Arboles Rojinegros.
+Tambien contiene definiciones y lemas que se comparten entre las funciones de 
+agregar y eliminar elementos.
+*)
 
-(* Archivo con las definiciones de los arboles rojinegros. *)
+
 Generalizable All Variables.
 
 Require Export Utf8_core.
@@ -22,6 +26,9 @@ Import GHC.Base.Notations.
 
 (* Converted type declarations: *)
 
+(** ** Definicion Arboles Rojinegros 
+Las siguientes definiciones son los tipos basicos de un Arbol Rojinegro.
+*)
 Inductive Color : Type := R : Color |  B : Color.
 
 Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
@@ -33,21 +40,11 @@ Arguments T {_} _ _ _ _.
 
 Instance Default__Color : GHC.Err.Default Color := GHC.Err.Build_Default _ R.
 
-(* Converted value declarations: *)
+(** ** Estas definiciones son auxiliares para eliminar y agregar
 
-Definition member {a} `{GHC.Base.Ord a} : a -> RB a -> bool :=
-  fix member arg_0__ arg_1__
-        := match arg_0__, arg_1__ with
-           | x, E => false
-           | x, T _ tl y tr =>
-               if x GHC.Base.< y : bool then member x tl else
-               if x GHC.Base.> y : bool then member x tr else
-               true
-           end.
-Hint Resolve member.
-
-(* Pinta de rojo la raiz de un arbol
- *)
+*** makeBlack
+Esta funcion pinta la raiz de un arbol de color negro.
+*)
 Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
  match t with
  | E => E
@@ -56,6 +53,9 @@ Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
 
 Hint Unfold makeBlack.
 
+(** *** makeRed
+Esta funcion pinta la raiz de un arbol de color rojo.
+ *)
 Definition makeRed {a} `{GHC.Base.Ord a} (t:RB a) :=
  match t with
  | E => E
@@ -64,6 +64,9 @@ Definition makeRed {a} `{GHC.Base.Ord a} (t:RB a) :=
 
 Hint Unfold makeRed.
 
+(** *** lbal 
+Funcion de balanceo para los subarboles izquierdos.
+ *)
 Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  match l with
  | T R (T R a x b) y c => T R (T B a x b) y (T B c k r)
@@ -73,6 +76,9 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 
 Hint Resolve lbal.
 
+(** *** rbal
+Funcion de balanceo para los subarboles derechos. 
+ *)
 Definition rbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  match r with
  | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
@@ -82,6 +88,9 @@ Definition rbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 
 Hint Resolve rbal.
 
+(** *** isblack, notblack, notred
+Definiciones booleanas para saber el color de un arbol.
+ *)
 Definition isblack {a} `{GHC.Base.Ord a} (t : RB a) :=
  match t with T B _ _ _ => True | _ => False end.
 
@@ -91,6 +100,12 @@ Definition notblack {a} `{GHC.Base.Ord a} (t : RB a) :=
 Definition notred {a} `{GHC.Base.Ord a} (t : RB a) :=
  match t with T R _ _ _ => False | _ => True end.
 
+(** ** Invariantes
+*** is_redblack
+Esta funcion inductiva cuenta la cantidad de nodos negros de la raiz a las hojas,
+de manera que se cumplan las invariantes de un arbol rojinegro, como son que la raiz
+es negra y que no puede haber dos nodos rojos juntos.
+ *)
 
 (* definicion inductiva que ayuda a verificar que un arbol es rojinegro al llevar un contador de la altura
 negra del arbol
@@ -104,21 +119,33 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
 
 Hint Constructors is_redblack.
 
+(** *** redred_tree
+Como lo dice el nombre de esta definicion, esta permite que haya dos nodos rojos consecutivos,
+exactamente en la raiz del arbol que se le pasa.
+ *)
 Inductive redred_tree {a} `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
  | RR_Rd l k r : is_redblack n l -> is_redblack n r -> redred_tree n (T R l k r).
 
 
-
-(* definicion inductiva que sirve como auxiliar al momento de la demostracion, es un poco mas laxa con una invariante
+(** *** nearly_redblack
+Definicion inductiva que sirve como auxiliar al momento de las demostraciones, es un poco mas laxa con una invariante
 de los arboles rojinegros, ya que permite que la raiz sea roja y que haya dos rojos a lo mas en la raiz del arbol.
  *)
 Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
  | ARB_RB : is_redblack n t -> nearly_redblack n t
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 
+
 Class redblack {a} `{GHC.Base.Ord a} (t:RB a) := RedBlack : exists d, is_redblack d t.
 
 
+
+(** ** Lemas...
+*** lbal_rb
+Este lema enuncia que si se tiene un arbol izquierdo que es _casi- rojinegro
+y un arbol derecho que es rojinegro, al balancearlos con un elemento k con la funcion
+lbal, resulta un arbol roinegro.
+ *)
 Lemma lbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
  nearly_redblack n l -> is_redblack n r -> is_redblack (S n) (lbal l k r).
 Proof.
@@ -214,6 +241,10 @@ trivial.
 inversion H3.
 Qed.
 
+(** *** rbal_rb
+Este lema enuncia basicamente lo mismo que lbal_rb pero ahora con los arboles del
+lado derecho. 
+ *)
 Lemma rbal_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
  is_redblack n l -> nearly_redblack n r -> is_redblack (S n) (rbal l k r).
 Proof.
