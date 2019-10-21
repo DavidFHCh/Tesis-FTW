@@ -1,0 +1,62 @@
+\documentclass[letterpaper, 11pt]{article}
+%\usepackage{fullpage} % changes the margin
+\usepackage[spanish]{babel}
+\usepackage{enumerate}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage[margin=1.5cm, includefoot]{geometry}
+\pagestyle{empty}
+\begin{document}
+\noindent
+\large
+\textbf{Verificación Formal de Arboles Rojinegros} \hfill 
+\textbf{David Felipe Hernandez Chiapa} \\
+\normalsize Resumen de Proyecto de Tesis       \hfill 312321329\\
+                                               \hfill 2019-20-10 \\
+\newcommand{\coq}{\textbf{Coq}}
+
+\section*{Resumen del Proyecto de Tesis}
+El propósito de este trabajo es presentar la verificación formal de una estructura de datos, 
+mas específicamente los \Arboles Rojinegros (ARN), usando un sistema menos susceptible a errores
+como lo es el asistente de pruebas \textbf{Coq}, junto con la ayuda de una herramienta de
+traducción de \textbf{Haskell} a \textbf{Coq} (Hs-to-Coq). Se implementara dicha estructura de datos con 
+tipos y operaciones de dichos tipos directamente traducidos de las bibliotecas de \textbf{Haskell}.
+
+Se busca mostrar las ventajas y desventajas que se presentan al verificar formalmente una estructura
+de datos y los retos encontrados al tratar de verificar programas directamente traducidos de \textbf{Haskell}.
+\section*{Índice tentativo}
+\begin{enumerate}[I.]
+  \item Motivación
+    \begin{enumerate}[1.]
+     \item Arboles Rojinegros
+     \item Traducción de Haskell a {\coq} (Hs-to-Coq)
+    \end{enumerate}
+
+  \item Implementación de Arboles Rojinegros en {\coq}
+    \begin{enumerate}[1.]
+      \item Traduciendo implementaciones
+      \item Inserción de elementos en un ARN
+      \item Eliminación de elementos de un ARN
+    \end{enumerate}
+
+  \item Verificación formal de ARN
+    \begin{enumerate}[1.]
+      \item Capturando los invariantes de los ARN
+      \item Verificaci\'on de la operaci\'on de inserci\'on 
+      \item Verificaci\'on de la operaci\'on de eliminaci\'on
+    \end{enumerate}
+    
+  \item Conclusiones
+\end{enumerate}
+
+\section*{Bibliografía básica}
+\begin{enumerate}
+  \item Graciela L\'opez Campos, \emph{Implementaciones funcionales de arboles roji-negros}. 2015., 
+Disponible en l\'inea \url{	http://132.248.9.195/ptd2015/septiembre/0735684/Index.html}, 2019.
+  \item  Andrew W. Appel, Pierre Letouzey. \emph{Library Coq.MSets.MSetRBT}. 2011. \url{https://coq.inria.fr/library/Coq.MSets.MSetRBT.html}
+  \item Pierce, Benjamin C. et al., \emph{Software Foundations}. 2017. \url{http://www.cis.upenn.edu/~bcpierce/sf/current/index.html} 
+  \item Joachim Breitner, Antal Spector-Zabusky, Yao Li, Christine Rizkallah, John Wiegley, Stephanie Weirich, \emph{Ready, Set, Verify!}. 2018., 
+Disponible en l\'inea \url{	https://arxiv.org/pdf/1803.06960v2.pdf}, 2019.
+\end{enumerate}
+
+\end{document}
