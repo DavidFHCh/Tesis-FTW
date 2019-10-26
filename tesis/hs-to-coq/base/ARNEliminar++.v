@@ -116,7 +116,42 @@ Definition remove x t := makeBlack (del x t).
 (* Lemmas a demostrar *)
 
 
-
+Lemma lbalS_rb {a} `{GHC.Base.Ord a} (n : nat) (l : RB a) (x : a ) (r : RB a) :
+nearly_redblack n l -> is_redblack (S n) r -> notred r -> is_redblack (S n) (lbalS l x r).
+Proof.
+intros.
+destruct r.
+destruct l.
+simpl.
+constructor.
+exact H3.
+exact H3.
+exact H2.
+exact H2.
+simpl.
+destruct c.
+constructor.
+simpl;trivial.
+exact H3.
+inversion H1.
+inversion H4.
+constructor.
+exact H11.
+exact H12.
+inversion H4.
+constructor.
+exact H7.
+exact H9.
+exact H2.
+constructor.
+simpl;trivial.
+exact H3.
+constructor.
+inversion H2.
+inversion H2.
+exact H2.
+destruct l.
+Admitted.
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : is_redblack n l -> is_redblack n r ->
  (nearly_redblack n (append l r)) /\
  (notred l -> notred r -> is_redblack n (append l r)).
@@ -212,10 +247,54 @@ intros.
 simpl in H21.
 contradiction.
 --- (*APPEND RED BLACK*)
-admit.
+simpl.
+set (r:= T B rl rx rr) in *.
+specialize (IHlr r).
+split.
+destruct (IHlr n) as (_,IH).
+inversion H1.
+exact H10.
+exact H2.
+inversion H1.
+constructor 2.
+constructor.
+exact H9.
+apply IH.
+exact H8.
+simpl;trivial.
+intro;contradiction.
 --- (*APPEND BLACK RED*)
-admit.
+change (append _ _) with (T R (append (T B ll lx lr) rl) rx rr).
+intros.
+set (l:=T B ll lx lr) in *.
+destruct (IHrl n) as (_,IH).
+exact H1.
+inversion H2.
+exact H9.
+split.
+inversion H2.
+constructor 2.
+constructor.
+apply IH.
+simpl;trivial.
+exact H6.
+exact H10.
+simpl.
+intros.
+contradiction.
 --- (*APPEND BLACK BLACK*)
+specialize (IHlr rl).
+destruct n.
+split.
+inversion H1.
+inversion H2.
+intros.
+destruct (IHlr n) as (IH,_).
+inversion H1.
+exact H8.
+inversion H2.
+exact H6.
+
 admit.
 Admitted.
 destruct (append lr rl).
