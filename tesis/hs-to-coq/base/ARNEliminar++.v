@@ -151,6 +151,66 @@ case (IHlr n).
 exact H10.
 exact H17.
 intros.
+split.
+constructor 2.
+simpl.
+destruct (append lr rl).
+constructor.
+exact H9.
+constructor.
+simpl.
+trivial.
+exact H16.
+inversion H19.
+exact H21.
+apply H20.
+exact H8.
+exact H14.
+exact H18.
+destruct c.
+constructor.
+inversion H19.
+constructor 2.
+exact H6.
+inversion H21.
+exact H25.
+exact H9.
+inversion H21.
+exact H28.
+constructor.
+exact H6.
+inversion H21.
+admit.
+exact H9.
+inversion H21.
+exact H24.
+inversion H19.
+constructor.
+inversion H21.
+exact H27.
+exact H16.
+inversion H21.
+exact H29.
+exact H18.
+constructor.
+admit.
+exact H16.
+inversion H21.
+exact H26.
+exact H18.
+constructor.
+exact H9.
+constructor.
+simpl.
+trivial.
+exact H16.
+inversion H19.
+exact H21.
+inversion H21.
+exact H18.
+intros.
+simpl in H21.
+contradiction.
 --- (*APPEND RED BLACK*)
 admit.
 --- (*APPEND BLACK RED*)
