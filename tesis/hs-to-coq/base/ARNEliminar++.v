@@ -115,6 +115,33 @@ Definition remove x t := makeBlack (del x t).
 
 (* Lemmas a demostrar *)
 
+Lemma foo {a} `{GHC.Base.Ord a} (n : nat) (t : RB a):
+nearly_redblack n t -> notred t -> is_redblack n t.
+Proof.
+intros.
+destruct n; destruct t.
+- trivial.
+- destruct c.
+inversion H2.
+inversion H1.
+assumption.
+inversion H3.
+- destruct H1.
+assumption.
+inversion H1.
+- destruct c.
+inversion H1.
+assumption.
+inversion H2.
+inversion H1.
+assumption.
+inversion H3.
+Qed.
+
+Hint Resolve foo.
+
+
+
 
 Lemma lbalS_rb {a} `{GHC.Base.Ord a} (n : nat) (l : RB a) (x : a ) (r : RB a) :
 nearly_redblack n l -> is_redblack (S n) r -> notred r -> is_redblack (S n) (lbalS l x r).
@@ -152,9 +179,12 @@ inversion H2.
 exact H2.
 destruct l.
 Admitted.
-Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : is_redblack n l -> is_redblack n r ->
- (nearly_redblack n (append l r)) /\
- (notred l -> notred r -> is_redblack n (append l r)).
+
+
+Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
+  is_redblack n l -> is_redblack n r ->
+   (nearly_redblack n (append l r)) /\
+   (notred l -> notred r -> is_redblack n (append l r)).
 Proof.
 revert r n.
 induction l as [| lc ll _ lx lr IHlr].
@@ -294,8 +324,8 @@ inversion H1.
 exact H8.
 inversion H2.
 exact H6.
-
-admit.
+split.
+constructor.
 Admitted.
 destruct (append lr rl).
 constructor.
