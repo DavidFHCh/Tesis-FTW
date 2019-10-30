@@ -148,15 +148,13 @@ nearly_redblack n l -> is_redblack (S n) r -> notred r -> is_redblack (S n) (lba
 Proof.
 intros.
 destruct r.
+- 
 destruct l.
 simpl.
-constructor.
-exact H3.
-exact H3.
-exact H2.
-exact H2.
-simpl.
+constructor; assumption.
+(* simpl. *)
 destruct c.
+-- 
 constructor.
 simpl;trivial.
 exact H3.
@@ -170,6 +168,7 @@ constructor.
 exact H7.
 exact H9.
 exact H2.
+--
 constructor.
 simpl;trivial.
 exact H3.
@@ -177,7 +176,43 @@ constructor.
 inversion H2.
 inversion H2.
 exact H2.
+-
 destruct l.
+-- 
+destruct c.
+simpl.
+destruct r1.
+constructor.
+simpl; trivial.
+assumption.
+inversion H2; assumption.
+assumption.
+destruct c.
+
+
+constructor.
+simpl; trivial.
+assumption.
+admit.
+assumption.
+constructor.
+simpl; trivial.
+
+destruct r2; simpl; trivial.
+destruct r2_1.
+destruct r2_2.
+simpl; trivial.
+destruct c0.
+inversion H3.
+simpl; trivial.
+destruct c0; destruct r2_2; inversion H3.
+inversion H3.
+inversion H3.
+
+(*Lemma rbal'_rb n l k r :
+ rbt n l -> arbt n r -> rbt (S n) (rbal' l k r).
+ *)
+admit.
 Admitted.
 
 
@@ -326,6 +361,7 @@ inversion H2.
 exact H6.
 split.
 constructor.
+
 Admitted.
 destruct (append lr rl).
 constructor.
