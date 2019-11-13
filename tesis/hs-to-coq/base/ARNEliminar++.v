@@ -482,29 +482,99 @@ exact H6.
 split.
 constructor.
 simpl.
-
-Admitted.
 destruct (append lr rl).
+apply lbalS_rb.
+inversion H1.
 constructor.
- induction l as [| lc ll _ lx lr IHlr];
- [intro r; simpl
- |induction r as [| rc rl IHrl rx rr _];
-   [simpl
-   |destruct lc, rc;
-     [specialize (IHlr rl); clear IHrl
-     |simpl;
-      assert (Hr:notred (T B rl rx rr)) by (simpl; trivial);
-      set (r:= T B rl rx rr) in *; clearbody r; clear IHrl rl rx rr;
-      specialize (IHlr r)
-     |change (append _ _) with (T R (append (T B ll lx lr) rl) rx rr);
-      assert (Hl:notred (T B ll lx lr)) by (simpl; trivial);
-      set (l:=T B ll lx lr) in *; clearbody l; clear IHlr ll lx lr
-     |specialize (IHlr rl); clear IHrl]]].
+exact H6.
+constructor.
+inversion IH.
+exact H3.
+inversion H3.
+inversion H2.
+exact H8.
+simpl;trivial.
+destruct c.
+constructor;simpl;trivial.
+inversion H1.
+constructor.
+exact H6.
+inversion IH.
+inversion H9.
+exact H16.
+inversion H9.
+exact H12.
+inversion H2.
+constructor.
+inversion IH.
+inversion H9.
+exact H17.
+inversion H9.
+exact H14.
+exact H8.
+apply lbalS_rb.
+inversion H1.
+constructor.
+exact H6.
+inversion H2.
+constructor.
+inversion IH.
+exact H9.
+inversion H9.
+exact H8.
+simpl;trivial.
+intros.
+simpl.
+destruct (append lr rl).
+apply lbalS_rb.
+inversion H1.
+constructor.
+exact H8.
+inversion H2.
+constructor.
+inversion IH.
+exact H11.
+inversion H11.
+exact H10.
+simpl;trivial.
+destruct c.
+constructor;simpl;trivial.
+inversion H1.
+constructor.
+exact H8.
+inversion IH.
+inversion H11.
+exact H18.
+inversion H11.
+exact H14.
+constructor.
+inversion IH.
+inversion H5.
+exact H13.
+inversion H5.
+exact H10.
+inversion H2.
+exact H10.
+apply lbalS_rb.
+inversion H1.
+constructor.
+exact H8.
+constructor.
+inversion IH.
+exact H5.
+inversion H5.
+inversion H2.
+exact H10.
+simpl;trivial.
+Qed.
+
 
 
 
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) : is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
 with del_rb s x n : is_redblack n s -> notblack s -> is_redblack n (del x s).
+Proof.
+ 
 Admitted.
 
 Instance remove_rb s x : redblack s -> redblack (remove x s).
