@@ -146,74 +146,213 @@ Hint Resolve foo.
 Lemma lbalS_rb {a} `{GHC.Base.Ord a} (n : nat) (l : RB a) (x : a ) (r : RB a) :
 nearly_redblack n l -> is_redblack (S n) r -> notred r -> is_redblack (S n) (lbalS l x r).
 Proof.
-intros.
+intros Hl Hr Hr'.
 destruct r.
-- 
-destruct l.
-simpl.
-constructor; assumption.
-(* simpl. *)
-destruct c.
--- 
-constructor.
-simpl;trivial.
-exact H3.
-inversion H1.
-inversion H4.
-constructor.
-exact H11.
-exact H12.
-inversion H4.
-constructor.
-exact H7.
-exact H9.
-exact H2.
---
-constructor.
-simpl;trivial.
-exact H3.
-constructor.
-inversion H2.
-inversion H2.
-exact H2.
+-
+inversion Hr.
 -
 destruct l.
--- 
-destruct c.
 simpl.
-destruct r1.
-constructor.
-simpl; trivial.
-assumption.
-inversion H2; assumption.
-assumption.
 destruct c.
-
-
+-- 
+destruct r1.
+---
 constructor.
-simpl; trivial.
-assumption.
-admit.
-assumption.
+simpl;trivial.
+exact Hr'.
+inversion Hr.
+exact H7.
+exact Hr.
+---
+simpl in Hr'.
+contradiction.
+-- 
+destruct r1.
+---
+destruct r2.
 constructor.
-simpl; trivial.
-
-destruct r2; simpl; trivial.
-destruct r2_1.
-destruct r2_2.
-simpl; trivial.
+inversion Hr.
+exact H4.
+inversion Hr.
+constructor;simpl;trivial.
+destruct c.
+constructor;simpl;trivial.
+inversion Hr.
+constructor.
+exact H4.
+exact H4.
+inversion Hr.
+inversion H6.
+constructor.
+exact H13.
+exact H14.
+inversion Hr.
+constructor.
+exact H4.
+constructor;simpl;trivial.
+---
+destruct c.
+----
+destruct r2.
+inversion Hr.
+inversion H4.
+constructor;simpl;trivial.
+constructor.
+exact H6.
+exact H13.
+constructor.
+exact H14.
+exact H6.
+destruct c.
+inversion Hr.
+constructor;simpl;trivial.
+constructor;simpl;trivial.
+inversion Hl.
+exact H7.
+inversion H7.
+inversion H6.
+constructor;trivial.
+inversion Hr.
+constructor;simpl;trivial.
+constructor;simpl;trivial.
+inversion Hl.
+exact H7.
+inversion H7.
+inversion H4;trivial.
+constructor.
+inversion H4;trivial.
+exact H6.
+----
+destruct r2.
+inversion Hr.
+constructor.
+exact H6.
+constructor;simpl;trivial.
+destruct c.
+inversion Hr.
+constructor;simpl;trivial.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+exact H4.
+inversion H6.
+constructor.
+exact H13.
+exact H14.
+inversion Hr.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+constructor;simpl;trivial.
+--
+simpl.
 destruct c0.
-inversion H3.
-simpl; trivial.
-destruct c0; destruct r2_2; inversion H3.
-inversion H3.
-inversion H3.
+---
+constructor;simpl;trivial.
+inversion Hl.
+inversion H1.
+constructor.
+exact H8.
+exact H9.
+inversion H1.
+constructor.
+exact H4.
+exact H6.
+---
+destruct c.
+simpl in Hr'.
+contradiction.
+destruct r1.
+----
+destruct r2.
+-----
+inversion Hl;constructor.
+exact H1.
+inversion Hr.
+constructor;simpl;trivial.
+inversion H1.
+inversion Hr.
+constructor;simpl;trivial.
+-----
+destruct c;constructor;simpl;trivial.
+inversion Hl.
+constructor.
+exact H1.
+inversion Hr.
+exact H5.
+constructor.
+inversion H1.
+inversion H1.
+inversion Hr.
+inversion H6.
+constructor;trivial.
+inversion Hl.
+exact H1.
+inversion H1.
+inversion Hr.
+constructor;simpl;trivial.
+----
+destruct c.
+-----
+destruct r2.
+inversion Hr.
+inversion H4.
+constructor;simpl;trivial.
+constructor.
+inversion Hl.
+exact H15.
+inversion H15.
+exact H13.
+constructor;trivial.
+destruct c.
+inversion Hr.
+constructor;simpl;trivial.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+exact H4.
+inversion H6.
+constructor;trivial.
+inversion Hr.
+constructor;simpl;trivial.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+inversion H4.
+exact H13.
+constructor.
+inversion H4.
+exact H14.
+exact H6.
+-----
+destruct r2.
+inversion Hr.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+constructor;simpl;trivial.
+destruct c.
+inversion Hr.
+constructor;simpl;trivial.
+constructor;simpl;trivial.
+inversion Hl.
+exact H7.
+inversion H7.
+inversion H6.
+constructor;trivial.
+inversion Hr.
+constructor.
+inversion Hl.
+exact H7.
+inversion H7.
+constructor;simpl;trivial.
+Qed.
 
-(*Lemma rbal'_rb n l k r :
- rbt n l -> arbt n r -> rbt (S n) (rbal' l k r).
- *)
-admit.
-Admitted.
 
 
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
@@ -269,45 +408,26 @@ exact H14.
 exact H18.
 destruct c.
 constructor.
-inversion H19.
-constructor 2.
-exact H6.
-inversion H21.
-exact H25.
-exact H9.
-inversion H21.
-exact H28.
+specialize (H20 H8).
+specialize (H20 H14).
 constructor.
 exact H6.
-inversion H21.
-admit.
-exact H9.
-inversion H21.
+inversion H20.
 exact H24.
-inversion H19.
-constructor.
-inversion H21.
-exact H27.
-exact H16.
-inversion H21.
-exact H29.
-exact H18.
-constructor.
-admit.
-exact H16.
-inversion H21.
-exact H26.
-exact H18.
-constructor.
 exact H9.
+inversion H20.
+exact H27.
+specialize (H20 H8).
+specialize (H20 H14).
+inversion H20.
 constructor.
-simpl.
-trivial.
+exact H26.
 exact H16.
-inversion H19.
-exact H21.
-inversion H21.
+exact H28.
 exact H18.
+constructor;trivial.
+constructor;simpl;trivial.
+apply H20;trivial.
 intros.
 simpl in H21.
 contradiction.
@@ -361,6 +481,7 @@ inversion H2.
 exact H6.
 split.
 constructor.
+simpl.
 
 Admitted.
 destruct (append lr rl).
