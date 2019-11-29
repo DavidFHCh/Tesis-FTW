@@ -141,7 +141,165 @@ Qed.
 Hint Resolve foo.
 
 
-
+Lemma rbal'_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
+ is_redblack n l -> nearly_redblack n r -> is_redblack (S n) (rbal' l k r).
+Proof.
+intros.
+destruct r.
+simpl.
+constructor.
+assumption.
+inversion H2.
+assumption.
+inversion H3.
+simpl.
+destruct c.
+destruct r1.
+destruct r2.
+constructor.
+assumption.
+inversion H2.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+destruct c.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H11.
+constructor.
+assumption.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H8.
+constructor.
+assumption.
+assumption.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+destruct c.
+destruct r2.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H10.
+assumption.
+inversion H10.
+constructor.
+assumption.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H6.
+assumption.
+inversion H6.
+constructor.
+assumption.
+assumption.
+destruct c.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H11.
+constructor.
+assumption.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H8.
+constructor.
+assumption.
+assumption.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H10.
+assumption.
+constructor;simpl;trivial.
+inversion H10.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H6.
+assumption.
+constructor.
+inversion H6.
+assumption.
+assumption.
+destruct r2.
+inversion H2.
+constructor.
+assumption.
+constructor;simpl;trivial.
+inversion H3.
+assumption.
+inversion H3.
+assumption.
+constructor.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+destruct c.
+inversion H2.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H11.
+constructor.
+assumption.
+assumption.
+inversion H3.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H8.
+constructor.
+assumption.
+assumption.
+inversion H2.
+inversion H3.
+constructor.
+assumption.
+constructor;simpl;trivial.
+inversion H3.
+constructor.
+assumption.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H2.
+assumption.
+inversion H3.
+Qed.
 
 Lemma lbalS_rb {a} `{GHC.Base.Ord a} (n : nat) (l : RB a) (x : a ) (r : RB a) :
 nearly_redblack n l -> is_redblack (S n) r -> notred r -> is_redblack (S n) (lbalS l x r).
@@ -353,6 +511,142 @@ inversion H7.
 constructor;simpl;trivial.
 Qed.
 
+Lemma lbalS_arb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (x:a) (r: RB a):
+ nearly_redblack n l -> is_redblack (S n) r -> nearly_redblack (S n) (lbalS l x r).
+Proof.
+intros.
+destruct l.
+-
+simpl.
+destruct r.
+constructor 2.
+constructor;simpl;trivial.
+destruct c.
+destruct r1.
+inversion H2.
+inversion H9.
+inversion H2.
+destruct c.
+simpl in H6;contradiction.
+constructor 2.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H11.
+inversion H9.
+assumption.
+apply rbal'_rb.
+inversion H9.
+assumption.
+destruct r2.
+simpl.
+inversion H10.
+destruct c.
+simpl in H8;contradiction.
+simpl.
+constructor 2.
+constructor.
+inversion H10;assumption.
+inversion H10;assumption.
+inversion H2.
+destruct r1.
+destruct r2.
+constructor.
+constructor.
+assumption.
+constructor;simpl;trivial.
+destruct c.
+constructor.
+constructor;simpl;trivial.
+constructor.
+assumption.
+assumption.
+inversion H8.
+constructor.
+assumption.
+assumption.
+constructor.
+constructor.
+assumption.
+constructor;simpl;trivial.
+destruct c.
+destruct r2.
+constructor.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H6.
+assumption.
+constructor.
+inversion H6.
+assumption.
+assumption.
+destruct c.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9.
+assumption.
+constructor.
+inversion H8.
+assumption.
+inversion H8.
+assumption.
+constructor.
+constructor;simpl;trivial.
+inversion H6.
+constructor.
+inversion H1.
+assumption.
+inversion H17.
+assumption.
+constructor.
+inversion H6.
+assumption.
+assumption.
+destruct r2.
+constructor.
+constructor.
+assumption.
+constructor;simpl;trivial.
+destruct c.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9.
+assumption.
+inversion H8.
+constructor.
+assumption.
+assumption.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H9.
+constructor;simpl;trivial.
+-
+constructor.
+simpl.
+destruct c.
+constructor.
+Admitted.
+
+
+Lemma rbalS_rb `{GHC.Base.Ord a} (n:nat) (l:RB a) (x:a) (r: RB a) :
+ is_redblack (S n) l -> notred l -> nearly_redblack n r -> is_redblack (S n) (rbalS l x r).
+Proof.
+Admitted.
+
+Lemma rbalS_arb `{GHC.Base.Ord a} (n:nat) (l:RB a) (x:a) (r: RB a) :
+ is_redblack (S n) l -> nearly_redblack n r -> nearly_redblack (S n) (rbalS l x r).
+Proof.
+Admitted.
 
 
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
@@ -572,9 +866,31 @@ Qed.
 
 
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) : is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
-with del_rb s x n : is_redblack n s -> notblack s -> is_redblack n (del x s).
+with del_rb  {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) : is_redblack n s -> notblack s -> is_redblack n (del x s).
 Proof.
- 
+-
+revert n.
+induction s;try contradiction.
+destruct c.
+contradiction.
+intros.
+inversion H1.
+simpl.
+destruct (_GHC.Base.<_ x a0).
+assert (IHl' := del_rb a H H0 s1 x).
+destruct s1.
+simpl.
+constructor 2.
+constructor.
+trivial.
+trivial.
+destruct c.
+
+2: {
+destruct (_GHC.Base.>_ x a0).
+2:{
+apply append_arb_rb;assumption.
+
 Admitted.
 
 Instance remove_rb s x : redblack s -> redblack (remove x s).
