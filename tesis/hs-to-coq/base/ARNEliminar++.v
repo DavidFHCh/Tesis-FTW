@@ -631,16 +631,207 @@ assumption.
 inversion H9.
 constructor;simpl;trivial.
 -
-constructor.
 simpl.
 destruct c.
+--
+constructor 2.
 constructor.
-Admitted.
+inversion H1.
+inversion H3.
+constructor.
+assumption.
+assumption.
+inversion H3.
+constructor.
+assumption.
+assumption.
+assumption.
+--
+destruct r.
+inversion H2.
+destruct c.
+inversion H2.
+destruct r1.
+inversion H9.
+destruct c.
+simpl in H6;contradiction.
+constructor 2.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H11.
+inversion H9.
+assumption.
+apply rbal'_rb.
+inversion H9.
+assumption.
+destruct r2.
+inversion H10.
+inversion H10.
+subst.
+simpl in H8;contradiction.
+simpl.
+constructor 2.
+constructor.
+assumption.
+assumption.
+destruct r2.
+destruct r1.
+inversion H1.
+inversion H3.
+subst.
+inversion H2.
+inversion H11.
+inversion H3.
+destruct c.
+inversion H2.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9;assumption.
+inversion H6;assumption.
+constructor.
+inversion H6;assumption.
+assumption.
+inversion H2.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H9;assumption.
+constructor;simpl;trivial.
+destruct r1.
+destruct c.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H3.
+inversion H2.
+assumption.
+inversion H2.
+inversion H8.
+constructor;assumption.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H3;assumption.
+inversion H2.
+constructor;simpl;trivial.
+destruct c0.
+destruct c.
+inversion H2.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9;constructor;assumption.
+assumption.
+inversion H8.
+constructor;assumption.
+inversion H2.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9.
+inversion H6;assumption.
+inversion H6.
+constructor;assumption.
+destruct c.
+inversion H2.
+constructor.
+constructor;simpl;trivial.
+constructor.
+inversion H1.
+assumption.
+inversion H9.
+assumption.
+inversion H8.
+constructor;assumption.
+constructor.
+constructor.
+inversion H1.
+assumption.
+inversion H3;constructor;assumption.
+inversion H2.
+constructor;simpl;trivial.
+Qed.
 
 
 Lemma rbalS_rb `{GHC.Base.Ord a} (n:nat) (l:RB a) (x:a) (r: RB a) :
  is_redblack (S n) l -> notred l -> nearly_redblack n r -> is_redblack (S n) (rbalS l x r).
 Proof.
+intros.
+destruct r.
+-
+simpl.
+destruct l.
+inversion H1.
+destruct c.
+simpl in H2;contradiction.
+destruct l1.
+destruct l2.
+inversion H1.
+constructor.
+constructor;assumption.
+assumption.
+destruct c.
+inversion H1.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H9.
+assumption.
+inversion H9.
+constructor;assumption.
+inversion H1.
+constructor.
+constructor;simpl;trivial.
+assumption.
+destruct c.
+inversion H1.
+constructor;simpl;trivial.
+inversion H7.
+constructor;assumption.
+constructor.
+assumption.
+inversion H3.
+assumption.
+inversion H10.
+destruct l2.
+inversion H1.
+constructor.
+constructor;simpl;trivial.
+assumption.
+destruct c.
+inversion H1.
+constructor;simpl;trivial.
+constructor.
+assumption.
+inversion H9.
+assumption.
+constructor.
+inversion H9.
+assumption.
+inversion H3.
+assumption.
+inversion H10.
+inversion H1.
+constructor.
+constructor;simpl;trivial.
+inversion H3.
+assumption.
+inversion H10.
+-
+simpl.
 Admitted.
 
 Lemma rbalS_arb `{GHC.Base.Ord a} (n:nat) (l:RB a) (x:a) (r: RB a) :
