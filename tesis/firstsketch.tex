@@ -1,0 +1,375 @@
+\documentclass[letterpaper,12pt,oneside]{book}
+\usepackage[top=1in, left=0.9in, right=1.25in, bottom=1in]{geometry}
+\usepackage{bachelorstitlepageUNAM}
+\usepackage[utf8]{inputenc}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-nodecimaldot,es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{tikz} 
+\usepackage{tocloft}
+\graphicspath{{./figs/}}
+\usepackage{setspace}
+\usepackage{minted}
+
+
+\newcommand{\coq}{\textbf{Coq}}
+\newcommand{\ARNs}{Arboles Roji-negros }
+\newcommand{\ARN}{Árbol Roji-negro }
+\newcommand{\arn}{árbol roji-negro }
+\newcommand{\arns}{arboles roji-negros }
+%\usepackage[round]{natbib}
+
+%para pintar arboles bonitos...
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+%\usetikzlibrary{arrows}
+
+
+\tikzset{
+treenode/.style = {align=center, inner sep=0pt, text centered,
+font=\sffamily},
+arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black,
+fill=black, text width=1.5em},% arbre rouge noir, noeud noir
+arn_r/.style = {treenode, circle, white, draw=red, fill= red,
+text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+arn_x/.style = {treenode, rectangle, white, draw=black, fill= black,
+minimum width=0.5em, minimum height=0.5em},% arbre rouge noir, nil
+arn_bb/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=gray,
+fill=gray, text width=1.5em},
+arn_nb/.style = {treenode, circle, black, font=\sffamily\bfseries, draw=black,
+fill=white, text width=1.5em},
+arn_w/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=brown,
+fill=brown, text width=1.5em},
+arn_xb/.style = {treenode, rectangle, white, draw=gray, fill= gray,
+minimum width=0.5em, minimum height=0.5em}
+}
+
+\renewcommand\cftsecpresnum{\S}
+\renewcommand\cftsubsecpresnum{\S}   
+
+
+\begin{document}
+%------------------------------
+
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{minipage}[c][0.17\textheight][c]{0.25\textwidth}
+\begin{center}
+\includegraphics[width=3.5cm, height=3.5cm]{Escudo-UNAM.pdf}
+\end{center}
+\end{minipage}
+\begin{minipage}[c][0.195\textheight][t]{0.75\textwidth}
+\begin{center}
+\vspace{0.3cm}
+\textsc{\large Universidad Nacional Aut\'onoma de M\'exico}\\[0.5cm]
+\vspace{0.3cm}
+\hrule height2.5pt
+\vspace{.2cm}
+\hrule height1pt
+\vspace{.8cm}
+\textsc{Facultad de Ciencias}\\[0.5cm] %
+\end{center}
+\end{minipage}
+
+\begin{minipage}[c][0.81\textheight][t]{0.25\textwidth}
+\vspace*{5mm}
+\begin{center}
+\hskip2.0mm
+\vrule width1pt height13cm 
+\vspace{5mm}
+\hskip2pt
+\vrule width2.5pt height13cm
+\hskip2mm
+\vrule width1pt height13cm \\
+\vspace{5mm}
+\includegraphics[height=4.0cm]{Escudo-FCIENCIAS.pdf}
+\end{center}
+\end{minipage}
+\begin{minipage}[c][0.81\textheight][t]{0.75\textwidth}
+\begin{center}
+\vspace{1cm}
+
+{\large\scshape Verificación formal de arboles roji-negros}\\[.2in]
+
+\vspace{2cm}            
+
+\textsc{\LARGE T\hspace{1.5cm}E\hspace{1.5cm}S\hspace{1.5cm}I\hspace{1.5cm}S}\\[0.5cm]
+\textsc{\large que para obtener el t\'itulo de:}\\[0.5cm]
+\textsc{\large Licenciado en Ciencias de la Computación}\\[0.5cm]
+\textsc{\large presenta:}\\[0.5cm]
+\textsc{\large {David Felipe Hern\'andez Chiapa}}\\[2cm]          
+
+\vspace{0.5cm}
+
+{\large\scshape Tutores:\\[0.3cm] {Dra. Lourdes del Carmen Gonzalez Huesca}}\\[.2in]
+
+\vspace{0.5cm}
+
+\large{Ciudad Universitaria, Ciudad de México,}{ }{2019}
+\end{center}
+\end{minipage}
+\end{titlepage}
+
+
+
+%---------------------------------
+\frontmatter
+%\maketitle
+\chapter*{}
+\begin{flushright}%
+\emph{Dedicatoria ...}
+\thispagestyle{empty}
+\end{flushright}
+
+\chapter{Agradecimientos}
+\spacing{1.5}%\doublespacing
+
+\chapter{Notación}
+
+\chapter{Introducción}
+
+\tableofcontents
+\listoffigures
+
+
+\mainmatter
+
+\chapter{Motivación} 
+\section{Introducción}
+\section{Arboles Roji-negros}
+Los \arns son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y busqueda se efectuan
+en tiempo logaritmico, es decir, la complejidad de esas operaciones es $O(log(n))$, estos son una subclase de los
+arboles binarios de busqueda, en los cuales la complejidad crece hasta $O(n)$. Esta mejora en la complejidad se obtiene 
+gracias a la introduccion de colores en los nodos del \'arbol y tambien a invariantes, las cuales describiremos 
+mas adelante.
+\subsection{Definici\'on de \arns}
+Un \arn se define de la siguiente manera:
+{\definition
+Un \'arbol binario de busqueda es un \arn si satisface lo siguiente:
+\begin{enumerate}
+    \item Todos sus nodos son rojos o negros.
+    \item El \'arbol vacio es negro.
+    \item La raiz es negra.
+    \item Las siguientes invariantes se tienen que cumplir:
+    \begin{itemize}
+        \item Un nodo rojo debe tener hijos negros.
+        \item Todos los caminos de la raiz a las hojas deben tener la misma cantidad de nodos negros.
+    \end{itemize}
+\end{enumerate}
+}
+Se presentan en la Figura 1, ejemplos visuales de \arns. Se muestran dos variantes, uno con nodos vacíos en las hojas
+y el otro sin estos.
+
+\hspace*{5cm}
+\begin{figure}
+\label{arbolRB}
+ \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+        child{ node [arn_r] {2} 
+            child{ node [arn_n] {1} 
+                child{ node [arn_x] {}} %for a named pointer
+                child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+                child{ node [arn_r] {3}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+                child{ node [arn_r] {5}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+            }                            
+        }
+        child{ node [arn_n] {8}
+            child{ node [arn_x] {}}
+            child{ node [arn_r] {9}
+                child{ node [arn_x] {}}
+                child{ node [arn_x] {}}
+            }
+        }
+;
+\draw node [text width=7cm] at (-1,-4.5)
+{
+\'Arbol roji-negro con vac\'ios.
+}
+;
+\node [arn_n] at (5,0) {6}
+    child{ node [arn_r] {2} 
+        child{ node [arn_n] {1}}
+        child{ node [arn_n] {4}
+            child{ node [arn_r] {3}}
+            child{ node [arn_r] {5}}
+        }                            
+    }
+    child{ node [arn_n] {8}
+        child{ node [arn_r] {9}}
+    }
+;
+\draw node [text width=7cm] at (7,-4.5)
+{
+\'Arbol roji-negro.
+}
+;
+\end{tikzpicture}
+\centering Figura 1.
+\end{figure}
+Nos interesa estudiar este tipo no trivial de arboles binarios de busqueda para poder
+demostrar la correcci'on de estos usando el asistente de pruebas \coq y asi poder mostrar las ventajas, 
+y problematicas de este proceso.
+\section{Traducción de Haskell a \coq (hs-to-coq)}
+
+\chapter{Implementación de arboles roji-negros en \coq}
+
+\section{Traducción de implementaciones}
+Se tuvieron varias aproximaciones para la implementacion de \arns; la primera fue obtener las implementaciones en
+Haskell de estos (implementaciones obtenidas de la tesis de Gabriela) y pasarlo como entrada a hs-to-coq, la 
+segunda aproximacion, y la que se uso para esta tesis, fue obtener la implementacion de Okasaki traducida a Coq 
+(paginda de Coq), pero en lugar de usar las bibliotecas d tipos de Coq, se usaron los tipos de haskell.
+A continuacion profundarizare acerca de esos dos metodos.
+\subsection{Traduccion directa de implementaciones de Haskell a Coq}
+En un trabajo anterior, realizado por Gabriela, se obtuvieron diversas implementaciones de \arns la mayor parte de estas
+cambiaba mayormente en las implementaciones de las operaciones de borrado, siendo esta la operacion mas compleja. 
+Estas diversas implementaciones van desde la simple implementacion de Okasaki, constructores inteligentes y tipos anidados.
+
+Por la compleja naturaleza de estas implementaciones la traduccion a mano del codigo de Haskell resultaba ser muy problematica,
+ya que las implementaciones en Haskell se aprovechan del hecho de que en este lenguaje se pueden dar funciones parciales, 
+lo cual resulta ser un problema al momento de traducir a Coq, ya que Coq unicamente acepta funciones totales.
+
+Se opto usar la herramienta hs-to-coq para facilitar esta traducci\'on, pero por las mismas razones antes descritas (totalidad de funciones),
+la herramienta se ciclaba al momento de tratar de traducir el c\'odigo de Haskell. 
+
+Se busco otra acercamiento para poder verificar esta estructura; la herramienta hs-to-coq tiene una gran parte de las bibliotecas de Haskell 
+traducidas a Coq, entonces usamos la implementacion de \arns de las bibliotecas de Coq pero usando los tipos y comparaciones de tipos de Haskell.
+
+
+\section{Inserción de elementos en un \arn}
+
+La inserci\'on de elementos a un \arn es la mas sencilla de de las dos operaciones que tiene esta estructura. La idea detras de este algoritmo es que 
+solo se agreguen hojas al \'arbol y se efectuen `giros` para mantener las invariantes de la estructura.
+\subsection{Operaciones de Balanceo}
+Los `giros` antes mencionados estan definidos en las operaciones de balanceo, se tienen dos de estas, una para los subarboles izquierdos y otra para los 
+derechos. Estas operaciones de balanceo, se muestran en seguida, se encargan de solucionar los casos en los que despues de agregar una hoja quedan dos nodos rojos.
+El giro elimina el doble nodo rojo al crear solo un nodo rojo con dos hijos negros, de igual manera al tener dos hijos negros nos aseguramos que el arbol crece de manera controlada 
+en n\'umero de nodos negros, ya que en ningun momento se estan agregando dos nodos negros contiguos. Cabe mencionar que esta es la unica operacion en donde se agregan nodos negros con la excepcion de makeBlack, la cual describiremos mas adelante.
+\begin{minted}{coq}
+Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match l with
+ | T R (T R a x b) y c => T R (T B a x b) y (T B c k r)
+ | T R a x (T R b y c) => T R (T B a x b) y (T B c k r)
+ | _ => T B l k r
+ end.
+
+ Definition rbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
+ | T R b y (T R c z d) => T R (T B l k b) y (T B c z d)
+ | _ => T B l k r
+ end.
+\end{minted}
+
+Mas adelante se explicar\'a porque solamente nos estamos fijando en estos casos para el balanceo de los arboles.
+\subsection {Funci\'on de inserci\'on}
+Con estea funci\'on es donde por fin se puede apreciar que bibliotecas de Haskell se estan usando, podemos apreciar como los tipos que estamos
+agregando al \'arbol son tipos ordenados de la biblioteca Base de GHC y por esa misma manera estamos usando las comparaciones de esa misma biblioteca.
+
+Se puede ver que la operacion de balanceo solo se efectua cuando el nodo por el que se pasa es negro, al ser estos los nodos que se cuentan para decidir si un \'arbol
+esta balanceado. Al aplicar las operaciones de balanceo en estos nodos, nos aseguramos de no agregar nodos negros de mas, ya que si se agrega un nodo negro, se `baja` al subarbol hermano
+el nodo negro del que se empez\'o a efctuar la operacion de balanceo. 
+
+Tengo que expkicar esto con dibujos.
+\begin{minted}{coq}
+Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
+ match s with
+ | E => T R E x E
+ | T c l y r =>
+    if x GHC.Base.< y : bool then 
+      match c with
+       | R => T R (ins x l) y r
+       | B => lbal (ins x l) y r
+      end
+    else 
+    if x GHC.Base.> y : bool then 
+      match c with
+       | R => T R l y (ins x r)
+       | B => rbal l y (ins x r)
+      end
+    else s
+ end.
+\end{minted}
+
+Esta funcion de insercion no cumple con una de las invariantes, que la raiz del arbol sea negra, en ciertos casos puede dejar la raiz roja y por eso se introduce las siguientes definiciones:
+
+\begin{minted}{coq}
+Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
+ match t with
+ | E => E
+ | T _ a x b => T B a x b
+ end.
+
+Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
+\end{minted}
+
+La definici\'on makeBlack unicamente pinta cualquier nodo, y la definicion insert corrige el detalle de la funcion ins al pintar de negro la raiz de arbol resultante de 
+agregar un elemento a un \arn.
+\section{Eliminación de elementos en un \arn}
+
+\chapter{Verificación formal de \ARNs}
+Los \ARNs son una estructura de datos que mejora el tiempo de acceso, de inserción o eliminación de
+elementos con respecto a otras estructuras de datos, como las listas ligadas o doblemente ligadas. Como hemos visto en capitulos anteriores, para
+poder alcanzar esta eficiencia los algoritmos usados en los \arns son complejos y complicados de
+programar. Por esta razon es que nos preocupa que las iplementaciones que realicemos sean correctas, es decir que todas las operaciones que realizamos con las
+funciones antes descritas cumplan con las invariantes de los \arns.
+\section{Capturando los invariantes de los \arns}
+Como capturar las invariantes de los \arns ? Utilizamos una funcion indcutiva, llamada $is\_redblack$
+para poder capturar los invariantes, la cual lleva como parametros un contador y un \'arbol. El contador
+lleva el control de la cantidad de nodos negros mientras que el \'arbol es aquel que estamos buscando
+verificar que cumpla con las invariantes de un \arn. Se muestra esta funci\`on a continuaci\'on:
+
+\begin{minted}{coq}
+Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
+ | RB_Leaf : is_redblack 0 E
+ | RB_R n l k r : notred l -> notred r ->
+                  is_redblack n l -> is_redblack n r ->
+                  is_redblack n (T R l k r)
+ | RB_B n l k r : is_redblack n l -> is_redblack n r ->
+                  is_redblack (S n) (T B l k r).
+\end{minted}
+
+Esta funci\'on tiene tres casos; $RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
+\begin{itemize}
+        \item \textbf{RB\_Leaf} - el arbol vacio es roji-negro.
+        \item \textbf{RB\_R} - un arbol rojo donde lleves contados $n$ nodos negros, donde sus hijos sean \arns y no sean rojos.
+        \item \textbf{RB\_B} - un arbol negro donde lleves contados $n+1$ nodos negros, incluido el actual, y sus hijos sean \arns.
+\end{itemize}
+
+Esta funci\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para poder probar la correcci\'on de los \arns,
+es demasiado restictiva y costaria mucho trabajo poder demostrar solo con esta funcion. Por esta razon se agrega otras dos funciones inductivas;
+$nearly\_redblack$ y $redred\_tree$. 
+
+\begin{minted}{coq}
+Inductive redred_tree {a} `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
+ | RR_Rd l k r : is_redblack n l -> is_redblack n r -> redred_tree n (T R l k r).
+
+Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
+ | ARB_RB : is_redblack n t -> nearly_redblack n t
+ | ARB_RR : redred_tree n t -> nearly_redblack n t.
+\end{minted}
+
+Podemos notar que estas funciones son versiones mas relajadas de $is\_redblack$. La funci\'on $nearly\_redblack$ permite que existan dos nodos rojos
+en la ra\'iz del \'arbol, aprovechandose de la $redred\_tree$, pues esta funcion es exactamente el caso $RB\_R$ pero sin las restricciones de que los subarboles sean rojos.
+\section{Verificación de la operación de inserción}
+\section{Verificación de la operación de eliminación}
+
+\chapter{Conclusiones}  
+
+%\bibliographystyle{humannat}
+%\bibliography{references}
+
+\backmatter%@sglvgdor
+
+
+\end{document}
