@@ -316,6 +316,85 @@ Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 La definici\'on makeBlack unicamente pinta cualquier nodo, y la definicion insert corrige el detalle de la funcion ins al pintar de negro la raiz de arbol resultante de 
 agregar un elemento a un \arn.
 \section{Eliminación de elementos en un \arn}
+\begin{minted}{coq}
+Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R b y (T R c z d) => T R (T B l k b) y (T B c z d)
+ | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
+ | _ => T B l k r
+ end.
+
+Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match l with
+ | T R a x b => T R (T B a x b) k r
+ | _ =>
+   match r with
+   | T B a y b => rbal' l k (T R a y b)
+   | T R (T B a y b) z c => T R (T B l k a) y (rbal' b z (makeRed c))
+   | _ => T R l k r 
+   end
+ end.
+
+Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R b y c => T R l k (T B b y c)
+ | _ =>
+   match l with
+   | T B a x b => lbal (T R a x b) k r
+   | T R a x (T B b y c) => T R (lbal (makeRed a) x b) y (T B c k r)
+   | _ => T R l k r 
+   end
+ end.
+
+
+Fixpoint append {a} `{GHC.Base.Ord a} (l:RB a) : RB a -> RB a :=
+ match l with
+ | E => fun r => r
+ | T lc ll lx lr =>
+   fix append_l (r:RB a) : RB a :=
+   match r with
+   | E => l
+   | T rc rl rx rr =>
+     match lc, rc with
+     | R, R =>
+       let lrl := append lr rl in
+       match lrl with
+       | T R lr' x rl' => T R (T R ll lx lr') x (T R rl' rx rr)
+       | _ => T R ll lx (T R lrl rx rr)
+       end
+     | B, B =>
+       let lrl := append lr rl in
+       match lrl with
+       | T R lr' x rl' => T R (T B ll lx lr') x (T B rl' rx rr)
+       | _ => lbalS ll lx (T B lrl rx rr)
+       end
+     | B, R => T R (append_l rl) rx rr
+     | R, B => T R ll lx (append lr r)
+     end
+   end
+ end.
+
+
+Fixpoint del {a} `{GHC.Base.Ord a} (x:a) (t:RB a) :=
+ match t with
+ | E => E
+ | T _ a y b =>
+    if x GHC.Base.< y : bool then 
+      match a with
+       | T B _ _ _ => lbalS (del x a) y b
+       | _ => T R (del x a) y b
+      end
+    else 
+    if x GHC.Base.> y : bool then 
+      match b with
+       | T B _ _ _ => rbalS a y (del x b)
+       | _ => T R a y (del x b)
+      end
+    else append a b
+ end.
+
+Definition remove x t := makeBlack (del x t).
+\end{minted}
 
 \chapter{Verificación formal de \ARNs}
 Los \ARNs son una estructura de datos que mejora el tiempo de acceso, de inserción o eliminación de
@@ -384,7 +463,20 @@ is_redblack n s -> nearly_redblack n (ins x s).
 Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) : redblack s -> redblack (insert x s).
 \end{minted}
 \section{Verificación de la operación de eliminación}
+\begin{minted}{coq}
+Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
+  is_redblack n l -> is_redblack n r ->
+   (nearly_redblack n (append l r)) /\
+   (notred l -> notred r -> is_redblack n (append l r)).
 
+
+Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
+      is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+ with del_rb  {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
+      is_redblack n s -> notblack s -> is_redblack n (del x s).
+
+Instance remove_rb s x : redblack s -> redblack (remove x s).
+\end{minted}
 \chapter{Conclusiones}  
 
 %\bibliographystyle{humannat}
