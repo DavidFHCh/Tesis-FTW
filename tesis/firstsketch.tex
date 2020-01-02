@@ -323,6 +323,7 @@ elementos con respecto a otras estructuras de datos, como las listas ligadas o d
 poder alcanzar esta eficiencia los algoritmos usados en los \arns son complejos y complicados de
 programar. Por esta razon es que nos preocupa que las iplementaciones que realicemos sean correctas, es decir que todas las operaciones que realizamos con las
 funciones antes descritas cumplan con las invariantes de los \arns.
+
 \section{Capturando los invariantes de los \arns}
 Como capturar las invariantes de los \arns ? Utilizamos una funcion indcutiva, llamada $is\_redblack$
 para poder capturar los invariantes, la cual lleva como parametros un contador y un \'arbol. El contador
@@ -360,8 +361,28 @@ Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
 \end{minted}
 
 Podemos notar que estas funciones son versiones mas relajadas de $is\_redblack$. La funci\'on $nearly\_redblack$ permite que existan dos nodos rojos
-en la ra\'iz del \'arbol, aprovechandose de la $redred\_tree$, pues esta funcion es exactamente el caso $RB\_R$ pero sin las restricciones de que los subarboles sean rojos.
+en la ra\'iz del \'arbol, aprovechandose de $redred\_tree$, pues esta funcion es exactamente el caso $RB\_R$ pero sin las restricciones de que los subarboles sean rojos, lo 
+cual nos permite que hayan dos nodos rojos exactamente en la raiz. Entonces un $nearly\_redblack$ es un \arn con la excepci\'on de que la raiz puede ser roja. 
+
+Finalmente, lo que se busca demostrar es que los \arns con las operaciones de insercion y eliminacion estan dentro de la siguiente clase de arboles:
+
+\begin{minted}{coq}
+Class redblack {a} `{GHC.Base.Ord a} (t:RB a) := 
+                            RedBlack : exists d, is_redblack d t.
+\end{minted}
+
+Lo que este enunciado esta diciendo es que un \arn es aquel que tiene una altura negra $d$ y cumple con las invariantes establecidas por la funci\'on 
+$is\_redblack$.
 \section{Verificación de la operación de inserción}
+\begin{minted}{coq}
+Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
+is_redblack n s -> ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
+
+Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : 
+is_redblack n s -> nearly_redblack n (ins x s).
+
+Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) : redblack s -> redblack (insert x s).
+\end{minted}
 \section{Verificación de la operación de eliminación}
 
 \chapter{Conclusiones}  
