@@ -149,23 +149,23 @@ minimum width=0.5em, minimum height=0.5em}
 \chapter{Introducción} 
 \section{Motivación}
 \section{Arboles Roji-negros}
-Los \arns son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y busqueda se efectuan
-en tiempo logaritmico, es decir, la complejidad de esas operaciones es $O(log(n))$, estos son una subclase de los
-arboles binarios de busqueda, en los cuales la complejidad crece hasta $O(n)$. Esta mejora en la complejidad se obtiene 
-gracias a la introduccion de colores en los nodos del \'arbol y tambien a invariantes, las cuales describiremos 
+Los \arns son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y búsqueda se efectúan
+en tiempo logarítmico, es decir, la complejidad de esas operaciones es $O(log(n))$, estos son una subclase de los
+arboles binarios de búsqueda, en los cuales la complejidad crece hasta $O(n)$. Esta mejora en la complejidad se obtiene 
+gracias a la introducción de colores en los nodos del \'arbol y también a invariantes, las cuales describiremos 
 mas adelante.
 \subsection{Definici\'on de \arns}
 Un \arn se define de la siguiente manera:
 \begin{defn}
-Un \'arbol binario de busqueda es un \arn si satisface lo siguiente:
+Un \'arbol binario de búsqueda es un \arn si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
-    \item El \'arbol vacio es negro.
-    \item La raiz es negra.
+    \item El \'arbol vació es negro.
+    \item La raíz es negra.
     \item Las siguientes invariantes se tienen que cumplir:
     \begin{itemize}
         \item Un nodo rojo debe tener hijos negros.
-        \item Todos los caminos de la raiz a las hojas deben tener la misma cantidad de nodos negros.
+        \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodos negros.
     \end{itemize}
 \end{enumerate}
 \end{defn}
@@ -227,44 +227,44 @@ y el otro sin estos.
 \end{tikzpicture}
 \centering Figura 1.
 \end{figure}
-Nos interesa estudiar este tipo no trivial de arboles binarios de busqueda para poder
-demostrar la correcci'on de estos usando el asistente de pruebas \coq y asi poder mostrar las ventajas, 
-y problematicas de este proceso.
+Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder
+demostrar la correcci'on de estos usando el asistente de pruebas \coq y así poder mostrar las ventajas, 
+y problemáticas de este proceso.
 \section{Traducción de Haskell a \coq (hs-to-coq)}
 
 \chapter{Implementación de arboles roji-negros en \coq}
 
 \section{Traducción de implementaciones}
-Se tuvieron varias aproximaciones para la implementacion de \arns; la primera fue obtener las implementaciones en
-Haskell de estos (implementaciones obtenidas de la tesis de Gabriela) y pasarlo como entrada a hs-to-coq, la 
-segunda aproximacion, y la que se uso para esta tesis, fue obtener la implementacion de Okasaki traducida a Coq 
+Se tuvieron varias aproximaciones para la implementación de \arns; la primera fue obtener las implementaciones en
+Haskell de estos\cite{tesisG} y pasarlo como entrada a hs-to-coq, la 
+segunda aproximación, y la que se uso para esta tesis, fue obtener la implementación de Okasaki traducida a Coq 
 (paginda de Coq), pero en lugar de usar las bibliotecas d tipos de Coq, se usaron los tipos de haskell.
-A continuacion profundarizare acerca de esos dos metodos.
-\subsection{Traduccion directa de implementaciones de Haskell a Coq}
+A continuación profundizar/'e acerca de esos dos métodos.
+\subsection{Traducción directa de implementaciones de Haskell a Coq}
 En un trabajo anterior, realizado por Gabriela, se obtuvieron diversas implementaciones de \arns la mayor parte de estas
-cambiaba mayormente en las implementaciones de las operaciones de borrado, siendo esta la operacion mas compleja. 
-Estas diversas implementaciones van desde la simple implementacion de Okasaki, constructores inteligentes y tipos anidados.
+cambiaba mayormente en las implementaciones de las operaciones de borrado, siendo esta la operación mas compleja. 
+Estas diversas implementaciones van desde la simple implementación de Okasaki, constructores inteligentes y tipos anidados.
 
-Por la compleja naturaleza de estas implementaciones la traduccion a mano del codigo de Haskell resultaba ser muy problematica,
+Por la compleja naturaleza de estas implementaciones la traducción a mano del código de Haskell resultaba ser muy problemática,
 ya que las implementaciones en Haskell se aprovechan del hecho de que en este lenguaje se pueden dar funciones parciales, 
-lo cual resulta ser un problema al momento de traducir a Coq, ya que Coq unicamente acepta funciones totales.
+lo cual resulta ser un problema al momento de traducir a Coq, ya que Coq únicamente acepta funciones totales.
 
 Se opto usar la herramienta hs-to-coq para facilitar esta traducci\'on, pero por las mismas razones antes descritas (totalidad de funciones),
 la herramienta se ciclaba al momento de tratar de traducir el c\'odigo de Haskell. 
 
 Se busco otra acercamiento para poder verificar esta estructura; la herramienta hs-to-coq tiene una gran parte de las bibliotecas de Haskell 
-traducidas a Coq, entonces usamos la implementacion de \arns de las bibliotecas de Coq pero usando los tipos y comparaciones de tipos de Haskell.
+traducidas a Coq, entonces usamos la implementación de \arns de las bibliotecas de \coq pero usando los tipos y comparaciones de tipos de Haskell.
 
 
-\section{Inserción de elementos en un \arn}
+\section{Inserción de elementos en un \ARN}
 
-La inserci\'on de elementos a un \arn es la mas sencilla de de las dos operaciones que tiene esta estructura. La idea detras de este algoritmo es que 
-solo se agreguen hojas al \'arbol y se efectuen `giros` para mantener las invariantes de la estructura.
+La inserci\'on de elementos a un \arn es la mas sencilla de de las dos operaciones que tiene esta estructura. La idea detrás de este algoritmo es que 
+solo se agreguen hojas al \'arbol y se efectúen `giros` para mantener las invariantes de la estructura.
 \subsection{Operaciones de Balanceo}
-Los `giros` antes mencionados estan definidos en las operaciones de balanceo, se tienen dos de estas, una para los subarboles izquierdos y otra para los 
-derechos. Estas operaciones de balanceo, se muestran en seguida, se encargan de solucionar los casos en los que despues de agregar una hoja quedan dos nodos rojos.
-El giro elimina el doble nodo rojo al crear solo un nodo rojo con dos hijos negros, de igual manera al tener dos hijos negros nos aseguramos que el arbol crece de manera controlada 
-en n\'umero de nodos negros, ya que en ningun momento se estan agregando dos nodos negros contiguos. Cabe mencionar que esta es la unica operacion en donde se agregan nodos negros con la excepcion de makeBlack, la cual describiremos mas adelante.
+Los `giros` antes mencionados están definidos en las operaciones de balanceo, se tienen dos de estas, una para los subárboles izquierdos y otra para los 
+derechos. Estas operaciones de balanceo, se muestran en seguida, se encargan de solucionar los casos en los que después de agregar una hoja quedan dos nodos rojos.
+El giro elimina el doble nodo rojo al crear solo un nodo rojo con dos hijos negros, de igual manera al tener dos hijos negros nos aseguramos que el árbol crece de manera controlada 
+en n\'umero de nodos negros, ya que en ningún momento se están agregando dos nodos negros contiguos. Cabe mencionar que esta es la única operación en donde se agregan nodos negros con la excepción de $makeBlack$, la cual describiremos mas adelante.
 \begin{minted}{coq}
 Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  match l with
@@ -283,14 +283,14 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 
 Mas adelante se explicar\'a porque solamente nos estamos fijando en estos casos para el balanceo de los arboles.
 \subsection {Funci\'on de inserci\'on}
-Con estea funci\'on es donde por fin se puede apreciar que bibliotecas de Haskell se estan usando, podemos apreciar como los tipos que estamos
-agregando al \'arbol son tipos ordenados de la biblioteca Base de GHC y por esa misma manera estamos usando las comparaciones de esa misma biblioteca.
+Con esta funci\'on es donde por fin se puede apreciar que bibliotecas de Haskell se están usando, podemos apreciar como los tipos que estamos
+agregando al \'arbol son tipos ordenados de la biblioteca Base de \textbf{GHC} y por esa misma manera estamos usando las comparaciones de esa misma biblioteca.
 
-Se puede ver que la operacion de balanceo solo se efectua cuando el nodo por el que se pasa es negro, al ser estos los nodos que se cuentan para decidir si un \'arbol
-esta balanceado. Al aplicar las operaciones de balanceo en estos nodos, nos aseguramos de no agregar nodos negros de mas, ya que si se agrega un nodo negro, se `baja` al subarbol hermano
-el nodo negro del que se empez\'o a efctuar la operacion de balanceo. 
+Se puede ver que la operación de balanceo solo se efectúa cuando el nodo por el que se pasa es negro, al ser estos los nodos que se cuentan para decidir si un \'arbol
+esta balanceado. Al aplicar las operaciones de balanceo en estos nodos, nos aseguramos de no agregar nodos negros de mas, ya que si se agrega un nodo negro, se `baja` al subárbol hermano
+el nodo negro del que se empez\'o a efectuar la operación de balanceo. 
 
-Tengo que expkicar esto con dibujos.
+Tengo que explicar esto con dibujos.
 \begin{minted}{coq}
 Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
  match s with
@@ -311,7 +311,7 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
  end.
 \end{minted}
 
-Esta funcion de insercion no cumple con una de las invariantes, que la raiz del arbol sea negra, en ciertos casos puede dejar la raiz roja y por eso se introduce las siguientes definiciones:
+Esta función de inserción no cumple con una de las invariantes, que la raíz del árbol sea negra, en ciertos casos puede dejar la raíz roja y por eso se introduce las siguientes definiciones:
 
 \begin{minted}{coq}
 Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
@@ -323,7 +323,7 @@ Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
 Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 \end{minted}
 
-La definici\'on makeBlack unicamente pinta cualquier nodo, y la definicion insert corrige el detalle de la funcion ins al pintar de negro la raiz de arbol resultante de 
+La definici\'on makeBlack únicamente pinta cualquier nodo, y la definición insert corrige el detalle de la función ins al pintar de negro la raíz de árbol resultante de 
 agregar un elemento a un \arn.
 
 Estas funciones son suficientes para poder construir \arns que respeten las invariantes que se plantearon al principio. Se explicar\'a el proceso de la verificaci'on en el siguiente cap\'itulo.
@@ -410,16 +410,16 @@ Definition remove x t := makeBlack (del x t).
 
 \chapter{Verificación formal de \ARNs}
 Los \ARNs son una estructura de datos que mejora el tiempo de acceso, de inserción o eliminación de
-elementos con respecto a otras estructuras de datos, como las listas ligadas o doblemente ligadas. Como hemos visto en capitulos anteriores, para
+elementos con respecto a otras estructuras de datos, como las listas ligadas o doblemente ligadas. Como hemos visto en capítulos anteriores, para
 poder alcanzar esta eficiencia los algoritmos usados en los \arns son complejos y complicados de
-programar. Por esta razon es que nos preocupa que las iplementaciones que realicemos sean correctas, es decir que todas las operaciones que realizamos con las
+programar. Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas, es decir que todas las operaciones que realizamos con las
 funciones antes descritas cumplan con las invariantes de los \arns.
 
 \section{Capturando los invariantes de los \arns}
-Como capturar las invariantes de los \arns ? Utilizamos una funcion indcutiva, llamada $is\_redblack$
-para poder capturar los invariantes, la cual lleva como parametros un contador y un \'arbol. El contador
+¿Como capturar las invariantes de los \arns? Utilizamos una definición inductiva, llamada $is\_redblack$
+para poder capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador
 lleva el control de la cantidad de nodos negros mientras que el \'arbol es aquel que estamos buscando
-verificar que cumpla con las invariantes de un \arn. Se muestra esta funci\`on a continuaci\'on:
+verificar que cumpla con las invariantes de un \arn. Se muestra esta definici\`on a continuaci\'on:
 
 \begin{minted}{coq}
 Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
@@ -431,15 +431,15 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
                   is_redblack (S n) (T B l k r).
 \end{minted}
 
-Esta funci\'on tiene tres casos; $RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
+Esta definici\'on tiene tres casos; $RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
 \begin{itemize}
-        \item \textbf{RB\_Leaf} - el arbol vacio es roji-negro.
-        \item \textbf{RB\_R} - un arbol rojo donde lleves contados $n$ nodos negros, donde sus hijos sean \arns y no sean rojos.
-        \item \textbf{RB\_B} - un arbol negro donde lleves contados $n+1$ nodos negros, incluido el actual, y sus hijos sean \arns.
+        \item \textbf{RB\_Leaf} - el árbol vació es roji-negro.
+        \item \textbf{RB\_R} - un árbol rojo donde lleves contados $n$ nodos negros, donde sus hijos sean \arns y no sean rojos.
+        \item \textbf{RB\_B} - un árbol negro donde lleves contados $n+1$ nodos negros, incluido el actual, y sus hijos sean \arns.
 \end{itemize}
 
-Esta funci\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para poder probar la correcci\'on de los \arns,
-es demasiado restictiva y costaria mucho trabajo poder demostrar solo con esta funcion. Por esta razon se agrega otras dos funciones inductivas;
+Esta definici\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para poder probar la correcci\'on de los \arns,
+es demasiado restrictiva y costaría mucho trabajo poder demostrar solo con esta definici\'on. Por esta razón se agregan otras dos definiciones inductivas;
 $nearly\_redblack$ y $redred\_tree$. 
 
 \begin{minted}{coq}
@@ -451,26 +451,26 @@ Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 \end{minted}
 
-Podemos notar que estas funciones son versiones mas relajadas de $is\_redblack$. La funci\'on $nearly\_redblack$ permite que existan dos nodos rojos
-en la ra\'iz del \'arbol, aprovechandose de $redred\_tree$, pues esta funcion es exactamente el caso $RB\_R$ pero sin las restricciones de que los subarboles sean rojos, lo 
-cual nos permite que hayan dos nodos rojos exactamente en la raiz. Entonces un $nearly\_redblack$ es un \arn con la excepci\'on de que la raiz puede ser roja. 
+Podemos notar que estas definiciones son versiones mas relajadas de $is\_redblack$. La definici\'on $nearly\_redblack$ permite que existan dos nodos rojos
+en la ra\'iz del \'arbol, aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ pero sin las restricciones de que los sub\'arboles sean rojos, lo 
+cual nos permite que hayan dos nodos rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un \arn con la excepci\'on de que la ra\'iz puede ser roja. 
 
-Finalmente, lo que se busca demostrar es que los \arns con las operaciones de insercion y eliminacion estan dentro de la siguiente clase de arboles:
+Finalmente, lo que se busca demostrar es que los \arns con las operaciones de inserci\'on y eliminaci\'on están dentro de la siguiente clase de arboles:
 
 \begin{minted}{coq}
 Class redblack {a} `{GHC.Base.Ord a} (t:RB a) := 
                             RedBlack : exists d, is_redblack d t.
 \end{minted}
 
-Lo que este enunciado esta diciendo es que un \arn es aquel que tiene una altura negra $d$ y cumple con las invariantes establecidas por la funci\'on 
+Lo que este enunciado esta diciendo es que un \arn es aquel que tiene una altura negra $d$ y cumple con las invariantes establecidas por la definici\'on 
 $is\_redblack$.
 \section{Verificación de la operación de inserción}
 
-Para poder probar la inserci\'on se tienen que probar todas las variantes posibles que ofrecen las funciones inductivas
+Para poder probar la inserci\'on se tienen que probar todas las variantes posibles que ofrecen las definiciones inductivas
 que controlan los invariantes de los \arns, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
 
-Por esto es que la demostracion se parte en tres lemas; $ins\_rr\_rb$, $ins\_arb$, $add\_rb$. Estos lemas los enunciaremos y desarrollaremos la idea principal
-de la desmostraci\'on a continuaci\'on:
+Por esto es que la demostraci\'on se parte en dos lemas: $ins\_rr\_rb$, $ins\_arb$. Y en una instancia\cite{classes} de la clase $redblack$, $add\_rb$. Estos lemas los enunciaremos
+y desarrollaremos la idea principal de la desmostraci\'on a continuaci\'on:
 
 \subsection{Primer Lema}
 
@@ -478,15 +478,15 @@ de la desmostraci\'on a continuaci\'on:
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
 is_redblack n s -> ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
 \end{minted}
- En este primer lema enuciamos lo siguiente: Si $s$ es un \arn bajo la definici\'on de $is\_redblack$, entonces 
+ En este primer lema enunciamos lo siguiente: Si $s$ es un \arn bajo la definici\'on de $is\_redblack$, entonces 
  si $s$ es un \'arbol rojo, insertar un elemento $x$ en $s$ resulta en un \'arbol bajo la definci\'on de 
  $redred\_tree$, en otro caso entra en la definici\'on de $is\_redblack$.
 
  En otras palabras lo que este enunciado quiere decirnos es que si tenemos un \arn y agregamos un elemento a ese \'arbol
- el resultado puede tener raiz roja, e inlcuso puede tener dos nodos rojos, uno en la raiz y otro en cualquiera de los dos
+ el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos rojos, uno en la ra\'iz y otro en cualquiera de los dos
  (o en los dos) nodos que siguen.
 
- La demostraci\'on de este lema comienza con una induccion sobre el antecedente del lema, lo cual resulta en tres casos:
+ La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del lema, lo cual resulta en tres casos:
  \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -502,30 +502,61 @@ ifred (T B l k r) (redred_tree (S n) (ins x (T B l k r)))
                   (is_redblack (S n) (ins x (T B l k r)))
  \end{minted}
 
- La funcion $ifred$ que se usa en este lema es una funcion auxiliar que basicamente lo que nos ayuda hacer es decidir si un \'arbol es 
+ La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que b\'asicamente lo que nos ayuda hacer es decidir si un \'arbol es 
  rojo o no. 
 
- En el primero de estos casos notamos que su solucion se da simplificando las funciones y resulta en uno de los casos
- de $is\_redblack$ ya que el \'arbol vacio no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un arbol rojo con un elemento,
+ En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta en uno de los casos
+ de $is\_redblack$ ya que el \'arbol vacio no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento,
  esto por definici\'on de $ins$.
 
  Los dos casos tienen que ver con los colores del \'arbol, en el segundo el \'arbol es rojo y en el tercero es negro.
- Analizemos el segundo caso; como el \'arbol es rojo, entra al primer caso, es decir, entra al caso de la funci\'on $redred\_tree$,
+ Analicemos el segundo caso; como el \'arbol es rojo, entra al primer caso, es decir, entra al caso de la definici\'on $redred\_tree$,
  lo cual quiere decir que al insertar un elemento al \'arbol rojo, sin tener conocimiento de como son los subarboles de este, puede
- resultar en un arbol con uno o dos nodos rojos consecutivos en la raiz de este, lo cual respeta la definici\'on de $redred\_tree$.
+ resultar en un \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz de este, ya que cuando se tiene $ins$ en un nodo rojo, la operaci\'on de 
+ balanceo no se lleva acabo, lo cual respeta la definici\'on de $redred\_tree$.
 
- EL tercer caso describe el caso sobrante, el caso del \'arbol negro, este caso se complica un poco mas que el anterior, ya que al 
- agregar un nodo nuevo y recorrer el nodo negro de la raiz, el arbol se puede desbalancear, en este caso see tiene que analizar mas a fondo 
- ya que se utilizan las funcines de balanceo. Digamos que agregamos al M
+ El tercer caso describe el caso sobrante, el caso del \'arbol negro, este caso se complica un poco mas que el anterior, ya que al 
+ agregar un nodo nuevo, se aplica una operaci\'on de balanceo y si en la siguiente llamada recursiva de $ins$ se vuelve a aplicar una operaci\'on 
+ de balanceo, esta resultaria en un $redred\_tree$. En otro caso si no se realiza la llamada de balanceo en la siguiente llamada recursiva, es decir, si al siguiente nodo al que se le aplica la funci\'on es rojo, la definicion de $is\_redblack$ se sostiene.
 \subsection{Segundo Lema}
 \begin{minted}{coq}
 Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : 
 is_redblack n s -> nearly_redblack n (ins x s).
 \end{minted}
-\subsection{Lema Final}
+En este segundo lema enuncia lo que hemos estado diciendo desde que se presento la funci\'on $ins$: La funci\'on $ins$ no garantiza que el \'arbol 
+resultante sea un \arn. La demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el lema anterior a la hip\'otesis:
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+x : a
+s : RB a
+n : nat
+H1 : ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s))
+______________________________________(1/1)
+nearly_redblack n (ins x s)
+\end{minted}
+Como no sabemos si el \'arbol $s$ es rojo o negro, tenemos que probar los dos casos, lo cual resulta en tener que probar si el resultado de insertar un elemento
+es $redred\_tree$ o $is\_redblack$ y por definici\'on  de $nearly\_redblack$ podemos probar los dos casos.
+\subsection{Instancia de agregaci\'on}
 \begin{minted}{coq}
 Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) : redblack s -> redblack (insert x s).
 \end{minted}
+Para poder crear la instancia de la clase $redblack$ es necesario usar la envoltura $insert$ para la funci\'on $ins$. Esta envoltura lo que hace es pintar el \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante ya no es entra en la definici\'on de $nearly\_redblack$.
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+x : a
+s : RB a
+n : nat
+H1 : is_redblack n s
+______________________________________(1/1)
+redblack (makeBlack (ins x s))
+\end{minted}
+Entonces como dijimos anteriormente, sabemos que $(ins(x,s))$ es un $nearly\_redblack$, y al aplicar el lema pasado a este termino nos da como resultado la hipotesis $H1$ y la instancia queda definida.
+
+Ahora podemos decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa bajo las invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.  
 \section{Verificación de la operación de eliminación}
 \begin{minted}{coq}
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
@@ -543,7 +574,6 @@ Instance remove_rb s x : redblack s -> redblack (remove x s).
 \end{minted}
 \chapter{Conclusiones}  
 %aprendiendo a usar esta cosa, it is cool-aid
-\LaTeX{} \cite{latex2e} is a set of macros built atop \TeX{} \cite{texbook} yhol\cite{latex:companion}.
 \bibliographystyle{plain} % We choose the "plain" reference style
 \bibliography{refs} % Entries are in the "refs.bib" file
 \backmatter%@sglvgdor
