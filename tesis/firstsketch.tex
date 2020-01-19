@@ -233,12 +233,11 @@ y problemáticas de este proceso.
 \section{Traducción de Haskell a \coq (hs-to-coq)}
 
 \chapter{Implementación de arboles roji-negros en \coq}
-
 \section{Traducción de implementaciones}
 Se tuvieron varias aproximaciones para la implementación de \arns; la primera fue obtener las implementaciones en
 Haskell de estos\cite{tesisG} y pasarlo como entrada a hs-to-coq, la 
 segunda aproximación, y la que se uso para esta tesis, fue obtener la implementación de Okasaki traducida a Coq 
-(paginda de Coq), pero en lugar de usar las bibliotecas d tipos de Coq, se usaron los tipos de haskell.
+(pagina de Coq), pero en lugar de usar las bibliotecas d tipos de Coq, se usaron los tipos de haskell.
 A continuación profundizar/'e acerca de esos dos métodos.
 \subsection{Traducción directa de implementaciones de Haskell a Coq}
 En un trabajo anterior, realizado por Gabriela, se obtuvieron diversas implementaciones de \arns la mayor parte de estas
@@ -414,9 +413,70 @@ elementos con respecto a otras estructuras de datos, como las listas ligadas o d
 poder alcanzar esta eficiencia los algoritmos usados en los \arns son complejos y complicados de
 programar. Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas, es decir que todas las operaciones que realizamos con las
 funciones antes descritas cumplan con las invariantes de los \arns.
-
 \section{Capturando los invariantes de los \arns}
-¿Como capturar las invariantes de los \arns? Utilizamos una definición inductiva, llamada $is\_redblack$
+Una de las partes mas importantes de la verificaci\'on formal de cualquier estructura de datos es la captura de sus invariantes,
+es decir, poder escribir una o varias definiciones inductivas que describan a la estructura de datos. Después con estas definiciones es que se enuncian 
+los lemas, clases y posteriormente instancias de esta clase. 
+
+A continuaci\'on se describen dos de los conjuntos de definiciones inductivas, muy similares entre ellas, que se intentaron usar para poder verificar formalmente esta estructura de datos:
+\subsection{Primer Conjunto de Definiciones Inductivas}
+Los dos conjuntos de definiciones inductivas comparten la misma idea; una definici\'on que describa lo que es un \arn y otra definici\'on mas relajada de la misma.
+
+La primera definici'on se llama $isRb$ y esta definida de la siguiente manera: 
+\begin{minted}{coq}
+Inductive isRB : Tree -> color -> nat -> Prop :=
+ | IsRB_leaf: forall c, isRB E c 0
+ | IsRB_r: forall tl k kv tr n,
+          isRB tl Red n ->
+          isRB tr Red n ->
+          isRB (T Red tl k kv tr) Black n
+ | IsRB_b: forall c tl k kv tr n,
+          isRB tl Black n ->
+          isRB tr Black n ->
+          isRB (T Black tl k kv tr) c (S n).
+\end{minted}
+Esta definici\'on tiene tres casos
+\begin{itemize}
+        \item \textbf{IsRB\_Leaf} - el árbol vacío con altura 0 es roji-negro.
+        \item \textbf{IsRB\_r} - un árbol rojo con altura negra $n$ y color negro, con hijos roji-negros con color rojo y altura $n$.
+        \item \textbf{IsRB\_b} - un árbol negro con altura negra $n+1$ y cualquier color, con hijos roji-negros con altura $n$ y color negro.  
+\end{itemize}
+
+Con estos casos se puede asegurar que las variantes no se violan, ya que si se tiene un nodo rojo forzosamente se cae en el caso de $IsRB\_r$
+y es requerido que el color que se le pase a la definici\'on sea negro, porque esto indica que el siguiente nodo \textbf{tiene} que ser negro. 
+En otro caso si se tiene un nodo negro, al poderle pasar cualquier color a la definici\'on, se refiere a que después de un nodo negro
+puede existir un nodo rojo o negro. Al llevar el conteo de negros nos aseguramos de que los subarboles tengan la misma altura negra y de esta manera
+asegurar el balanceo de el \'arbol que se esta analizando con la definici\'on.
+
+
+La segunda definici\'on, $nearRB$,  permite mas flexibilidad en el \'arbol, podemos verla a continuaci\'on: 
+\begin{minted}{coq}
+Inductive nearRB : Tree -> nat -> Prop :=
+| nrRB_r: forall tl k kv tr n,
+         isRB tl Black n ->
+         isRB tr Black n ->
+         nearRB (T Red tl k kv tr) n
+| nrRB_b: forall tl k kv tr n,
+         isRB tl Black n ->
+         isRB tr Black n ->
+         nearRB (T Black tl k kv tr) (S n).
+\end{minted}
+Se aprecia que solo se tienen dos casos y no se tiene un argumento para un color, sin embargo, a diferencia de $isRB$ esta no se
+llama recursivamente y llama a $isRb$ inmediatamente, además podemos ver que ambas definiciones comparten el contador de nodos negros.
+Entonces el hecho de que se haya retirado el argumento de color de esta definici\'on permite una cosa: Que en la ra\'iz del \'arbol 
+puedan haber a lo mas dos nodos rojos contiguos.
+
+\subsubsection{Intento de Verificaci\'on}
+Se realiz\'o un intento fallido de verificac\'on de la operaci\'on de inserci\'on, tal y como se muestra en \cite{appel}, pero se encontró un
+problema de falta de hipótesis para poder probar una meta, probablemente por mala elección de estilo de demostraci\'on, implementaci\'on o las definiciones 
+inductivas mostradas anteriormente. Se noto que el hecho de que toda la informaci\'on referente a los invariantes estuviera codificada en las definiciones,
+sin uso de 'definiciones auxiliares', complica demasiado la verificaci\'on. Se llego a esta conclusi\'on ya queel caso 'sencillo' de la verificaci\'on de
+\arns es la inserci\'on y esta se complico mucho la misma.
+
+\subsection{Segundo Conjunto de Definiciones Inductivas}
+
+Entonces, ¿como capturar las invariantes de los \'arboles roji-nergos y al mismo tiempo facilitar la verificaci\'on? 
+Utilizamos una definición inductiva, llamada $is\_redblack$
 para poder capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador
 lleva el control de la cantidad de nodos negros mientras que el \'arbol es aquel que estamos buscando
 verificar que cumpla con las invariantes de un \arn. Se muestra esta definici\`on a continuaci\'on:
@@ -464,6 +524,9 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 
 Lo que este enunciado esta diciendo es que un \arn es aquel que tiene una altura negra $d$ y cumple con las invariantes establecidas por la definici\'on 
 $is\_redblack$.
+
+\subsubsection{Segundo Intento de Verificaci\'on}
+En contraste con el conjunto de de definiciones de la secci\'on pasada, se separa la definici\'on de $nearly_redblack$ y se crea $redred_tree$, además se crea la clase de \arns, lo cual afina mas la definici\'on de un \arn y ayuda a la verificaci\'on, es por esto que se eligio este conjunto de definiciones, las cuales fueron obtenidas de \cite{MSetRBT}.
 \section{Verificación de la operación de inserción}
 
 Para poder probar la inserci\'on se tienen que probar todas las variantes posibles que ofrecen las definiciones inductivas
@@ -538,11 +601,12 @@ nearly_redblack n (ins x s)
 \end{minted}
 Como no sabemos si el \'arbol $s$ es rojo o negro, tenemos que probar los dos casos, lo cual resulta en tener que probar si el resultado de insertar un elemento
 es $redred\_tree$ o $is\_redblack$ y por definici\'on  de $nearly\_redblack$ podemos probar los dos casos.
-\subsection{Instancia de agregaci\'on}
+\subsection{Instancia de la Funci\'on de Inserci\'on}
 \begin{minted}{coq}
-Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) : redblack s -> redblack (insert x s).
+Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) :
+                                     redblack s -> redblack (insert x s).
 \end{minted}
-Para poder crear la instancia de la clase $redblack$ es necesario usar la envoltura $insert$ para la funci\'on $ins$. Esta envoltura lo que hace es pintar el \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante ya no es entra en la definici\'on de $nearly\_redblack$.
+Para poder crear la instancia de la clase $redblack$ es necesario usar la envoltura $insert$ para la funci\'on $ins$. Esta envoltura lo que hace es pintar el \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante ya no entra en la definici\'on de $nearly\_redblack$.
 \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
