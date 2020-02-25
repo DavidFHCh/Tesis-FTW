@@ -473,10 +473,10 @@ Definition remove x t := makeBlack (del x t).
 \end{minted}
 
 \chapter{Verificación formal de {\arns}}
-Se menciono en el cap\'itulo 1 de este trabajo que los {\arns} son una estructura de datos que mejora el 
+Se menciono en el primer cap\'itulo de este trabajo que los {\arns} son una estructura de datos que mejora el 
 tiempo de acceso, de inserción y eliminación de
 elementos con respecto a otras estructuras de datos, como las listas ligadas o doblemente ligadas. En el 
-cap\'itulo 2 se muestran las implementaciones de los algoritmos de esta  estructura de datos y podemos 
+segundo cap\'itulo se muestran las implementaciones de los algoritmos de esta  estructura de datos y podemos 
 notar como estas implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de 
 programar en un lenguaje del paradigma funcional como lo es {\coq}. 
 Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas y completas, es
@@ -569,7 +569,7 @@ probar una meta. Esto se debe probablemente a una mala elección de estilo de de
 implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se noto que el hecho de que 
 toda la informaci\'on referente a los invariantes estuviera codificada en las dos funciones inductivas, 
 sin uso de ``funciones auxiliares'', complica la verificaci\'on. Se llego a esta conclusi\'on ya que el 
-caso 'sencillo' de la verificaci\'on de {\arns} es la inserci\'on y con este conjunto de funciones 
+caso ``sencillo'' de la verificaci\'on de {\arns} es la inserci\'on y con este conjunto de funciones 
 inductivas las demostraciones se volvían muy largas y complicadas de seguir.
 
 \subsection{Segundo Conjunto de Definiciones Inductivas}
@@ -612,8 +612,8 @@ $RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
 \end{itemize}
 
 Esta definici\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para poder 
-probar la correcci\'on de los {\arns}, esta es demasiado restrictiva y costaría mucho trabajo poder 
-demostrar solo con esta definici\'on. Por esta razón se agregan dos definiciones inductivas auxiliares; 
+probar la correcci\'on de los {\arns}, esta es demasiado restrictiva y costaría mucho trabajo proceder con las
+demostraciones solo con esta definici\'on. Por esta razón se agregan dos definiciones inductivas auxiliares; 
 $redred\_tree$ y $nearly\_redblack$: 
 
 \begin{minted}{coq}
@@ -645,20 +645,21 @@ cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
 \subsubsection{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de de definiciones de la secci\'on pasada, la definici\'on de 
 $nearly\_redblack$ se reescribe, dejando de codificar las invariantes en las llamadas recursivas de la 
-definición creando funciones auxiliares para capturar los invariantes de manera mas sencilla, como 
+definición, creando funciones auxiliares para capturar los invariantes de manera mas sencilla, como 
 $redred\_tree$ y $notred$. Además se crea la clase de {\arns}, lo cual afina mas la definici\'on de un 
 {\arn}. Tomando en cuenta todas estas modificaciones a las definiciones fue que se eligió este conjunto 
 para verificar formalmente la estructura de datos\footnote{La elecci\'on de este conjunto fue correcta ya
-que facilito la demostraci\'on de las propiedades y probo ser suficiente para verificar la estructura.}, 
-estas fueron obtenidas de \cite{MSetRBT}.
+que facilito la demostraci\'on de las propiedades y probo ser suficiente para verificar la estructura.}. 
+Estas definiciones inductivas fueron obtenidas de \cite{MSetRBT}.
 
 \section{Verificación de la operación de inserción}
 
-Para poder probar la inserci\'on se tienen que probar todas las variantes posibles que ofrecen las definiciones inductivas
-que controlan los invariantes de los {{{{\arn}}}s}, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
+Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir enunciados, ya sean 
+lemas, proposiciones, etc., usandoi las definiciones inductivas presentadas en la secci\'on pasada, es decir, 
+$is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
 
-Por esto es que la demostraci\'on se parte en dos lemas: $ins\_rr\_rb$, $ins\_arb$. Y en una instancia\cite{classes} de la clase $redblack$, $add\_rb$. Estos lemas los enunciaremos
-y desarrollaremos la idea principal de la desmostraci\'on a continuaci\'on:
+A continuaci\'on mostraremos dos lemas: $ins\_rr\_rb$, $ins\_arb$, y una instancia\cite{classes} de la clase 
+$redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT} y la idea principal de estos lemas es dejarnos ver que ciertos arboles que acepten las definiciones mas generales, $nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de $is\_redblack$.
 
 \subsection{Primer Lema}
 
@@ -666,15 +667,16 @@ y desarrollaremos la idea principal de la desmostraci\'on a continuaci\'on:
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
 is_redblack n s -> ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
 \end{minted}
- En este primer lema enunciamos lo siguiente: Si $s$ es un {{{\arn}}} bajo la definici\'on de $is\_redblack$, entonces 
- si $s$ es un \'arbol rojo, insertar un elemento $x$ en $s$ resulta en un \'arbol bajo la definci\'on de 
- $redred\_tree$, en otro caso entra en la definici\'on de $is\_redblack$.
+ En este primer lema enunciamos lo siguiente: Sea $s$ un {\arn} bajo la definici\'on de $is\_redblack$, entonces 
+ si $s$ es un \'arbol con raiz roja, insertar un elemento $x$ en $s$ resulta en un \'arbol que cumple la 
+ definci\'on de $redred\_tree$, en otro caso cumple con la definici\'on de $is\_redblack$.
 
- En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {{{\arn}}} y agregamos un elemento a ese \'arbol
- el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos rojos, uno en la ra\'iz y otro en cualquiera de los dos
- (o en los dos) nodos que siguen.
+ En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos un elemento a 
+ ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos rojos, uno en la ra\'iz y otro
+ en cualquiera de los dos, o en los dos, nodos que siguen.
 
- La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del lema, lo cual resulta en tres casos:
+ La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del lema, lo cual resulta en 
+ tres casos:
  \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -690,29 +692,63 @@ ifred (T B l k r) (redred_tree (S n) (ins x (T B l k r)))
                   (is_redblack (S n) (ins x (T B l k r)))
  \end{minted}
 
- La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que b\'asicamente lo que nos ayuda hacer es decidir si un \'arbol es 
+ La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que nos ayuda a decidir si un \'arbol es 
  rojo o no. 
 
- En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta en uno de los casos
- de $is\_redblack$ ya que el \'arbol vacio no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento,
- esto por definici\'on de $ins$.
+ En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta en uno de los
+ casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacio no es rojo y la 
+ simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento, esto por definici\'on de $ins$.
 
- Los dos casos tienen que ver con los colores del \'arbol, en el segundo el \'arbol es rojo y en el tercero es negro.
- Analicemos el segundo caso; como el \'arbol es rojo, entra al primer caso, es decir, entra al caso de la definici\'on $redred\_tree$,
- lo cual quiere decir que al insertar un elemento al \'arbol rojo, sin tener conocimiento de como son los subarboles de este, puede
- resultar en un \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz de este, ya que cuando se tiene $ins$ en un nodo rojo, la operaci\'on de 
- balanceo no se lleva acabo, lo cual respeta la definici\'on de $redred\_tree$.
+ Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el segundo el \'arbol 
+ es rojo y en el tercero es negro. 
+ 
+ Analicemos el segundo caso, como el \'arbol es rojo, entra al primer caso de $if_red$, es decir, entra al caso 
+ de la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al \'arbol rojo, sin tener 
+ conocimiento de como son los subárboles de este, puede resultar en un \'arbol con uno o dos nodos rojos 
+ consecutivos en la ra\'iz de este, ya que la operaci'on de balanceo se fija en los nodos hijos y nietos del nodo
+ al que se le aplica la operaci\'on y como los nodos hijos de la raíz \textbf{no} tienen nodo abuelo el balanceo 
+ no se efectua en los nodos de la raíz, dando lugar a arboles con uno o mas nodos rojos en la raíz\footnote{hasta
+ 3, la raiz y sus hijos.}.
+ 
+ El tercer caso describe el caso sobrante, el caso del \'arbol con raiz negra, este caso se complica un poco mas 
+ que el anterior ya que este es el caso en el que la altura negra del \'arbol se aumenta en uno. Este caso 
+ verifica que las dos funciones de balanceo, $lbal$ y $rbal$:
+ 
+ \begin{minted}{coq}
+ 2 subgoals
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+x : a
+n : nat
+l : RB a
+k : a
+r : RB a
+H1_ : is_redblack n l
+H1_0 : is_redblack n r
+IHis_redblack1 : ifred l (redred_tree n (ins x l)) (is_redblack n (ins x l))
+IHis_redblack2 : ifred r (redred_tree n (ins x r)) (is_redblack n (ins x r))
+______________________________________(1/2)
+is_redblack (S n) (lbal (ins x l) k r)
+______________________________________(2/2)
+is_redblack (S n) (rbal l k (ins x r))
+\end{minted}
 
- El tercer caso describe el caso sobrante, el caso del \'arbol negro, este caso se complica un poco mas que el anterior, ya que al 
- agregar un nodo nuevo, se aplica una operaci\'on de balanceo y si en la siguiente llamada recursiva de $ins$ se vuelve a aplicar una operaci\'on 
- de balanceo, esta resultaria en un $redred\_tree$. En otro caso si no se realiza la llamada de balanceo en la siguiente llamada recursiva, es decir, si al siguiente nodo al que se le aplica la funci\'on es rojo, la definicion de $is\_redblack$ se sostiene.
+Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, simplificando las expresiones 
+y aplicando las definiciones inductivas\footnote{$is\_redblack$, $nearly\_redblack$}.
+
 \subsection{Segundo Lema}
+
 \begin{minted}{coq}
 Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) : 
 is_redblack n s -> nearly_redblack n (ins x s).
 \end{minted}
-En este segundo lema enuncia lo que hemos estado diciendo desde que se presento la funci\'on $ins$: La funci\'on $ins$ no garantiza que el \'arbol 
-resultante sea un {{{\arn}}}. La demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el lema anterior a la hip\'otesis:
+
+Este segundo lema enuncia lo que en el capitulo anterior se menciono acerca de la funci\'on $ins$: La funci\'on $ins$ 
+no garantiza que el \'arbol resultante sea un {\arn}, ya que es posible que se termine la ejecuci\'on de la funci\'on 
+con un nodo rojo como raíz. La demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el 
+lema anterior, $ins\_rr\_rb$, a una de las hip\'otesis:
+
 \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -723,15 +759,36 @@ n : nat
 H1 : ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s))
 ______________________________________(1/1)
 nearly_redblack n (ins x s)
+
 \end{minted}
-Como no sabemos si el \'arbol $s$ es rojo o negro, tenemos que probar los dos casos, lo cual resulta en tener que probar si el resultado de insertar un elemento
-es $redred\_tree$ o $is\_redblack$ y por definici\'on  de $nearly\_redblack$ podemos probar los dos casos.
+
+Como no se sabe si el \'arbol $s$ tiene ra\'iz roja o negra, se tienen que probar los dos casos, uno con la hipótesis 
+de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$. Estos casos se resuelven sencillamente con 
+la aplicación de los dos casos de la definici\'on inductiva de $nearly\_redblack$, respectivamente.
+
 \subsection{Instancia de la Funci\'on de Inserci\'on}
+
+Para poder probar la instancia de la clase $redblack$ se va a necesitar el siguiente lema auxiliar:
+
+\begin{minted}{coq}
+Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t : 
+                         nearly_redblack n t -> redblack (makeBlack t).
+\end{minted}
+
+Este lema se resuelve destruyendo $t$, de esta manera se generan dos casos y estos se solucionan simplificando las 
+expresiones y aplicando las definiciones inductivas $is\_redblack$ y $nearly\_redblack$. En seguida enunciamos la 
+instancia de la clase $redblack$:
+
 \begin{minted}{coq}
 Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) :
                                      redblack s -> redblack (insert x s).
 \end{minted}
-Para poder crear la instancia de la clase $redblack$ es necesario usar la envoltura $insert$ para la funci\'on $ins$. Esta envoltura lo que hace es pintar el \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante ya no entra en la definici\'on de $nearly\_redblack$.
+
+Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$ para la cual es una 
+envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la ra\'iz del \'arbol resultante de la 
+funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante ya no entra en la 
+definici\'on de $redred\_tree$.
+
 \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -743,9 +800,28 @@ H1 : is_redblack n s
 ______________________________________(1/1)
 redblack (makeBlack (ins x s))
 \end{minted}
-Entonces como dijimos anteriormente, sabemos que $(ins(x,s))$ es un $nearly\_redblack$, y al aplicar el lema pasado a este termino nos da como resultado la hipotesis $H1$ y la instancia queda definida.
 
-Ahora podemos decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa bajo las invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.  
+En este momento se utiliza el lema auxiliar $makeBlack\_rb$ el cual nos devuelve lo siguiente:
+
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+x : a
+s : RB a
+n : nat
+H1 : is_redblack n s
+______________________________________(1/1)
+nearly_redblack n (ins x s)
+\end{minted}
+
+Esta ultima meta se resulve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja con una meta 
+idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on de inserci\'on.
+
+Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa bajo las invariantes 
+establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha sido verificada formalmente, ahora 
+continuaremos con la funci\'on de eliminaci\'on.  
+
 \section{Verificación de la operación de eliminación}
 \begin{minted}{coq}
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
