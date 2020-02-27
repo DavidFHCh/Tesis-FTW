@@ -13,6 +13,7 @@
 \usepackage{setspace}
 \usepackage{minted}
 \usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,titling,url,array}
+\usepackage{caption}
 
 \newcommand{\coq}{\textbf{Coq}}
 \newcommand{\Arns}{Arboles Roji-negros}
@@ -149,7 +150,7 @@ minimum width=0.5em, minimum height=0.5em}
 \chapter{Introducción} 
 \section{Motivación}
 \section{Arboles Roji-negros}
-Los {{{{\arn}}}s} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y 
+Los {\arns} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y 
 búsqueda se efectúan
 en tiempo logarítmico, es decir, la complejidad de esas operaciones es $O(log(n))$, estos son una 
 subclase de los
@@ -158,10 +159,10 @@ mejora en la complejidad se obtiene
 gracias a la introducción de colores a los nodos del \'arbol y a invariantes relacionados con estos 
 colores, las cuales describiremos 
 mas adelante.
-\subsection{Definici\'on de {{{{\arn}}}s}}
+\subsection{Definici\'on de {\arns}}
 Un {{{\arn}}} se define de la siguiente manera:
 \begin{defn}
-Un \'arbol binario de búsqueda es un {{{\arn}}} si satisface lo siguiente:
+Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
     \item El \'arbol vació es negro.
@@ -176,10 +177,11 @@ Un \'arbol binario de búsqueda es un {{{\arn}}} si satisface lo siguiente:
     \end{itemize}
 \end{enumerate}
 \end{defn}
-Se presentan en la Figura 1, ejemplos de {\arns}. Se muestran dos variantes, uno con nodos vacíos en las 
-hojas y el otro sin estos.
+Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 
 \begin{figure}
+\centering 
+\captionsetup{justification=centering}
 \label{arbolRB}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
@@ -208,31 +210,11 @@ hojas y el otro sin estos.
             }
         }
 ;
-\draw node [text width=7cm] at (-1,-4.5)
-{
-\'Arbol roji-negro con vac\'ios.
-}
-;
-\node [arn_n] at (5,0) {6}
-    child{ node [arn_r] {2} 
-        child{ node [arn_n] {1}}
-        child{ node [arn_n] {4}
-            child{ node [arn_r] {3}}
-            child{ node [arn_r] {5}}
-        }                            
-    }
-    child{ node [arn_n] {8}
-        child{ node [arn_r] {9}}
-    }
-;
-\draw node [text width=7cm] at (7,-4.5)
-{
-\'Arbol roji-negro.
-}
-;
+
 \end{tikzpicture}
-\centering Figura 1.
+\caption {\Arn con nodos vac\'ios.}
 \end{figure}
+
 Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder demostrar la 
 correcci'on de estos usando el asistente de pruebas {\coq} y así poder mostrar las ventajas, y 
 problemáticas de este proceso.
@@ -392,6 +374,95 @@ Estas funciones y definiciones son suficientes para poder construir {\arns} que 
 que planteamos en la definici\'on 1.2.1. 
 
 \section{Eliminación de elementos en un {\arn}}
+
+Como se menciono en la secci\'on pasada la operaci\'on de eliminaci\'on es significativamente mas 
+compleja que su contra parte, esto se debe al hecho de que se pueden eliminar nodos de cualquier parte 
+del \'arbol, mientras que en la inserci\'on solo se agregaban hojas.
+
+Al poder eliminar nodos de cualquier parte de un \'arbol presenta una problemática muy grande para el 
+balanceo del mismo, esto porque al eliminar un nodo los dos subárboles de este tienen que concatenarse de
+alguna manera y las invariantes de los {\arns} tienen que respetarse.
+
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\label{arbolRB}
+ \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {6}
+        child{ node [arn_r] {2} 
+            child{ node [arn_n] {1} 
+                child{ node [arn_x] {}} %for a named pointer
+                child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+                child{ node [arn_r] {3}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+                child{ node [arn_r] {5}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+            }                            
+        }
+        child{ node [arn_n] {8}
+            child{ node [arn_x] {}}
+            child{ node [arn_r] {9}
+                child{ node [arn_x] {}}
+                child{ node [arn_x] {}}
+            }
+        }
+;
+
+{
+\'Arbol roji-negro.
+}
+;
+\end{tikzpicture}
+\caption{{\Arn antes de eliminar nodo 6.}}
+\end{figure}
+
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\label{arbolRB}
+ \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+%\node [arn_n] at (-2,0) {6}
+
+        \node [arn_r] {2} 
+            child{ node [arn_n] {1} 
+                child{ node [arn_x] {}} %for a named pointer
+                child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+                child{ node [arn_r] {3}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+                child{ node [arn_r] {5}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+            }
+;
+\end{tikzpicture} 
+\begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
+           
+            \node [arn_n] {8}
+            child{ node [arn_x] {}}
+            child{ node [arn_r] {9}
+                child{ node [arn_x] {}}
+                child{ node [arn_x] {}}
+            }
+
+;
+\end{tikzpicture}
+
+\caption{{\Arn} roto después de eliminar nodo 6.}
+\end{figure}
+
 \begin{minted}{coq}
 Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  match r with
