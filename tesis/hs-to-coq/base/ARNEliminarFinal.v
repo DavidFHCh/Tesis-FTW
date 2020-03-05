@@ -1458,3 +1458,6 @@ apply del_arb.
 assumption.
 simpl;trivial.
 Qed.
+
+
+Example uno : remove_rb (T B (T R (T B E 1 E) 2 (T B (T R E 3 E) 4 (T R E 5 E))) 6 (T B E 8 (T R E 9 E))) (6).
