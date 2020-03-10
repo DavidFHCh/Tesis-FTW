@@ -266,18 +266,18 @@ las bibliotecas de Haskell traducidas a Coq, entonces se uso la implementación 
 bibliotecas de {\coq}\cite{MSetRBT} pero usando los tipos y comparaciones de tipos de Haskell traducidos 
 a Coq.
 
-\section{Inserción de elementos en un {{{\arn}}}}
+\section{Inserción de elementos en un {\arn}}
 
-La inserci\'on de elementos a un {{{\arn}}} es la operaci\'on mas sencilla de de las dos operaciones que 
+La inserci\'on de elementos a un {\arn} es la operaci\'on mas sencilla de de las dos operaciones que 
 se verificaran en este trabajo. La idea principal detrás de este algoritmo es que solo se agreguen hojas 
 al \'arbol binario y se efectúen ``giros'' para mantener las invariantes de la estructura.
 
 \subsection{Operaciones de Balanceo}
 Los ``giros'' antes mencionados están definidos en las operaciones de balanceo, se tienen dos, una 
-operaci\'on para los subárboles izquierdos y otra para los derechos. Estas operaciones de balanceo, se 
-muestra el c\'odigo en seguida, se encargan de solucionar los casos en los que inmediatamente después de 
-agregar una hoja, los invariantes son violados, por ejemplo, dos nodos rojos que resultan contiguos en 
-algún lugar de la estructura del \'arbol. De hecho solo dos de los tres invariantes pueden ser violados 
+operaci\'on para los subárboles izquierdos y otra para los derechos. Estas operaciones de balanceo, 
+c\'odigo en figura 2.1, se encargan de solucionar los casos en los que inmediatamente después de 
+agregar una hoja los invariantes son violados, por ejemplo, dos nodos rojos que resultan contiguos en 
+algún lugar de la estructura del \'arbol. Mas a\'un solo dos de los tres invariantes pueden ser violados 
 cuando se agrega un nuevo nodo, siendo estos que hayan dos nodos rojos contiguos o que la raíz del árbol 
 resulte roja\footnote{esto no se arregla con giros, si no, pintando la raíz de negro después de 
 insertar}.
@@ -287,7 +287,9 @@ tener dos hijos negros nos aseguramos que el árbol crece de manera controlada e
 negros\footnote{este n\'umero de nodos negros se conoce como altura negra}, ya que en ningún momento se 
 están agregando dos nodos negros contiguos. Cabe mencionar que esta es la única operación en donde se 
 agregan nodos negros con la excepción de $makeBlack$, la cual describiremos mas adelante.
-
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  match l with
@@ -303,6 +305,8 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  | _ => T B l k r
  end.
 \end{minted}
+\caption{Funciones de Balanceo.}
+\end{figure}
 
 Mas adelante se explicar\'a porque solamente nos concentramos en estos cuatro casos y porque la mayor 
 parte de los casos se reacomodan en un \'arbol con ra\'iz negra.
@@ -311,7 +315,9 @@ parte de los casos se reacomodan en un \'arbol con ra\'iz negra.
 Con esta funci\'on es donde por primera vez podemos apreciar el uso de las  bibliotecas de Haskell, 
 podemos apreciar como los tipos que estamos agregando al \'arbol son tipos ordenados de la biblioteca 
 $Base$ de \textbf{GHC} y por esa misma raz\'on estamos usando las comparaciones de esa biblioteca.
-
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
  match s with
@@ -331,14 +337,16 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
     else s
  end.
 \end{minted}
+\caption{Funci\'on ins.}
+\end{figure}
 
-Leyendo mas detenidamente la funci\'on se puede observar que las operaciones de balanceo solo se efectúan
-cuando el nodo por el que se esta pasando es negro, esto sucede por la raz'on de que estos son los nodos 
-que se toman en cuenta para decidir si un \'arbol esta balanceado. Al aplicar las operaciones de balanceo
-en estos nodos, nos aseguramos de no quedar con nodos negros de mas en alguno de los hijos del nodo al 
-que se le esta aplicando la operación de balanceo. Esto se puede apreciar si nos regresamos a las 
-definiciones de las operaciones de balanceo, tomemos $rbal$\footnote{Con $lbal$ la idea es an\'aloga}, 
-tenemos dos casos:
+Leyendo mas detenidamente la funci\'on, figura 2.2, se puede observar que las operaciones de balanceo 
+solo se efectúan cuando el nodo por el que se esta pasando es negro, esto sucede por la raz\'on de que 
+estos son los nodos  que se toman en cuenta para decidir si un \'arbol esta balanceado. Al aplicar las 
+operaciones de balanceo en estos nodos, nos aseguramos de no quedar con nodos negros extras en alguno de 
+los hijos del nodo al que se le esta aplicando la operación de balanceo. Esto se puede apreciar si nos 
+regresamos a las definiciones de las operaciones de balanceo, tomemos $rbal$\footnote{Con $lbal$ la idea 
+es an\'aloga}, tenemos dos casos:
 
 \begin{itemize}
     \item Sean $x$, $y$ y $z$ nodos del \'arbol y sea $n$ un subárbol, $x$ es el nodo al que se le aplica
@@ -354,8 +362,11 @@ tenemos dos casos:
 \end{itemize}{}
 
 Esta función de inserción puede no cumplir con una de las invariantes, que la raíz del árbol sea negra, 
-es por esto que se introducen las siguientes definiciones:
+es por esto que se introducen las definiciones de la figura 2.3.
 
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
  match t with
@@ -365,6 +376,8 @@ Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
 
 Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 \end{minted}
+\caption{Definiciones para pintar ra\'iz de negro.}
+\end{figure}
 
 La definici\'on $makeBlack$ únicamente colorea cualquier nodo de color negro y la definición $insert$ es 
 una envoltura de $ins$, con la cual nos aseguramos de que la ra\'iz de los arboles siempre sea de color 
@@ -380,8 +393,79 @@ compleja que su contra parte, esto se debe al hecho de que se pueden eliminar no
 del \'arbol, mientras que en la inserci\'on solo se agregaban hojas.
 
 Al poder eliminar nodos de cualquier parte de un \'arbol presenta una problemática muy grande para el 
-balanceo del mismo, esto porque al eliminar un nodo los dos subárboles de este tienen que concatenarse de
-alguna manera y las invariantes de los {\arns} tienen que respetarse.
+balanceo del mismo, esto porque al eliminar un nodo del \'arbol, los dos subárboles de este tienen que 
+concatenarse de alguna manera y las invariantes de los {\arns} tienen que respetarse.
+
+\subsection{Extensi\'on de funciones de balanceo}
+
+Para poder definir la funci\'on de eliminaci\'on es necesario extender las funciones de balanceo, esto 
+porque al eliminar nodos se presentan nuevos casos en estas funciones.
+
+Estas funciones, figura 2.4, 2.5 y 2.6, son tres: $rbal'$, $lbalS$, $rbalS$. La primera de estas 
+tres es idéntica a la función $rbal$, figura 2.1, lo \'unico que cambia es el orden de la caza de 
+patrones, esto se cambio por conveniencia al momento de desarrollar las demostraciones, toda la 
+funci\'on de eliminación usa esta variante de la funci\'on de balanceo derecha.
+
+Las funciones $rbalS$ y $lbalS$ agregan casos adicionales a las funciones de balanceo usadas para la 
+operaci\'on de inserci\'on y la idea de la extensión es análoga entre las dos, se describe esta idea a 
+continuación:
+
+VER FUNCION DEL PARA PODER EXPLICAR EL FUNCIONAMIENTO DE ESTA FUNCION.......
+
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\begin{minted}{coq}
+Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R b y (T R c z d) => T R (T B l k b) y (T B c z d)
+ | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
+ | _ => T B l k r
+ end.
+
+\end{minted}
+\caption{Funci\'on de balanceo de lado derecho alternativa.}
+\end{figure}
+
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\begin{minted}{coq}
+
+Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match l with
+ | T R a x b => T R (T B a x b) k r
+ | _ =>
+   match r with
+   | T B a y b => rbal' l k (T R a y b)
+   | T R (T B a y b) z c => T R (T B l k a) y (rbal' b z (makeRed c))
+   | _ => T R l k r 
+   end
+ end.
+
+\end{minted}
+\caption{Funciones de balanceo de la izquierdo extendida.}
+\end{figure}
+
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\begin{minted}{coq}
+
+Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
+ match r with
+ | T R b y c => T R l k (T B b y c)
+ | _ =>
+   match l with
+   | T B a x b => lbal (T R a x b) k r
+   | T R a x (T B b y c) => T R (lbal (makeRed a) x b) y (T B c k r)
+   | _ => T R l k r 
+   end
+ end.
+
+\end{minted}
+\caption{Funciones de balanceo de lado derecho extendida.}
+\end{figure}
 
 \begin{figure}
 \centering 
@@ -416,7 +500,6 @@ alguna manera y las invariantes de los {\arns} tienen que respetarse.
 ;
 
 {
-\'Arbol roji-negro.
 }
 ;
 \end{tikzpicture}
@@ -463,37 +546,44 @@ alguna manera y las invariantes de los {\arns} tienen que respetarse.
 \caption{{\Arn} roto después de eliminar nodo 6.}
 \end{figure}
 
+\begin{figure}
+\centering 
+\captionsetup{justification=centering}
+\label{arbolRB}
+ \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
+%\draw[style=help lines] (-5,-7) grid (5,0);
+\node [arn_n] at (-2,0) {5}
+        child{ node [arn_r] {2} 
+            child{ node [arn_n] {1} 
+                child{ node [arn_x] {}} %for a named pointer
+                child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {4}
+                child{ node [arn_r] {3}
+                    child{ node [arn_x] {}}
+                    child{ node [arn_x] {}}
+                }
+                child{ node [arn_x] {}}
+            }                            
+        }
+        child{ node [arn_n] {8}
+            child{ node [arn_x] {}}
+            child{ node [arn_r] {9}
+                child{ node [arn_x] {}}
+                child{ node [arn_x] {}}
+            }
+        }
+;
+
+{
+}
+;
+\end{tikzpicture}
+\caption{{\Arn} despues de aplicar funcion append.}
+\end{figure}
+
+
 \begin{minted}{coq}
-Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
- match r with
- | T R b y (T R c z d) => T R (T B l k b) y (T B c z d)
- | T R (T R b y c) z d => T R (T B l k b) y (T B c z d)
- | _ => T B l k r
- end.
-
-Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
- match l with
- | T R a x b => T R (T B a x b) k r
- | _ =>
-   match r with
-   | T B a y b => rbal' l k (T R a y b)
-   | T R (T B a y b) z c => T R (T B l k a) y (rbal' b z (makeRed c))
-   | _ => T R l k r 
-   end
- end.
-
-Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
- match r with
- | T R b y c => T R l k (T B b y c)
- | _ =>
-   match l with
-   | T B a x b => lbal (T R a x b) k r
-   | T R a x (T B b y c) => T R (lbal (makeRed a) x b) y (T B c k r)
-   | _ => T R l k r 
-   end
- end.
-
-
 Fixpoint append {a} `{GHC.Base.Ord a} (l:RB a) : RB a -> RB a :=
  match l with
  | E => fun r => r
@@ -649,7 +739,9 @@ Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos rea
 pregunta: ¿como capturar las invariantes de los {\arns} y al mismo tiempo facilitar la verificaci\'on de 
 estos?
 
-Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador lleva el control de la cantidad de nodos negros, es decir la altura negra del nodo, mientras que el \'arbol es aquel que estamos buscando
+Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar los invariantes, la cual
+lleva como parámetros un contador y un \'arbol. El contador lleva el control de la cantidad de nodos
+negros, es decir la altura negra del nodo, mientras que el \'arbol es aquel que estamos buscando
 verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\`on a continuaci\'on:
 
 \begin{minted}{coq}
