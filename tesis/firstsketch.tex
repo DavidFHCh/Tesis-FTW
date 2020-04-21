@@ -589,35 +589,35 @@ concatenarse de alguna manera y las invariantes de los {\arns} tienen que respet
 }
 ;
 \end{tikzpicture}
-\caption{{\Arn} despues de aplicar función append.}
+\caption{{\Arn} después de aplicar función append.}
 \end{figure}
 
 \subsection{Funci\'on de eliminaci\'on}
 
 Para poder comprender la l\'ogica de las funciones\footnote{auxiliares y principales} de la operaci\'on
 de eliminaci\'on es necesario empezar por la funci'on que elimina los nodos, ver la figura 2.9. La idea 
-principal es bastante simple, como los \arns son \'arboles de busqueda, lo primero que hacemos es buscar 
+principal es bastante simple, como los \arns son \'arboles de búsqueda, lo primero que hacemos es buscar 
 el nodo a eliminar, si se encuentra se elimina y se ``pegan'' los subárboles restantes de esta 
 operaci\'on, ver figuras 2.6, 2.7 y 2.8. A continuaci\'on se describe mas a fondo los casos de la misma:
 
 \begin{itemize}
     \item Si se recibe un \'arbol vacío como argumento de la funci'on se regresa el mismo, pues eliminar 
-    un elemento del \'arbol vacío resulta en el mismo. Tmabien este caso sirve para cuando un elemento no
+    un elemento del \'arbol vacío resulta en el mismo. También este caso sirve para cuando un elemento no
     es encontrado en el \'arbol, es el caso base de la recursi\'on de búsqueda.
     \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo no 
     contiene el elemento que buscamos, comparamos si el elemento es menor o mayor para seguir buscando en
-    el \'arbol izquierdo o derecho respectivamente y si el nodo es negro se realiza la operaci'on 
+    el \'arbol izquierdo o derecho respectivamente y si el nodo es negro se realiza la operaci\'on 
     $lbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al árbol izquierdo o 
     $rbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al árbol derecho. Si el 
     elemento en el que estamos no es ni mayor ni menor al que buscamos, en ese caso eliminamos el 
-    elemento y pegamos los subarboles restantes usando la función $append$\footnote{Se explican mas 
+    elemento y pegamos los subárboles restantes usando la función $append$\footnote{Se explican mas 
     adelante}.
 \end{itemize}
 
 Podemos ver que las funciones de balanceo $lbalS$ y $rbalS$ se aplican cuando el nodo en el que estamos 
-parados es negro, esto evita que después de eliminar un nodo y aplicar la funci\'on $append$, se acabe 
-con dos nodos rojos seguidos, es decir, que el hijo y alguno de los nietos del nodo en el que estamos 
-parados sean rojos.  
+parados, sea $n$, es negro. Esto evita que después de eliminar un nodo y aplicar la funci\'on $append$, 
+se acabe con dos nodos rojos seguidos, es decir, que el hijo y alguno de los nietos del nodo $n$ sean 
+rojos.  
 
 \begin{figure}
 \centering 
@@ -647,6 +647,20 @@ Definition remove x t := makeBlack (del x t).
 \end{figure}
 
 \subsection{Funci\'on de concatenaci\'on}
+
+La funci\'on de concatenacion se usa cuando se localiza el elemento que se busca eliminar del {\arn}, 
+esto es porque el retirar el nodo del \'arbol da como resultado dos \'arboles que tienen que ser 
+concatenados y tienen que respetar los invariantes de los {\arns}. Esto nos da varios casos que 
+desarrollaremos a continuación:
+Explicar la funcion auxiliar $append_l$
+\begin{itemize}
+    \item Dos \'arboles vac\'ios: En este caso solamente se juntan como un \'arbol vacío.
+    \item Un \'arbol vacío y un árbol cualquiera: El resultado de concatenar cualquier \'arbol, sea $a$, con el vacío es $a$.
+    \item Dos arboles con raíces rojas
+    \item Dos arboles con raices negras
+    \item Dos arboles, uno con raiz negra y el otro con raiz roja
+    \item Dos arboles, uno con raiz roja y el otro con raiz negra 
+\end{itemize}
 
 \begin{figure}
 \centering 
@@ -696,6 +710,7 @@ funci\'on de eliminación usa esta variante de la funci\'on de balanceo derecha.
 Las funciones $rbalS$ y $lbalS$ agregan casos adicionales a las funciones de balanceo usadas para la 
 operaci\'on de inserci\'on y la idea de la extensión es análoga entre las dos, se describe esta idea a 
 continuación:
+
 En la funci\'on $rbalS$, 
 
 \begin{figure}
@@ -730,7 +745,7 @@ Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
  end.
 
 \end{minted}
-\caption{Funciones de balanceo de la izquierdo extendida.}
+\caption{Funci\'on de balanceo de lado izquierdo extendida.}
 \end{figure}
 
 \begin{figure}
