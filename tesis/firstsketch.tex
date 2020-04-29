@@ -648,18 +648,34 @@ Definition remove x t := makeBlack (del x t).
 
 \subsection{Funci\'on de concatenaci\'on}
 
-La funci\'on de concatenacion se usa cuando se localiza el elemento que se busca eliminar del {\arn}, 
-esto es porque el retirar el nodo del \'arbol da como resultado dos \'arboles que tienen que ser 
-concatenados y tienen que respetar los invariantes de los {\arns}. Esto nos da varios casos que 
-desarrollaremos a continuación:
-Explicar la funcion auxiliar $append_l$
+La funci\'on de concatenación, figura 2.10, es usada cuando se encuentra el elemento que se busca 
+eliminar del {\arn}, esto es porque la acci\'on de retirar un nodo del \'arbol da como resultado dos 
+\'arboles que tienen que ser concatenados y tienen que respetar los invariantes de los {\arns}. Esta 
+funci\'on recibe como parámetros los dos \'arboles\footnote{Estos arboles pueden no cumplir las 
+invariantes de un {\arn}.} que estamos buscando juntar. 
+
+Sean $a$ y $b$ los dos subárboles a los que se les aplicar\'a la funci\'on append, es decir, 
+$append(a,b)$, tenemos los siguientes casos:
+
 \begin{itemize}
-    \item Dos \'arboles vac\'ios: En este caso solamente se juntan como un \'arbol vacío.
-    \item Un \'arbol vacío y un árbol cualquiera: El resultado de concatenar cualquier \'arbol, sea $a$, con el vacío es $a$.
-    \item Dos arboles con raíces rojas
-    \item Dos arboles con raices negras
-    \item Dos arboles, uno con raiz negra y el otro con raiz roja
-    \item Dos arboles, uno con raiz roja y el otro con raiz negra 
+    \item Si $a$ es el \'arbol vacío, entonces se regresa $b$.
+    \item Si $b$ es el \'arbol vacío, entonces regresamos $a$.
+    \item Si $a$ y $b$ son arboles con raíces rojas, entonces se aplica $append$ al subárbol derecho 
+    de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$. Si el 
+    resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y $b$ se 
+    pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$ se reemplaza por 
+    el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $arbl$.
+    En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, los 
+    pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ 
+    se reemplaza por el resultado de $append(ar,bl)$.
+    \item Si $a$ y $b$ son arboles con raíces negras, entonces se aplica $append$ al subárbol derecho
+    de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$. Si el 
+    resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y $b$ se 
+    pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$ se reemplaza por
+    el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $arbl$.
+    En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se reemplaza por el resultado de $append(ar,bl)$ y a este resultado le aplicamos una función de balanceo, $lbalS$.
+    \item Si $a$ es un \'arbol de color negro y $b$ de color rojo, entonces se toma $b$, se pinta de rojo pero en lugar de su subárbol izquierdo, sea $bl$, se aplica una llamada recursiva a $bl$ con la  funci\'on embebida en $append$, llamada $append\_l$, es decir, $append\_l(bl)$, la cual sigue teniendo al \'arbol $a$, gracias al currying\cite{Currying}.
+    \item Si $a$ es un \'arbol de color rojo y $b$ de color negro, entonces se toma $a$, se pinta de rojo pero en lugar de su subárbol derecho, sea $ar$, se hace una llamada recursiva con $append(ar,b)$.
 \end{itemize}
 
 \begin{figure}
