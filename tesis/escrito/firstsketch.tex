@@ -176,25 +176,24 @@ esto son los lenguajes de programación funcionales. Este paradigma lleva a los 
 donde la notaci\'on es muy parecida a lo que se usa en las matemáticas mas tradicionales, es decir, 
 funciones que van de un conjunto de datos a otro. Esto facilita la demostraci\'on formal de los programas 
 escritos en estos tipos de lenguajes, pero existe otro problema, estas demostraciones son realizadas por 
-humanos, con la guía de mas humanos y los humanos somos susceptibles a cometer errores, como no considerar 
+humanos, con la guía de mas humanos y los humanos somos susceptibles a cometer errores, como no considerar
 un caso u olvidarnos de cargar con un signo a media demostraci\'on. 
 
-En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas, programas 
+En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas, programas
 que nos asisten para hacer demostraciones formales de programas escritos en lenguajes funcionales, este 
 tipo de programas se conoce como asistentes de prueba y en este trabajo se usara el asistente llamado 
-`Coq'. Se busca demostrar la corrección y completud de una estructura de datos implementada en este 
+`Coq'. Se busca demostrar la corrección y completud de una estructura de datos implementada en dicho 
 asistente de pruebas.
 
 El uso de este asistente genera otro problema, no podemos probar cualquier programa escrito en un lenguaje 
 funcional, tenemos que primero traducir este programa al lenguaje de Coq para poder empezar con las 
-demostraciones, aqui tenemos dos opciones, traducir a mano o utilizar una herramienta que nos ayude a traducir. Esta herramienta se llama `hs-to-coq'\cite{thrc}.
+demostraciones, aqui tenemos dos opciones, traducir a mano o utilizar una herramienta que nos ayude a 
+traducir. Esta herramienta se llama `hs-to-coq'\cite{thrc}.
 
 En un trabajo anterior\cite{tesisG}, se realizaron diversas implementaciones de {\arns}, usando el 
 lenguaje de programaci\'on Haskell, se desarrollaron constructores inteligentes y una implementaci\'on mas
 compleja usando tipos anidados. Siendo este la principal motivaci\'on de elegir esta estructura de datos no
 trivial para demostrar formalmente su corrección y completud. 
-
-
 
 \section{Arboles Roji-negros}
 Los {\arns} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y búsqueda se 
@@ -259,17 +258,63 @@ Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 \end{figure}
 
 Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder demostrar la 
-correcci'on de estos usando el asistente de pruebas {\coq} y así poder mostrar las ventajas, y 
-problemáticas de este proceso.
+correcci\'on y completud de estos usando el asistente de pruebas {\coq} y así poder mostrar las ventajas, y
+problemáticas de este proceso, desde la escritura/traducción de la estructura del lenguaje Haskell a Coq, 
+hasta las demostraciones que se realizaran con el asistente.
+
 \section{Traducción de Haskell a {\coq} (hs-to-coq)}
+Como se menciono en la motivación de este trabajo, existen programas que nos ayudan a verificar formalmente 
+otros programas, en particular en este trabajo se decidió usar {\coq}, sin embargo el usar esta herramienta 
+trae sus propias problemáticas.
+
+El primer problema que se encuentra al empezar a usar la herramienta es si se va a escribir el programa 
+directamente a {\coq} o si se va a traducir un programa ya existente al lenguaje del asistente de pruebas,  
+como lo que se busca es poder verificar un programa ya existente, es decir, los {\arns}, queremos poder  
+traducir código de Haskell a {\coq}. 
+
+En el articulo científico ``Total Haskell is Reasonable Coq''\cite{thrc} se describen las principales 
+ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a continuaci\'on:
+
+\subsection{Ventajas}
+\begin{itemize}
+    \item Haskell es un excelente lenguaje para escribir programas funcionales puros.
+    \item La gran comunidad de programadores que usa y mantienen el lenguaje, al igual que el compilador GHC
+    de Haskell que se usa en la industria.
+    \item El ambiente de Coq para desarrollar demostraciones.
+    \item Coq permite razonar acerca de programas funcionales totales.
+\end{itemize}
+
+\subsection{Desventajas}
+\begin{itemize}
+    \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a realizar 
+    pruebas de este, generalmente esta hecho a mano `en papel', lo cual es tedioso y susceptible a errores.
+    \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores que lo usen 
+    y mantengan como lo tiene Haskell.
+    \item El hecho de que los programadores de Haskell solo razonen acerca de su código informalmente puede 
+    que resulte en que se generen funciones parciales, es decir que no cubran todos los casos posibles.
+    \item La traducci\'on de Haskell a Coq solo es posible si se tienen funciones totales.
+\end{itemize}
+
+El articulo propone el uso de una herramienta, llamada `hs-to-coq', la cual sigue en desarrollo y es usada 
+para traducir código de Haskell a Coq. En este trabajo se opto por usar la herramienta para la traducci\'on,
+esto porque la traducci\'on manual resulta ser muy tediosa, susceptible a errores y desviaría el enfoque de 
+este trabajo que es la verificaci\'on de la estructura, no la traducci\'on de esta.
 
 \section {Sobre este trabajo}
-El contenido, demostraciones de este trabajo se encuentran almacenados en ...bla.... Aqu\'i se presentan 
-definiciones, lemas y clases sin incluir las demostraciones en {\coq}, es decir, los scripts de prueba. 
-En su lugar se describen de forma informal las demostraciones para poder entender en alto nivel la 
-estructura de la verificaci\'on formal realizada.
+El contenido, demostraciones de este trabajo se encuentran almacenados en 
+\url{https://github.com/DavidFHCh/Tesis-FTW} Aqu\'i se presentan definiciones, lemas y clases sin incluir 
+las demostraciones en {\coq}, es decir, los scripts de prueba. En su lugar se describen de forma informal 
+las demostraciones para poder entender en alto nivel la estructura de la verificaci\'on formal realizada.
+
+La herramienta `hs-to-coq' fue usada para obtener las traducciones de las bibliotecas de Haskell usadas para
+poder verificar la implementación de {\arns} que se uso en el trabajo.
+
+En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la estructura de 
+datos, al igual que las implementaciones y las pruebas realizadas para poder obtener el resultado que se 
+buscaba.
 
 \chapter{Implementación de arboles roji-negros en {\coq}}
+
 \section{Traducción de implementaciones}
 Se tuvieron varias aproximaciones para la implementación de {\arns}; la primera fue obtener las 
 implementaciones en Haskell de estos\cite{tesisG} y pasar estas implementaciones como entrada a 
@@ -1210,18 +1255,33 @@ invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci
 formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.  
 
 \section{Verificación de la operación de eliminación}
+Al igual que en la funci\'on de inserci\'on se enuncian lemas para ayudarnos a llegar al resultado de 
+verificar la operación de eliminación. Estos lemas giran en torno a las funciones auxiliares que se usaron
+para poder demostrar la operación, como $append$ y $del$.
+
+A continuación se describe el razonamiento usado para poder verificar dichas funciones.
+
+\subsection{Primer Lema}
 \begin{minted}{coq}
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) : 
   is_redblack n l -> is_redblack n r ->
    (nearly_redblack n (append l r)) /\
    (notred l -> notred r -> is_redblack n (append l r)).
+\end{minted}
 
+Probablemente la funci'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual junta 
+los subárboles resultantes de eliminar la raíz 
 
+\subsection{Segundo Lema}
+\begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
  with del_rb  {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack n s -> notblack s -> is_redblack n (del x s).
+\end{minted}
 
+\subsection{Instancia de la funci\'on de eliminaci\'on}
+\begin{minted}{coq}
 Instance remove_rb s x : redblack s -> redblack (remove x s).
 \end{minted}
 \chapter{Conclusiones}  
