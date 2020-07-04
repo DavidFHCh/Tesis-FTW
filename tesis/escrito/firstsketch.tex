@@ -152,55 +152,59 @@ minimum width=0.5em, minimum height=0.5em}
 \chapter{Introducción} 
 
 \section{Motivación}
-Hoy en día en el desarrollo de software hay un conjunto de normas a las cuales se les denomina `buenas 
-practicas de programaci\'on', las cuales van desde tener una buena idéntaci\'on, elegir si se usaran 
-espacios o tabuladores para realizar la identaci\'on, documentar el c\'odigo, respetar las convenciones 
-del lenguaje que se este usado y probar tu programa, mas específicamente, realizar pruebas unitarias. 
-Estas pruebas unitarias te ayudan a saber si tu código esta teniendo el comportamiento que se busca, pero 
-esto lo logran solo hasta cierto punto. Por ejemplo, si tienes una funci\'on que recibe un par números 
-naturales, para poder estar totalmente seguro de que la funci\'on es correcta se tendrian que probar todos
-los casos, todas las combinaciones de números naturales que existan, pero estas combinaciones son 
-infinitas y se necesitaría una cantidad infinita de memoria y de tiempo para poder escribir una prueba 
-unitaria exhaustiva, como la que se esta sugiriendo.
+Hoy en día en el desarrollo de software hay un conjunto de normas a las cuales se les denomina 
+`buenas practicas de programaci\'on', las cuales van desde tener una buena idéntaci\'on, elegir si 
+se usaran espacios o tabuladores para realizar la identaci\'on, documentar el c\'odigo, respetar 
+las convenciones del lenguaje que se este usado y probar tu programa, mas específicamente, 
+realizar pruebas unitarias. 
+Estas pruebas unitarias te ayudan a saber si tu código esta teniendo el comportamiento que se 
+busca, pero esto lo logran solo hasta cierto punto. Por ejemplo, si tienes una funci\'on que 
+recibe un par números naturales, para poder estar totalmente seguro de que la funci\'on es 
+correcta se tendrian que probar todoslos casos, todas las combinaciones de números naturales que 
+existan, pero estas combinaciones son infinitas y se necesitaría una cantidad infinita de memoria 
+y de tiempo para poder escribir una prueba unitaria exhaustiva, como la que se esta sugiriendo.
 
-Claramente escribir una prueba unitaria de estas características no es factible, entonces ¿que nos queda 
-por hacer?, ¿escribir pruebas unitarias que con una parte representativa de los datos que se pueden 
-recibir `prueben' que el programa funciona? y ¿si la misma prueba unitaria es errónea? No hay una 
-respuesta clara para esto y la misma industria, hoy en día, utiliza métodos como las pruebas unitarias 
-para probar sus programas, pero ciertamente esto no nos dice si el programa es correcto o completo.
+Claramente escribir una prueba unitaria de estas características no es factible, entonces ¿que nos 
+queda por hacer?, ¿escribir pruebas unitarias que con una parte representativa de los datos que se 
+pueden recibir `prueben' que el programa funciona? y ¿si la misma prueba unitaria es errónea? No 
+hay una respuesta clara para esto y la misma industria, hoy en día, utiliza métodos como las 
+pruebas unitarias para probar sus programas, pero ciertamente esto no nos dice si el programa es 
+correcto o completo.
 
 La única manera de poder probar que una función o programa es correcto y completo es mediante una 
-demostraci\'on matemática formal. El problema con este método es que es muy complejo y complicado. A lo 
-largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al programador, un ejemplo de 
-esto son los lenguajes de programación funcionales. Este paradigma lleva a los programas a un contexto 
-donde la notaci\'on es muy parecida a lo que se usa en las matemáticas mas tradicionales, es decir, 
-funciones que van de un conjunto de datos a otro. Esto facilita la demostraci\'on formal de los programas 
-escritos en estos tipos de lenguajes, pero existe otro problema, estas demostraciones son realizadas por 
-humanos, con la guía de mas humanos y los humanos somos susceptibles a cometer errores, como no considerar
-un caso u olvidarnos de cargar con un signo a media demostraci\'on. 
+demostraci\'on matemática formal. El problema con este método es que es muy complejo y complicado. 
+A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al programador, 
+un ejemplo de esto son los lenguajes de programación funcionales. Este paradigma lleva a los 
+programas a un contexto donde la notaci\'on es muy parecida a lo que se usa en las matemáticas mas 
+tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto facilita la 
+demostraci\'on formal de los programas escritos en estos tipos de lenguajes, pero existe otro 
+problema, estas demostraciones son realizadas por humanos, con la guía de mas humanos y los 
+humanos somos susceptibles a cometer errores, como no considerar un caso u olvidarnos de cargar 
+con un signo a media demostraci\'on. 
 
-En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas, programas
-que nos asisten para hacer demostraciones formales de programas escritos en lenguajes funcionales, este 
-tipo de programas se conoce como asistentes de prueba y en este trabajo se usara el asistente llamado 
-`Coq'. Se busca demostrar la corrección y completud de una estructura de datos implementada en dicho 
-asistente de pruebas.
+En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas, 
+programasque nos asisten para hacer demostraciones formales de programas escritos en lenguajes 
+funcionales, este tipo de programas se conoce como asistentes de prueba y en este trabajo se usara 
+el asistente llamado `Coq'. Se busca demostrar la corrección y completud de una estructura de 
+datos implementada en dicho asistente de pruebas.
 
-El uso de este asistente genera otro problema, no podemos probar cualquier programa escrito en un lenguaje 
-funcional, tenemos que primero traducir este programa al lenguaje de Coq para poder empezar con las 
-demostraciones, aqui tenemos dos opciones, traducir a mano o utilizar una herramienta que nos ayude a 
-traducir. Esta herramienta se llama `hs-to-coq'\cite{thrc}.
+El uso de este asistente genera otro problema, no podemos probar cualquier programa escrito en un 
+lenguaje funcional, tenemos que primero traducir este programa al lenguaje de Coq para poder 
+empezar con las demostraciones, aqui tenemos dos opciones, traducir a mano o utilizar una 
+herramienta que nos ayude a traducir. Esta herramienta se llama `hs-to-coq'\cite{thrc}.
 
 En un trabajo anterior\cite{tesisG}, se realizaron diversas implementaciones de {\arns}, usando el 
-lenguaje de programaci\'on Haskell, se desarrollaron constructores inteligentes y una implementaci\'on mas
-compleja usando tipos anidados. Siendo este la principal motivaci\'on de elegir esta estructura de datos no
-trivial para demostrar formalmente su corrección y completud. 
+lenguaje de programaci\'on Haskell, se desarrollaron constructores inteligentes y una 
+implementaci\'on mas compleja usando tipos anidados. Siendo este la principal motivaci\'on de 
+elegir esta estructura de datos no trivial para demostrar formalmente su corrección y completud. 
 
 \section{Arboles Roji-negros}
-Los {\arns} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y búsqueda se 
-efectúan en tiempo logarítmico, es decir, la complejidad de esas operaciones es $O(log(n))$, estos son una 
-subclase de los arboles binarios de búsqueda, en los cuales la complejidad de dichas operaciones crece 
-hasta $O(n)$. Esta mejora en la complejidad se obtiene gracias a la introducción de colores a los nodos del
-\'arbol y a invariantes relacionados con estos colores, las cuales describiremos mas adelante.
+Los {\arns} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y 
+búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de esas operaciones es 
+$O(log(n))$, estos son una subclase de los arboles binarios de búsqueda, en los cuales la 
+complejidad de dichas operaciones crece hasta $O(n)$. Esta mejora en la complejidad se obtiene 
+gracias a la introducción de colores a los nodos del \'arbol y a invariantes relacionados con 
+estos colores, las cuales describiremos mas adelante.
 
 \subsection{Definici\'on de {\arns}}
 Un {\arn} se define de la siguiente manera:
@@ -212,10 +216,11 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
     \item Las siguientes invariantes se tienen que cumplir:
     \begin{itemize}
         \item Un nodo rojo debe tener hijos negros.
-        \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodos negros.
-        \item Todas las hojas del \'arbol son vacías y de color negro\footnote{Esta invariante no es del 
-        todo necesaria, en capítulos posteriores apreciar que las hojas no tienen color, por la 
-        construcción de estas.}.
+        \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodo 
+        negros.
+        \item Todas las hojas del \'arbol son vacías y de color negro\footnote{Esta invariante no 
+        es del todo necesaria, en capítulos posteriores apreciar que las hojas no tienen color, 
+        por la construcción de estas.}.
     \end{itemize}
 \end{enumerate}
 
@@ -258,108 +263,115 @@ Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 \end{figure}
 
 Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder demostrar la 
-correcci\'on y completud de estos usando el asistente de pruebas {\coq} y así poder mostrar las ventajas, y
-problemáticas de este proceso, desde la escritura/traducción de la estructura del lenguaje Haskell a Coq, 
-hasta las demostraciones que se realizaran con el asistente.
+correcci\'on y completud de estos usando el asistente de pruebas {\coq} y así poder mostrar las
+ventajas, y problemáticas de este proceso, desde la escritura/traducción de la estructura del 
+lenguaje Haskell a Coq, hasta las demostraciones que se realizaran con el asistente.
 
 \section{Traducción de Haskell a {\coq} (hs-to-coq)}
-Como se menciono en la motivación de este trabajo, existen programas que nos ayudan a verificar formalmente 
-otros programas, en particular en este trabajo se decidió usar {\coq}, sin embargo el usar esta herramienta 
-trae sus propias problemáticas.
+Como se menciono en la motivación de este trabajo, existen programas que nos ayudan a verificar 
+formalmente otros programas, en particular en este trabajo se decidió usar {\coq}, sin embargo el 
+usar esta herramienta trae sus propias problemáticas.
 
-El primer problema que se encuentra al empezar a usar la herramienta es si se va a escribir el programa 
-directamente a {\coq} o si se va a traducir un programa ya existente al lenguaje del asistente de pruebas,  
-como lo que se busca es poder verificar un programa ya existente, es decir, los {\arns}, queremos poder  
-traducir código de Haskell a {\coq}. 
+El primer problema que se encuentra al empezar a usar la herramienta es si se va a escribir el 
+programa directamente a {\coq} o si se va a traducir un programa ya existente al lenguaje del 
+asistente de pruebas, como lo que se busca es poder verificar un programa ya existente, es decir, 
+los {\arns}, queremos poder traducir código de Haskell a {\coq}. 
 
-En el articulo científico ``Total Haskell is Reasonable Coq''\cite{thrc} se describen las principales 
-ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a continuaci\'on:
+En el articulo científico ``Total Haskell is Reasonable Coq''\cite{thrc} se describen las 
+principales ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a 
+continuaci\'on:
 
 \subsection{Ventajas}
 \begin{itemize}
     \item Haskell es un excelente lenguaje para escribir programas funcionales puros.
-    \item La gran comunidad de programadores que usa y mantienen el lenguaje, al igual que el compilador GHC
-    de Haskell que se usa en la industria.
+    \item La gran comunidad de programadores que usa y mantienen el lenguaje, al igual que el 
+    compilador GHC de Haskell que se usa en la industria.
     \item El ambiente de Coq para desarrollar demostraciones.
     \item Coq permite razonar acerca de programas funcionales totales.
 \end{itemize}
 
 \subsection{Desventajas}
 \begin{itemize}
-    \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a realizar 
-    pruebas de este, generalmente esta hecho a mano `en papel', lo cual es tedioso y susceptible a errores.
-    \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores que lo usen 
-    y mantengan como lo tiene Haskell.
-    \item El hecho de que los programadores de Haskell solo razonen acerca de su código informalmente puede 
-    que resulte en que se generen funciones parciales, es decir que no cubran todos los casos posibles.
+    \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a 
+    realizar pruebas de este, generalmente esta hecho a mano `en papel', lo cual es tedioso y 
+    susceptible a errores.
+    \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores 
+    que lo usen y mantengan como lo tiene Haskell.
+    \item El hecho de que los programadores de Haskell solo razonen acerca de su código 
+    informalmente puede que resulte en que se generen funciones parciales, es decir que no cubran 
+    todos los casos posibles.
     \item La traducci\'on de Haskell a Coq solo es posible si se tienen funciones totales.
 \end{itemize}
 
-El articulo propone el uso de una herramienta, llamada `hs-to-coq', la cual sigue en desarrollo y es usada 
-para traducir código de Haskell a Coq. En este trabajo se opto por usar la herramienta para la traducci\'on,
-esto porque la traducci\'on manual resulta ser muy tediosa, susceptible a errores y desviaría el enfoque de 
-este trabajo que es la verificaci\'on de la estructura, no la traducci\'on de esta.
+El articulo propone el uso de una herramienta, llamada `hs-to-coq', la cual sigue en desarrollo y 
+es usada para traducir código de Haskell a Coq. En este trabajo se opto por usar la herramienta 
+para la traducci\'on, esto porque la traducci\'on manual resulta ser muy tediosa, susceptible a 
+errores y desviaría el enfoque de este trabajo que es la verificaci\'on de la estructura, no la 
+traducci\'on de esta.
 
 \section {Sobre este trabajo}
 El contenido, demostraciones de este trabajo se encuentran almacenados en 
-\url{https://github.com/DavidFHCh/Tesis-FTW} Aqu\'i se presentan definiciones, lemas y clases sin incluir 
-las demostraciones en {\coq}, es decir, los scripts de prueba. En su lugar se describen de forma informal 
-las demostraciones para poder entender en alto nivel la estructura de la verificaci\'on formal realizada.
+\url{https://github.com/DavidFHCh/Tesis-FTW} Aqu\'i se presentan definiciones, lemas y clases sin 
+incluir las demostraciones en {\coq}, es decir, los scripts de prueba. En su lugar se describen de 
+forma informal las demostraciones para poder entender en alto nivel la estructura de la 
+verificaci\'on formal realizada.
 
-La herramienta `hs-to-coq' fue usada para obtener las traducciones de las bibliotecas de Haskell usadas para
-poder verificar la implementación de {\arns} que se uso en el trabajo.
+La herramienta `hs-to-coq' fue usada para obtener las traducciones de las bibliotecas de Haskell 
+usadas para poder verificar la implementación de {\arns} que se uso en el trabajo.
 
-En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la estructura de 
-datos, al igual que las implementaciones y las pruebas realizadas para poder obtener el resultado que se 
-buscaba.
+En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la 
+estructura de datos, al igual que las implementaciones y las pruebas realizadas para poder obtener 
+el resultado que se buscaba.
 
 \chapter{Implementación de arboles roji-negros en {\coq}}
 
 \section{Traducción de implementaciones}
 Se tuvieron varias aproximaciones para la implementación de {\arns}; la primera fue obtener las 
 implementaciones en Haskell de estos\cite{tesisG} y pasar estas implementaciones como entrada a 
-hs-to-coq, la segunda aproximación, y la que se uso para esta tesis, fue obtener la implementación de 
-Okasaki traducida a Coq  \cite{MSetRBT}, con la diferencia de que se usaron las bibliotecas de Haskell 
-que contienen los tipos y comparaciones, estas obtenidas de la traducción de estas bibliotecas a Coq, en 
-lugar de usar las bibliotecas ya existentes de Coq.
-A continuación profundizaremos acerca de estos dos métodos.
-\subsection{Traducción directa de implementaciones de Haskell a Coq}
-De un trabajo anterior\cite{tesisG} se obtuvieron diversas implementaciones de {\arns} la mayor parte de 
-estas cambiaba principalmente en las implementaciones de las operaciones de borrado, siendo esta la 
-operación mas compleja. 
-Estas diversas implementaciones van desde la implementación de Okasaki\footnote{siendo esta la m\'as 
-simple}, constructores inteligentes\footnote{implementaci\'on anterior con optimizaciones} y tipos 
-anidados\footnote{una implementaci\'on totalmente diferente a las anteriores}.
+hs-to-coq, la segunda aproximación, y la que se uso para esta tesis, fue obtener la implementación 
+de Okasaki traducida a Coq  \cite{MSetRBT}, con la diferencia de que se usaron las bibliotecas de 
+Haskell que contienen los tipos y comparaciones, estas obtenidas de la traducción de estas 
+bibliotecas a Coq, en lugar de usar las bibliotecas ya existentes de Coq.
 
-Por la compleja naturaleza de estas implementaciones\footnote{incluso Okasaki} la traducción manual del 
-código de Haskell resulto ser muy problemática,
-esto porque las implementaciones en Haskell se aprovechan del hecho de que en este lenguaje se pueden dar
-funciones parciales, lo cual resulta problemático cuando se quiere traducir a Coq, ya que este lenguaje 
-únicamente acepta funciones totales.
+A continuación profundizaremos acerca de estos dos métodos.
+
+\subsection{Traducción directa de implementaciones de Haskell a Coq}
+De un trabajo anterior\cite{tesisG} se obtuvieron diversas implementaciones de {\arns} la mayor 
+parte de estas cambiaba principalmente en las implementaciones de las operaciones de borrado, 
+siendo esta la operación mas compleja. 
+Estas diversas implementaciones van desde la implementación de Okasaki\footnote{siendo esta la 
+m\'as simple}, constructores inteligentes\footnote{implementaci\'on anterior con optimizaciones} y 
+tipos anidados\footnote{una implementaci\'on totalmente diferente a las anteriores}.
+
+Por la compleja naturaleza de estas implementaciones\footnote{incluso Okasaki} la traducción 
+manual del código de Haskell resulto ser muy problemática, esto porque las implementaciones en 
+Haskell se aprovechan del hecho de que en este lenguaje se pueden dar funciones parciales, lo cual 
+resulta problemático cuando se quiere traducir a Coq, ya que este lenguaje únicamente acepta 
+funciones totales.
 
 Por lo expuesto anteriormente se opto por usar la herramienta \textbf{hs-to-coq} para facilitar la 
 traducci\'on, pero por las mismas razones antes descritas\footnote{las funciones no eran totales},
 la herramienta caia en alguna de estas dos situaciones:
 
 \begin{itemize}
-    \item El tiempo de ejecuci\'on de la herramienta era muy alto y eventualmente los recursos de la 
-    maquina virtual, donde esta herramienta se ejecuto, se quedaba sin recursos\footnote{en especial 
-    memoria}.
-    \item La herramienta generaba c\'odigo en Coq pero con elementos de Haskell cuyas bibliotecas todavía
-    no habían sido traducidas del todo.
+    \item El tiempo de ejecuci\'on de la herramienta era muy alto y eventualmente los recursos de 
+    la maquina virtual, donde esta herramienta se ejecuto, se quedaba sin recursos\footnote{en 
+    especial memoria}.
+    \item La herramienta generaba c\'odigo en Coq pero con elementos de Haskell cuyas bibliotecas 
+    todavía no habían sido traducidas del todo.
 \end{itemize}{}
 
-Se busco otra acercamiento para poder verificar esta estructura; la herramienta hs-to-coq tiene parte de 
-las bibliotecas de Haskell traducidas a Coq, entonces se uso la implementación de {\arns} de las 
-bibliotecas de {\coq}\cite{MSetRBT} pero usando los tipos y comparaciones de tipos de Haskell traducidos 
-a Coq.
+Se busco otra acercamiento para poder verificar esta estructura; la herramienta hs-to-coq tiene 
+parte de las bibliotecas de Haskell traducidas a Coq, entonces se uso la implementación de {\arns} 
+de las bibliotecas de {\coq}\cite{MSetRBT} pero usando los tipos y comparaciones de tipos de 
+Haskell traducidos a Coq.
 
 \section{Inserción de elementos en un {\arn}}
 
-La inserci\'on de elementos a un {\arn} es la operaci\'on mas sencilla de de las dos operaciones que 
-se verificaran en este trabajo. La idea principal detrás de este algoritmo es que solo se agreguen hojas 
-al \'arbol binario y se efectúen ``giros'' para mantener las invariantes de la estructura, ver figura 2.1
-y 2.2.
+La inserci\'on de elementos a un {\arn} es la operaci\'on mas sencilla de de las dos operaciones 
+que se verificaran en este trabajo. La idea principal detrás de este algoritmo es que solo se 
+agreguen hojas al \'arbol binario y se efectúen ``giros'' para mantener las invariantes de la 
+estructura, ver figura 2.1 y 2.2.
 \begin{figure}
 \centering 
 \captionsetup{justification=centering}
@@ -442,19 +454,20 @@ y 2.2.
 \end{figure}
 \subsection{Operaciones de Balanceo}
 Los ``giros'' antes mencionados están definidos en las operaciones de balanceo, se tienen dos, una 
-operaci\'on para los subárboles izquierdos y otra para los derechos. Estas operaciones de balanceo, 
-c\'odigo en figura 2.3, se encargan de solucionar los casos en los que inmediatamente después de 
-agregar una hoja los invariantes son violados, por ejemplo, dos nodos rojos que resultan contiguos en 
-algún lugar de la estructura del \'arbol. Mas a\'un solo dos de los tres invariantes pueden ser violados 
-cuando se agrega un nuevo nodo, siendo estos que hayan dos nodos rojos contiguos o que la raíz del árbol 
-resulte roja\footnote{esto no se arregla con giros, si no, pintando la raíz de negro después de 
-insertar}.
+operaci\'on para los subárboles izquierdos y otra para los derechos. Estas operaciones de 
+balanceo, c\'odigo en figura 2.3, se encargan de solucionar los casos en los que inmediatamente 
+después de agregar una hoja los invariantes son violados, por ejemplo, dos nodos rojos que 
+resultan contiguos en algún lugar de la estructura del \'arbol. Mas a\'un solo dos de los tres 
+invariantes pueden ser violados cuando se agrega un nuevo nodo, siendo estos que hayan dos nodos 
+rojos contiguos o que la raíz del árbol resulte roja\footnote{esto no se arregla con giros, si no, 
+pintando la raíz de negro después de insertar}.
 
-El giro elimina el doble nodo rojo, al crear solo un nodo rojo con dos hijos negros, de igual manera al 
-tener dos hijos negros nos aseguramos que el árbol crece de manera controlada en n\'umero de nodos 
-negros\footnote{este n\'umero de nodos negros se conoce como altura negra}, ya que en ningún momento se 
-están agregando dos nodos negros contiguos. Cabe mencionar que esta es la única operación en donde se 
-agregan nodos negros con la excepción de $makeBlack$, la cual describiremos mas adelante.
+El giro elimina el doble nodo rojo, al crear solo un nodo rojo con dos hijos negros, de igual 
+manera al tener dos hijos negros nos aseguramos que el árbol crece de manera controlada en 
+n\'umero de nodos negros\footnote{este n\'umero de nodos negros se conoce como altura negra}, ya 
+que en ningún momento se están agregando dos nodos negros contiguos. Cabe mencionar que esta es la 
+única operación en donde se agregan nodos negros con la excepción de $makeBlack$, la cual 
+describiremos mas adelante.
 \begin{figure}
 \centering 
 \captionsetup{justification=centering}
@@ -476,13 +489,14 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \caption{Funciones de Balanceo.}
 \end{figure}
 
-Mas adelante se explicar\'a porque solamente nos concentramos en estos cuatro casos y porque la mayor 
-parte de los casos se reacomodan en un \'arbol con ra\'iz negra.
+Mas adelante se explicar\'a porque solamente nos concentramos en estos cuatro casos y porque la 
+mayor parte de los casos se reacomodan en un \'arbol con ra\'iz negra.
 
 \subsection {Funci\'on de inserci\'on}
-Con esta funci\'on es donde por primera vez podemos apreciar el uso de las  bibliotecas de Haskell, 
-podemos apreciar como los tipos que estamos agregando al \'arbol son tipos ordenados de la biblioteca 
-$Base$ de \textbf{GHC} y por esa misma raz\'on estamos usando las comparaciones de esa biblioteca.
+Con esta funci\'on es donde por primera vez podemos apreciar el uso de las  bibliotecas de 
+Haskell, podemos apreciar como los tipos que estamos agregando al \'arbol son tipos ordenados de 
+la biblioteca $Base$ de \textbf{GHC} y por esa misma raz\'on estamos usando las comparaciones de 
+esa biblioteca.
 \begin{figure}
 \centering 
 \captionsetup{justification=centering}
@@ -508,29 +522,30 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
 \caption{Funci\'on ins.}
 \end{figure}
 
-Leyendo mas detenidamente la funci\'on, figura 2.4, se puede observar que las operaciones de balanceo 
-solo se efectúan cuando el nodo por el que se esta pasando es negro, esto sucede por la raz\'on de que 
-estos son los nodos  que se toman en cuenta para decidir si un \'arbol esta balanceado. Al aplicar las 
-operaciones de balanceo en estos nodos, nos aseguramos de no quedar con nodos negros extras en alguno de 
-los hijos del nodo al que se le esta aplicando la operación de balanceo. Esto se puede apreciar si nos 
-regresamos a las definiciones de las operaciones de balanceo, tomemos $rbal$\footnote{Con $lbal$ la idea 
-es an\'aloga}, tenemos dos casos:
+Leyendo mas detenidamente la funci\'on, figura 2.4, se puede observar que las operaciones de 
+balanceo solo se efectúan cuando el nodo por el que se esta pasando es negro, esto sucede por la 
+raz\'on de que estos son los nodos  que se toman en cuenta para decidir si un \'arbol esta 
+balanceado. Al aplicar las operaciones de balanceo en estos nodos, nos aseguramos de no quedar con 
+nodos negros extras en alguno de los hijos del nodo al que se le esta aplicando la operación de 
+balanceo. Esto se puede apreciar si nos regresamos a las definiciones de las operaciones de 
+balanceo, tomemos $rbal$\footnote{Con $lbal$ la idea es an\'aloga}, tenemos dos casos:
 
 \begin{itemize}
-    \item Sean $x$, $y$ y $z$ nodos del \'arbol y sea $n$ un subárbol, $x$ es el nodo al que se le aplica
-    la operaci\'on de balanceo, $n$ es el subárbol izquierdo, $y$ es el nodo derecho  de $x$ y $z$ es 
-    hijo de $y$. Suponiendo que $y$ y $z$ son rojos\footnote{se viola una invariante, dos nodos rojos 
-    contiguos}, se cae en cualquiera de los dos casos de $rbal$ que no son el caso general. En este 
-    momento es donde se efectúa el ``giro'' del árbol y resulta lo siguiente: $x$ se vuelve el hijo 
-    izquierdo de $y$ y $z$ se pinta de negro.
+    \item Sean $x$, $y$ y $z$ nodos del \'arbol y sea $n$ un subárbol, $x$ es el nodo al que se le 
+    aplica la operaci\'on de balanceo, $n$ es el subárbol izquierdo, $y$ es el nodo derecho  de $x$
+    y $z$ es hijo de $y$. Suponiendo que $y$ y $z$ son rojos\footnote{se viola una invariante, dos 
+    nodos rojos contiguos}, se cae en cualquiera de los dos casos de $rbal$ que no son el caso 
+    general. En este momento es donde se efectúa el ``giro'' del árbol y resulta lo siguiente: $x$ 
+    se vuelve el hijo izquierdo de $y$ y $z$ se pinta de negro.
     
-    En el momento en que $x$ se convierte en hijo izquierdo de $y$ el \'arbol se desbalancea, es por esto
-    que se pinta de negro a $z$, así los dos nodos negros son hijos de $y$ y la invariante se conserva.
+    En el momento en que $x$ se convierte en hijo izquierdo de $y$ el \'arbol se desbalancea, es 
+    por estoque se pinta de negro a $z$, así los dos nodos negros son hijos de $y$ y la invariante 
+    se conserva.
     \item En cualquier otro caso el \'arbol no sufre modificaci\'on alguna.
 \end{itemize}{}
 
-Esta función de inserción puede no cumplir con una de las invariantes, que la raíz del árbol sea negra, 
-es por esto que se introducen las definiciones de la figura 2.5.
+Esta función de inserción puede no cumplir con una de las invariantes, que la raíz del árbol sea 
+negra, es por esto que se introducen las definiciones de la figura 2.5.
 
 \begin{figure}
 \centering 
@@ -547,23 +562,23 @@ Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 \caption{Definiciones para pintar ra\'iz de negro.}
 \end{figure}
 
-La definici\'on $makeBlack$ únicamente colorea cualquier nodo de color negro y la definición $insert$ es 
-una envoltura de $ins$, con la cual nos aseguramos de que la ra\'iz de los arboles siempre sea de color 
-negro.
+La definici\'on $makeBlack$ únicamente colorea cualquier nodo de color negro y la definición $
+insert$ es una envoltura de $ins$, con la cual nos aseguramos de que la ra\'iz de los arboles 
+siempre sea de color negro.
 
-Estas funciones y definiciones son suficientes para poder construir {\arns} que respeten las invariantes 
-que planteamos en la definici\'on 1.2.1. 
+Estas funciones y definiciones son suficientes para poder construir {\arns} que respeten las 
+invariantes que planteamos en la definici\'on 1.2.1. 
 
 \section{Eliminación de elementos en un {\arn}}
 
 Como se menciono en la secci\'on pasada la operaci\'on de eliminaci\'on es significativamente mas 
-compleja que su contra parte, esto se debe al hecho de que se pueden eliminar nodos de cualquier parte 
-del \'arbol, mientras que en la inserci\'on solo se agregaban hojas de color rojo, es decir, la altura no
-se modifica en la inserción\cite{RBTypes}, solo hasta que se aplica el balanceo.
+compleja que su contra parte, esto se debe al hecho de que se pueden eliminar nodos de cualquier 
+parte del \'arbol, mientras que en la inserci\'on solo se agregaban hojas de color rojo, es decir, 
+la altura no se modifica en la inserción\cite{RBTypes}, solo hasta que se aplica el balanceo.
 
-El poder eliminar nodos de cualquier parte de un \'arbol presenta una problemática muy grande para el 
-balanceo del mismo, esto porque al eliminar un nodo del \'arbol, los dos subárboles de este tienen que 
-concatenarse de alguna manera y las invariantes de los {\arns} tienen que respetarse.
+El poder eliminar nodos de cualquier parte de un \'arbol presenta una problemática muy grande para 
+el balanceo del mismo, esto porque al eliminar un nodo del \'arbol, los dos subárboles de este 
+tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen que respetarse.
 
 \begin{figure}
 \centering 
@@ -682,30 +697,32 @@ concatenarse de alguna manera y las invariantes de los {\arns} tienen que respet
 
 \subsection{Funci\'on de eliminaci\'on}
 
-Para poder comprender la l\'ogica de las funciones\footnote{auxiliares y principales} de la operaci\'on
-de eliminaci\'on es necesario empezar por la funci'on que elimina los nodos, ver la figura 2.9. La idea 
-principal es bastante simple, como los \arns son \'arboles de búsqueda, lo primero que hacemos es buscar 
-el nodo a eliminar, si se encuentra se elimina y se ``pegan'' los subárboles restantes de esta 
-operaci\'on, ver figuras 2.6, 2.7 y 2.8. A continuaci\'on se describe mas a fondo los casos de la misma:
+Para poder comprender la l\'ogica de las funciones\footnote{auxiliares y principales} de la 
+operaci\'on de eliminaci\'on es necesario empezar por la funci'on que elimina los nodos, ver la 
+figura 2.9. La idea principal es bastante simple, como los \arns son \'arboles de búsqueda, lo 
+primero que hacemos es buscar el nodo a eliminar, si se encuentra se elimina y se ``pegan'' los 
+subárboles restantes de esta operaci\'on, ver figuras 2.6, 2.7 y 2.8. A continuaci\'on se describe 
+mas a fondo los casos de la misma:
 
 \begin{itemize}
-    \item Si se recibe un \'arbol vacío como argumento de la funci'on se regresa el mismo, pues eliminar 
-    un elemento del \'arbol vacío resulta en el mismo. También este caso sirve para cuando un elemento no
-    es encontrado en el \'arbol, es el caso base de la recursi\'on de búsqueda.
-    \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo no 
-    contiene el elemento que buscamos, comparamos si el elemento es menor o mayor para seguir buscando en
-    el \'arbol izquierdo o derecho respectivamente y si el nodo es negro se realiza la operaci\'on 
-    $lbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al árbol izquierdo o 
-    $rbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al árbol derecho. Si el 
-    elemento en el que estamos no es ni mayor ni menor al que buscamos, en ese caso eliminamos el 
-    elemento y pegamos los subárboles restantes usando la función $append$\footnote{Se explican mas 
-    adelante}.
+    \item Si se recibe un \'arbol vacío como argumento de la funci'on se regresa el mismo, pues 
+    eliminar un elemento del \'arbol vacío resulta en el mismo. También este caso sirve para 
+    cuando un elemento no es encontrado en el \'arbol, es el caso base de la recursi\'on de 
+    búsqueda.
+    \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo 
+    no contiene el elemento que buscamos, comparamos si el elemento es menor o mayor para seguir 
+    buscando en el \'arbol izquierdo o derecho respectivamente y si el nodo es negro se realiza la 
+    operaci\'on $lbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al 
+    árbol izquierdo o $rbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace 
+    al árbol derecho. Si el elemento en el que estamos no es ni mayor ni menor al que buscamos, en 
+    ese caso eliminamos el elemento y pegamos los subárboles restantes usando la función $append$
+    \footnote{Se explican mas adelante}.
 \end{itemize}
 
-Podemos ver que las funciones de balanceo $lbalS$ y $rbalS$ se aplican cuando el nodo en el que estamos 
-parados, sea $n$, es negro. Esto evita que después de eliminar un nodo y aplicar la funci\'on $append$, 
-se acabe con dos nodos rojos seguidos, es decir, que el hijo y alguno de los nietos del nodo $n$ sean 
-rojos.  
+Podemos ver que las funciones de balanceo $lbalS$ y $rbalS$ se aplican cuando el nodo en el que 
+estamos parados, sea $n$, es negro. Esto evita que después de eliminar un nodo y aplicar la 
+funci\'on $append$, se acabe con dos nodos rojos seguidos, es decir, que el hijo y alguno de los 
+nietos del nodo $n$ sean rojos.  
 
 \begin{figure}
 \centering 
@@ -737,10 +754,10 @@ Definition remove x t := makeBlack (del x t).
 \subsection{Funci\'on de concatenaci\'on}
 
 La funci\'on de concatenación, figura 2.10, es usada cuando se encuentra el elemento que se busca 
-eliminar del {\arn}, esto es porque la acci\'on de retirar un nodo del \'arbol da como resultado dos 
-\'arboles que tienen que ser concatenados y tienen que respetar los invariantes de los {\arns}. Esta 
-funci\'on recibe como parámetros los dos \'arboles\footnote{Estos arboles pueden no cumplir las 
-invariantes de un {\arn}.} que estamos buscando juntar. 
+eliminar del {\arn}, esto es porque la acci\'on de retirar un nodo del \'arbol da como resultado 
+dos \'arboles que tienen que ser concatenados y tienen que respetar los invariantes de los {\arns}
+. Esta funci\'on recibe como parámetros los dos \'arboles\footnote{Estos arboles pueden no cumplir 
+las invariantes de un {\arn}.} que estamos buscando juntar. 
 
 Sean $a$ y $b$ los dos subárboles a los que se les aplicar\'a la funci\'on append, es decir, 
 $append(a,b)$, tenemos los siguientes casos:
@@ -748,35 +765,38 @@ $append(a,b)$, tenemos los siguientes casos:
 \begin{itemize}
     \item Si $a$ es el \'arbol vacío, entonces se regresa $b$.
     \item Si $b$ es el \'arbol vacío, entonces regresamos $a$.
-    \item Si $a$ y $b$ son arboles con raíces rojas, entonces se aplica $append$ al subárbol derecho 
-    de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$. Si el 
-    resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y $b$ se 
-    pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$ se reemplaza por 
-    el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $arbl$.
+    \item Si $a$ y $b$ son arboles con raíces rojas, entonces se aplica $append$ al subárbol 
+    derecho de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$
+    . Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y 
+    $b$ se pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$ se 
+    reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $
+    arbl$.
     En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, los 
-    pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ 
-    se reemplaza por el resultado de $append(ar,bl)$.
-    \item Si $a$ y $b$ son arboles con raíces negras, entonces se aplica $append$ al subárbol derecho
-    de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$. Si el 
-    resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y $b$ se 
-    pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$ se reemplaza por
-    el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $arbl$.
+    pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de 
+    $b$ se reemplaza por el resultado de $append(ar,bl)$.
+    \item Si $a$ y $b$ son arboles con raíces negras, entonces se aplica $append$ al subárbol 
+    derechode $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$
+    . Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y 
+    $b$ se pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$ se 
+    reemplaza porel subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $
+    arbl$.
     En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, el 
-    subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se reemplaza por el 
-    resultado de $append(ar,bl)$ y a este resultado le aplicamos una función de balanceo, $lbalS$.
-    \item Si $a$ es un \'arbol de color negro y $b$ de color rojo, entonces se toma $b$, se pinta de 
-    rojo pero en lugar de su subárbol izquierdo, sea $bl$, se aplica una llamada recursiva a $bl$ con
-    la  funci\'on embebida en $append$, llamada $append\_l$, es decir, $append\_l(bl)$, la cual sigue
-    teniendo al \'arbol $a$, gracias al currying\cite{Currying}.
-    \item Si $a$ es un \'arbol de color rojo y $b$ de color negro, entonces se toma $a$, se pinta de 
-    rojo pero en lugar de su subárbol derecho, sea $ar$, se hace una llamada recursiva con 
+    subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se reemplaza por 
+    el resultado de $append(ar,bl)$ y a este resultado le aplicamos una función de balanceo, 
+    $lbalS$.
+    \item Si $a$ es un \'arbol de color negro y $b$ de color rojo, entonces se toma $b$, se pinta 
+    de rojo pero en lugar de su subárbol izquierdo, sea $bl$, se aplica una llamada recursiva a 
+    $bl$ conla  funci\'on embebida en $append$, llamada $append\_l$, es decir, $append\_l(bl)$, la 
+    cual sigue teniendo al \'arbol $a$, gracias al currying\cite{Currying}.
+    \item Si $a$ es un \'arbol de color rojo y $b$ de color negro, entonces se toma $a$, se pinta 
+    de rojo pero en lugar de su subárbol derecho, sea $ar$, se hace una llamada recursiva con 
     $append(ar,b)$.
 \end{itemize}
 
 Debemos mencionar que el \'arbol resultante de aplicar esta funci\'on no necesariamente cumple las 
 invariantes de un {\arn}, estas invariantes se logran conservar ya que en la funci\'on $del()$ se 
-realizan llamadas a las funciones extendidas de balanceo, las cuales desarrollaremos en la siguiente 
-sección.
+realizan llamadas a las funciones extendidas de balanceo, las cuales desarrollaremos en la 
+siguiente sección.
 
 \begin{figure}
 \centering 
@@ -814,17 +834,17 @@ Fixpoint append {a} `{GHC.Base.Ord a} (l:RB a) : RB a -> RB a :=
 
 \subsection{Extensi\'on de funciones de balanceo}
 
-En la secci\'on 2.2 de este trabajo se trato la inserci\'on de elementos a un \arn, en donde se describen
-un par de funciones llamadas ``funciones de balanceo'', tratadas en las subsecci\'on 2.2.1, estas 
-funciones a su vez toman los nombres $rbal$ y $lbal$, figura 2.3. Estas funciones resultan insuficientes 
-para balancear un \'arbol al momento de eliminar un nodo y concatenar los dos arboles restantes con la 
-función $append$, es por eso que se implementan las extensiones de estas funciones, llamadas $lbalS$ y 
-$rbalS$, figuras 2.11 y 2.12 respectivamente, las cuales a su vez llaman a las funciones 
-$rbal'$\footnote{La funci\'on $rbal'$ es una variación de la función $rbal$, solo cambia el orden de la 
-caza de patrones.}, figura 2.13, y $lbal$. Estas extensiones agregan mas casos de manejo de subarboles 
-negros, esto porque existen casos en los que se puede llegar a eliminar un nodo negro intermedio y se 
-tiene que asegurar que las invariantes no se violen después de concatenar los subárboles resultantes de 
-aplicar la función $del$.
+En la secci\'on 2.2 de este trabajo se trato la inserci\'on de elementos a un \arn, en donde se 
+describen un par de funciones llamadas ``funciones de balanceo'', tratadas en las subsecci\'on 
+2.2.1, estas funciones a su vez toman los nombres $rbal$ y $lbal$, figura 2.3. Estas funciones 
+resultan insuficientes para balancear un \'arbol al momento de eliminar un nodo y concatenar los 
+dos arboles restantes con la función $append$, es por eso que se implementan las extensiones de 
+estas funciones, llamadas $lbalS$ y $rbalS$, figuras 2.11 y 2.12 respectivamente, las cuales a su 
+vez llaman a las funciones $rbal'$\footnote{La funci\'on $rbal'$ es una variación de la función $
+rbal$, solo cambia el orden de la caza de patrones.}, figura 2.13, y $lbal$. Estas extensiones 
+agregan mas casos de manejo de subarboles negros, esto porque existen casos en los que se puede 
+llegar a eliminar un nodo negro intermedio y se tiene que asegurar que las invariantes no se 
+violen después de concatenar los subárboles resultantes de aplicar la función $del$.
 
 \begin{figure}
 \centering 
@@ -846,10 +866,11 @@ Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \caption{Funci\'on de balanceo de lado izquierdo extendida.}
 \end{figure}
 
-Las funciones $rbalS$ y $lbalS$ son usadas en la funci\'on $del$, figura 2.9, cuando el caso en el que se
-cae es un nodo de color negro, y al aplicar la funci\'on en estos nodos podemos asegurar que los dos 
-subárboles de este nodo no se van a desequilibrar, es decir, que un subárbol tenga mas nodos que el otro,
-después de aplicar la función de balanceo se aplica otra llamada recursiva a $del$.
+Las funciones $rbalS$ y $lbalS$ son usadas en la funci\'on $del$, figura 2.9, cuando el caso en el 
+que se cae es un nodo de color negro, y al aplicar la funci\'on en estos nodos podemos asegurar 
+que los dos subárboles de este nodo no se van a desequilibrar, es decir, que un subárbol tenga mas 
+nodos que el otro, después de aplicar la función de balanceo se aplica otra llamada recursiva a 
+$del$.
 
 
 \begin{figure}
@@ -872,10 +893,10 @@ Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \caption{Funciones de balanceo de lado derecho extendida.}
 \end{figure}
 
-Hay otra función donde se utiliza una de estas funciones, específicamente $lbalS$, esta es $append$ en 
-el caso de que los arboles que se le están dando como parámetros sean negros, esto es por la misma razón 
-por la cual se aplican las funciones de balanceo en $del$ sobre los nodos de color negro; para que sus 
-subárboles no se desbalanceen. 
+Hay otra función donde se utiliza una de estas funciones, específicamente $lbalS$, esta es $append$
+en el caso de que los arboles que se le están dando como parámetros sean negros, esto es por la 
+misma razón por la cual se aplican las funciones de balanceo en $del$ sobre los nodos de color 
+negro; para que sus subárboles no se desbalanceen. 
 
 \begin{figure}
 \centering 
@@ -892,29 +913,29 @@ Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \caption{Funci\'on de balanceo de lado derecho alternativa.}
 \end{figure}
 
-Estas definiciones y funciones son suficientes para poder eliminar nodos de un {\arn} y que el resultado 
-no viole las invariantes de los mismos, aunque realmente nos falta demostrar que esta afirmaci\'on es 
-cierta, esto se tratar\'a en el siguiente cap\'itulo.   
+Estas definiciones y funciones son suficientes para poder eliminar nodos de un {\arn} y que el 
+resultado no viole las invariantes de los mismos, aunque realmente nos falta demostrar que esta 
+afirmaci\'on es cierta, esto se tratar\'a en el siguiente cap\'itulo.   
 
 \chapter{Verificación formal de {\arns}}
-Se menciono en el primer cap\'itulo de este trabajo que los {\arns} son una estructura de datos que 
-mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras estructuras de 
-datos, como las listas ligadas o doblemente ligadas. En el segundo cap\'itulo se muestran las 
-implementaciones delos algoritmos de esta  estructura de datos y podemos notar como estas 
-implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de programar en un 
-lenguaje del paradigma funcional comolo es {\coq}. 
-Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas y completas, es
-decir, se desea verificar formalmente que las implementaciones de las operaciones descritas en el 
-capitulo anterior.
+Se menciono en el primer cap\'itulo de este trabajo que los {\arns} son una estructura de datos 
+que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras 
+estructuras de datos, como las listas ligadas o doblemente ligadas. En el segundo cap\'itulo se 
+muestran las implementaciones delos algoritmos de esta  estructura de datos y podemos notar como 
+estas implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de 
+programar en un lenguaje del paradigma funcional comolo es {\coq}. 
+Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas y 
+completas, es decir, se desea verificar formalmente que las implementaciones de las operaciones 
+descritas en el capitulo anterior.
 
 Para esto se usara, de igual manera, {\coq}. La verificaci\'on se divide en varios pasos:
 \begin{itemize}
-    \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de esta 
-    manera podemos saber si las operaciones que se implementaron las respetan.
-    \item Enunciar lemas, corolarios, teoremas que describan los comportamientos de las operaciones que 
-    queremos verificar y escribirlos en {\coq}.
-    \item Por \'ultimo demostrar todos los enunciados del punto anterior utilizando el asistente de 
-    pruebas.
+    \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de 
+    esta manera podemos saber si las operaciones que se implementaron las respetan.
+    \item Enunciar lemas, corolarios, teoremas que describan los comportamientos de las 
+    operaciones que queremos verificar y escribirlos en {\coq}.
+    \item Por \'ultimo demostrar todos los enunciados del punto anterior utilizando el asistente 
+    de pruebas.
 \end{itemize}{}
 \section{Capturando invariantes de los {\Arns}}
 Una de las partes mas importantes de la verificaci\'on formal de cualquier estructura de datos es 
@@ -922,15 +943,16 @@ capturar sus invariantes de manera correcta, es decir, poder escribir una o vari
 inductivas que describan a la estructura de datos y sus invariantes. Después, con estas 
 definiciones es que se enuncian los lemas, clases y posteriormente instancias de estas. 
 
-A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas, para 
-poder verificar formalmente esta estructura de datos. La primera es un primer intento que es insuficiente
-ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos. El segundo intento 
-es un conjunto de definiciones inductivas que tienen mas detalle para describir los invariantes. Estas 
-definiciones est\'an relacionadas con las propiedades de las operaciones de inserci\'on y eliminaci\'on. 
+A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas, 
+para poder verificar formalmente esta estructura de datos. La primera es un primer intento que es 
+insuficiente ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos. 
+El segundo intento es un conjunto de definiciones inductivas que tienen mas detalle para describir 
+los invariantes. Estas definiciones est\'an relacionadas con las propiedades de las operaciones de 
+inserci\'on y eliminaci\'on. 
 
 \subsection{Primer Conjunto de Definiciones Inductivas}
-Los dos conjuntos de definiciones inductivas comparten la misma idea; una definici\'on que describa lo 
-que es un {\arn} y otra definici\'on mas relajada de la misma.
+Los dos conjuntos de definiciones inductivas comparten la misma idea; una definici\'on que 
+describa lo que es un {\arn} y otra definici\'on mas relajada de la misma.
 
 La primera definici\'on, llamada $isRb$, esta definida de la siguiente manera: 
 \begin{minted}{coq}
@@ -947,26 +969,27 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 \end{minted}
 Esta definici\'on tiene tres casos, los describimos a continuaci\'on:
 \begin{itemize}
-        \item \textbf{IsRB\_Leaf} - el árbol vacío con altura negra 0 es roji-negro. En este caso si se 
-        tiene un solo nodo, es decir una hoja, la definici\'on cae en el caso $isRB_Leaf$. La altura 
-        negra siempre va a ser 0 ya que estas son nodos vacíos\footnote{estos nodos no tienen color pero 
-        para términos prácticos, se puede decir que son negros.}.
-        \item \textbf{IsRB\_r} - un árbol rojo con altura negra $n$ y color negro, con hijos roji-negros
-        con color rojo y altura negra $n$. En este segundo caso al recibir un \'arbol rojo, ninguno de 
-        sus hijos puede ser rojo, esto se enuncia haciendo que las llamadas recursivas de los 
-        antecedentes sean rojas y como no esta analizando ningún nodo negro la altura negra se conserva 
-        en $n$.   
+        \item \textbf{IsRB\_Leaf} - el árbol vacío con altura negra 0 es roji-negro. En este caso 
+        si se tiene un solo nodo, es decir una hoja, la definici\'on cae en el caso $isRB_Leaf$. 
+        La altura negra siempre va a ser 0 ya que estas son nodos vacíos\footnote{estos nodos no 
+        tienen color pero para términos prácticos, se puede decir que son negros.}.
+        \item \textbf{IsRB\_r} - un árbol rojo con altura negra $n$ y color negro, con hijos 
+        roji-negros con color rojo y altura negra $n$. En este segundo caso al recibir un \'arbol 
+        rojo, ninguno de sus hijos puede ser rojo, esto se enuncia haciendo que las llamadas 
+        recursivas de los antecedentes sean rojas y como no esta analizando ningún nodo negro la 
+        altura negra se conserva en $n$.   
         \item \textbf{IsRB\_b} - un árbol negro con altura negra $n+1$ y cualquier color, con hijos
-        roji-negros de altura $n$ y color negro. En este \'ultimo caso como recibimos un \'arbol de color
-        negro la altura negra del consecuente es $S(n)$, también nos hace llamadas recursivas, en los 
-        antecedentes, con color negro, al pasar esto los nodos pueden ser tanto negros como rojos y la 
-        altura regresa a ser $n$ porque no se esta contando el nuevo nodo negro del consecuente.
+        roji-negros de altura $n$ y color negro. En este \'ultimo caso como recibimos un \'arbol 
+        de color negro la altura negra del consecuente es $S(n)$, también nos hace llamadas 
+        recursivas, en los antecedentes, con color negro, al pasar esto los nodos pueden ser tanto 
+        negros como rojos y la altura regresa a ser $n$ porque no se esta contando el nuevo nodo 
+        negro del consecuente.
 \end{itemize}
 
-Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on inductiva es 
-demasiado restrictiva para poder demostrar las propiedades de los {\arns}, por esto pasamos a la segunda 
-definici\'on inductiva, $nearRB$,  esta permite mas flexibilidad en el \'arbol, se muestra y describe a 
-continuaci\'on:
+Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on 
+inductiva es demasiado restrictiva para poder demostrar las propiedades de los {\arns}, por esto 
+pasamos a la segunda definici\'on inductiva, $nearRB$,  esta permite mas flexibilidad en el \'
+arbol, se muestra y describe a continuaci\'on:
 
 \begin{minted}{coq}
 Inductive nearRB : Tree -> nat -> Prop :=
@@ -979,33 +1002,35 @@ Inductive nearRB : Tree -> nat -> Prop :=
          isRB tr Black n ->
          nearRB (T Black tl k kv tr) (S n).
 \end{minted}
-Podemos apreciar que solo se tienen dos casos y no se tiene un argumento para un color, sin embargo, a 
-diferencia de $isRB$ esta no se llama recursivamente, en lugar de eso se llama a $isRb$ inmediatamente, 
-además podemos ver que ambas definiciones comparten el contador de nodos negros.
-Con estas modificaciones se permite una cosa, que en la ra\'iz del \'arbol puedan haber a lo mas dos 
-nodos rojos contiguos.
+Podemos apreciar que solo se tienen dos casos y no se tiene un argumento para un color, sin 
+embargo, a diferencia de $isRB$ esta no se llama recursivamente, en lugar de eso se llama a $isRb$ 
+inmediatamente, además podemos ver que ambas definiciones comparten el contador de nodos negros.
+Con estas modificaciones se permite una cosa, que en la ra\'iz del \'arbol puedan haber a lo mas 
+dos nodos rojos contiguos.
 
 \subsubsection{Intento de Verificaci\'on}
 Utilizando las funciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido de 
-verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo al estar 
-desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de hipótesis para poder 
-probar una meta. Esto se debe probablemente a una mala elección de estilo de demostraci\'on, 
-implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se noto que el hecho de que 
-toda la informaci\'on referente a los invariantes estuviera codificada en las dos funciones inductivas, 
-sin uso de ``funciones auxiliares'', complica la verificaci\'on. Se llego a esta conclusi\'on ya que el 
-caso ``sencillo'' de la verificaci\'on de {\arns} es la inserci\'on y con este conjunto de funciones 
-inductivas las demostraciones se volvían muy largas y complicadas de seguir.
+verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo al 
+estar desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de 
+hipótesis para poder probar una meta. Esto se debe probablemente a una mala elección de estilo de 
+demostraci\'on, implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se noto 
+que el hecho de que toda la informaci\'on referente a los invariantes estuviera codificada en las 
+dos funciones inductivas, sin uso de ``funciones auxiliares'', complica la verificaci\'on. Se 
+llego a esta conclusi\'on ya que el caso ``sencillo'' de la verificaci\'on de {\arns} es la inserci
+\'on y con este conjunto de funciones inductivas las demostraciones se volvían muy largas y 
+complicadas de seguir.
 
 \subsection{Segundo Conjunto de Definiciones Inductivas}
 
-Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos realizamos la siguiente 
-pregunta: ¿como capturar las invariantes de los {\arns} y al mismo tiempo facilitar la verificaci\'on de 
-estos?
+Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos realizamos la 
+siguiente pregunta: ¿como capturar las invariantes de los {\arns} y al mismo tiempo facilitar la 
+verificaci\'on de estos?
 
-Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar los invariantes, la cual
-lleva como parámetros un contador y un \'arbol. El contador lleva el control de la cantidad de nodos
-negros, es decir la altura negra del nodo, mientras que el \'arbol es aquel que estamos buscando
-verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\`on a continuaci\'on:
+Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar los invariantes, 
+la cual lleva como parámetros un contador y un \'arbol. El contador lleva el control de la 
+cantidad de nodos negros, es decir la altura negra del nodo, mientras que el \'arbol es aquel que 
+estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\`
+on a continuaci\'on:
 
 \begin{minted}{coq}
 Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
@@ -1017,31 +1042,32 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
                   is_redblack (S n) (T B l k r).
 \end{minted}
 
-Podemos notar ciertas similitudes con la definición inductiva de las secci\'on pasada, sin embargo, el 
-principal cambio que presenta esta definición es el hecho de que se saca el control de los colores de los
-subárboles de los parámetros de la definici\'on y se crea la funci\'on $notred$, la cual, como su nombre 
-dice, verifique el \'arbol que se le este pasando no tenga raíz roja. Esta definici\'on tiene tres casos;
-$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
+Podemos notar ciertas similitudes con la definición inductiva de las secci\'on pasada, sin 
+embargo, el 
+principal cambio que presenta esta definición es el hecho de que se saca el control de los colores 
+de los subárboles de los parámetros de la definici\'on y se crea la funci\'on $notred$, la cual,
+como su nombre dice, verifique el \'arbol que se le este pasando no tenga raíz roja. Esta 
+definici\'on tiene tres casos,$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
 
 \begin{itemize}
-        \item \textbf{RB\_Leaf} - el árbol vació es roji-negro. Este caso nos dice que el \'arbol vacío 
-        es un {\arn}.
-        \item \textbf{RB\_R} - un árbol rojo donde lleves contados $n$ nodos negros, donde sus hijos sean
-        {\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles del árbol que esta 
-        recibiendo la función no pueden ser rojos, esto porque el árbol que se esta analizando tiene raíz
-        roja. Como no se esta analizando algún nodo negro, la altura negra se mantiene en $n$.
-        \item \textbf{RB\_B} - un árbol negro donde lleves contados $n+1$ nodos negros, incluido el 
-        actual, y sus hijos sean {\arns}. En este ultimo caso se tiene la libertad de que los subárboles 
-        sean del color que sea, pero la altura del consecuente es $S(n)$ porque el nodo que se esta 
-        analizando es de color negro, los antecedentes al no tomar en cuenta a su nodo padre tienen 
-        altura $n$.
+        \item \textbf{RB\_Leaf} - el árbol vació es roji-negro. Este caso nos dice que el \'arbol 
+        vacío es un {\arn}.
+        \item \textbf{RB\_R} - un árbol rojo donde lleves contados $n$ nodos negros, donde sus 
+        hijos sean{\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles 
+        del árbol que esta recibiendo la función no pueden ser rojos, esto porque el árbol que se 
+        esta analizando tiene raíz roja. Como no se esta analizando algún nodo negro, la altura 
+        negra se mantiene en $n$.
+        \item \textbf{RB\_B} - un árbol negro donde lleves contados $n+1$ nodos negros, incluido 
+        el actual, y sus hijos sean {\arns}. En este ultimo caso se tiene la libertad de que los 
+        subárboles sean del color que sea, pero la altura del consecuente es $S(n)$ porque el nodo 
+        que se esta analizando es de color negro, los antecedentes al no tomar en cuenta a su nodo 
+        padre tienen altura $n$.
 \end{itemize}
 
-Esta definici\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para poder 
-probar la correcci\'on de los {\arns}, esta es demasiado restrictiva y costaría mucho trabajo proceder con
-las demostraciones solo con esta definici\'on. Por esta razón se agregan dos definiciones inductivas 
-auxiliares; 
-$redred\_tree$ y $nearly\_redblack$: 
+Esta definici\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para 
+poder probar la correcci\'on de los {\arns}, esta es demasiado restrictiva y costaría mucho 
+trabajo proceder con las demostraciones solo con esta definici\'on. Por esta razón se agregan dos 
+definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$: 
 
 \begin{minted}{coq}
 Inductive redred_tree {a} `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
@@ -1052,11 +1078,12 @@ Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 \end{minted}
 
-Podemos notar que estas definiciones son versiones mas relajadas de $is\_redblack$. La definici\'on 
-$nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz del \'arbol, aprovech\'andose de
-$redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ pero sin las restricciones de que 
-los sub\'arboles sean rojos, lo cual nos permite que hayan dos nodos rojos exactamente en la ra\'iz. 
-Entonces un $nearly\_redblack$ es un {\arn} con la excepci\'on de que la ra\'iz puede ser roja. 
+Podemos notar que estas definiciones son versiones mas relajadas de $is\_redblack$. La 
+definici\'on $nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz del \'arbol, 
+aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ pero sin 
+las restricciones de que los sub\'arboles sean rojos, lo cual nos permite que hayan dos nodos 
+rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con la excepci\'on de 
+que la ra\'iz puede ser roja. 
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y 
 eliminaci\'on están dentro de la siguiente clase de arboles:
@@ -1066,29 +1093,31 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
                             RedBlack : exists d, is_redblack d t.
 \end{minted}
 
-Lo que estamos describiendo con este enunciado es que un {\arn} es aquel que tiene una altura negra $d$ y
-cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
+Lo que estamos describiendo con este enunciado es que un {\arn} es aquel que tiene una altura 
+negra $d$ y cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
 
 \subsubsection{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de de definiciones de la secci\'on pasada, la definici\'on de 
-$nearly\_redblack$ se reescribe, dejando de codificar las invariantes en las llamadas recursivas de la 
-definición, creando funciones auxiliares para capturar los invariantes de manera mas sencilla, como 
-$redred\_tree$ y $notred$. Además se crea la clase de {\arns}, lo cual afina mas la definici\'on de un 
-{\arn}. Tomando en cuenta todas estas modificaciones a las definiciones fue que se eligió este conjunto 
-para verificar formalmente la estructura de datos\footnote{La elecci\'on de este conjunto fue correcta ya
-que facilito la demostraci\'on de las propiedades y probo ser suficiente para verificar la estructura.}. 
+$nearly\_redblack$ se reescribe, dejando de codificar las invariantes en las llamadas recursivas 
+de la definición, creando funciones auxiliares para capturar los invariantes de manera mas 
+sencilla, como $redred\_tree$ y $notred$. Además se crea la clase de {\arns}, lo cual afina mas la 
+definici\'on de un {\arn}. Tomando en cuenta todas estas modificaciones a las definiciones fue que 
+se eligió este conjunto para verificar formalmente la estructura de datos\footnote{La elecci\'on 
+de este conjunto fue correcta ya que facilito la demostraci\'on de las propiedades y probo ser 
+suficiente para verificar la estructura.}. 
 Estas definiciones inductivas fueron obtenidas de \cite{MSetRBT}.
 
 \section{Verificación de la operación de inserción}
 
-Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir enunciados, 
-ya sean lemas, proposiciones, etc., usandoi las definiciones inductivas presentadas en la secci\'on 
-pasada, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
+Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir 
+enunciados, ya sean lemas, proposiciones, etc., usandoi las definiciones inductivas presentadas en 
+la secci\'on pasada, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
 
-A continuaci\'on mostraremos dos lemas: $ins\_rr\_rb$, $ins\_arb$, y una instancia\cite{classes} de la 
-clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT} y la idea 
-principal de estos lemas es dejarnos ver que ciertos arboles que acepten las definiciones mas generales, 
-$nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de $is\_redblack$.
+A continuaci\'on mostraremos dos lemas: $ins\_rr\_rb$, $ins\_arb$, y una instancia\cite{classes} 
+de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT} y 
+la idea principal de estos lemas es dejarnos ver que ciertos arboles que acepten las definiciones 
+mas generales, $nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de 
+$is\_redblack$.
 
 \subsection{Primer Lema}
 
@@ -1096,13 +1125,14 @@ $nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de $is\_re
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
 is_redblack n s -> ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
 \end{minted}
-En este primer lema enunciamos lo siguiente: Sea $s$ un {\arn} bajo la definici\'on de $is\_redblack$, 
-entonces si $s$ es un \'arbol con raiz roja, insertar un elemento $x$ en $s$ resulta en un \'arbol que 
-cumple la definci\'on de $redred\_tree$, en otro caso cumple con la definici\'on de $is\_redblack$.
+En este primer lema enunciamos lo siguiente: Sea $s$ un {\arn} bajo la definici\'on de 
+$is\_redblack$, entonces si $s$ es un \'arbol con raiz roja, insertar un elemento $x$ en $s$ 
+resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple con la 
+definici\'on de $is\_redblack$.
 
-En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos un 
-elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos rojos, uno en
-la ra\'iz y otro en cualquiera de los dos, o en los dos, nodos que siguen.
+En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos 
+un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos 
+rojos, uno en la ra\'iz y otro en cualquiera de los dos, o en los dos, nodos que siguen.
 
 La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del lema, lo cual 
 resulta en tres casos:
@@ -1122,28 +1152,29 @@ ifred (T B l k r) (redred_tree (S n) (ins x (T B l k r)))
                   (is_redblack (S n) (ins x (T B l k r)))
  \end{minted}
 
-La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que nos ayuda a decidir si un 
-\'arbol es rojo o no. 
+La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que nos ayuda a decidir si 
+un \'arbol es rojo o no. 
 
-En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta en uno 
-de los casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacio no es rojo y 
-la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento, esto por definici\'on de 
-$ins$.
+En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta 
+en uno de los casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacio 
+no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento, esto 
+por definici\'on de $ins$.
 
-Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el segundo el 
-\'arbol es rojo y en el tercero es negro. 
+Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el 
+segundo el \'arbol es rojo y en el tercero es negro. 
  
-Analicemos el segundo caso, como el \'arbol es rojo, entra al primer caso de $if\_red$, es decir, entra al
-caso de la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al \'arbol rojo, sin
-tener conocimiento de como son los subárboles de este, puede resultar en un \'arbol con uno o dos nodos 
-rojos consecutivos en la ra\'iz de este, ya que la operaci'on de balanceo se fija en los nodos hijos y 
-nietos del nodo al que se le aplica la operaci\'on y como los nodos hijos de la raíz \textbf{no} tienen 
-nodo abuelo el balanceo no se efectua en los nodos de la raíz, dando lugar a arboles con uno o mas nodos 
-rojos en la raíz\footnote{hasta 3, la raiz y sus hijos.}.
+Analicemos el segundo caso, como el \'arbol es rojo, entra al primer caso de $if\_red$, es decir, 
+entra al caso de la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al 
+\'arbol rojo, sin tener conocimiento de como son los subárboles de este, puede resultar en un 
+\'arbol con uno o dos nodos rojos consecutivos en la ra\'iz de este, ya que la operaci'on de 
+balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on y como 
+los nodos hijos de la raíz \textbf{no} tienen nodo abuelo el balanceo no se efectua en los nodos 
+de la raíz, dando lugar a arboles con uno o mas nodos rojos en la raíz\footnote{hasta 3, la raiz y 
+sus hijos.}.
  
-El tercer caso describe el caso sobrante, el caso del \'arbol con raiz negra, este caso se complica un 
-poco mas que el anterior ya que este es el caso en el que la altura negra del \'arbol se aumenta en uno. 
-Este caso verifica que las dos funciones de balanceo, $lbal$ y $rbal$:
+El tercer caso describe el caso sobrante, el caso del \'arbol con raiz negra, este caso se 
+complica un poco mas que el anterior ya que este es el caso en el que la altura negra del \'arbol 
+se aumenta en uno. Este caso verifica que las dos funciones de balanceo, $lbal$ y $rbal$:
  
 \begin{minted}{coq}
  2 subgoals
@@ -1165,8 +1196,9 @@ ______________________________________(2/2)
 is_redblack (S n) (rbal l k (ins x r))
 \end{minted}
 
-Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, simplificando las
-expresiones y aplicando las definiciones inductivas\footnote{$is\_redblack$, $nearly\_redblack$}.
+Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, 
+simplificando las expresiones y aplicando las definiciones inductivas\footnote{$is\_redblack$, 
+$nearly\_redblack$}.
 
 \subsection{Segundo Lema}
 
@@ -1175,10 +1207,11 @@ Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) :
 is_redblack n s -> nearly_redblack n (ins x s).
 \end{minted}
 
-Este segundo lema enuncia lo que en el capitulo anterior se menciono acerca de la funci\'on $ins$: La 
-funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya que es posible que se termine la 
-ejecuci\'on de la funci\'on con un nodo rojo como raíz. La demostraci\'on comienza introduciendo los 
-antecedentes a las hipótesis y aplicando el lema anterior, $ins\_rr\_rb$, a una de las hip\'otesis:
+Este segundo lema enuncia lo que en el capitulo anterior se menciono acerca de la funci\'on $ins$: 
+La funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya que es posible que se 
+termine la ejecuci\'on de la funci\'on con un nodo rojo como raíz. La demostraci\'on comienza 
+introduciendo los antecedentes a las hipótesis y aplicando el lema anterior, $ins\_rr\_rb$, a una 
+de las hip\'otesis:
 
 \begin{minted}{coq}
 a : Type
@@ -1193,10 +1226,10 @@ nearly_redblack n (ins x s)
 
 \end{minted}
 
-Como no se sabe si el \'arbol $s$ tiene ra\'iz roja o negra, se tienen que probar los dos casos, uno con 
-la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$. Estos casos se 
-resuelven sencillamente con la aplicación de los dos casos de la definici\'on inductiva de 
-$nearly\_redblack$, respectivamente.
+Como no se sabe si el \'arbol $s$ tiene ra\'iz roja o negra, se tienen que probar los dos casos, 
+uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$. 
+Estos casos se resuelven sencillamente con la aplicación de los dos casos de la definici\'on 
+inductiva de $nearly\_redblack$, respectivamente.
 
 \subsection{Instancia de la Funci\'on de Inserci\'on}
 
@@ -1208,7 +1241,8 @@ Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t :
 \end{minted}
 
 Este lema se resuelve destruyendo $t$, de esta manera se generan dos casos y estos se solucionan 
-simplificando las expresiones y aplicando las definiciones inductivas $is\_redblack$ y $nearly\_redblack$.
+simplificando las expresiones y aplicando las definiciones inductivas $is\_redblack$ y 
+$nearly\_redblack$.
 En seguida enunciamos la instancia de la clase $redblack$:
 
 \begin{minted}{coq}
@@ -1216,10 +1250,10 @@ Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) :
                                      redblack s -> redblack (insert x s).
 \end{minted}
 
-Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$ para la
-cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la ra\'iz del \'arbol 
-resultante de la funci\'on $ins$ de color negro. De esta manera podemos asegurar que el \'arbol resultante
-ya no entra en la definici\'on de $redred\_tree$.
+Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$ 
+para la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la 
+ra\'iz del \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos 
+asegurar que el \'arbol resultante ya no entra en la definici\'on de $redred\_tree$.
 
 \begin{minted}{coq}
 a : Type
@@ -1247,17 +1281,18 @@ ______________________________________(1/1)
 nearly_redblack n (ins x s)
 \end{minted}
 
-Esta ultima meta se resulve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja con una
-meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on de inserci\'on.
+Esta ultima meta se resulve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja 
+con una meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on 
+de inserci\'on.
 
-Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa bajo las 
-invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha sido verificada 
-formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.  
+Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa 
+bajo las invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha 
+sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.  
 
 \section{Verificación de la operación de eliminación}
-Al igual que en la funci\'on de inserci\'on se enuncian lemas para ayudarnos a llegar al resultado de 
-verificar la operación de eliminación. Estos lemas giran en torno a las funciones auxiliares que se usaron
-para poder demostrar la operación, como $append$ y $del$.
+Al igual que en la funci\'on de inserci\'on se enuncian lemas para ayudarnos a llegar al resultado 
+de verificar la operación de eliminación. Estos lemas giran en torno a las funciones auxiliares 
+que se usaron para poder demostrar la operación, como $append$ y $del$.
 
 A continuación se describe el razonamiento usado para poder verificar dichas funciones.
 
@@ -1269,7 +1304,7 @@ Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) :
    (notred l -> notred r -> is_redblack n (append l r)).
 \end{minted}
 
-Probablemente la funci'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual junta 
+La funci\'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual junta 
 los subárboles resultantes de eliminar la raíz 
 
 \subsection{Segundo Lema}
