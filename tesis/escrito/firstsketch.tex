@@ -562,8 +562,8 @@ Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
 \caption{Definiciones para pintar ra\'iz de negro.}
 \end{figure}
 
-La definici\'on $makeBlack$ únicamente colorea cualquier nodo de color negro y la definición $
-insert$ es una envoltura de $ins$, con la cual nos aseguramos de que la ra\'iz de los arboles 
+La definici\'on $makeBlack$ únicamente colorea cualquier nodo de color negro y la definición 
+$insert$ es una envoltura de $ins$, con la cual nos aseguramos de que la ra\'iz de los arboles 
 siempre sea de color negro.
 
 Estas funciones y definiciones son suficientes para poder construir {\arns} que respeten las 
@@ -769,8 +769,8 @@ $append(a,b)$, tenemos los siguientes casos:
     derecho de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$
     . Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y 
     $b$ se pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$ se 
-    reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $
-    arbl$.
+    reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de 
+    $arbl$.
     En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, los 
     pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de 
     $b$ se reemplaza por el resultado de $append(ar,bl)$.
@@ -778,8 +778,8 @@ $append(a,b)$, tenemos los siguientes casos:
     derechode $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, $append(ar,bl)$
     . Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles $a$ y 
     $b$ se pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$ se 
-    reemplaza porel subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de $
-    arbl$.
+    reemplaza porel subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de 
+    $arbl$.
     En otro caso, si el 'arbol resultante de $append(ar,bl)$ no es rojo, tomamos $a$ y $b$, el 
     subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se reemplaza por 
     el resultado de $append(ar,bl)$ y a este resultado le aplicamos una función de balanceo, 
@@ -840,8 +840,8 @@ describen un par de funciones llamadas ``funciones de balanceo'', tratadas en la
 resultan insuficientes para balancear un \'arbol al momento de eliminar un nodo y concatenar los 
 dos arboles restantes con la función $append$, es por eso que se implementan las extensiones de 
 estas funciones, llamadas $lbalS$ y $rbalS$, figuras 2.11 y 2.12 respectivamente, las cuales a su 
-vez llaman a las funciones $rbal'$\footnote{La funci\'on $rbal'$ es una variación de la función $
-rbal$, solo cambia el orden de la caza de patrones.}, figura 2.13, y $lbal$. Estas extensiones 
+vez llaman a las funciones $rbal'$\footnote{La funci\'on $rbal'$ es una variación de la función 
+$rbal$, solo cambia el orden de la caza de patrones.}, figura 2.13, y $lbal$. Estas extensiones 
 agregan mas casos de manejo de subarboles negros, esto porque existen casos en los que se puede 
 llegar a eliminar un nodo negro intermedio y se tiene que asegurar que las invariantes no se 
 violen después de concatenar los subárboles resultantes de aplicar la función $del$.
@@ -1304,8 +1304,28 @@ Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) :
    (notred l -> notred r -> is_redblack n (append l r)).
 \end{minted}
 
-La funci\'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual junta 
-los subárboles resultantes de eliminar la raíz 
+La funci\'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual concatena 
+dos subarboles. Estos dos subarboles son el resultado de buscar, encontrar y eliminar un nodo. En 
+este primer lema se enuncia lo antes descrito: que para cualesquiera dos \'arboles si estos 
+cumplen con la definici\'on inductiva de $is\_redblack$, ambos con altura $n$, el resultado de 
+concatenar es casi un {\arn}, en otras palabras, la concatenaci\'on cumple con la definicion de 
+$nearly\_redblack$. Pero si los \'arboles que se van a concatenar ademas de cumplir con 
+$is\_redblack$, tambien cumplen con $notred$, es decir, las raices de dichos arboles no son rojas, 
+el resultado de concatenar respeta tambien la definici\'on $is\_redblack$. La demostracio\'on de 
+este lema en coq se describe en seguida:
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+l : RB a
+______________________________________(1/1)
+Forall (r : RB a) (n : nat),
+  is_redblack n l
+  -> is_redblack n r
+    -> nearly_redblack n (append l r)
+      /\ (notred l -> notred r -> is_redblack n (append l r))
+\end{minted}
+En este primera etapa de la demostraci\'on podemos ver lo que describio en el parrafo anterior. Se decidio proseguir con esta demostraci\'on usando inducci\'on, primero sobre el arbol $l$ y posteriormente sobre $r$.
 
 \subsection{Segundo Lema}
 \begin{minted}{coq}
