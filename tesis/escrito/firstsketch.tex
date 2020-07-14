@@ -1325,7 +1325,131 @@ Forall (r : RB a) (n : nat),
     -> nearly_redblack n (append l r)
       /\ (notred l -> notred r -> is_redblack n (append l r))
 \end{minted}
-En este primera etapa de la demostraci\'on podemos ver lo que describio en el parrafo anterior. Se decidio proseguir con esta demostraci\'on usando inducci\'on, primero sobre el arbol $l$ y posteriormente sobre $r$.
+
+En este primera etapa de la demostraci\'on podemos ver lo que se describio en el parrafo anterior. 
+Se decidio proseguir con esta demostraci\'on usando inducci\'on, primero sobre el arbol $l$ y 
+posteriormente sobre $r$. Los casos base de estas inducciones consisten en simplificacion de las 
+expresiones y facilmente se llega a una hipotesis o a una contradicci\'on. Estos casos no se 
+trataran mas a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
+
+Esta doble inducci\'on nos deja con cuatro casos interesantes, podemos ver las metas a 
+continuaci\'on, de esta operaci\'on; que los dos \'arboles a concatenar sean rojos, negros, 
+negro-rojo o rojo-negro. Estos casos los desarrollaremos individualmente en seguida:
+
+\begin{minted}{coq}
+______________________________________(1/4)
+forall n : nat,
+  is_redblack n (T R ll lx lr)
+  -> is_redblack n (T R rl rx rr)
+    -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+      /\ (notred (T R ll lx lr)
+         -> notred (T R rl rx rr)
+           -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
+______________________________________(2/4)
+forall n : nat,
+  is_redblack n (T R ll lx lr)
+  -> is_redblack n (T B rl rx rr)
+    -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
+      /\ (notred (T R ll lx lr)
+         -> notred (T B rl rx rr)
+           -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
+______________________________________(3/4)
+forall n : nat,
+  is_redblack n (T B ll lx lr)
+  -> is_redblack n (T R rl rx rr)
+    -> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
+      /\ (notred (T B ll lx lr)
+         -> notred (T R rl rx rr)
+           -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
+______________________________________(4/4)
+forall n : nat,
+  is_redblack n (T B ll lx lr)
+  -> is_redblack n (T B rl rx rr)
+    -> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
+      /\ (notred (T B ll lx lr)
+         -> notred (T B rl rx rr)
+           -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
+\end{minted}
+
+\subsubsection{Concatenaci\'on de dos \'arboles rojos.} 
+
+Este primer caso es la concatenaci\'on de dos \'arboles con raices rojas, en el siguiente 
+fragmento de la salida del asistente de pruebas.
+
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+ll : RB a
+lx : a
+lr : RB a
+IHlr : forall (r : RB a) (n : nat),
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+rl : RB a
+rx : a
+rr : RB a
+IHrl : forall n : nat,
+         is_redblack n (T R ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T R ll lx lr) rl)
+             /\ (notred (T R ll lx lr)
+                -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
+______________________________________(1/1)
+forall n : nat,
+  is_redblack n (T R ll lx lr)
+  -> is_redblack n (T R rl rx rr)
+    -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+      /\ (notred (T R ll lx lr)
+         -> notred (T R rl rx rr)
+           -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
+\end{minted}
+
+Podemos observar que la segunda parte de la conjunci\'on es una contradicci\'on, ya que al introducir los antecedentes de la meta tendriamos lo siguiente: 
+\begin{minted}{coq}
+H21 : notred (T R ll lx lr)
+H22 : notred (T R rl rx rr)
+______________________________________(1/1)
+is_redblack n (append (T R ll lx lr) (T R rl rx rr))
+\end{minted}
+
+Evidentemente las dos funciones $notred$ de las hip\'otesis H21 y H22 se evaluan a falso y por esto es una contradicci\'on.
+
+Nos queda por demostrar la primera parte de la conjunci\'on,
+\begin{minted}{coq}
+H1 : is_redblack n (T R ll lx lr)
+H2 : is_redblack n (T R rl rx rr)
+n0 : nat
+l : RB a
+k : a
+r : RB a
+H6 : notred ll
+H8 : notred lr
+H9 : is_redblack n ll
+H10 : is_redblack n lr
+H7 : n0 = n
+H3 : l = ll
+H4 : k = lx
+H5 : r = lr
+n1 : nat
+l0 : RB a
+k0 : a
+r0 : RB a
+H14 : notred rl
+H16 : notred rr
+H17 : is_redblack n rl
+H18 : is_redblack n rr
+H15 : n1 = n
+H11 : l0 = rl
+H12 : k0 = rx
+H13 : r0 = rr
+H19 : nearly_redblack n (append lr rl)
+H20 : notred lr -> notred rl -> is_redblack n (append lr rl)
+______________________________________(1/2)
+nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+\end{minted}
 
 \subsection{Segundo Lema}
 \begin{minted}{coq}
