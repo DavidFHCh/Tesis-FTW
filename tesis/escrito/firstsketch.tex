@@ -14,7 +14,8 @@
 %\graphicspath{{./figs/}}
 %\usepackage{setspace}
 \usepackage{minted}
-\usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,titling,url,array}
+\usepackage{amsmath,amsfonts,amssymb,amsthm,epsfig,epstopdf,titling,array}
+\usepackage{url}
 \usepackage{caption}
 
 \newcommand{\coq}{\textbf{Coq}}
@@ -1332,10 +1333,6 @@ posteriormente sobre $r$. Los casos base de estas inducciones consisten en simpl
 expresiones y facilmente se llega a una hipotesis o a una contradicci\'on. Estos casos no se 
 trataran mas a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
 
-Esta doble inducci\'on nos deja con cuatro casos interesantes, podemos ver las metas a 
-continuaci\'on, de esta operaci\'on; que los dos \'arboles a concatenar sean rojos, negros, 
-negro-rojo o rojo-negro. Estos casos los desarrollaremos individualmente en seguida:
-
 \begin{minted}{coq}
 ______________________________________(1/4)
 forall n : nat,
@@ -1370,6 +1367,17 @@ forall n : nat,
          -> notred (T B rl rx rr)
            -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
+
+Esta doble inducci\'on nos deja con cuatro casos, arriba expuestos, estos son los siguientes:
+\begin{itemize}
+    \item Los arboles a concatenar son rojos.
+    \item El arbol que se concatenar a la izquierda es rojo y el derecho es negro.
+    \item El arbol que se concatenar a la izquierda es negro y el derecho es rojo.
+    \item Los arboles a concatenar son negros.
+\end{itemize}
+
+En las siguientes subsecciones explicamos mas a fondo los pasos usados para probar estos casos.
+
 
 \subsubsection{Concatenaci\'on de dos \'arboles rojos.} 
 
@@ -1407,7 +1415,9 @@ forall n : nat,
            -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
 \end{minted}
 
-Podemos observar que la segunda parte de la conjunci\'on es una contradicci\'on, ya que al introducir los antecedentes de la meta tendriamos lo siguiente: 
+Podemos observar que la segunda parte de la conjunci\'on es una contradicci\'on, ya que al 
+introducir los antecedentes de la meta tendriamos lo siguiente:
+
 \begin{minted}{coq}
 H21 : notred (T R ll lx lr)
 H22 : notred (T R rl rx rr)
@@ -1415,9 +1425,14 @@ ______________________________________(1/1)
 is_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
 
-Evidentemente las dos funciones $notred$ de las hip\'otesis H21 y H22 se evaluan a falso y por esto es una contradicci\'on.
+Evidentemente las dos funciones $notred$ de las hip\'otesis $H21$ y $H22$ se evaluan a falso y por 
+esto es una contradicci\'on.
 
-Nos queda por demostrar la primera parte de la conjunci\'on,
+Nos queda por demostrar la primera parte de la conjunci\'on, la meta de este caso, como se ve en 
+seguida, es que al ser concatenados un par de arboles rojos el arbol resultante cumple con la 
+definici\'on de ser de $nearly\_redblack$, es decir, que la raiz del \'arbol puede tener dos nodos 
+rojos consecutivos.
+
 \begin{minted}{coq}
 H1 : is_redblack n (T R ll lx lr)
 H2 : is_redblack n (T R rl rx rr)
@@ -1451,6 +1466,8 @@ ______________________________________(1/2)
 nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
 
+El siguiente paso 
+
 \subsection{Segundo Lema}
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
@@ -1465,8 +1482,10 @@ Instance remove_rb s x : redblack s -> redblack (remove x s).
 \end{minted}
 \chapter{Conclusiones}  
 %aprendiendo a usar esta cosa, it is cool-aid
-\bibliographystyle{plain} % We choose the "plain" reference style
-\bibliography{refs} % Entries are in the "refs.bib" file
+%\bibliographystyle{plain} % We choose the "plain" reference style
+%\bibliography{refs} % Entries are in the "refs.bib" file
+\bibliographystyle{apalike}
+\bibliography{refs.bib} 
 \backmatter%@sglvgdor
 
 
