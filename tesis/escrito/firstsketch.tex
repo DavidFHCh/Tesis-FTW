@@ -1466,7 +1466,18 @@ ______________________________________(1/2)
 nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
 
-El siguiente paso 
+El siguiente paso seria simplificar esta expresion, la cual cae en el caso de dos nodos rojos de la funcion $append$ y nos resulta en la siguiente meta:
+
+\begin{minted}{coq}
+______________________________________(1/1)
+redred_tree n
+  match append lr rl with
+  | T R lr' x rl' => T R (T R ll lx lr') x (T R rl' rx rr)
+  | _ => T R ll lx (T R (append lr rl) rx rr)
+  end
+\end{minted}
+
+
 
 \subsection{Segundo Lema}
 \begin{minted}{coq}
