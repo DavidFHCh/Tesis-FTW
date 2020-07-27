@@ -1382,7 +1382,7 @@ En las siguientes subsecciones explicamos mas a fondo los pasos usados para prob
 \subsubsection{Concatenaci\'on de dos \'arboles rojos.} 
 
 Este primer caso es la concatenaci\'on de dos \'arboles con raices rojas, en el siguiente 
-fragmento de la salida del asistente de pruebas.
+fragmento de la salida del asistente de pruebas se observa como la meta es una conjunci\'on.
 
 \begin{minted}{coq}
 a : Type
@@ -1434,34 +1434,6 @@ definici\'on de ser de $nearly\_redblack$, es decir, que la raiz del \'arbol pue
 rojos consecutivos.
 
 \begin{minted}{coq}
-H1 : is_redblack n (T R ll lx lr)
-H2 : is_redblack n (T R rl rx rr)
-n0 : nat
-l : RB a
-k : a
-r : RB a
-H6 : notred ll
-H8 : notred lr
-H9 : is_redblack n ll
-H10 : is_redblack n lr
-H7 : n0 = n
-H3 : l = ll
-H4 : k = lx
-H5 : r = lr
-n1 : nat
-l0 : RB a
-k0 : a
-r0 : RB a
-H14 : notred rl
-H16 : notred rr
-H17 : is_redblack n rl
-H18 : is_redblack n rr
-H15 : n1 = n
-H11 : l0 = rl
-H12 : k0 = rx
-H13 : r0 = rr
-H19 : nearly_redblack n (append lr rl)
-H20 : notred lr -> notred rl -> is_redblack n (append lr rl)
 ______________________________________(1/2)
 nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
@@ -1477,8 +1449,206 @@ redred_tree n
   end
 \end{minted}
 
+Podemos ver que la caza de patrones depende de la evaluaci\'on de la expresi\'on $append(lr,rl)$, 
+sea $rbt$, esto nos daria dos casos:
+
+\begin{itemize}
+    \item El primer caso, como se ve en seguida, se puede resolver usando las definiciones 
+    inductivas de $redred\_tree$ e $is\_redblack$, y las metas resultantes son resultados directos 
+    de aplicar las hipotesis que se muestran.
+    \begin{minted}{coq}
+        H8 : notred lr
+        H9 : is_redblack n ll
+        H14 : notred rl
+        H16 : notred rr
+        H18 : is_redblack n rr
+        H19 : nearly_redblack n E
+        H20 : notred lr -> notred rl -> is_redblack n E
+        H21 : redred_tree n E
+        ______________________________________(1/2)
+        redred_tree n (T R ll lx (T R E rx rr))
+    \end{minted}
+    \item El segundo caso es un poco mas complejo, pues se tienen que ver los casos en que $rbt$, 
+    resulta en un \'arbol con raiz roja y negra:
+    \begin{itemize}
+        \item En caso de que el \'arbol sea rojo, se aplica de igual manera las definiciones 
+        inductivas mencionados en el caso anterior y las metas resultantes son implicaciones 
+        directas de las hipotesis que se muestran.
+        \begin{minted}{coq}
+        H6 : notred ll
+        H9 : is_redblack n ll
+        H14 : notred rl
+        H16 : notred rr
+        H20 : notred lr -> notred rl -> is_redblack n (T R r1_1 a0 r1_2)
+        ______________________________________(1/1)
+        redred_tree n (T R (T R ll lx r1_1) a0 (T R r1_2 rx rr))
+        \end{minted}
+        \item El caso donde el \'arbol es negro, al igual que en el caso pasado se hacen uso de 
+        las defincionces inductivas ya mencionadas y se siguen directamente de las siguientes 
+        hipotesis.
+        \begin{minted}{coq}
+        H6 : notred ll
+        H8 : notred lr
+        H9 : is_redblack n ll
+        H10 : is_redblack n lr
+        H14 : notred rl
+        H16 : notred rr
+        H17 : is_redblack n rl
+        H18 : is_redblack n rr
+        H19 : nearly_redblack n (T B r1_1 a0 r1_2)
+        H20 : notred lr -> notred rl -> is_redblack n (T B r1_1 a0 r1_2)
+        ______________________________________(1/1)
+        redred_tree n (T R ll lx (T R (T B r1_1 a0 r1_2) rx rr))
+        \end{minted}
+    \end{itemize}
+\end{itemize}
+
+Con este procedimiento queda demostrado este caso de juntar dos \'aboles rojos con la funci\'on 
+$append$, se puede apreciar como los pasos de la demostraci\'on tienden a repetirse, esto puede 
+significar que existan una serie de comandos del asistente de pruebas que nos ayuden a acortar 
+esta prueba, sin embargo, en este trabajo se esta tomando el camino mas extenso para mostrar la 
+simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
+
+\subsubsection{Concatenaci\'on de un \'arbol rojo y uno negro.} 
+
+Ahora es turno de analizar la demonstraci\'on del caso donde se concatena un \'arbol rojo y uno negro, es decir, $append(r,b)$, donde r es un \'arbol rojo y b es uno negro.
+
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+ll : RB a
+lx : a
+lr : RB a
+IHlr : forall (r : RB a) (n : nat),
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+rl : RB a
+rx : a
+rr : RB a
+______________________________________(1/1)
+forall n : nat,
+  is_redblack n (T R ll lx lr)
+  -> is_redblack n (T B rl rx rr)
+    -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
+      /\ (notred (T R ll lx lr)
+         -> notred (T B rl rx rr)
+           -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
+\end{minted}
+
+En este segundo caso la conjunci\'on tambien contiene una contradicci\'on en la mitad derecha de 
+esta, ya que se tiene \textit{notred (T R ll lx lr)}, entonces al igual que el caso pasado solo 
+resolveremos la primera mitad de la conjunci\'on. Para esta demostracion tenemos que guiar al asistente de pruebas un poco mas de lo normal, pues le tenemos que decirle que $r$ y el arbol \textit{(T B rl rx rr)} son el mismo.
+
+\begin{minted}{coq}
+r := T B rl rx rr : RB a
+IHlr : forall n : nat,
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+n : nat
+H1 : is_redblack n (T R ll lx lr)
+H2 : is_redblack n r
+______________________________________(1/1)
+nearly_redblack n (T R ll lx (append lr r))
+\end{minted}
+
+Podemos observar que se realizo una simplificaci\'on de la meta, donde se desarrollo lo mas
+posible la funci\'on append y se intodujeron los antecedentes a las hip\'otesis. Para poder 
+demostrar esta nueva meta tenemos que destruir la hipotesis `IHlr', lo cual nos introduciria los 
+dos antecedendetes de la misma como metas.
+
+\begin{minted}{coq}
+r := T B rl rx rr : RB a
+IHlr : forall n : nat,
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+IHrl : forall n : nat,
+         is_redblack n (T R ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T R ll lx lr) rl)
+             /\ (notred (T R ll lx lr)
+                -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
+n : nat
+H1 : is_redblack n (T R ll lx lr)
+H2 : is_redblack n r
+______________________________________(1/3)
+is_redblack n lr
+______________________________________(2/3)
+is_redblack n r
+______________________________________(3/3)
+nearly_redblack n (T R ll lx (append lr r))
+\end{minted}
 
 
+
+\subsubsection{Concatenaci\'on de un \'arbol negro y uno rojo.} 
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+ll : RB a
+lx : a
+lr : RB a
+IHlr : forall (r : RB a) (n : nat),
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+rl : RB a
+rx : a
+rr : RB a
+IHrl : forall n : nat,
+         is_redblack n (T B ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T B ll lx lr) rl)
+             /\ (notred (T B ll lx lr)
+                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+______________________________________(1/1)
+forall n : nat,
+  is_redblack n (T B ll lx lr)
+  -> is_redblack n (T R rl rx rr)
+    -> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
+      /\ (notred (T B ll lx lr)
+         -> notred (T R rl rx rr)
+           -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
+\end{minted}
+\subsubsection{Concatenaci\'on de dos \'arboles negros.} 
+\begin{minted}{coq}
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+ll : RB a
+lx : a
+lr : RB a
+IHlr : forall (r : RB a) (n : nat),
+         is_redblack n lr
+         -> is_redblack n r
+           -> nearly_redblack n (append lr r)
+             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+rl : RB a
+rx : a
+rr : RB a
+IHrl : forall n : nat,
+         is_redblack n (T B ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T B ll lx lr) rl)
+             /\ (notred (T B ll lx lr)
+                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+______________________________________(1/1)
+forall n : nat,
+  is_redblack n (T B ll lx lr)
+  -> is_redblack n (T B rl rx rr)
+    -> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
+      /\ (notred (T B ll lx lr)
+         -> notred (T B rl rx rr)
+           -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
+\end{minted}
 \subsection{Segundo Lema}
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
