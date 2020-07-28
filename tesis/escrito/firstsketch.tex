@@ -1376,6 +1376,10 @@ Esta doble inducci\'on nos deja con cuatro casos, arriba expuestos, estos son lo
     \item Los arboles a concatenar son negros.
 \end{itemize}
 
+En estos cuatro casos se tiene que cuidar demasiado el hecho de no desbalancear el \'arbol, en 
+especial en los casos donde se manejan nodos negros, ya que estos son los unicos nodos 
+considerados para el balanceo.
+
 En las siguientes subsecciones explicamos mas a fondo los pasos usados para probar estos casos.
 
 
@@ -1559,7 +1563,7 @@ nearly_redblack n (T R ll lx (append lr r))
 Podemos observar que se realizo una simplificaci\'on de la meta, donde se desarrollo lo mas
 posible la funci\'on append y se intodujeron los antecedentes a las hip\'otesis. Para poder 
 demostrar esta nueva meta tenemos que destruir la hipotesis `IHlr', lo cual nos introduciria los 
-dos antecedendetes de la misma como metas.
+dos antecedendetes de la misma como metas. Se destruye esta hipotesis para poder obtener su consecuente como hip\'otesis.
 
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
@@ -1585,9 +1589,20 @@ ______________________________________(3/3)
 nearly_redblack n (T R ll lx (append lr r))
 \end{minted}
 
+Para poder demostrar los dos primeros casos basta con aplicar la definici\'on inductiva 
+$is\_redblack$, lo cual nos introduce las hipotesis necesarias para poder cumplir las metas.
+Para el \'ultimo caso nos basta de igual manera con aplicar la misma definici\'on inductiva a H1 y 
+a la meta aplicar las definiciones de $nearly\_redblack$ y $redred\_tree$ y esto nos da metas, que 
+gracias a las nuevas hip\'otesis integradas por H1, se pueden probar sin mayor problema.
 
+Con esto demostrado este caso esta completo.
 
 \subsubsection{Concatenaci\'on de un \'arbol negro y uno rojo.} 
+
+En este caso se invierten los colores con respecto al caso anterior; el \'arbol derecho es rojo y 
+el izquierdo es negro. Este caso, al igual que el pasado, requiere de una pequeña ayuda al 
+asistente de pruebas, la cual explicaremos mas adelante.
+
 \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -1618,7 +1633,40 @@ forall n : nat,
          -> notred (T R rl rx rr)
            -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
 \end{minted}
-\subsubsection{Concatenaci\'on de dos \'arboles negros.} 
+
+En este caso al igual que los dos pasados, como uno\footnote{o los dos.} de los arboles es de 
+color rojo, la segunda parte de la conjunci\'on vuelve a ser una contradicci\'on, por la expresion 
+$notred$.
+
+Entonces solo nos quedamos con la primera mitad de la conjunci\'on:
+
+\begin{minted}{coq}
+l := T B ll lx lr : RB a
+IHrl : forall n : nat,
+         is_redblack n l
+         -> is_redblack n rl
+           -> nearly_redblack n (append l rl)
+             /\ (notred l -> notred rl -> is_redblack n (append l rl))
+n : nat
+H1 : is_redblack n l
+H2 : is_redblack n (T R rl rx rr)
+______________________________________(1/2)
+nearly_redblack n (T R (append l rl) rx rr)
+\end{minted}
+
+Podemos apreciar que este caso es el caso espejo del caso pasdo, entonces el procedimiento a usar 
+para demostrar esta meta es el mismo, lo \'unico que cambia es cuales hip\'otesis se usan para 
+lograr esto. En el caso pasado se destruyo la hip\'otesis IHlr, en este caso se usa su contraparte 
+IHrl y el resto de la demostraci\'on se sigue directamente de las nuevas metas introducidas y del 
+uso de las definiciones inductivas mencionadas en el caso pasado.
+
+\subsubsection{Concatenaci\'on de dos \'arboles negros.}
+
+Este \'ultimo caso es el \'unico que no incluye una contradicci\'on ya que la contradicci'on se 
+daba al tener un \'arbol rojo como uno de los dos \'arboles que se pasan a la funci\'on $append$, 
+pero en este caso los dos \'arboles a concatenar son negros, entonces la conjunci\'on completa 
+ser\'a probada.
+
 \begin{minted}{coq}
 a : Type
 H : Base.Eq_ a
@@ -1649,6 +1697,73 @@ forall n : nat,
          -> notred (T B rl rx rr)
            -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
+
+Esta demostraci\'on se inicia con una inducci\'on sobre $n$, lo cual nos da el caso base con $n=0$
+, seguido de la separaci\'on de la conjunci\'on y esto nos da 2 casos base, como se muestra en
+seguida:
+
+\begin{minted}{coq}
+IHlr : forall n : nat,
+         is_redblack n lr
+         -> is_redblack n rl
+           -> nearly_redblack n (append lr rl)
+             /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
+rx : a
+rr : RB a
+IHrl : forall n : nat,
+         is_redblack n (T B ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T B ll lx lr) rl)
+             /\ (notred (T B ll lx lr)
+                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+H1 : is_redblack 0 (T B ll lx lr)
+H2 : is_redblack 0 (T B rl rx rr)
+______________________________________(1/2)
+nearly_redblack 0 (append (T B ll lx lr) (T B rl rx rr))
+______________________________________(2/2)
+notred (T B ll lx lr)
+-> notred (T B rl rx rr)
+  -> is_redblack 0 (append (T B ll lx lr) (T B rl rx rr))
+\end{minted}
+
+Estos casos base se resuelven aplicando las definiciones inductivas correspondientes tanto a las 
+metas como a las hip\'otesis H1 y H2, esto nos da las hipotesis necesarias para probar estos dos 
+casos.
+
+Nos queda por probar el paso inductivo, en seguida podemos ver que la hipotesis de inducci\'on 
+`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipotesis, en el siguiente paso se explica porque se decidio destruir esta hip\'otesis y no su contraparte IHrl.
+
+\begin{minted}{coq}
+IHlr : forall n : nat,
+         is_redblack n lr
+         -> is_redblack n rl
+           -> nearly_redblack n (append lr rl)
+             /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
+rx : a
+rr : RB a
+IHrl : forall n : nat,
+         is_redblack n (T B ll lx lr)
+         -> is_redblack n rl
+           -> nearly_redblack n (append (T B ll lx lr) rl)
+             /\ (notred (T B ll lx lr)
+                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+n : nat
+H1 : is_redblack (S n) (T B ll lx lr)
+H2 : is_redblack (S n) (T B rl rx rr)
+IH : nearly_redblack n (append lr rl)
+______________________________________(1/1)
+nearly_redblack (S n) (append (T B ll lx lr) (T B rl rx rr))
+/\ (notred (T B ll lx lr)
+   -> notred (T B rl rx rr)
+     -> is_redblack (S n) (append (T B ll lx lr) (T B rl rx rr)))
+\end{minted}
+
+Proseguimos con la separaci\'on de la conjunci\'on, lo cual nos da dos casos que trabajaremos por 
+separado:
+
+\paragraph{Primera mitad de conjunci\'on}
+\paragraph{Segunda mitad de conjunci\'on}
+
 \subsection{Segundo Lema}
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
