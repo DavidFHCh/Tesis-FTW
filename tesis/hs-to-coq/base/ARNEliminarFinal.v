@@ -115,30 +115,6 @@ Definition remove x t := makeBlack (del x t).
 
 (* Lemmas a demostrar *)
 
-Lemma foo {a} `{GHC.Base.Ord a} (n : nat) (t : RB a):
-nearly_redblack n t -> notred t -> is_redblack n t.
-Proof.
-intros.
-destruct n; destruct t.
-- trivial.
-- destruct c.
-inversion H2.
-inversion H1.
-assumption.
-inversion H3.
-- destruct H1.
-assumption.
-inversion H1.
-- destruct c.
-inversion H1.
-assumption.
-inversion H2.
-inversion H1.
-assumption.
-inversion H3.
-Qed.
-
-Hint Resolve foo.
 
 
 Lemma rbal'_rb {a} `{GHC.Base.Ord a} (n:nat) (l:RB a) (k:a) (r:RB a) :
@@ -1143,10 +1119,11 @@ exact H10.
 exact H17.
 intros.
 split.
+(*empieza*)
 constructor 2.
 simpl.
-destruct (append lr rl).
-constructor.
+----destruct (append lr rl).
+-----constructor.
 exact H9.
 constructor.
 simpl.
@@ -1158,8 +1135,8 @@ apply H20.
 exact H8.
 exact H14.
 exact H18.
-destruct c.
-constructor.
+-----destruct c.
+------constructor.
 specialize (H20 H8).
 specialize (H20 H14).
 constructor.
@@ -1177,10 +1154,11 @@ exact H26.
 exact H16.
 exact H28.
 exact H18.
-constructor;trivial.
+------constructor;trivial.
 constructor;simpl;trivial.
 apply H20;trivial.
-intros.
+(*termina*)
+----intros.
 simpl in H21.
 contradiction.
 --- (*APPEND RED BLACK*)
@@ -1188,6 +1166,7 @@ simpl.
 set (r:= T B rl rx rr) in *.
 specialize (IHlr r).
 split.
+----
 destruct (IHlr n) as (_,IH).
 inversion H1.
 exact H10.
@@ -1199,6 +1178,7 @@ exact H9.
 apply IH.
 exact H8.
 simpl;trivial.
+----
 intro;contradiction.
 --- (*APPEND BLACK RED*)
 change (append _ _) with (T R (append (T B ll lx lr) rl) rx rr).
@@ -1222,10 +1202,10 @@ contradiction.
 --- (*APPEND BLACK BLACK*)
 specialize (IHlr rl).
 destruct n.
-split.
+----split.
 inversion H1.
 inversion H2.
-intros.
+----intros.
 destruct (IHlr n) as (IH,_).
 inversion H1.
 exact H8.
@@ -1458,6 +1438,3 @@ apply del_arb.
 assumption.
 simpl;trivial.
 Qed.
-
-
-Example uno : remove_rb (T B (T R (T B E 1 E) 2 (T B (T R E 3 E) 4 (T R E 5 E))) 6 (T B E 8 (T R E 9 E))) (6).
