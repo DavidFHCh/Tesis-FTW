@@ -583,15 +583,51 @@ hipotesis la demostraci\'on se acorta por un par de pasos pero el procedimiento 
 
 De esta manera el primer lema queda demostrado, con esta demostraci\'on, a pesar de ser larga y
 tediosa, se puede observar el poder del asistente de pruebas, ya que las demostraciones se reducen
-a algebra ecuacional, es decir, tratar de igualar la meta con lo que se tiene como hip\'otesis.
+a álgebra ecuacional, es decir, tratar de igualar la meta con lo que se tiene como hip\'otesis,
+esto se seguira viendo en las siguientes pruebas.
 
 \subsection{Segundo Lema}
+Este siguiente lema utiliza una palabra especial en el lenguaje de {\coq}, `with', esta palabra
+es un truco para demostrar dos lemas simultanemente, el cual es el caso como veremos en seguida:
+
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
  with del_rb  {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack n s -> notblack s -> is_redblack n (del x s).
 \end{minted}
+
+Como podemos ver, el lema en si define dos lemas, esto se hace de esta manera porque la
+demostraci\'on de uno de estos lemas depende del otro. De esta manera podemos definir ambos lemas y
+solo usar una sola prueba.
+
+\begin{minted}{coq}
+del_arb : forall (a : Type) (H : Base.Eq_ a) (H0 : Base.Ord a)
+        (s : RB a) (x : a) (n : nat),
+        is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+del_rb : forall (a : Type) (H : Base.Eq_ a) (H0 : Base.Ord a)
+        (s : RB a) (x : a) (n : nat),
+        is_redblack n s -> notblack s -> is_redblack n (del x s)
+a : Type
+H : Base.Eq_ a
+H0 : Base.Ord a
+s : RB a
+x : a
+n : nat
+______________________________________(1/2)
+is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+______________________________________(2/2)
+is_redblack n s -> notblack s -> is_redblack n (del x s)
+\end{minted}
+
+Lo que el asistente de pruebas esta haciendo es que nos esta integrando al ambiente de hip\'otesis
+los dos lemas, de esta manera podemos realizar suposiciones con estos y asi ayudarnos a demostrar
+los lemas. Realizaremos las pruebas de estos lemas por separado.
+
+\subsubsection{Prueba de $del\_arb$}
+Este lema enuncia lo siguiente: Sea un \'arbol $s$, un elemento $x$ y un n\'umero natural $n$, si
+el $s$ cumple con la definicion inductiva $is\_redblack$
+\subsubsection{Prueba de $del\_rb$}
 
 \subsection{Instancia de la funci\'on de eliminaci\'on}
 \begin{minted}{coq}
