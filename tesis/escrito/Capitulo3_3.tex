@@ -631,9 +631,112 @@ los dos lemas, de esta manera podemos realizar suposiciones con estos y asi ayud
 los lemas. Realizaremos las pruebas de estos lemas por separado.
 
 \subsubsection{Prueba de $del\_arb$}
+
+\begin{minted}{coq}
+______________________________________(1/2)
+is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+\end{minted}
+
 Este lema enuncia lo siguiente: Sea un \'arbol $s$, un elemento $x$ y un n\'umero natural $n$, si
-el $s$ cumple con la definicion inductiva $is\_redblack$
+$s$ cumple con la definicion inductiva $is\_redblack$ y $s$ es negro, entonces $s$ cumple con la
+definición de $nearly\_redblack$. En otras palabras, si tenemos un \'arbol con la raiz de color
+negro, el resultado sera un \'arbol casi rojinegro.
+
+La prueba empieza con una inducci\'on sobre $s$ lo cual nos da las dos metas siguientes:
+\begin{minted}{coq}
+______________________________________(1/2)
+forall n : nat, is_redblack (S n) E ->
+                isblack E -> nearly_redblack n (del x E)
+______________________________________(2/2)
+forall n : nat,
+  is_redblack (S n) (T c s1 a0 s2) ->
+  isblack (T c s1 a0 s2) ->
+  nearly_redblack n (del x (T c s1 a0 s2))
+\end{minted}
+
+A primera vista podemos apreciar que la primera meta contiene un antecedente falso, el \'arbol
+vacio $E$ no puede ser negro, entonces esta meta es una contradicci\'on. La segunda meta podemos
+ver que si analizamos los dos casos del color del \'arbol, el caso rojo es igualmente una
+contradicci\'on por el mismo antecedente $isblack$. Esto solo nos deja con el caso negro de la
+segunda meta.
+
+\begin{minted}{coq}
+IHs1 : forall n : nat, is_redblack (S n) s1 ->
+                       isblack s1 -> nearly_redblack n (del x s1)
+IHs2 : forall n : nat, is_redblack (S n) s2 ->
+                       isblack s2 -> nearly_redblack n (del x s2)
+______________________________________(1/1)
+forall n : nat,
+is_redblack (S n) (T B s1 a0 s2)
+-> isblack (T B s1 a0 s2) ->
+nearly_redblack n (del x (T B s1 a0 s2))
+\end{minted}
+
+Despues de introducir los antecedentes y simplificar la meta, se hace un analisis de casos sobre la
+operaci\'on $del$, primero se ve el caso si el nodo a eliminar esta en el subarbol derecho y
+despues en el izquierdo.
+
+\begin{minted}{coq}
+IHs1 : forall n : nat, is_redblack (S n) s1 ->
+                       isblack s1 -> nearly_redblack n (del x s1)
+IHs2 : forall n : nat, is_redblack (S n) s2 ->
+                       isblack s2 -> nearly_redblack n (del x s2)
+H1 : is_redblack (S n) (T B s1 a0 s2)
+H2 : isblack (T B s1 a0 s2)
+H6 : is_redblack n s1
+H8 : is_redblack n s2
+______________________________________(1/2)
+nearly_redblack n
+match s1 with
+| T B _ _ _ => lbalS (del x s1) a0 s2
+| _ => T R (del x s1) a0 s2
+end
+______________________________________(2/2)
+nearly_redblack n
+(if _GHC.Base.>_ x a0
+ then
+  match s2 with
+  | T B _ _ _ => rbalS s1 a0 (del x s2)
+  | _ => T R s1 a0 (del x s2)
+  end
+ else append s1 s2)
+\end{minted}
+
+Seguimos con el analisis de los dos casos:
+\begin{itemize}
+  \item En el primer caso seguimos con la destrucci\'on del \'arbol $s1$ para tener un analisis de
+  casos, si simplificamos con las definciones inductivas estas metas, eventualmente encontramos
+  metas de las siguientes formas:
+\begin{minted}{coq}
+is_redblack n (del x E)
+
+is_redblack n (del x (T R s1_1 a1 s1_2))
+\end{minted}
+  Estos casos son casos particulares del lema $del\_rb$, para solucionar esto usamos una tactica de
+  coq llamada $assert$, la cual nos deja agregar hip\'otesis, las cuales despues tendremos que
+  demostrar, en este caso esta quedara demostrada al terminar de demostrar todo este lema.
+  Entonces como en este caso estamos destruyendo $s1$, la hip\'otesis a agregar seria:
+\begin{minted}{coq}
+IHl' : forall n : nat, is_redblack n s1 ->
+                  notblack s1 -> is_redblack n (del x s1)
+\end{minted}
+  Al agregarla al inicio de la prueba podemos solamente aplicarla cuando lleguemos a los casos
+  arriba mencionados.
+  \item El segundo caso se divide en dos, la primera parte es el caso espejo al pasado, se realiza lo mismo pero para el \'arbol $s2$, lo cual nos da la siguiente hipotesis a agregar:
+\begin{minted}{coq}
+IHr' : forall n : nat, is_redblack n s2 ->
+                  notblack s2 -> is_redblack n (del x s2)
+\end{minted}
+  Se aplica de la misma manera y llegamos a la segunda parte donde nos resulta la siguiente meta:
+\begin{minted}{coq}
+______________________________________(1/1)
+nearly_redblack n (append s1 s2)
+\end{minted}
+  La cual es un caso particular del lema antes demostrado $append\_arb\_rb$.
+\end{itemize}
+
 \subsubsection{Prueba de $del\_rb$}
+
 
 \subsection{Instancia de la funci\'on de eliminaci\'on}
 \begin{minted}{coq}
