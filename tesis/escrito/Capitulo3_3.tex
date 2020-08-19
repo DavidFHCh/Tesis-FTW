@@ -46,34 +46,34 @@ ______________________________________(1/4)
 forall n : nat,
   is_redblack n (T R ll lx lr)
   -> is_redblack n (T R rl rx rr)
-    -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
-      /\ (notred (T R ll lx lr)
-         -> notred (T R rl rx rr)
-           -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
+   -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+     /\ (notred (T R ll lx lr)
+       -> notred (T R rl rx rr)
+        -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
 ______________________________________(2/4)
 forall n : nat,
   is_redblack n (T R ll lx lr)
   -> is_redblack n (T B rl rx rr)
-    -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
-      /\ (notred (T R ll lx lr)
-         -> notred (T B rl rx rr)
-           -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
+   -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
+     /\ (notred (T R ll lx lr)
+       -> notred (T B rl rx rr)
+        -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
 ______________________________________(3/4)
 forall n : nat,
   is_redblack n (T B ll lx lr)
   -> is_redblack n (T R rl rx rr)
-    -> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
-      /\ (notred (T B ll lx lr)
-         -> notred (T R rl rx rr)
-           -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
+   -> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
+     /\ (notred (T B ll lx lr)
+       -> notred (T R rl rx rr)
+        -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
 ______________________________________(4/4)
 forall n : nat,
   is_redblack n (T B ll lx lr)
   -> is_redblack n (T B rl rx rr)
-    -> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
-      /\ (notred (T B ll lx lr)
-         -> notred (T B rl rx rr)
-           -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
+   -> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
+     /\ (notred (T B ll lx lr)
+       -> notred (T B rl rx rr)
+        -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
 
 Esta doble inducci\'on nos deja con cuatro casos, arriba expuestos, estos son los siguientes:
@@ -104,27 +104,27 @@ ll : RB a
 lx : a
 lr : RB a
 IHlr : forall (r : RB a) (n : nat),
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+    is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 rl : RB a
 rx : a
 rr : RB a
 IHrl : forall n : nat,
-         is_redblack n (T R ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T R ll lx lr) rl)
-             /\ (notred (T R ll lx lr)
-                -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
+     is_redblack n (T R ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T R ll lx lr) rl)
+         /\ (notred (T R ll lx lr)
+            -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
 ______________________________________(1/1)
 forall n : nat,
   is_redblack n (T R ll lx lr)
   -> is_redblack n (T R rl rx rr)
-    -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
-      /\ (notred (T R ll lx lr)
-         -> notred (T R rl rx rr)
-           -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
+   -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+     /\ (notred (T R ll lx lr)
+       -> notred (T R rl rx rr)
+        -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
 \end{minted}
 
 Podemos observar que la segunda parte de la conjunci\'on es una contradicci\'on, ya que al
@@ -186,32 +186,34 @@ sea $rbt$, esto nos daria dos casos:
         \item En caso de que el \'arbol sea rojo, se aplica de igual manera las definiciones
         inductivas mencionados en el caso anterior y las metas resultantes son implicaciones
         directas de las hipotesis que se muestran.
-        \begin{minted}{coq}
-        H6 : notred ll
-        H9 : is_redblack n ll
-        H14 : notred rl
-        H16 : notred rr
-        H20 : notred lr -> notred rl -> is_redblack n (T R r1_1 a0 r1_2)
-        ______________________________________(1/1)
-        redred_tree n (T R (T R ll lx r1_1) a0 (T R r1_2 rx rr))
-        \end{minted}
+    \begin{minted}{coq}
+    H6 : notred ll
+    H9 : is_redblack n ll
+    H14 : notred rl
+    H16 : notred rr
+    H20 : notred lr ->
+          notred rl -> is_redblack n (T R r1_1 a0 r1_2)
+    ______________________________________(1/1)
+    redred_tree n (T R (T R ll lx r1_1) a0 (T R r1_2 rx rr))
+    \end{minted}
         \item El caso donde el \'arbol es negro, al igual que en el caso pasado se hacen uso de
         las defincionces inductivas ya mencionadas y se siguen directamente de las siguientes
         hipotesis.
-        \begin{minted}{coq}
-        H6 : notred ll
-        H8 : notred lr
-        H9 : is_redblack n ll
-        H10 : is_redblack n lr
-        H14 : notred rl
-        H16 : notred rr
-        H17 : is_redblack n rl
-        H18 : is_redblack n rr
-        H19 : nearly_redblack n (T B r1_1 a0 r1_2)
-        H20 : notred lr -> notred rl -> is_redblack n (T B r1_1 a0 r1_2)
-        ______________________________________(1/1)
-        redred_tree n (T R ll lx (T R (T B r1_1 a0 r1_2) rx rr))
-        \end{minted}
+    \begin{minted}{coq}
+    H6 : notred ll
+    H8 : notred lr
+    H9 : is_redblack n ll
+    H10 : is_redblack n lr
+    H14 : notred rl
+    H16 : notred rr
+    H17 : is_redblack n rl
+    H18 : is_redblack n rr
+    H19 : nearly_redblack n (T B r1_1 a0 r1_2)
+    H20 : notred lr ->
+          notred rl -> is_redblack n (T B r1_1 a0 r1_2)
+    ______________________________________(1/1)
+    redred_tree n (T R ll lx (T R (T B r1_1 a0 r1_2) rx rr))
+    \end{minted}
     \end{itemize}
 \end{itemize}
 
@@ -233,10 +235,10 @@ ll : RB a
 lx : a
 lr : RB a
 IHlr : forall (r : RB a) (n : nat),
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+     is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 rl : RB a
 rx : a
 rr : RB a
@@ -244,10 +246,10 @@ ______________________________________(1/1)
 forall n : nat,
   is_redblack n (T R ll lx lr)
   -> is_redblack n (T B rl rx rr)
-    -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
-      /\ (notred (T R ll lx lr)
-         -> notred (T B rl rx rr)
-           -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
+   -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
+     /\ (notred (T R ll lx lr)
+       -> notred (T B rl rx rr)
+        -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
 \end{minted}
 
 En este segundo caso la conjunci\'on tambien contiene una contradicci\'on en la mitad derecha de
@@ -257,10 +259,10 @@ resolveremos la primera mitad de la conjunci\'on. Para esta demostracion tenemos
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
 IHlr : forall n : nat,
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+     is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 n : nat
 H1 : is_redblack n (T R ll lx lr)
 H2 : is_redblack n r
@@ -276,16 +278,16 @@ dos antecedendetes de la misma como metas. Se destruye esta hipotesis para poder
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
 IHlr : forall n : nat,
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+     is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 IHrl : forall n : nat,
-         is_redblack n (T R ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T R ll lx lr) rl)
-             /\ (notred (T R ll lx lr)
-                -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
+     is_redblack n (T R ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T R ll lx lr) rl)
+         /\ (notred (T R ll lx lr)
+            -> notred rl -> is_redblack n (append (T R ll lx lr) rl))
 n : nat
 H1 : is_redblack n (T R ll lx lr)
 H2 : is_redblack n r
@@ -319,19 +321,19 @@ ll : RB a
 lx : a
 lr : RB a
 IHlr : forall (r : RB a) (n : nat),
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+     is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 rl : RB a
 rx : a
 rr : RB a
 IHrl : forall n : nat,
-         is_redblack n (T B ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T B ll lx lr) rl)
-             /\ (notred (T B ll lx lr)
-                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+     is_redblack n (T B ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T B ll lx lr) rl)
+         /\ (notred (T B ll lx lr)
+            -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
 ______________________________________(1/1)
 forall n : nat,
   is_redblack n (T B ll lx lr)
@@ -351,10 +353,10 @@ Entonces solo nos quedamos con la primera mitad de la conjunci\'on:
 \begin{minted}{coq}
 l := T B ll lx lr : RB a
 IHrl : forall n : nat,
-         is_redblack n l
-         -> is_redblack n rl
-           -> nearly_redblack n (append l rl)
-             /\ (notred l -> notred rl -> is_redblack n (append l rl))
+     is_redblack n l
+     -> is_redblack n rl
+       -> nearly_redblack n (append l rl)
+         /\ (notred l -> notred rl -> is_redblack n (append l rl))
 n : nat
 H1 : is_redblack n l
 H2 : is_redblack n (T R rl rx rr)
@@ -383,19 +385,19 @@ ll : RB a
 lx : a
 lr : RB a
 IHlr : forall (r : RB a) (n : nat),
-         is_redblack n lr
-         -> is_redblack n r
-           -> nearly_redblack n (append lr r)
-             /\ (notred lr -> notred r -> is_redblack n (append lr r))
+     is_redblack n lr
+     -> is_redblack n r
+       -> nearly_redblack n (append lr r)
+         /\ (notred lr -> notred r -> is_redblack n (append lr r))
 rl : RB a
 rx : a
 rr : RB a
 IHrl : forall n : nat,
-         is_redblack n (T B ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T B ll lx lr) rl)
-             /\ (notred (T B ll lx lr)
-                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+     is_redblack n (T B ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T B ll lx lr) rl)
+         /\ (notred (T B ll lx lr)
+            -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
 ______________________________________(1/1)
 forall n : nat,
   is_redblack n (T B ll lx lr)
@@ -412,18 +414,18 @@ seguida:
 
 \begin{minted}{coq}
 IHlr : forall n : nat,
-         is_redblack n lr
-         -> is_redblack n rl
-           -> nearly_redblack n (append lr rl)
-             /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
+     is_redblack n lr
+     -> is_redblack n rl
+       -> nearly_redblack n (append lr rl)
+         /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
 rx : a
 rr : RB a
 IHrl : forall n : nat,
-         is_redblack n (T B ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T B ll lx lr) rl)
-             /\ (notred (T B ll lx lr)
-                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+     is_redblack n (T B ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T B ll lx lr) rl)
+         /\ (notred (T B ll lx lr)
+            -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
 H1 : is_redblack 0 (T B ll lx lr)
 H2 : is_redblack 0 (T B rl rx rr)
 ______________________________________(1/2)
@@ -443,18 +445,18 @@ Nos queda por probar el paso inductivo, en seguida podemos ver que la hipotesis 
 
 \begin{minted}{coq}
 IHlr : forall n : nat,
-         is_redblack n lr
-         -> is_redblack n rl
-           -> nearly_redblack n (append lr rl)
-             /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
+     is_redblack n lr
+     -> is_redblack n rl
+       -> nearly_redblack n (append lr rl)
+         /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
 rx : a
 rr : RB a
 IHrl : forall n : nat,
-         is_redblack n (T B ll lx lr)
-         -> is_redblack n rl
-           -> nearly_redblack n (append (T B ll lx lr) rl)
-             /\ (notred (T B ll lx lr)
-                -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
+     is_redblack n (T B ll lx lr)
+     -> is_redblack n rl
+       -> nearly_redblack n (append (T B ll lx lr) rl)
+         /\ (notred (T B ll lx lr)
+            -> notred rl -> is_redblack n (append (T B ll lx lr) rl))
 n : nat
 H1 : is_redblack (S n) (T B ll lx lr)
 H2 : is_redblack (S n) (T B rl rx rr)
@@ -490,9 +492,9 @@ is_redblack (S n)
   end
 \end{minted}
 
-Como podemos ver en ambas metas, tenemos una funci\'on nueva, esta es una funci\'on de balanceo,
-la cual extiende a las funciones que ya se habian usado con anterioridad en la funci\'on de inserci
-\'on, como lo son $rbal'$, $rbal$ y $lbal$.
+Como podemos ver en ambas metas, tenemos una funci\'on nueva, $lbalS$, esta es una funci\'on de
+balanceo,la cual extiende a las funciones que ya se habian usado con anterioridad en la funci\'on
+de inserci\'on, como lo son $rbal'$, $rbal$ y $lbal$.
 
 Para poder resolver esta parte de la demostraci\'on nos apoyaremos de otro lema, el cual ilustra
 una propiedad de la operaci\'on $lbalS$:
@@ -592,9 +594,11 @@ es un truco para demostrar dos lemas simultanemente, el cual es el caso como ver
 
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
-      is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+      is_redblack (S n) s ->
+      isblack s -> nearly_redblack n (del x s)
  with del_rb  {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
-      is_redblack n s -> notblack s -> is_redblack n (del x s).
+      is_redblack n s ->
+      notblack s -> is_redblack n (del x s).
 \end{minted}
 
 Como podemos ver, el lema en si define dos lemas, esto se hace de esta manera porque la
@@ -604,10 +608,12 @@ solo usar una sola prueba.
 \begin{minted}{coq}
 del_arb : forall (a : Type) (H : Base.Eq_ a) (H0 : Base.Ord a)
         (s : RB a) (x : a) (n : nat),
-        is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
+        is_redblack (S n) s ->
+        isblack s -> nearly_redblack n (del x s)
 del_rb : forall (a : Type) (H : Base.Eq_ a) (H0 : Base.Ord a)
         (s : RB a) (x : a) (n : nat),
-        is_redblack n s -> notblack s -> is_redblack n (del x s)
+        is_redblack n s ->
+        notblack s -> is_redblack n (del x s)
 a : Type
 H : Base.Eq_ a
 H0 : Base.Ord a

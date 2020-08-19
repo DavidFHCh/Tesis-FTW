@@ -78,7 +78,7 @@ Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_1}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {6}
@@ -126,9 +126,8 @@ programa directamente a {\coq} o si se va a traducir un programa ya existente al
 asistente de pruebas, como lo que se busca es poder verificar un programa ya existente, es decir,
 los {\arns}, queremos poder traducir código de Haskell a {\coq}.
 
-En el articulo científico ``Total Haskell is Reasonable Coq''\cite{thrc} se describen las
-principales ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a
-continuaci\'on:
+En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales
+ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a continuaci\'on:
 
 \subsection{Ventajas}
 \begin{itemize}

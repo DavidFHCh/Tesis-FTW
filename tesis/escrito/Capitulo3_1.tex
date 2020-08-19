@@ -152,10 +152,13 @@ trabajo proceder con las demostraciones solo con esta definici\'on. Por esta raz
 definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$:
 
 \begin{minted}{coq}
-Inductive redred_tree {a} `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
- | RR_Rd l k r : is_redblack n l -> is_redblack n r -> redred_tree n (T R l k r).
+Inductive redred_tree {a}
+                  `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
+ | RR_Rd l k r : is_redblack n l -> is_redblack n r
+                                 -> redred_tree n (T R l k r).
 
-Inductive nearly_redblack {a} `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
+Inductive nearly_redblack {a}
+                  `{GHC.Base.Ord a} (n:nat)(t:RB a) : Prop :=
  | ARB_RB : is_redblack n t -> nearly_redblack n t
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 \end{minted}

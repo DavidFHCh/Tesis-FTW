@@ -2,9 +2,9 @@
 
 \section{Traducción de implementaciones}
 Se tuvieron varias aproximaciones para la implementación de {\arns}; la primera fue obtener las
-implementaciones en Haskell de estos\cite{tesisG} y pasar estas implementaciones como entrada a
+implementaciones en Haskell de estos arboles \cite{tesisG} y pasar estas implementaciones como entrada a
 hs-to-coq, la segunda aproximación, y la que se uso para esta tesis, fue obtener la implementación
-de Okasaki traducida a Coq  \cite{MSetRBT}, con la diferencia de que se usaron las bibliotecas de
+de Okasaki traducida a Coq \cite{MSetRBT}, con la diferencia de que se usaron las bibliotecas de
 Haskell que contienen los tipos y comparaciones, estas obtenidas de la traducción de estas
 bibliotecas a Coq, en lugar de usar las bibliotecas ya existentes de Coq.
 
@@ -50,7 +50,7 @@ estructura, ver figura 2.1 y 2.2.
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_2}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {6}
@@ -89,7 +89,7 @@ estructura, ver figura 2.1 y 2.2.
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_3}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {6}
@@ -232,7 +232,8 @@ Definition makeBlack {a} `{GHC.Base.Ord a} (t:RB a) :=
  | T _ a x b => T B a x b
  end.
 
-Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) := makeBlack (ins x s).
+Definition insert {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
+                                          makeBlack (ins x s).
 \end{minted}
 \caption{Definiciones para pintar ra\'iz de negro.}
 \end{figure}
@@ -258,7 +259,7 @@ tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_4}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {6}
@@ -297,7 +298,7 @@ tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_5}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 %\node [arn_n] at (-2,0) {6}
@@ -337,7 +338,7 @@ tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB}
+\label{arbolRB_6}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {5}
@@ -590,4 +591,4 @@ Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 
 Estas definiciones y funciones son suficientes para poder eliminar nodos de un {\arn} y que el
 resultado no viole las invariantes de los mismos, aunque realmente nos falta demostrar que esta
-afirmaci\'on es cierta, esto se tratar\'a en el siguiente cap\'itulo.   
+afirmaci\'on es cierta, esto se tratar\'a en el siguiente cap\'itulo.
