@@ -812,10 +812,101 @@ nearly_redblack n t -> redblack (makeBlack t).
 \end{minted}
 
 Lo que este enunciado describe es la propiedad de que si un \'arbol $t$ cumple con la definici\'on
-inductiva de ser $nearly\_redblack$, hacer su raiz negra lo convierte en una instancia de la clase
-$redblack$. La desmostraci\'on de este lema es muy simple gracias al asistente de pruebas, ya que
-solo basta con hacer un analisis de casos sobre el \'arbol $t$:
+inductiva de ser $nearly\_redblack$, pintar su raiz de color negro lo convierte en una instancia de
+la clase $redblack$. La desmostraci\'on de este lema es muy simple gracias al asistente de pruebas,
+ya que solo basta con hacer un analisis de casos sobre el \'arbol $t$:
 
 \begin{itemize}
-  \item El \'arbol vacio $E$, 
+  \item El \'arbol vacio $E$, la meta a demostrar para este caso es:
+\begin{minted}{coq}
+nearly_redblack n E -> redblack (makeBlack E)
+\end{minted}
+        Como la clase $redblack$ esconde un existencial en su definici\'on, para poder demostrar
+        este caso basta con decir que existe $n$ con valor 0, esto nos da un caso trivial al ser la
+        misma definici\'on inductiva de $is\_redblack$.
+  \item El segundo caso se reduce a los dos casos en los que puede caer la definici\'on inductiva
+  de $nearly\_redblack$.
+\begin{minted}{coq}
+H1 : nearly_redblack n (T c t1 a0 t2)
+H2 : is_redblack n (T c t1 a0 t2)
+______________________________________(1/2)
+redblack (makeBlack (T c t1 a0 t2))
+\end{minted}
+        Este primer caso se reduce a hacer un analisis de casos sobre el color $c$, la soluci\'on
+        de ambos colores consiste en, decir que existe $n'$ tal que su valor es \textit{S(n)},
+        despuésde esto se simplifican las expresiones hasta obtener que las metas cumplan con las
+        hip\'otesis.
+\begin{minted}{coq}
+H1 : nearly_redblack n (T c t1 a0 t2)
+H2 : redred_tree n (T c t1 a0 t2)
+______________________________________(2/2)
+redblack (makeBlack (T c t1 a0 t2))
+\end{minted}
+        El segundo caso es mas corto que el primero, ya que al hacer el analisis de los colores,
+        podemos ver que la definición de $redred\_tree$ no esta definida para \'arboles negros,
+        entonces solo nos queda demostrar para \'arbles rojos, sin embargo, los pasos a seguir para
+        este caso son los mismos que para el color rojo del caso anterior.
 \end{itemize}
+
+Con este lema demostrado ya contamos con todas las herramientas para poder demostrar que si tenemos
+un \'arbol que es instancia de la clase $redblack$ y eliminamos un elemento de el, este sigue
+siendo instancia de la clase, esta demostraci\'on comienza con un analisis de casos sobre el
+\'arbol $s$:
+
+\begin{minted}{coq}
+H1 : is_redblack n E
+______________________________________(1/2)
+redblack (makeBlack (del x E))
+______________________________________(2/2)
+redblack (makeBlack (del x (T c s1 c0 s2)))
+\end{minted}
+
+Podemos ver que se hace uso de la funci\'on $makeBlack$. En la primera meta basta con aplicar el
+lema $makeBlack\_rb$, simplificar y esta se soluciona. En la segunda meta se tiene que hacer otro
+an\'alisis de casos, esta vez sobre el color:
+
+\begin{minted}{coq}
+H1 : is_redblack n (T R s1 c0 s2)
+______________________________________(1/2)
+redblack (makeBlack (del x (T R s1 c0 s2)))
+
+\end{minted}
+
+En la primera meta, color rojo, comenzamos por aplicar $makeBlack\_rb$, el cual despu\'es de
+simplificar con la definci\'on inductiva nos resulta en la siguiente meta:
+
+\begin{minted}{coq}
+H1 : is_redblack n (T R s1 c0 s2)
+______________________________________(1/1)
+is_redblack n (del x (T R s1 c0 s2))
+\end{minted}
+
+La cual es un caso particular del lema $del\_rb$, nos basta con aplicarlo, simplificar y esta meta
+queda resuelta. La \'unica meta que nos quedaria por demostrar seria el caso de de la raiz negra:
+
+\begin{minted}{coq}
+H1 : is_redblack n (T B s1 c0 s2)
+______________________________________(1/1)
+redblack (makeBlack (del x (T B s1 c0 s2)))
+\end{minted}
+
+En este caso hacemos un analisis sobre $n$, los dos casos serian 0 y \textit{S(n)}. Para 0 basta
+con simplificar y la meta se resuelve, pero para \textit{S(n)}, es necesario volver a aplicar el
+lema $makeBlack\_rb$, una vez que hacemos esto, nos queda la siguiente meta:
+
+\begin{minted}{coq}
+H1 : is_redblack (S n) (T B s1 c0 s2)
+______________________________________(1/1)
+nearly_redblack n (del x (T B s1 c0 s2))
+\end{minted}
+
+La cual resulta ser un caso particular del lema $del\_arb$, al aplicar este lema y simplificar
+nuevamente, las metas resultantes quedan resueltas. Podemos ver que las demostraciones cubiertas en
+este trabajo, en especial en la operaci\'on de eliminación, son muy repetitivas, y solo buscamos
+hacer que las metas empaten con las hip\'otesis que tenemos.
+
+Con esta operaci\'on desmostrada podemos decir que tenemos una estructura correcta y completa que
+cumple con los invariantes descritos por las definiciones inductivas de $is\_redblack$ con las
+operaciones de borrado e inserción y de la misma manera que estas dos operaciones son metodos de la
+clase $redblack$, por lo cual podemos hacer estas operaciones cuantas veces queramos y el resultado
+seguira siendo instancia de esta clase.
