@@ -1,59 +1,64 @@
 \chapter{Introducción}
 
 \section{Motivación}
-Hoy en día en el desarrollo de software hay un conjunto de normas a las cuales se les denomina
+Hoy en día en el desarrollo de software existe un conjunto de normas a las cuales se les denomina
 `buenas practicas de programaci\'on', las cuales van desde tener una buena idéntaci\'on, elegir si
-se usaran espacios o tabuladores para realizar la identaci\'on, documentar el c\'odigo, respetar
-las convenciones del lenguaje que se este usado y probar tu programa, mas específicamente,
+usaremos espacios o tabuladores para realizar la identaci\'on, la documentaci\'on del c\'odigo,
+respetar las convenciones del lenguaje que estemos usado y probar tu programa, mas específicamente,
 realizar pruebas unitarias.
-Estas pruebas unitarias te ayudan a saber si tu código esta teniendo el comportamiento que se
-busca, pero esto lo logran solo hasta cierto punto. Por ejemplo, si tienes una funci\'on que
-recibe un par números naturales, para poder estar totalmente seguro de que la funci\'on es
-correcta se tendrian que probar todoslos casos, todas las combinaciones de números naturales que
-existan, pero estas combinaciones son infinitas y se necesitaría una cantidad infinita de memoria
-y de tiempo para poder escribir una prueba unitaria exhaustiva, como la que se esta sugiriendo.
 
-Claramente escribir una prueba unitaria de estas características no es factible, entonces ¿que nos
-queda por hacer?, ¿escribir pruebas unitarias que con una parte representativa de los datos que se
-pueden recibir `prueben' que el programa funciona? y ¿si la misma prueba unitaria es errónea? No
-hay una respuesta clara para esto y la misma industria, hoy en día, utiliza métodos como las
-pruebas unitarias para probar sus programas, pero ciertamente esto no nos dice si el programa es
-correcto o completo.
+Las pruebas unitarias nos ayudan a saber si nuestro código esta teniendo el comportamiento que
+buscamos, pero esto solo nos sirve hasta cierto punto. Por ejemplo, si tenemos una funci\'on que
+recibe un par números naturales, para poder estar totalmente seguro de que la funci\'on es correcta
+se tendrían que probar todos los casos, todas las combinaciones de números naturales que existan,
+pero estas combinaciones son infinitas y se necesitaría una cantidad infinita de memoria y de
+tiempo para poder escribir una prueba unitaria exhaustiva, como la que se esta sugiriendo.
+Teóricamente esto es posible pero en practica simplemente no contamos con recursos infinitos.
 
-La única manera de poder probar que una función o programa es correcto y completo es mediante una
-demostraci\'on matemática formal. El problema con este método es que es muy complejo y complicado.
-A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al programador,
-un ejemplo de esto son los lenguajes de programación funcionales. Este paradigma lleva a los
-programas a un contexto donde la notaci\'on es muy parecida a lo que se usa en las matemáticas mas
-tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto facilita la
-demostraci\'on formal de los programas escritos en estos tipos de lenguajes, pero existe otro
-problema, estas demostraciones son realizadas por humanos, con la guía de mas humanos y los
-humanos somos susceptibles a cometer errores, como no considerar un caso u olvidarnos de cargar
-con un signo a media demostraci\'on.
+Entonces escribir una prueba unitaria exhaustiva no es factible, entonces ¿que nos queda por
+hacer?, ¿escribir pruebas unitarias con un subconjunto representativo de los datos que se pueden
+recibir como parámetros y de esta manera `probar' que nuestro programa funciona? y ¿si la misma
+prueba unitaria es errónea? No hay una respuesta clara para esto y la misma industria, hoy en día,
+utiliza métodos como las pruebas unitarias para probar sus programas, pero ciertamente esto no nos
+dice si el programa es correcto o completo.
+
+La única manera de que podamos probar que una función o programa es correcto y completo es mediante
+una demostraci\'on matemática formal. El problema con este método es que es muy complejo y
+complicado. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
+programador, un ejemplo de esto son los lenguajes de programación funcionales. Este paradigma lleva
+a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usa en las
+matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto
+facilita lademostraci\'on formal de los programas escritos en estos tipos de lenguajes, pero existe
+otro problema, estas demostraciones son realizadas a mano y la \'unica manera de que estemos
+seguros de que nuestra prueba es correcta es que otra persona la lea y la entienda. Como el proceso
+de creaci\'on y revisi\'on de la prueba esta hecho por humanos, estos son susceptibles a errores.
 
 En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas,
-programasque nos asisten para hacer demostraciones formales de programas escritos en lenguajes
-funcionales, este tipo de programas se conoce como asistentes de prueba y en este trabajo se usara
-el asistente llamado `Coq'. Se busca demostrar la corrección y completud de una estructura de
-datos implementada en dicho asistente de pruebas.
+programas que nos ayuden para hacer demostraciones formales de programas escritos en lenguajes
+funcionales, este tipo de programas se conoce como asistentes de prueba y en este trabajo usaremos
+el asistente llamado `Coq'. Estos asistentes nos ayudan en la parte de la revisi\'on de la prueba,
+al llevar el control de que casos hemos demostrado y cuales nos hacen falta.
 
-El uso de este asistente genera otro problema, no podemos probar cualquier programa escrito en un
-lenguaje funcional, tenemos que primero traducir este programa al lenguaje de Coq para poder
-empezar con las demostraciones, aqui tenemos dos opciones, traducir a mano o utilizar una
-herramienta que nos ayude a traducir. Esta herramienta se llama `hs-to-coq'\cite{thrc}.
+Sin embargo, el uso de este asistente genera otro problema, no podemos probar cualquier programa
+escrito en un lenguaje funcional, tenemos que primero traducir este programa al lenguaje de Coq
+para poder comenzar con las demostraciones. Aquí tenemos dos opciones, traducir a mano o utilizar
+una herramienta que nos ayude a traducir. En este trabajo usaremos la segunda opci\'on, el nombre
+de la herramienta es `hs-to-coq' \cite{thrc}, lo que buscamos es lograr probar formalmente la
+completud y correcci\'on de una estructura de datos como lo son los {\arns}.
 
-En un trabajo anterior\cite{tesisG}, se realizaron diversas implementaciones de {\arns}, usando el
+En un trabajo anterior \cite{tesisG}, se realizaron diversas implementaciones de {\arns}, usando el
 lenguaje de programaci\'on Haskell, se desarrollaron constructores inteligentes y una
-implementaci\'on mas compleja usando tipos anidados. Siendo este la principal motivaci\'on de
-elegir esta estructura de datos no trivial para demostrar formalmente su corrección y completud.
+implementaci\'on mas compleja usando tipos anidados. Siendo este trabajo la principal motivaci\'on
+de elegir esta estructura de datos no trivial para realizar la demostraci\'on formal de su
+corrección y completud.
 
 \section{Arboles Roji-negros}
 Los {\arns} son una estructura de datos donde las operaciones de inserci\'on, eliminaci\'on y
 búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de esas operaciones es
 $O(log(n))$, estos son una subclase de los arboles binarios de búsqueda, en los cuales la
 complejidad de dichas operaciones crece hasta $O(n)$. Esta mejora en la complejidad se obtiene
-gracias a la introducción de colores a los nodos del \'arbol y a invariantes relacionados con
-estos colores, las cuales describiremos mas adelante.
+gracias a la introducción de colores a los nodos del \'arbol y a invariantes relacionados con estos
+colores, las cuales describiremos en la siguiente definici\'on.
 
 \subsection{Definici\'on de {\arns}}
 Un {\arn} se define de la siguiente manera:
@@ -61,24 +66,22 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
     \item El \'arbol vació es negro.
-    \item La raíz es negra.
+    \item La raíz es negra \footnote{Decimos que un \'arbol es negro o rojo si el nodo de la raiz
+    es de ese color.}.
     \item Las siguientes invariantes se tienen que cumplir:
     \begin{itemize}
         \item Un nodo rojo debe tener hijos negros.
-        \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodo
+        \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodos
         negros.
-        \item Todas las hojas del \'arbol son vacías y de color negro\footnote{Esta invariante no
-        es del todo necesaria, en capítulos posteriores apreciar que las hojas no tienen color,
-        por la construcción de estas.}.
+        \item Todas las hojas del \'arbol son vacías y de color negro \footnote{Esta invariante
+        depende de la idea de que los nodos vacíos son de color negro, mas adelante se ver\'a que
+        esta condici\'on no es del todo necesaria.}.
     \end{itemize}
 \end{enumerate}
-
-Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 
 \begin{figure}
 \centering
 \captionsetup{justification=centering}
-\label{arbolRB_1}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
 %\draw[style=help lines] (-5,-7) grid (5,0);
 \node [arn_n] at (-2,0) {6}
@@ -109,7 +112,12 @@ Se presenta en la Figura 1.1 un ejemplo de un {\arn}.
 
 \end{tikzpicture}
 \caption {\Arn con nodos vac\'ios.}
+\label{arbolRB_1}
 \end{figure}
+
+En la figura \ref{arbolRB_1} podemos ver un ejemplo de un \arn que respeta la definici\'on que
+acabamos de presentar. Los cuadros de las hojas representan los nodos vacíos y podemos ver que
+estos son negros.
 
 Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder demostrar la
 correcci\'on y completud de estos usando el asistente de pruebas {\coq} y así poder mostrar las
@@ -117,7 +125,7 @@ ventajas, y problemáticas de este proceso, desde la escritura/traducción de la
 lenguaje Haskell a Coq, hasta las demostraciones que se realizaran con el asistente.
 
 \section{Traducción de Haskell a {\coq} (hs-to-coq)}
-Como se menciono en la motivación de este trabajo, existen programas que nos ayudan a verificar
+Como mencionamos en la motivación de este trabajo, existen programas que nos ayudan a verificar
 formalmente otros programas, en particular en este trabajo se decidió usar {\coq}, sin embargo el
 usar esta herramienta trae sus propias problemáticas.
 
@@ -126,15 +134,15 @@ programa directamente a {\coq} o si se va a traducir un programa ya existente al
 asistente de pruebas, como lo que se busca es poder verificar un programa ya existente, es decir,
 los {\arns}, queremos poder traducir código de Haskell a {\coq}.
 
-En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales
-ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a continuaci\'on:
+En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales ventajas
+y desventajas de traducir de Haskell a Coq, los cuales describiré a continuaci\'on:
 
 \subsection{Ventajas}
 \begin{itemize}
     \item Haskell es un excelente lenguaje para escribir programas funcionales puros.
     \item La gran comunidad de programadores que usa y mantienen el lenguaje, al igual que el
-    compilador GHC de Haskell que se usa en la industria.
-    \item El ambiente de Coq para desarrollar demostraciones.
+    compilador GHC de Haskell, el cual tiene usos incluso industriales.
+    \item El ambiente de Coq para desarrollar demostraciones formales.
     \item Coq permite razonar acerca de programas funcionales totales.
 \end{itemize}
 
@@ -146,15 +154,15 @@ ventajas y desventajas de traducir de Haskell a Coq, los cuales describiré a co
     \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores
     que lo usen y mantengan como lo tiene Haskell.
     \item El hecho de que los programadores de Haskell solo razonen acerca de su código
-    informalmente puede que resulte en que se generen funciones parciales, es decir que no cubran
-    todos los casos posibles.
+    informalmente puede que resulte en que se generen funciones parciales, es decir que no se
+    cubran todas la combinaciones de parámetros posibles para una funci\'on.
     \item La traducci\'on de Haskell a Coq solo es posible si se tienen funciones totales.
 \end{itemize}
 
-El articulo propone el uso de una herramienta, llamada `hs-to-coq', la cual sigue en desarrollo y
-es usada para traducir código de Haskell a Coq. En este trabajo se opto por usar la herramienta
-para la traducci\'on, esto porque la traducci\'on manual resulta ser muy tediosa, susceptible a
-errores y desviaría el enfoque de este trabajo que es la verificaci\'on de la estructura, no la
+Este articulo propone el uso de una herramienta llamada `hs-to-coq', la cual sigue en desarrollo y
+es usada para traducir código de Haskell a Coq. En este trabajo se opto por usar esta herramienta
+para la traducci\'on, esto porque la traducci\'on manual resulta ser muy tediosa y susceptible a
+errores, esto desviaría el enfoque de este trabajo que es la verificaci\'on de la estructura, no la
 traducci\'on de esta.
 
 \section {Sobre este trabajo}
