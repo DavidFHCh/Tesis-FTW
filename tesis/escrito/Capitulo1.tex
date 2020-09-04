@@ -2,45 +2,49 @@
 
 \section{Motivación}
 Hoy en día en el desarrollo de software existe un conjunto de normas a las cuales se les denomina
-\textit{buenas pr\'acticas de programaci\'on}, las cuales van desde tener una correcta indentaci\'on,
-elegir si usaremos espacios o tabuladores para realizar este acomodo, la documentaci\'on del
-c\'odigo, respetar las convenciones del lenguaje que estemos usado y probar nuestro programa, en
-espec\'ifico, realizar pruebas unitarias.
+\textit{buenas pr\'acticas de programaci\'on}, las cuales van desde tener una correcta
+indentaci\'on, elegir si usaremos espacios o tabuladores para realizar este acomodo, la
+documentaci\'on del c\'odigo, respetar las convenciones del lenguaje que estemos usado y probar
+nuestro programa, en espec\'ifico, realizar pruebas unitarias.
 
-Las \textit{pruebas unitarias} nos ayudan a saber si nuestro código esta teniendo el comportamiento que
-buscamos, pero esto sol\'o nos sirve hasta cierto punto; por ejemplo, si tenemos una funci\'on que
-recibe un par números naturales, para poder estar totalmente seguros de que la funci\'on es correcta
-se tendrían que probar todos los casos, es decir, todas las combinaciones de números naturales que existan,
-sin embargo, estas combinaciones son infinitas y se necesitaría la misma cantidad de memoria y de
-tiempo para poder escribir una prueba unitaria exhaustiva, como la que se esta sugiriendo.
-Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con recursos los recursos suficientes.
+Las \textit{pruebas unitarias} nos ayudan a saber si nuestro código esta teniendo el comportamiento
+que buscamos, pero esto sol\'o nos sirve hasta cierto punto; por ejemplo, si tenemos una funci\'on
+que recibe un par números naturales, para poder estar totalmente seguros de que la funci\'on es
+correcta se tendrían que probar todos los casos, es decir, todas las combinaciones de números
+naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la misma
+cantidad de memoria y de tiempo para poder escribir una prueba unitaria exhaustiva, como la que se
+esta sugiriendo. Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con
+recursos los recursos suficientes.
 
 Siendo as\'i, escribir una prueba unitaria exhaustiva no es factible, en tal caso ¿que podríamos
 hacer?; escribir una prueba unitaria que itere sobre un conjunto representativo de los datos que la
-funci\'on puede recibir como par\'ametros. Sin embargo, ¿si la misma prueba unitaria es errónea?, no
-hay una respuesta clara para esto y la misma industria hoy en día utiliza métodos, como el expuesto
-anteriormente, para probar su c\'odigo pero ciertamente esto no nos dice si el programa es correcto o completo.
+funci\'on puede recibir como par\'ametros. Sin embargo, ¿si la misma prueba unitaria es errónea?,
+no hay una respuesta clara para esto y la misma industria hoy en día utiliza métodos, como el
+expuesto anteriormente, para probar su c\'odigo pero ciertamente esto no nos dice si el programa es
+correcto o completo.
 
 La única manera de que podamos probar que una función o programa es correcto y completo es mediante
 una demostraci\'on matemática formal, el problema con este método es que es muy complejo y
 complicado. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
-programador, un ejemplo de esto son los lenguajes de programación funcionales.Este paradigma lleva%aqui va la correcion
-a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usa en las
+programador, un ejemplo de esto son los lenguajes de programación funcionales. Este paradigma lleva
+a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usar\'ia en las
 matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto
-facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin embargo,
-estas demostraciones son realizadas a mano y la \'unica manera de que estemos
-seguros de que nuestra prueba es correcta es que otra persona la lea y la entienda. Como el proceso
-de creaci\'on y revisi\'on de la prueba esta hecho por humanos, estos son susceptibles a errores.
+facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin
+embargo, estas demostraciones son realizadas de manera tradicional usando lap\'iz y hojas de papel,
+no obstante, la \'unica manera de que estemos seguros de que nuestra desmostraci\'on es correcta es
+que otra persona lea y entienda la misma. Todos estos procesos, creaci\'on y revisi\'on de la
+demostraci\'on, estan hechos por humanos, por lo tanto son susceptibles a errores.
 
-En los últimos años se han estado desarrollando programas que ayudan con este tipo de problemas,
-programas que nos ayuden para hacer demostraciones formales de programas escritos en lenguajes
-funcionales, este tipo de programas se conoce como asistentes de prueba y en este trabajo usaremos
-el asistente llamado `Coq'. Estos asistentes nos ayudan en la parte de la revisi\'on de la prueba,
-al llevar el control de que casos hemos demostrado y cuales nos hacen falta.
+En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar
+este tipo de problemas, como lo son \textit{demostradores autom\'aticos} y \textit{asistentes de
+prueba}. Nosotros nos enfocaremos en el uso del segundo; en particular en este trabajo usaremos el
+asistente de pruebas llamado {\coq}. Este nos ayudar\'a gui\'andonos por la prueba, llevando un
+control de los casos que nos falten por demostrar y las hip\'otesis disponibles para cada caso,
+todo esto sobre programas escritos en el lenguaje funcional del mismo asistente.
 
 Sin embargo, el uso de este asistente genera otro problema, no podemos probar cualquier programa
-escrito en un lenguaje funcional, tenemos que primero traducir este programa al lenguaje de Coq
-para poder comenzar con las demostraciones. Aquí tenemos dos opciones, traducir a mano o utilizar
+escrito en un lenguaje funcional, primero tenemos que traducir este programa al lenguaje de Coq
+para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano o utilizar
 una herramienta que nos ayude a traducir. En este trabajo usaremos la segunda opci\'on, el nombre
 de la herramienta es `hs-to-coq' \cite{thrc}, lo que buscamos es lograr probar formalmente la
 completud y correcci\'on de una estructura de datos como lo son los {\arns}.
