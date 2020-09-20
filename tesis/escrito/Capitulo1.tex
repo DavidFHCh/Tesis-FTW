@@ -55,13 +55,13 @@ implementaci\'on mas compleja usando tipos anidados. Siendo este trabajo la prin
 de elegir esta estructura de datos no trivial para realizar la demostraci\'on formal de su
 corrección y completud.
 
-\section{Arboles Roji-negros}
+\section{\Arns}
 Los {\arns} son una estructura de datos donde sus operaciones de inserci\'on, eliminaci\'on y
-búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de estas operaciones es
-$O(log(n))$. Estos son una subclase de los arboles binarios de búsqueda, en los cuales la
-complejidad de dichas operaciones crece hasta $O(n)$. Esta mejora  se obtiene gracias a la
+búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de estas operaciones es:
+$O(log(n))$. Los {\arns} son una subclase de los \'arboles binarios de búsqueda, en los cuales la
+complejidad de dichas operaciones crece hasta $O(n)$. Esta mejora se obtiene gracias a la
 introducción de colores a los nodos del \'arbol \footnote{Rojo y negro, de ahi rojinegros.} y a
-invariantes relacionados con estos colores, las cuales describiremos en la siguiente definici\'on.
+invariantes relacionados con estos, los cuales describiremos en la siguiente definici\'on.
 
 \subsection{Definici\'on de {\arns}}
 Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
@@ -118,28 +118,29 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \end{figure}
 
 En la figura \ref{arbolRB_1} podemos ver un ejemplo de un {\arn} que respeta la definici\'on que
-acabamos de presentar, los cuadros con una $x$ en las hojas representan los nodos vacíos y estos
+acabamos de presentar; los cuadros con una $x$ en las hojas representan los nodos vacíos y estos
 son negros, los subindices en todos los nodos negros representan la altura negra de este \'arbol.
 Con este ejemplo se ilustra como la cantidad de nodos negros de la ra\'iz a cualquier hoja es
 siempre la misma.
 
-Nos interesa estudiar este tipo no trivial de arboles binarios de búsqueda para poder demostrar la
-correcci\'on y completud de estos usando el asistente de pruebas {\coq} y de esta manera poder
-mostrar las ventajas y desventajas de este proceso: desde escribir de cero una estructura o
-traducir la misma del lenguaje Haskell a Coq, hasta las demostraciones que se realizaran con el
-asistente de pruebas.
+Nos interesa estudiar este tipo no trivial de \textit{\'arboles binarios de búsqueda} para poder
+demostrar la correcci\'on y completud de estos usando el asistente de pruebas {\coq} y de esta
+manera poder mostrar las ventajas y desventajas de este proceso; el cual comienza escribiendo de
+cero una estructura o traduciendo la misma del lenguaje Haskell a Coq, e incluso hasta las
+demostraciones que se realizar\'an con el asistente de pruebas.
 
 \section{Traducción de Haskell a Coq}
-Como mencionamos en la motivación de este trabajo, existen programas que nos ayudan a realizar la
+Como mencionamos en la Motivación de este trabajo, existen programas que nos ayudan a realizar la
 verificaci\'on formal de otros programas, llamados asistentes de pruebas, en particular en este
-trabajo se decidió usar {\coq}. Este asistente nos guia atraves de la prueba recordando cuales son
-las metas que debemos demostrar, nos ofrece `tacticas' para poder demostrar dichas metas, entre
-otras cosas, sin embargo, esta tambien nos presenta nuevos desaf\'ios.
+trabajo se decidió usar {\coq}. Este asistente nos gu\'ia a traves de la prueba recordando cuales
+son las metas que debemos demostrar, nos ofrece `t\'acticas' para poder demostrar dichas metas
+entre otras cosas, sin embargo, esta tambi\'en nos presenta nuevos desaf\'ios.
 
-Los primeros problemas que encuentramos al empezar a usar la herramienta consisten en si se vamos a
-escribir el programa directamente en el lenguaje de {\coq} o si lo que buscamos es traducir un
-programa ya existente al lenguaje del asistente de pruebas. Como lo que se busca es poder verificar
-un programa ya existente, es decir, los {\arns}, queremos poder traducir código de Haskell a {\coq}.
+Al comenzar a utilizar el asistente nos encontramos con las primeras problem\'aticas, estas
+consisten es si vamos a escribir el programa directamente en el lenguaje de {\coq} o si lo que
+buscamos es traducir un programa ya existente al lenguaje del asistente de pruebas; como lo que se
+busca es poder verificar un programa antes escrito, es decir, los {\arns}, queremos poder traducir
+este código de Haskell a {\coq}.
 
 En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales ventajas
 y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\'on.
@@ -147,8 +148,8 @@ y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\
 \subsection{Ventajas}
 \begin{itemize}
     \item Haskell es un excelente lenguaje para escribir programas funcionales puros.
-    \item La gran comunidad de programadores que usan y mantienen el lenguaje, al igual que el
-    compilador GHC de Haskell, el cual tiene usos incluso industriales.
+    \item La gran comunidad de programadores que usan y mantienen el lenguaje.
+    \item El compilador GHC de Haskell, el cual tiene usos incluso industriales.
     \item El ambiente de Coq para desarrollar demostraciones formales.
     \item Coq permite razonar acerca de programas funcionales totales.
 \end{itemize}
@@ -160,29 +161,26 @@ y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\
     susceptible a errores.
     \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores
     que lo usen y mantengan como lo tiene Haskell.
-    \item El hecho de que los programadores de Haskell solo razonen acerca de su código
-    informalmente puede que resulte en que se generen funciones parciales, es decir que no se
+    \item El hecho de que los programadores de Haskell s\'olo razonen acerca de su código
+    informalmente puede que resulte en que se generen funciones parciales, es decir, que no se
     cubran todas la combinaciones de parámetros posibles para una funci\'on.
-    \item La traducci\'on de Haskell a Coq solo es posible si todas las funciones a traducir son
+    \item La traducci\'on de Haskell a Coq s\'olo es posible si todas las funciones a traducir son
     totales.
 \end{itemize}
 
-Este articulo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
-encuentra en etapa de desarrollo y esta siendo usada para traducir código de Haskell a Coq. En este
-trabajo se opto por usar este traductor ya que la traducci\'on manual resultaria ser muy tediosa y
-esta es susceptible a errores, tambien se desviaría el enfoque de este trabajo que es la
-verificaci\'on de la estructura, no la traducci\'on de esta.
+Este art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
+encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a Coq.
 
 \section{Sobre este trabajo}
-El contenido y demostraciones que se describen en este trabajo se encuentran almacenados en
+El contenido y demostraciones que se describen en este trabajo se encuentran almacenados en:
 \url{https://github.com/DavidFHCh/Tesis-FTW}. Aqu\'i presentamos definiciones, lemas y clases sin
-incluir las demostraciones en {\coq}, es decir, los scripts de prueba. En su lugar se describen de
-manera informal las demostraciones para poder entender en alto nivel la estructura de la
-verificaci\'on formal realizada.
+incluir las demostraciones en {\coq}, en otras palabras, los scripts de prueba. En su lugar se describen de manera informal las demostraciones para poder entender en alto nivel la estructura de la verificaci\'on formal realizada.
 
-La herramienta \textit{hs-to-coq} fue usada para obtener las traducciones de las bibliotecas de
-Haskell, estas fueron usadas para poder verificar la implementación de {\arns} \cite{MSetRBT} que
-se uso en el trabajo.
+En este trabajo se opto por usar el traductor \textit{hs-to-coq}, ya que la traducci\'on manual
+resultaria ser muy tediosa y esta es susceptible a errores, tambi\'en se desviaría el enfoque de
+este trabajo, el cual es la verificaci\'on de la estructura, no la traducci\'on de la misma. La
+herramienta fue utilizada para obtener las traducciones de las bibliotecas de Haskell; estas fueron
+usadas para poder verificar la implementación de {\arns} \cite{MSetRBT} que se uso en el trabajo.
 
 En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la
 estructura de datos, al igual que las implementaciones y las pruebas realizadas para poder obtener
