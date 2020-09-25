@@ -257,17 +257,71 @@ siempre sea de color negro.
 
 Estas funciones y definiciones son suficientes para poder construir {\arns} que respeten las
 invariantes que planteamos en la definici\'on 1.2.1.
-%aqui acaba primera revision de capitulo 2.
+
 \section{Eliminación de elementos en un {\arn}}
 
-Como se menciono en la secci\'on pasada la operaci\'on de eliminaci\'on es significativamente mas
-compleja que su contra parte, esto se debe al hecho de que se pueden eliminar nodos de cualquier
-parte del \'arbol, mientras que en la inserci\'on solo se agregaban hojas de color rojo, es decir,
-la altura no se modifica en la inserción\cite{RBTypes}, solo hasta que se aplica el balanceo.
+Como se menciono en la secci\'on pasada, la operaci\'on de eliminaci\'on es significativamente mas
+compleja que su contra parte, esto se debe al hecho de que pueden ser eliminados cualesquiera nodos
+ en un {\arn}, mientras que en la inserci\'on solo se agregan hojas de color rojo, es decir,
+la altura solo se modifica en la inserción cuando se aplica el balanceo.
 
-El poder eliminar nodos de cualquier parte de un \'arbol presenta una problemática muy grande para
+El poder eliminar nodos de cualquier parte de un {\arn} presenta una problemática muy grande para
 el balanceo del mismo, esto porque al eliminar un nodo del \'arbol, los dos subárboles de este
-tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen que respetarse.
+tienen que ser concatenados de alguna forma y los invariantes de los mismos tienen que ser
+respetados.
+
+\subsection{Funci\'on de eliminaci\'on}
+
+Para poder comprender la l\'ogica de las funciones que conforman a la operaci\'on de eliminaci\'on
+es necesario comenzar por la funci'on que retira el nodo del \'arbol, ver la figura \ref{func_del}.
+La idea central de esta operaci\'on es bastante simple, como los {\arns} son \'arboles de búsqueda,
+lo primero que hacemos es buscar el nodo a eliminar, si se encuentra se elimina y se concatenan los
+subárboles restantes de esta operaci\'on, ver figuras \ref{arbolRB_4}, \ref{arbolRB_5} y
+\ref{arbolRB_6}. A continuaci\'on se describen mas a fondo los casos de la misma:
+
+\begin{itemize}
+    \item Si se recibe un \'arbol vacío como argumento de la funci'on se regresa este mismo, pues
+    eliminar un elemento del \'arbol vacío resulta en el \'arbol vacío. También este caso sirve para
+    cuando un elemento no es encontrado en el \'arbol, es el caso base de la recursi\'on de
+    búsqueda del nodo a eliminar.
+    \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo
+    actual no contiene el elemento que buscamos, se compara si es menor o mayor para seguir
+    buscando en el \'arbol izquierdo o derecho respectivamente. Si el siguiente nodo es negro y se
+    encuentra en el subarbol izquierdo, se realiza la operaci\'on $lbalS$ \footnote{Funci\'on de
+    balanceo extendida para subarboles izquierdos.}, por otro lado si el nodo se encuentra en el
+    sub\'arbol derecho se aplica $rbalS$ \footnote{Funci\'on de balanceo extendida para subarboles
+    derechos.}. Si el elemento en el que estamos no es ni mayor ni menor al que buscamos, en ese
+    caso eliminamos el elemento y concatenamos los subárboles restantes usando la función $append$
+    \footnote{Funci\'on donde se juntan lo arboles restantes de esta operaci\'on}.
+\end{itemize}
+
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
+\begin{minted}{coq}
+Fixpoint del {a} `{GHC.Base.Ord a} (x:a) (t:RB a) :=
+ match t with
+ | E => E
+ | T _ a y b =>
+    if x GHC.Base.< y : bool then
+      match a with
+       | T B _ _ _ => lbalS (del x a) y b
+       | _ => T R (del x a) y b
+      end
+    else
+    if x GHC.Base.> y : bool then
+      match b with
+       | T B _ _ _ => rbalS a y (del x b)
+       | _ => T R a y (del x b)
+      end
+    else append a b
+ end.
+
+Definition remove x t := makeBlack (del x t).
+\end{minted}
+\caption{Función de eliminación}
+\label{func_del}
+\end{figure}
 
 \begin{figure}
 \centering
@@ -384,109 +438,19 @@ tienen que concatenarse de alguna manera y las invariantes de los {\arns} tienen
 \label{arbolRB_6}
 \end{figure}
 
-\subsection{Funci\'on de eliminaci\'on}
-
-Para poder comprender la l\'ogica de las funciones\footnote{auxiliares y principales} de la
-operaci\'on de eliminaci\'on es necesario empezar por la funci'on que elimina los nodos tal cual,
-ver la figura \ref{func_del}. La idea principal es bastante simple, como los {\arns} son \'arboles
-de búsqueda, lo primero que hacemos es buscar el nodo a eliminar, si se encuentra se elimina y se
-``pegan'' los subárboles restantes de esta operaci\'on, ver figuras \ref{arbolRB_4},
-\ref{arbolRB_5} y \ref{arbolRB_6}. A continuaci\'on se describen mas a fondo los casos de la misma:
-
-\begin{itemize}
-    \item Si se recibe un \'arbol vacío como argumento de la funci'on se regresa el mismo, pues
-    eliminar un elemento del \'arbol vacío resulta en el \'arbol vacío. También este caso sirve para
-    cuando un elemento no es encontrado en el \'arbol, es el caso base de la recursi\'on de
-    búsqueda del nodo a eliminar.
-    \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo
-    no contiene el elemento que buscamos, comparamos si el elemento es menor o mayor para seguir
-    buscando en el \'arbol izquierdo o derecho respectivamente y si el nodo es negro se realiza la
-    operaci\'on $lbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace al
-    árbol izquierdo o $rbalS$\footnote{Se explican mas adelante} si la operación recursiva se hace
-    al árbol derecho. Si el elemento en el que estamos no es ni mayor ni menor al que buscamos, en
-    ese caso eliminamos el elemento y pegamos los subárboles restantes usando la función $append$
-    \footnote{Se explica mas adelante}.
-\end{itemize}
-
 Podemos ver que las funciones de balanceo $lbalS$ y $rbalS$ se aplican cuando el nodo en el que
-estamos parados, llamémoslo $n$, es negro. Esto evita que después de eliminar un nodo y aplicar la
+estamos parados, llamémoslo $n$, es negro, esto evita que después de eliminar un nodo y aplicar la
 funci\'on $append$, se acabe con dos nodos rojos seguidos, es decir, que el hijo y alguno de los
 nietos del nodo $n$ sean rojos.
-
-\begin{figure}
-\centering
-\captionsetup{justification=centering}
-\begin{minted}{coq}
-Fixpoint del {a} `{GHC.Base.Ord a} (x:a) (t:RB a) :=
- match t with
- | E => E
- | T _ a y b =>
-    if x GHC.Base.< y : bool then
-      match a with
-       | T B _ _ _ => lbalS (del x a) y b
-       | _ => T R (del x a) y b
-      end
-    else
-    if x GHC.Base.> y : bool then
-      match b with
-       | T B _ _ _ => rbalS a y (del x b)
-       | _ => T R a y (del x b)
-      end
-    else append a b
- end.
-
-Definition remove x t := makeBlack (del x t).
-\end{minted}
-\caption{Función de eliminación}
-\label{func_del}
-\end{figure}
 
 \subsection{Funci\'on de concatenaci\'on}
 
 La funci\'on de concatenación, figura \ref{func_app}, es usada cuando se encuentra el elemento que
-se busca eliminar del {\arn}, esto es porque la acci\'on de retirar un nodo del \'arbol da como
-resultado dos \'arboles que tienen que ser concatenados y tienen que respetar los invariantes de
+se busca eliminar de un {\arn}, esto es porque la acci\'on de retirar un nodo del \'arbol resulta
+en dos \'arboles que tienen que ser concatenados, los cuales deben de respetar los invariantes de
 los {\arns}. Esta funci\'on recibe como parámetros los dos \'arboles\footnote{Estos arboles pueden
-no cumplir las invariantes de un {\arn}.} que estamos buscando juntar.
-
-Sean $a$ y $b$ los dos subárboles a los que se les aplicar\'a la funci\'on append, es decir,
-$append(a,b)$, tenemos los siguientes casos:
-
-\begin{itemize}
-    \item Si $a$ es el \'arbol vacío, entonces se regresa $b$.
-    \item Si $b$ es el \'arbol vacío, entonces regresamos $a$.
-    \item Si $a$ y $b$ son arboles con raíces rojas, entonces se aplica $append$ al subárbol
-    derecho de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, \textit{append
-    ar bl}. Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles
-    $a$ y $b$ se pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$ se
-    reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de
-    $arbl$.
-    En otro caso, si el \'arbol resultante de \textit{append ar bl} no es rojo, tomamos $a$ y $b$,
-    los pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo
-    de $b$ se reemplaza por el resultado de \textit{append ar bl}.
-    \item Si $a$ y $b$ son arboles con raíces negras, entonces se aplica $append$ al subárbol
-    derecho de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, \textit{append
-    ar bl}. Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles
-    $a$ y $b$ se pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$ se
-    reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho de
-    $arbl$.
-    En otro caso, si el \'arbol resultante de \textit{append ar bl} no es rojo, tomamos $a$ y $b$,
-    el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se reemplaza por
-    el resultado de \textit{append ar bl} y a este resultado le aplicamos una función de balanceo,
-    $lbalS$.
-    \item Si $a$ es un \'arbol de color negro y $b$ de color rojo, entonces se toma $b$, se pinta
-    de rojo pero en lugar de su subárbol izquierdo, sea $bl$, se aplica una llamada recursiva a
-    $bl$ con la funci\'on embebida en $append$, llamada $append\_l$, es decir, $append\_l(bl)$, la
-    cual sigue teniendo al \'arbol $a$, gracias al currying\cite{Currying}.
-    \item Si $a$ es un \'arbol de color rojo y $b$ de color negro, entonces se toma $a$, se pinta
-    de rojo pero en lugar de su subárbol derecho, sea $ar$, se hace una llamada recursiva con
-    $append(ar,b)$.
-\end{itemize}
-
-Debemos mencionar que el \'arbol resultante de aplicar esta funci\'on no necesariamente cumple las
-invariantes de un {\arn}, estas invariantes se logran conservar ya que en la funci\'on $del()$ se
-realizan llamadas a las funciones extendidas de balanceo, las cuales desarrollaremos en la
-siguiente sección.
+no cumplir las invariantes de ls {\arns}.} que estamos buscando juntar. Esta operación se describe
+con mayor detalle en seguida.
 
 \begin{figure}
 \centering
@@ -523,20 +487,66 @@ Fixpoint append {a} `{GHC.Base.Ord a} (l:RB a) : RB a -> RB a :=
 \label{func_app}
 \end{figure}
 
+
+Sean $a$ y $b$ los dos subárboles a los que se les aplicar\'a la funci\'on append, es decir,
+\textit{append a b}, tenemos los siguientes casos:
+
+\begin{itemize}
+    \item Si $a$ es el \'arbol vacío, entonces se regresa $b$.
+    \item Si $b$ es el \'arbol vacío, entonces regresamos $a$.
+    \item Si $a$ y $b$ son \'arboles con raíces rojas, entonces se aplica $append$ al subárbol
+    derecho de $a$, sea este $ar$, junto con el subárbol izquierdo de $b$, sea $bl$, es decir,
+    \textit{append ar bl}. Tenemos subcasos:
+    \begin{itemize}
+      \item Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles
+      $a$ y $b$ se pintan de rojo y se concatenan con la raíz de $arbl$, igual de color rojo, $ar$
+      se reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho
+      de $arbl$.
+      \item En otro caso, si el \'arbol resultante de \textit{append ar bl} no es rojo, tomamos $a$
+      y $b$, los pintamos de rojo, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol
+      izquierdo de $b$ se reemplaza por el resultado de \textit{append ar bl}.
+    \end{itemize}
+    \item Si $a$ y $b$ son arboles con raíces negras, entonces se aplica $append$ al subárbol
+    derecho de $a$, sea $ar$, con el subárbol izquierdo de $b$, sea $bl$, es decir, \textit{append
+    ar bl}. Tenemos casos:
+    \begin{itemize}
+      \item Si el resultado de esta operación es un árbol con raíz roja, sea $arbl$, los \'arboles
+      $a$ y $b$ se pintan de negro y se concatenan con la raíz de $arbl$, esta de color rojo, $ar$
+      se reemplaza por el subárbol izquierdo de $arbl$ y $bl$ se reemplaza por el subárbol derecho
+      de $arbl$.
+      \item En otro caso, si el \'arbol resultante de \textit{append ar bl} no es rojo, tomamos $a$
+      y $b$, el subárbol derecho de $a$ se reemplaza por $b$ y el subárbol izquierdo de $b$ se
+      reemplaza por el resultado de \textit{append ar bl} y a este resultado le aplicamos una
+      función de balanceo, $lbalS$.
+    \end{itemize}
+    \item Si $a$ es un \'arbol de color negro y $b$ de color rojo, entonces se toma $b$, se pinta
+    de rojo pero en lugar de su subárbol izquierdo, sea $bl$, se aplica una llamada recursiva a
+    $bl$ con la funci\'on embebida en $append$, llamada $append\_l$, es decir, \textit{append\_l
+    bl}, la cual sigue teniendo al \'arbol $a$, gracias al currying\cite{Currying}.
+    \item Si $a$ es un \'arbol de color rojo y $b$ de color negro, entonces se toma $a$, se pinta
+    de rojo pero en lugar de su subárbol derecho, sea $ar$, se hace una llamada recursiva con
+    $append(ar,b)$.
+\end{itemize}
+
+Debemos mencionar que el \'arbol resultante de aplicar esta funci\'on no necesariamente cumple las
+invariantes de un {\arn}, estas invariantes se logran conservar ya que en la funci\'on $del()$ se
+realizan llamadas a las funciones extendidas de balanceo, las cuales desarrollaremos en la
+siguiente sección.
+
 \subsection{Extensi\'on de funciones de balanceo}
 
 En la secci\'on 2.2 de este trabajo se trato la inserci\'on de elementos a un {\arn}, en donde se
 describen un par de funciones llamadas `funciones de balanceo', tratadas en las subsecci\'on
 2.2.1, estas funciones a su vez toman los nombres $rbal$ y $lbal$, figura \ref{func_balanceo}.
 Estas funcionesresultan insuficientes para balancear un \'arbol al momento de eliminar un nodo y
-concatenar los dos arboles restantes con la función $append$, es por eso que se implementan las
+concatenar los dos \'arboles restantes con la función $append$, es por eso que se implementan las
 extensiones de estas funciones, llamadas $lbalS$ y $rbalS$, figuras \ref{lbalS} y \ref{rbalS}
 respectivamente, las cuales a su vez llaman a las funciones $rbal'$\footnote{La funci\'on $rbal'$
 es una variación de la función $rbal$, solo cambia el orden de la caza de patrones.}, figura
-\ref{rbal_2}, y $lbal$. Estas extensiones
-agregan mas casos de manejo de subárboles negros, esto porque existen casos en los que se puede
-llegar a eliminar un nodo negro intermedio y se tiene que asegurar que las invariantes no se
-violen después de concatenar los subárboles resultantes de aplicar la función $del$.
+\ref{rbal_2}, y $lbal$. Estas extensiones agregan mas casos de manejo de subárboles negros, esto
+porque existen casos en los que se puede llegar a eliminar un nodo negro intermedio y se tiene que
+asegurar que las invariantes no se violen después de concatenar los subárboles resultantes de
+aplicar la función $del$.
 
 \begin{figure}
 \centering
@@ -560,9 +570,9 @@ Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{figure}
 
 Las funciones $rbalS$ y $lbalS$ son usadas en la funci\'on $del$, figura \ref{func_del}, cuando el
-caso en el que se cae es un nodo de color negro, y al aplicar la funci\'on en estos nodos podemos
+caso en el que se cae es un nodo de color negro y al aplicar la funci\'on en estos nodos podemos
 asegurar que los dos subárboles de este nodo no se van a desequilibrar, es decir, que un subárbol
-tenga mas nodos que el otro, después de aplicar la función de balanceo se aplica otra llamada
+tenga mas nodos negros que el otro. Después de aplicar la función de balanceo se aplica otra llamada
 recursiva a $del$.
 
 
@@ -587,10 +597,10 @@ Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \label{rbalS}
 \end{figure}
 
-Hay otra función donde se utiliza una de estas funciones, específicamente $lbalS$, esta es $append$
-en el caso de que los arboles que se le están dando como parámetros sean negros, esto es por la
-misma razón por la cual se aplican las funciones de balanceo en $del$ sobre los nodos de color
-negro; para que sus subárboles no se desbalanceen.
+Existe otra función donde se utiliza una de estas operaciones de balanceo, específicamente $lbalS$,
+esta funci\'on es $append$, en el caso de que los arboles que se le esten pasando como parámetros
+sean negros, esto es por la misma razón por la cual se aplican las funciones de balanceo en $del$
+sobre los nodos de color negro: para que sus subárboles no se desbalanceen.
 
 \begin{figure}
 \centering
@@ -609,5 +619,6 @@ Definition rbal' {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{figure}
 
 Estas definiciones y funciones son suficientes para poder eliminar nodos de un {\arn} y que el
-resultado no viole las invariantes de los mismos, aunque realmente nos falta demostrar que esta
-afirmaci\'on es cierta, esto se tratar\'a en el siguiente cap\'itulo.
+resultado no viole los invariantes de estos. Al menos eso es lo que nos gustaria poder afirmar en
+esta etapa del trabajo, sin embargo, esta sentencia tiene que ser demostrada, es decir, tenemos que
+probar que nuestros {\arns} cumplen con la definición.
