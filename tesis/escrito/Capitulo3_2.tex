@@ -1,4 +1,4 @@
-\section{Verificación de la operación de inserción}
+\subsection{Verificación de la operación de inserción}
 
 Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir
 enunciados, ya sean lemas, proposiciones, etc., usandoi las definiciones inductivas presentadas en
@@ -10,7 +10,7 @@ la idea principal de estos lemas es dejarnos ver que ciertos arboles que acepten
 mas generales, $nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de
 $is\_redblack$.
 
-\subsection{Primer Lema}
+\subsubsection{Primer Lema}
 
 \begin{minted}{coq}
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
@@ -94,7 +94,7 @@ Estos casos son análogos y los dos se resuelven simplificando las funciones de 
 simplificando las expresiones y aplicando las definiciones inductivas\footnote{$is\_redblack$,
 $nearly\_redblack$}.
 
-\subsection{Segundo Lema}
+\subsubsection{Segundo Lema}
 
 \begin{minted}{coq}
 Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) :
@@ -125,7 +125,7 @@ uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con
 Estos casos se resuelven sencillamente con la aplicación de los dos casos de la definici\'on
 inductiva de $nearly\_redblack$, respectivamente.
 
-\subsection{Instancia de la Funci\'on de Inserci\'on}
+\subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
 Para poder probar la instancia de la clase $redblack$ se va a necesitar el siguiente lema auxiliar:
 

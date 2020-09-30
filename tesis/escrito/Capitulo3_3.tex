@@ -1,11 +1,11 @@
-\section{Verificación de la operación de eliminación}
+\subsection{Verificación de la operación de eliminación}
 Al igual que en la funci\'on de inserci\'on se enuncian lemas para ayudarnos a llegar al resultado
 de verificar la operación de eliminación. Estos lemas giran en torno a las funciones auxiliares
 que se usaron para poder demostrar la operación, como $append$ y $del$.
 
 A continuación se describe el razonamiento usado para poder verificar dichas funciones.
 
-\subsection{Primer Lema}
+\subsubsection{Primer Lema}
 \begin{minted}{coq}
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) :
   is_redblack n l -> is_redblack n r ->
@@ -91,7 +91,7 @@ considerados para el balanceo.
 En las siguientes subsecciones explicamos mas a fondo los pasos usados para probar estos casos.
 
 
-\subsubsection{Concatenaci\'on de dos \'arboles rojos.}
+\paragraph{Concatenaci\'on de dos \'arboles rojos.}
 
 Este primer caso es la concatenaci\'on de dos \'arboles con raices rojas, en el siguiente
 fragmento de la salida del asistente de pruebas se observa como la meta es una conjunci\'on.
@@ -223,7 +223,7 @@ significar que existan una serie de comandos del asistente de pruebas que nos ay
 esta prueba, sin embargo, en este trabajo se esta tomando el camino mas extenso para mostrar la
 simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
 
-\subsubsection{Concatenaci\'on de un \'arbol rojo y uno negro.}
+\paragraph{Concatenaci\'on de un \'arbol rojo y uno negro.}
 
 Ahora es turno de analizar la demonstraci\'on del caso donde se concatena un \'arbol rojo y uno negro, es decir, $append(r,b)$, donde r es un \'arbol rojo y b es uno negro.
 
@@ -307,7 +307,7 @@ gracias a las nuevas hip\'otesis integradas por H1, se pueden probar sin mayor p
 
 Con esto demostrado este caso esta completo.
 
-\subsubsection{Concatenaci\'on de un \'arbol negro y uno rojo.}
+\paragraph{Concatenaci\'on de un \'arbol negro y uno rojo.}
 
 En este caso se invierten los colores con respecto al caso anterior; el \'arbol derecho es rojo y
 el izquierdo es negro. Este caso, al igual que el pasado, requiere de una pequeña ayuda al
@@ -370,7 +370,7 @@ lograr esto. En el caso pasado se destruyo la hip\'otesis IHlr, en este caso se 
 IHrl y el resto de la demostraci\'on se sigue directamente de las nuevas metas introducidas y del
 uso de las definiciones inductivas mencionadas en el caso pasado.
 
-\subsubsection{Concatenaci\'on de dos \'arboles negros.}
+\paragraph{Concatenaci\'on de dos \'arboles negros.}
 
 Este \'ultimo caso es el \'unico que no incluye una contradicci\'on ya que la contradicci'on se
 daba al tener un \'arbol rojo como uno de los dos \'arboles que se pasan a la funci\'on $append$,
@@ -588,7 +588,7 @@ tediosa, se puede observar el poder del asistente de pruebas, ya que las demostr
 a álgebra ecuacional, es decir, tratar de igualar la meta con lo que se tiene como hip\'otesis,
 esto se seguira viendo en las siguientes pruebas.
 
-\subsection{Segundo Lema}
+\subsubsection{Segundo Lema}
 Este siguiente lema utiliza una palabra especial en el lenguaje de {\coq}, `with', esta palabra
 es un truco para demostrar dos lemas simultanemente, el cual es el caso como veremos en seguida:
 
@@ -630,7 +630,7 @@ Lo que el asistente de pruebas esta haciendo es que nos esta integrando al ambie
 los dos lemas, de esta manera podemos realizar suposiciones con estos y asi ayudarnos a demostrar
 los lemas. Realizaremos las pruebas de estos lemas por separado.
 
-\subsubsection{Prueba de $del\_arb$}
+\paragraph{Prueba de $del\_arb$}
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -736,7 +736,7 @@ nearly_redblack n (append s1 s2)
   La cual es un caso particular del lema antes demostrado $append\_arb\_rb$.
 \end{itemize}
 
-\subsubsection{Prueba de $del\_rb$}
+\paragraph{Prueba de $del\_rb$}
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -797,7 +797,7 @@ Hasta este momento solo se han demostrado partes de la operacion total de elimin
 dos subarboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un arbol con raiz roja o
 de uno con raiz negra. En seguida uniremos todos estos lemas en uno.
 
-\subsection{Instancia de la funci\'on de eliminaci\'on}
+\subsubsection{Instancia de la funci\'on de eliminaci\'on}
 \begin{minted}{coq}
 Instance remove_rb s x : redblack s -> redblack (remove x s).
 \end{minted}

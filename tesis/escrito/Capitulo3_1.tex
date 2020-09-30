@@ -1,15 +1,85 @@
-\chapter{Verificación formal de {\arns}}
-Se menciono en el primer cap\'itulo de este trabajo que los {\arns} son una estructura de datos
-que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
-estructuras de datos, como las listas ligadas o doblemente ligadas. En el segundo cap\'itulo se
-muestran las implementaciones delos algoritmos de esta  estructura de datos y podemos notar como
-estas implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de
-programar en un lenguaje del paradigma funcional comolo es {\coq}.
-Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas y
-completas, es decir, se desea verificar formalmente que las implementaciones de las operaciones
-descritas en el capitulo anterior.
+\chapter{Verificación de {\arns}}
 
-Para esto se usara, de igual manera, {\coq}. La verificaci\'on se divide en varios pasos:
+En el primer cap\'itulo de este trabajo se menciono que los {\arns} son una estructura de datos
+que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
+estructuras de datos, como las listas simples o doblemente ligadas. En el segundo cap\'itulo se
+muestran las implementaciones de los algoritmos de esta estructura de datos y podemos notar como
+estas implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de
+programar en un lenguaje del paradigma funcional como lo es {\coq}, e incluso en un lenguaje con un
+paradigma imperativo como \textit{Java} o \textit{C}. Por esta razón es que nos preocupa que las
+implementaciones que realicemos sean correctas y completas, es decir, se desea verificar que las
+implementaciones de las operaciones descritas en el capitulo anterior.
+
+\section{Pruebas unitarias}
+Las \textit{pruebas unitarias} \cite{unittest} son bloques de c\'odigo, funciones o m\'etodos, que
+invocan a otros bloques para poder verificar ciertas suposiciones sobre el programa a probar. Estas
+pruebas en principio deben de ser faciles de escribir, entender, extender, que se ejecuten en poco
+tiempo y sobre todo que sean fidedignas. De nada nos servirian pruebas unitarias que esten mal
+escritas o que estas mismas sean demasiado complejas y puedan contener errores.
+
+Este tipo de pruebas son usadas para verificar que cada componente de un programa funcione de
+manera correcta, en el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
+invariables de un determinado \'arbol, ver figura \ref{unitTestjava}, esta es una prueba unitaria
+escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn}.
+
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
+\begin{minted}{java}
+
+    /* Valida que los caminos del vértice a sus hojas tengan todos
+       el mismo número de vértices negros. */
+    private static <T extends Comparable<T>> int
+    validaCaminos(ArbolRojinegro<T> arbol,
+                  VerticeArbolBinario<T> v) {
+        int ni = -1, nd = -1;
+        if (v.hayIzquierdo()) {
+            VerticeArbolBinario<T> i = v.izquierdo();
+            ni = validaCaminos(arbol, i);
+        } else {
+            ni = 1;
+        }
+        if (v.hayDerecho()) {
+            VerticeArbolBinario<T> d = v.derecho();
+            nd = validaCaminos(arbol, d);
+        } else {
+            nd = 1;
+        }
+        Assert.assertTrue(ni == nd);
+        switch (arbol.getColor(v)) {
+        case NEGRO:
+            return 1 + ni;
+        case ROJO:
+            return ni;
+        default:
+            Assert.fail();
+        }
+        // Inalcanzable.
+        return -1;
+    }
+
+\end{minted}
+\caption{Prueba unitaria escrita en Java.}
+\label{unitTestjava}
+\end{figure}
+
+Sin embargo, el hecho de que las pruebas unitarias puedan verificar los invariables de un \'arbol
+dado, no nos asegura que todos los \'arboles creados por nuestras operaciones de inserci\'on y
+eliminaci\'on los respeten. La \'unica manera de que esta prueba podria verificar esto seria
+realizando todas las combinaciones de operaciones y entras posibles y aplicar la prueba a todos los
+resultados de estas. Esto es una prueba exhaustiva y en este caso \footnote{De hecho en la
+mayoria.} las posibildades son infinitas, es decir, no existe modo de realizar todas estas pruebas
+en un tiempo razonable, lo cual contradice totalmente la definici\'on de prueba unitaria.
+
+Es claro que las pruebas unitarias no nos son suficientes para poder verificar formalmente un
+programa, es por esto que se requieren realizar demostraciones matemáticas para poder obtener los
+resultados que buscamos, pero de igual manera no queremos escribir a mano estas demostraciones ya
+que al igual que las pruebas unitarias estas son susceptiblesa errores de quien las escribe, por
+esta raz\'on se usara {\coq} para realizar estas pruebas formales.
+
+\section{Verificaci\'on Formal en Coq}
+
+La verificaci\'on se divide en varios pasos:
 \begin{itemize}
     \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de
     esta manera podemos saber si las operaciones que se implementaron las respetan.
@@ -19,7 +89,7 @@ Para esto se usara, de igual manera, {\coq}. La verificaci\'on se divide en vari
     de pruebas.
 \end{itemize}{}
 
-\section{Capturando invariantes de los {\Arns}}
+\subsection{Capturando invariantes de los {\Arns}}
 Una de las partes mas importantes de la verificaci\'on formal de cualquier estructura de datos es
 capturar sus invariantes de manera correcta, es decir, poder escribir una o varias definiciones
 inductivas que describan a la estructura de datos y sus invariantes. Después, con estas
@@ -32,11 +102,13 @@ El segundo intento es un conjunto de definiciones inductivas que tienen mas deta
 los invariantes. Estas definiciones est\'an relacionadas con las propiedades de las operaciones de
 inserci\'on y eliminaci\'on.
 
-\subsection{Primer Conjunto de Definiciones Inductivas}
+\subsubsection{Primer Conjunto de Definiciones Inductivas}
 Los dos conjuntos de definiciones inductivas comparten la misma idea; una definici\'on que
 describa lo que es un {\arn} y otra definici\'on mas relajada de la misma.
 
-La primera definici\'on, llamada $isRb$, esta definida de la siguiente manera:
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Inductive isRB : Tree -> color -> nat -> Prop :=
  | IsRB_leaf: forall c, isRB E c 0
@@ -49,7 +121,12 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
           isRB tr Black n ->
           isRB (T Black tl k kv tr) c (S n).
 \end{minted}
-Esta definici\'on tiene tres casos, los describimos a continuaci\'on:
+\caption{Funci\'on inductiva isRB.}
+\label{inductive_isRB}
+\end{figure}
+
+La primera definici\'on llamada $isRB$, ver figura \ref{inductive_isRB},tiene tres casos, los
+describimos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf} - el árbol vacío con altura negra 0 es roji-negro. En este caso
         si se tiene un solo nodo, es decir una hoja, la definici\'on cae en el caso $isRB_Leaf$.
@@ -90,7 +167,7 @@ inmediatamente, además podemos ver que ambas definiciones comparten el contador
 Con estas modificaciones se permite una cosa, que en la ra\'iz del \'arbol puedan haber a lo mas
 dos nodos rojos contiguos.
 
-\subsubsection{Intento de Verificaci\'on}
+\paragraph{Intento de Verificaci\'on}
 Utilizando las funciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido de
 verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo al
 estar desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de
@@ -102,7 +179,7 @@ llego a esta conclusi\'on ya que el caso ``sencillo'' de la verificaci\'on de {\
 \'on y con este conjunto de funciones inductivas las demostraciones se volvían muy largas y
 complicadas de seguir.
 
-\subsection{Segundo Conjunto de Definiciones Inductivas}
+\subsubsection{Segundo Conjunto de Definiciones Inductivas}
 
 Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos realizamos la
 siguiente pregunta: ¿como capturar las invariantes de los {\arns} y al mismo tiempo facilitar la
@@ -181,7 +258,7 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 Lo que estamos describiendo con este enunciado es que un {\arn} es aquel que tiene una altura
 negra $d$ y cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
 
-\subsubsection{Segundo Intento de Verificaci\'on}
+\paragraph{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de de definiciones de la secci\'on pasada, la definici\'on de
 $nearly\_redblack$ se reescribe, dejando de codificar las invariantes en las llamadas recursivas
 de la definición, creando funciones auxiliares para capturar los invariantes de manera mas
