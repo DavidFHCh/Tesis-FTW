@@ -12,15 +12,22 @@ $is\_redblack$.
 
 \subsubsection{Primer Lema}
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma ins_rr_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) (n : nat) :
 is_redblack n s ->
      ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s)).
 \end{minted}
-En este primer lema enunciamos lo siguiente: Sea $s$ un {\arn} bajo la definici\'on de
-$is\_redblack$, entonces si $s$ es un \'arbol con raiz roja, insertar un elemento $x$ en $s$
-resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple con la
-definici\'on de $is\_redblack$.
+\caption{Lema $ins\_rr\_rb$}
+\label{lema_1}
+\end{figure}
+
+En este primer lema, figura \ref{lema_1}, enunciamos lo siguiente: Sea $s$ un {\arn} bajo la
+definici\'on de $is\_redblack$, entonces si $s$ es un \'arbol con raiz roja, insertar un elemento
+$x$ en $s$ resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple
+con la definici\'on de $is\_redblack$.
 
 En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
 un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
@@ -30,10 +37,6 @@ La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente
 resulta en tres casos:
 
  \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-x : a
 ______________________________________(1/3)
 ifred E (redred_tree 0 (ins x E)) (is_redblack 0 (ins x E))
 ______________________________________(2/3)
@@ -69,15 +72,6 @@ complica un poco mas que el anterior ya que este es el caso en el que la altura 
 se aumenta en uno. Este caso verifica que las dos funciones de balanceo, $lbal$ y $rbal$:
 
 \begin{minted}{coq}
- 2 subgoals
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-x : a
-n : nat
-l : RB a
-k : a
-r : RB a
 H1_ : is_redblack n l
 H1_0 : is_redblack n r
 IHis_redblack1 :
@@ -96,24 +90,24 @@ $nearly\_redblack$}.
 
 \subsubsection{Segundo Lema}
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma ins_arb {a} `{GHC.Base.Ord a} (x:a) (s:RB a) (n:nat) :
 is_redblack n s -> nearly_redblack n (ins x s).
 \end{minted}
+\caption{Lema $ins\_arb$}
+\label{lema_2}
+\end{figure}
 
-Este segundo lema enuncia lo que en el capitulo anterior se menciono acerca de la funci\'on $ins$:
-La funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya que es posible que se
-termine la ejecuci\'on de la funci\'on con un nodo rojo como raíz. La demostraci\'on comienza
-introduciendo los antecedentes a las hipótesis y aplicando el lema anterior, $ins\_rr\_rb$, a una
-de las hip\'otesis:
+Este segundo lema, figura \ref{lema_2}, enuncia lo que en el capitulo anterior se menciono acerca
+de la funci\'on $ins$: la funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya
+que es posible que se termine la ejecuci\'on de la funci\'on con un nodo rojo como raíz. La
+demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el lema
+anterior, $ins\_rr\_rb$, a una de las hip\'otesis:
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-x : a
-s : RB a
-n : nat
 H1 : ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s))
 ______________________________________(1/1)
 nearly_redblack n (ins x s)
@@ -127,22 +121,34 @@ inductiva de $nearly\_redblack$, respectivamente.
 
 \subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
-Para poder probar la instancia de la clase $redblack$ se va a necesitar el siguiente lema auxiliar:
-
+Para poder probar la insercion es una instancia de la clase $redblack$ vamos a necesitar el
+lema auxiliar que se encuentra en la figura \ref{lema_3}:
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t :
-          nearly_redblack n t -> redblack (makeBlack t).
+nearly_redblack n t -> redblack (makeBlack t).
 \end{minted}
+\caption{Lema $makeBlack\_rb$}
+\label{lema_3}
+\end{figure}
 
 Este lema se resuelve destruyendo $t$, de esta manera se generan dos casos y estos se solucionan
 simplificando las expresiones y aplicando las definiciones inductivas $is\_redblack$ y
 $nearly\_redblack$.
-En seguida enunciamos la instancia de la clase $redblack$:
+La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$:
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) :
-            redblack s -> redblack (insert x s).
+redblack s -> redblack (insert x s).
 \end{minted}
+\caption{Instancia de inserci\'on de la clase $redBlack$.}
+\label{instance_ins}
+\end{figure}
 
 Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$
 para la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la
@@ -150,12 +156,6 @@ ra\'iz del \'arbol resultante de la funci\'on $ins$ de color negro. De esta mane
 asegurar que el \'arbol resultante ya no entra en la definici\'on de $redred\_tree$.
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-x : a
-s : RB a
-n : nat
 H1 : is_redblack n s
 ______________________________________(1/1)
 redblack (makeBlack (ins x s))
@@ -164,12 +164,6 @@ redblack (makeBlack (ins x s))
 En este momento se utiliza el lema auxiliar $makeBlack\_rb$ el cual nos devuelve lo siguiente:
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-x : a
-s : RB a
-n : nat
 H1 : is_redblack n s
 ______________________________________(1/1)
 nearly_redblack n (ins x s)

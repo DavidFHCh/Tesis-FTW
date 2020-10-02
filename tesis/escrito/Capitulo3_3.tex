@@ -6,12 +6,18 @@ que se usaron para poder demostrar la operaci처n, como $append$ y $del$.
 A continuaci처n se describe el razonamiento usado para poder verificar dichas funciones.
 
 \subsubsection{Primer Lema}
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma append_arb_rb {a} `{GHC.Base.Ord a} (n:nat) (l r: RB a) :
-  is_redblack n l -> is_redblack n r ->
-   (nearly_redblack n (append l r)) /\
-   (notred l -> notred r -> is_redblack n (append l r)).
+is_redblack n l -> is_redblack n r ->
+(nearly_redblack n (append l r)) /\
+(notred l -> notred r -> is_redblack n (append l r)).
 \end{minted}
+\caption{Lema $append\_arb\_rb$.}
+\label{lema_4}
+\end{figure}
 
 La funci\'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual concatena
 dos subarboles. Estos dos subarboles son el resultado de buscar, encontrar y eliminar un nodo. En
@@ -22,11 +28,8 @@ $nearly\_redblack$. Pero si los \'arboles que se van a concatenar ademas de cump
 $is\_redblack$, tambien cumplen con $notred$, es decir, las raices de dichos arboles no son rojas,
 el resultado de concatenar respeta tambien la definici\'on $is\_redblack$. La demostracio\'on de
 este lema en coq se describe en seguida:
+
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-l : RB a
 ______________________________________(1/1)
 Forall (r : RB a) (n : nat),
   is_redblack n l
@@ -41,42 +44,49 @@ posteriormente sobre $r$. Los casos base de estas inducciones consisten en simpl
 expresiones y facilmente se llega a una hipotesis o a una contradicci\'on. Estos casos no se
 trataran mas a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 ______________________________________(1/4)
 forall n : nat,
-  is_redblack n (T R ll lx lr)
-  -> is_redblack n (T R rl rx rr)
-   -> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
-     /\ (notred (T R ll lx lr)
-       -> notred (T R rl rx rr)
-        -> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
+is_redblack n (T R ll lx lr)
+-> is_redblack n (T R rl rx rr)
+-> nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
+/\ (notred (T R ll lx lr)
+-> notred (T R rl rx rr)
+-> is_redblack n (append (T R ll lx lr) (T R rl rx rr)))
 ______________________________________(2/4)
 forall n : nat,
-  is_redblack n (T R ll lx lr)
-  -> is_redblack n (T B rl rx rr)
-   -> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
-     /\ (notred (T R ll lx lr)
-       -> notred (T B rl rx rr)
-        -> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
+is_redblack n (T R ll lx lr)
+-> is_redblack n (T B rl rx rr)
+-> nearly_redblack n (append (T R ll lx lr) (T B rl rx rr))
+/\ (notred (T R ll lx lr)
+-> notred (T B rl rx rr)
+-> is_redblack n (append (T R ll lx lr) (T B rl rx rr)))
 ______________________________________(3/4)
 forall n : nat,
-  is_redblack n (T B ll lx lr)
-  -> is_redblack n (T R rl rx rr)
-   -> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
-     /\ (notred (T B ll lx lr)
-       -> notred (T R rl rx rr)
-        -> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
+is_redblack n (T B ll lx lr)
+-> is_redblack n (T R rl rx rr)
+-> nearly_redblack n (append (T B ll lx lr) (T R rl rx rr))
+/\ (notred (T B ll lx lr)
+-> notred (T R rl rx rr)
+-> is_redblack n (append (T B ll lx lr) (T R rl rx rr)))
 ______________________________________(4/4)
 forall n : nat,
-  is_redblack n (T B ll lx lr)
-  -> is_redblack n (T B rl rx rr)
-   -> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
-     /\ (notred (T B ll lx lr)
-       -> notred (T B rl rx rr)
-        -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
+is_redblack n (T B ll lx lr)
+-> is_redblack n (T B rl rx rr)
+-> nearly_redblack n (append (T B ll lx lr) (T B rl rx rr))
+/\ (notred (T B ll lx lr)
+-> notred (T B rl rx rr)
+-> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
+\caption{Casos del lema $append\_arb\_rb$.}
+\label{casos_append}
+\end{figure}
 
-Esta doble inducci\'on nos deja con cuatro casos, arriba expuestos, estos son los siguientes:
+Esta doble inducci\'on nos deja con cuatro casos, expuestos en la figura \ref{casos_append}, estos
+son los siguientes:
 \begin{itemize}
     \item Los arboles a concatenar son rojos.
     \item El arbol que se concatenar a la izquierda es rojo y el derecho es negro.
@@ -97,20 +107,11 @@ Este primer caso es la concatenaci\'on de dos \'arboles con raices rojas, en el 
 fragmento de la salida del asistente de pruebas se observa como la meta es una conjunci\'on.
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-ll : RB a
-lx : a
-lr : RB a
 IHlr : forall (r : RB a) (n : nat),
     is_redblack n lr
      -> is_redblack n r
        -> nearly_redblack n (append lr r)
          /\ (notred lr -> notred r -> is_redblack n (append lr r))
-rl : RB a
-rx : a
-rr : RB a
 IHrl : forall n : nat,
      is_redblack n (T R ll lx lr)
      -> is_redblack n rl
@@ -228,20 +229,11 @@ simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
 Ahora es turno de analizar la demonstraci\'on del caso donde se concatena un \'arbol rojo y uno negro, es decir, $append(r,b)$, donde r es un \'arbol rojo y b es uno negro.
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-ll : RB a
-lx : a
-lr : RB a
 IHlr : forall (r : RB a) (n : nat),
      is_redblack n lr
      -> is_redblack n r
        -> nearly_redblack n (append lr r)
          /\ (notred lr -> notred r -> is_redblack n (append lr r))
-rl : RB a
-rx : a
-rr : RB a
 ______________________________________(1/1)
 forall n : nat,
   is_redblack n (T R ll lx lr)
@@ -314,20 +306,11 @@ el izquierdo es negro. Este caso, al igual que el pasado, requiere de una peque�
 asistente de pruebas, la cual explicaremos mas adelante.
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-ll : RB a
-lx : a
-lr : RB a
 IHlr : forall (r : RB a) (n : nat),
      is_redblack n lr
      -> is_redblack n r
        -> nearly_redblack n (append lr r)
          /\ (notred lr -> notred r -> is_redblack n (append lr r))
-rl : RB a
-rx : a
-rr : RB a
 IHrl : forall n : nat,
      is_redblack n (T B ll lx lr)
      -> is_redblack n rl
@@ -378,20 +361,11 @@ pero en este caso los dos \'arboles a concatenar son negros, entonces la conjunc
 ser\'a probada.
 
 \begin{minted}{coq}
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-ll : RB a
-lx : a
-lr : RB a
 IHlr : forall (r : RB a) (n : nat),
      is_redblack n lr
      -> is_redblack n r
        -> nearly_redblack n (append lr r)
          /\ (notred lr -> notred r -> is_redblack n (append lr r))
-rl : RB a
-rx : a
-rr : RB a
 IHrl : forall n : nat,
      is_redblack n (T B ll lx lr)
      -> is_redblack n rl
@@ -418,8 +392,6 @@ IHlr : forall n : nat,
      -> is_redblack n rl
        -> nearly_redblack n (append lr rl)
          /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
-rx : a
-rr : RB a
 IHrl : forall n : nat,
      is_redblack n (T B ll lx lr)
      -> is_redblack n rl
@@ -449,8 +421,6 @@ IHlr : forall n : nat,
      -> is_redblack n rl
        -> nearly_redblack n (append lr rl)
          /\ (notred lr -> notred rl -> is_redblack n (append lr rl))
-rx : a
-rr : RB a
 IHrl : forall n : nat,
      is_redblack n (T B ll lx lr)
      -> is_redblack n rl
@@ -496,15 +466,22 @@ Como podemos ver en ambas metas, tenemos una funci\'on nueva, $lbalS$, esta es u
 balanceo,la cual extiende a las funciones que ya se habian usado con anterioridad en la funci\'on
 de inserci\'on, como lo son $rbal'$, $rbal$ y $lbal$.
 
-Para poder resolver esta parte de la demostraci\'on nos apoyaremos de otro lema, el cual ilustra
-una propiedad de la operaci\'on $lbalS$:
+Para poder resolver esta parte de la demostraci\'on nos apoyaremos de otro lema, figura
+\ref{lema_5}, el cual ilustra una propiedad de la operaci\'on $lbalS$.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma lbalS_rb {a} `{GHC.Base.Ord a}
 (n : nat) (l : RB a) (x : a ) (r : RB a) :
 nearly_redblack n l -> is_redblack (S n) r ->
               notred r -> is_redblack (S n) (lbalS l x r).
 \end{minted}
+\caption{Lema $lbalS\_rb$.}
+\label{lema_5}
+\end{figure}
+
 
 Lo que el lema, arriba escrito en sintaxis de coq, quiere decir es que si tenemos un par de
 arboles, sean l y r, un n\'umero natural n y un elemento x, si el \'arbol $l$ cumple con la
@@ -590,8 +567,12 @@ esto se seguira viendo en las siguientes pruebas.
 
 \subsubsection{Segundo Lema}
 Este siguiente lema utiliza una palabra especial en el lenguaje de {\coq}, `with', esta palabra
-es un truco para demostrar dos lemas simultanemente, el cual es el caso como veremos en seguida:
+es un truco para demostrar dos lemas simultanemente, el cual es el caso como se ve en la figura
+\ref{lema_6}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack (S n) s ->
@@ -600,6 +581,11 @@ Lemma del_arb {a} `{GHC.Base.Ord a} (s:RB a) (x:a) (n:nat) :
       is_redblack n s ->
       notblack s -> is_redblack n (del x s).
 \end{minted}
+\caption{Lema $del\_arb$}
+\label{lema_6}
+\end{figure}
+
+
 
 Como podemos ver, el lema en si define dos lemas, esto se hace de esta manera porque la
 demostraci\'on de uno de estos lemas depende del otro. De esta manera podemos definir ambos lemas y
@@ -614,12 +600,6 @@ del_rb : forall (a : Type) (H : Base.Eq_ a) (H0 : Base.Ord a)
         (s : RB a) (x : a) (n : nat),
         is_redblack n s ->
         notblack s -> is_redblack n (del x s)
-a : Type
-H : Base.Eq_ a
-H0 : Base.Ord a
-s : RB a
-x : a
-n : nat
 ______________________________________(1/2)
 is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
 ______________________________________(2/2)
@@ -798,18 +778,33 @@ dos subarboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un arb
 de uno con raiz negra. En seguida uniremos todos estos lemas en uno.
 
 \subsubsection{Instancia de la funci\'on de eliminaci\'on}
+
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Instance remove_rb s x : redblack s -> redblack (remove x s).
 \end{minted}
+\caption{Instancia de eliminaci\'on de la clase $redblack$.}
+\label{instance_del}
+\end{figure}
+
 
 Al igual que en la funci'on de inserci처n, terminamos la operaci처n de eliminaci\'on generando una
-instancia de la clase $redblack$, al igual que en la operaci처n opuesta, requerimos de un lema
-auxiliar con respecto a la clase $redblack$:
+instancia de la clase $redblack$, figura \ref{instance_del}, al igual que en la operaci처n opuesta,
+requerimos de un lema auxiliar con respecto a la clase $redblack$, figura \ref{lema_7}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t :
 nearly_redblack n t -> redblack (makeBlack t).
 \end{minted}
+\caption{Lema $makeBlack\_rb$.}
+\label{lema_7}
+\end{figure}
+
 
 Lo que este enunciado describe es la propiedad de que si un \'arbol $t$ cumple con la definici\'on
 inductiva de ser $nearly\_redblack$, pintar su raiz de color negro lo convierte en una instancia de

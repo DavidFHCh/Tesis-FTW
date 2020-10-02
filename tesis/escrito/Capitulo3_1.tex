@@ -71,15 +71,16 @@ resultados de estas. Esto es una prueba exhaustiva y en este caso \footnote{De h
 mayoria.} las posibildades son infinitas, es decir, no existe modo de realizar todas estas pruebas
 en un tiempo razonable, lo cual contradice totalmente la definici\'on de prueba unitaria.
 
+
+\section{Verificaci\'on Formal en Coq}
+
 Es claro que las pruebas unitarias no nos son suficientes para poder verificar formalmente un
 programa, es por esto que se requieren realizar demostraciones matemáticas para poder obtener los
 resultados que buscamos, pero de igual manera no queremos escribir a mano estas demostraciones ya
 que al igual que las pruebas unitarias estas son susceptiblesa errores de quien las escribe, por
-esta raz\'on se usara {\coq} para realizar estas pruebas formales.
+esta raz\'on se usara \textit{Coq} para realizar estas pruebas formales.
 
-\section{Verificaci\'on Formal en Coq}
-
-La verificaci\'on se divide en varios pasos:
+La verificaci\'on formal usando Coq se divide en varios pasos:
 \begin{itemize}
     \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de
     esta manera podemos saber si las operaciones que se implementaron las respetan.
@@ -90,10 +91,10 @@ La verificaci\'on se divide en varios pasos:
 \end{itemize}{}
 
 \subsection{Capturando invariantes de los {\Arns}}
-Una de las partes mas importantes de la verificaci\'on formal de cualquier estructura de datos es
-capturar sus invariantes de manera correcta, es decir, poder escribir una o varias definiciones
-inductivas que describan a la estructura de datos y sus invariantes. Después, con estas
-definiciones es que se enuncian los lemas, clases y posteriormente instancias de estas.
+Una de las partes mas importantes de la verificaci\'on formal en Coq de cualquier estructura de
+datos es capturar sus invariantes de manera correcta, es decir, poder escribir una o varias
+definiciones inductivas que describan a la estructura de datos y sus invariantes. Después, con
+estas mismas es que se enuncian los lemas, clases y posteriormente instancias de las clases.
 
 A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas,
 para poder verificar formalmente esta estructura de datos. La primera es un primer intento que es
@@ -128,16 +129,16 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 La primera definici\'on llamada $isRB$, ver figura \ref{inductive_isRB},tiene tres casos, los
 describimos a continuaci\'on:
 \begin{itemize}
-        \item \textbf{IsRB\_Leaf} - el árbol vacío con altura negra 0 es roji-negro. En este caso
+        \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es roji-negro. En este caso
         si se tiene un solo nodo, es decir una hoja, la definici\'on cae en el caso $isRB_Leaf$.
         La altura negra siempre va a ser 0 ya que estas son nodos vacíos\footnote{estos nodos no
         tienen color pero para términos prácticos, se puede decir que son negros.}.
-        \item \textbf{IsRB\_r} - un árbol rojo con altura negra $n$ y color negro, con hijos
+        \item \textbf{IsRB\_r}: un árbol rojo con altura negra $n$ y color negro, con hijos
         roji-negros con color rojo y altura negra $n$. En este segundo caso al recibir un \'arbol
         rojo, ninguno de sus hijos puede ser rojo, esto se enuncia haciendo que las llamadas
         recursivas de los antecedentes sean rojas y como no esta analizando ningún nodo negro la
         altura negra se conserva en $n$.
-        \item \textbf{IsRB\_b} - un árbol negro con altura negra $n+1$ y cualquier color, con hijos
+        \item \textbf{IsRB\_b}: un árbol negro con altura negra $n+1$ y cualquier color, con hijos
         roji-negros de altura $n$ y color negro. En este \'ultimo caso como recibimos un \'arbol
         de color negro la altura negra del consecuente es $S(n)$, también nos hace llamadas
         recursivas, en los antecedentes, con color negro, al pasar esto los nodos pueden ser tanto
@@ -145,11 +146,14 @@ describimos a continuaci\'on:
         negro del consecuente.
 \end{itemize}
 
-Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on
+Con estos tres casos podemos asegurar que los invariantes se respetan, pero esta funci\'on
 inductiva es demasiado restrictiva para poder demostrar las propiedades de los {\arns}, por esto
-pasamos a la segunda definici\'on inductiva, $nearRB$,  esta permite mas flexibilidad en el \'
-arbol, se muestra y describe a continuaci\'on:
+pasamos a la segunda definici\'on inductiva, $nearRB$,  esta permite mas flexibilidad en el
+\'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Inductive nearRB : Tree -> nat -> Prop :=
 | nrRB_r: forall tl k kv tr n,
@@ -161,6 +165,10 @@ Inductive nearRB : Tree -> nat -> Prop :=
          isRB tr Black n ->
          nearRB (T Black tl k kv tr) (S n).
 \end{minted}
+\caption{Funci\'on inductiva nearRB.}
+\label{inductive_nearRB}
+\end{figure}
+
 Podemos apreciar que solo se tienen dos casos y no se tiene un argumento para un color, sin
 embargo, a diferencia de $isRB$ esta no se llama recursivamente, en lugar de eso se llama a $isRb$
 inmediatamente, además podemos ver que ambas definiciones comparten el contador de nodos negros.
@@ -189,8 +197,11 @@ Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar
 la cual lleva como parámetros un contador y un \'arbol. El contador lleva el control de la
 cantidad de nodos negros, es decir la altura negra del nodo, mientras que el \'arbol es aquel que
 estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\`
-on a continuaci\'on:
+on en la figura \ref{inductive_isRedB}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
  | RB_Leaf : is_redblack 0 E
@@ -200,23 +211,25 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
  | RB_B n l k r : is_redblack n l -> is_redblack n r ->
                   is_redblack (S n) (T B l k r).
 \end{minted}
+\caption{Funci\'on inductiva $is\_redblack$.}
+\label{inductive_isRedB}
+\end{figure}
 
 Podemos notar ciertas similitudes con la definición inductiva de las secci\'on pasada, sin
-embargo, el
-principal cambio que presenta esta definición es el hecho de que se saca el control de los colores
-de los subárboles de los parámetros de la definici\'on y se crea la funci\'on $notred$, la cual,
-como su nombre dice, verifique el \'arbol que se le este pasando no tenga raíz roja. Esta
+embargo, el principal cambio que presenta esta definición es el hecho de que se saca el control de
+los colores de los subárboles de los parámetros de la definici\'on y se crea la funci\'on $notred$,
+la cual, como su nombre dice, verifique el \'arbol que se le este pasando no tenga raíz roja. Esta
 definici\'on tiene tres casos,$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
 
 \begin{itemize}
-        \item \textbf{RB\_Leaf} - el árbol vació es roji-negro. Este caso nos dice que el \'arbol
+        \item \textbf{RB\_Leaf}: el árbol vació es roji-negro. Este caso nos dice que el \'arbol
         vacío es un {\arn}.
-        \item \textbf{RB\_R} - un árbol rojo donde lleves contados $n$ nodos negros, donde sus
+        \item \textbf{RB\_R}: un árbol rojo donde lleves contados $n$ nodos negros, donde sus
         hijos sean{\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles
         del árbol que esta recibiendo la función no pueden ser rojos, esto porque el árbol que se
         esta analizando tiene raíz roja. Como no se esta analizando algún nodo negro, la altura
         negra se mantiene en $n$.
-        \item \textbf{RB\_B} - un árbol negro donde lleves contados $n+1$ nodos negros, incluido
+        \item \textbf{RB\_B}: un árbol negro donde lleves contados $n+1$ nodos negros, incluido
         el actual, y sus hijos sean {\arns}. En este ultimo caso se tiene la libertad de que los
         subárboles sean del color que sea, pero la altura del consecuente es $S(n)$ porque el nodo
         que se esta analizando es de color negro, los antecedentes al no tomar en cuenta a su nodo
@@ -226,8 +239,11 @@ definici\'on tiene tres casos,$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la id
 Esta definici\'on captura los invariantes que estamos buscando, sin embargo no es suficiente para
 poder probar la correcci\'on de los {\arns}, esta es demasiado restrictiva y costaría mucho
 trabajo proceder con las demostraciones solo con esta definici\'on. Por esta razón se agregan dos
-definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$:
+definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$, figura \ref{inductive_aux}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Inductive redred_tree {a}
                   `{GHC.Base.Ord a} (n:nat) : RB a -> Prop :=
@@ -239,21 +255,30 @@ Inductive nearly_redblack {a}
  | ARB_RB : is_redblack n t -> nearly_redblack n t
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 \end{minted}
+\caption{Funciones inductivas $redred\_tree$ y $nearly\_redblack$.}
+\label{inductive_aux}
+\end{figure}
 
 Podemos notar que estas definiciones son versiones mas relajadas de $is\_redblack$. La
 definici\'on $nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz del \'arbol,
-aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ pero sin
-las restricciones de que los sub\'arboles sean rojos, lo cual nos permite que hayan dos nodos
-rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con la excepci\'on de
-que la ra\'iz puede ser roja.
+aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ de
+$is\_redblack$ pero sin las restricciones de que los sub\'arboles sean rojos, lo cual nos permite
+que hayan dos nodos rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con
+la excepci\'on de que la ra\'iz puede ser roja.
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
-eliminaci\'on están dentro de la siguiente clase de arboles:
+eliminaci\'on están dentro de la clase de \'arboles $redblack$, figura \ref{class_rb}.
 
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
 \begin{minted}{coq}
 Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
                             RedBlack : exists d, is_redblack d t.
 \end{minted}
+\caption{Clase de \'arboles $redblack$.}
+\label{class_rb}
+\end{figure}
 
 Lo que estamos describiendo con este enunciado es que un {\arn} es aquel que tiene una altura
 negra $d$ y cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
