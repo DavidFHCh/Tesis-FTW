@@ -2,13 +2,14 @@
 
 En el primer cap\'itulo de este trabajo se menciono que los {\arns} son una estructura de datos
 que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
-estructuras de datos, como las listas simples o doblemente ligadas. En el segundo cap\'itulo se
-muestran las implementaciones de los algoritmos de esta estructura de datos y podemos notar como
-estas implementaciones no son triviales, es decir, son rebuscadas, enredosas y complicadas de
-programar en un lenguaje del paradigma funcional como lo es {\coq}, e incluso en un lenguaje con un
-paradigma imperativo como \textit{Java} o \textit{C}. Por esta razón es que nos preocupa que las
-implementaciones que realicemos sean correctas y completas, es decir, se desea verificar que las
-implementaciones de las operaciones descritas en el capitulo anterior.
+estructuras de datos como: las listas simples, las listas doblemente ligadas y \'arboles de
+busqueda. En el segundo cap\'itulo se muestran las implementaciones de los algoritmos de esta
+estructura de datos y podemos notar como estas implementaciones no son triviales, es decir, son
+rebuscadas, enredosas y complicadas de programar en un lenguaje que use el paradigma funcional como
+lo es {\coq}, e incluso en un lenguaje con un paradigma imperativo como \textit{Java} o \textit{C}.
+Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas y
+completas, en otras palabras, se desea verificar que las implementaciones de las operaciones
+descritas en el capitulo anterior respeten, en todos los casos, los invariantes de los {\arns}.
 
 \section{Pruebas unitarias}
 Las \textit{pruebas unitarias} \cite{unittest} son bloques de c\'odigo, funciones o m\'etodos, que
@@ -59,7 +60,7 @@ escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra 
     }
 
 \end{minted}
-\caption{Prueba unitaria escrita en Java.}
+\caption{Prueba unitaria escrita en Java.\cite{CanekPU}}
 \label{unitTestjava}
 \end{figure}
 
@@ -77,35 +78,37 @@ en un tiempo razonable, lo cual contradice totalmente la definici\'on de prueba 
 Es claro que las pruebas unitarias no nos son suficientes para poder verificar formalmente un
 programa, es por esto que se requieren realizar demostraciones matemáticas para poder obtener los
 resultados que buscamos, pero de igual manera no queremos escribir a mano estas demostraciones ya
-que al igual que las pruebas unitarias estas son susceptiblesa errores de quien las escribe, por
-esta raz\'on se usara \textit{Coq} para realizar estas pruebas formales.
+que al igual que las pruebas unitarias estas son susceptibles al error humano, por esta raz\'on se
+usara \textit{Coq} para realizar estas pruebas formales.
 
-La verificaci\'on formal usando Coq se divide en varios pasos:
+La verificaci\'on formal de un programa usando Coq esta conformada de las siguientes etapas:
 \begin{itemize}
     \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de
     esta manera podemos saber si las operaciones que se implementaron las respetan.
     \item Enunciar lemas, corolarios, teoremas que describan los comportamientos de las
-    operaciones que queremos verificar y escribirlos en {\coq}.
-    \item Por \'ultimo demostrar todos los enunciados del punto anterior utilizando el asistente
-    de pruebas.
+    operaciones que queremos verificar y escribirlos en {\coq}, usando las definiciones inductivas
+    descritas en el punto anterior.
+    \item Por \'ultimo demostrar todos los enunciados del punto anterior utilizando las tacticas
+    que el asistente de pruebas nos provee.
 \end{itemize}{}
 
 \subsection{Capturando invariantes de los {\Arns}}
-Una de las partes mas importantes de la verificaci\'on formal en Coq de cualquier estructura de
-datos es capturar sus invariantes de manera correcta, es decir, poder escribir una o varias
-definiciones inductivas que describan a la estructura de datos y sus invariantes. Después, con
-estas mismas es que se enuncian los lemas, clases y posteriormente instancias de las clases.
+Una de las etapas mas importantes de la verificaci\'on formal en Coq de cualquier estructura de
+datos, es mas, de cualquier programa, es capturar sus invariantes de manera correcta, es decir,
+poder escribir una o varias definiciones inductivas que describan a la estructura de datos y sus
+invariantes. Después, con estas mismas es que se enuncian los lemas, clases y posteriormente
+instancias de las clases.
 
 A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas,
-para poder verificar formalmente esta estructura de datos. La primera es un primer intento que es
+los cuales nos ayudaran a verificar formalmente los {\arns}. La primera es un primer intento que es
 insuficiente ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos.
 El segundo intento es un conjunto de definiciones inductivas que tienen mas detalle para describir
 los invariantes. Estas definiciones est\'an relacionadas con las propiedades de las operaciones de
 inserci\'on y eliminaci\'on.
 
 \subsubsection{Primer Conjunto de Definiciones Inductivas}
-Los dos conjuntos de definiciones inductivas comparten la misma idea; una definici\'on que
-describa lo que es un {\arn} y otra definici\'on mas relajada de la misma.
+Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
+estrictamente lo que es un {\arn} y otra definici\'on mas relajada de la misma.
 
 \begin{figure}
 \centering
@@ -126,31 +129,31 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 \label{inductive_isRB}
 \end{figure}
 
-La primera definici\'on llamada $isRB$, ver figura \ref{inductive_isRB},tiene tres casos, los
-describimos a continuaci\'on:
+La primera definici\'on llamada $isRB$, ver figura \ref{inductive_isRB}, tiene tres casos los
+cuales describiremos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es roji-negro. En este caso
-        si se tiene un solo nodo, es decir una hoja, la definici\'on cae en el caso $isRB_Leaf$.
-        La altura negra siempre va a ser 0 ya que estas son nodos vacíos\footnote{estos nodos no
-        tienen color pero para términos prácticos, se puede decir que son negros.}.
-        \item \textbf{IsRB\_r}: un árbol rojo con altura negra $n$ y color negro, con hijos
-        roji-negros con color rojo y altura negra $n$. En este segundo caso al recibir un \'arbol
-        rojo, ninguno de sus hijos puede ser rojo, esto se enuncia haciendo que las llamadas
-        recursivas de los antecedentes sean rojas y como no esta analizando ningún nodo negro la
-        altura negra se conserva en $n$.
-        \item \textbf{IsRB\_b}: un árbol negro con altura negra $n+1$ y cualquier color, con hijos
-        roji-negros de altura $n$ y color negro. En este \'ultimo caso como recibimos un \'arbol
-        de color negro la altura negra del consecuente es $S(n)$, también nos hace llamadas
-        recursivas, en los antecedentes, con color negro, al pasar esto los nodos pueden ser tanto
-        negros como rojos y la altura regresa a ser $n$ porque no se esta contando el nuevo nodo
-        negro del consecuente.
+        se tiene un solo nodo, es decir, una hoja\footnote{Recordemos que las hojas son vacias y de
+        color negro.}.
+        \item \textbf{IsRB\_r}: Para cualesquiera \'arboles $tl$ y $tr$ que cumplan con la
+        definici\'on $isRB$ con color rojo y altura $n$, se cumple que un \'arbol de color rojo con
+        $tl$ y $tr$ como subarboles, sea $t$, cumple con $isRB$ con color negro y altura $n$. El
+        color se refiere al color del padre, en este caso, en la llamada de $isRB$ a $tl$ y $tr$ se
+        le pasa el color rojo porque $t$ es rojo. La altura $n$ se refiere a que hay $n$ nodos
+        negros en cualquier camino del nodo actual a alguna hoja, aqui no crece $n$ porque tanto
+        $tl$ y $tr$ son rojos.
+        \item \textbf{IsRB\_b}: Para cualesquiera \'arboles $tl$ y $tr$ que cumplan con la
+        definici\'on $isRB$ con color negro y altura $n$, se cumple que un \'arbol de color negro
+        con $tl$ y $tr$ como subarboles, sea $t$, cumple con $isRB$ con cualquier color y altura
+        $S(n)$. En este caso, en la llamada de $isRB$ a $tl$ y $tr$ se le pasa el color negro
+        porque $t$ es negro y aqui se le suma uno a $n$ porque tanto $tl$ y $tr$ son negros.
 \end{itemize}
 
 Con estos tres casos podemos asegurar que los invariantes se respetan, pero esta funci\'on
-inductiva es demasiado restrictiva para poder demostrar las propiedades de los {\arns}, por esto
-pasamos a la segunda definici\'on inductiva, $nearRB$,  esta permite mas flexibilidad en el
+inductiva es demasiado restrictiva y esto dificulta poder demostrar las propiedades de los {\arns},
+por esto pasamos a la segunda definici\'on inductiva, $nearRB$, esta permite mas flexibilidad en el
 \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
-
+%punto
 \begin{figure}
 \centering
 \captionsetup{justification=centering}

@@ -59,9 +59,10 @@ corrección y completud.
 Los {\arns} son una estructura de datos donde sus operaciones de inserci\'on, eliminaci\'on y
 búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de estas operaciones es:
 $O(log(n))$. Los {\arns} son una subclase de los \'arboles binarios de búsqueda, en los cuales la
-complejidad de dichas operaciones crece hasta $O(n)$. Esta mejora se obtiene gracias a la
-introducción de colores a los nodos del \'arbol \footnote{Rojo y negro, de ahi rojinegros.} y a
-invariantes relacionados con estos, los cuales describiremos en la siguiente definici\'on.
+complejidad de dichas operaciones crece hasta $O(n)$, como si estos fueran una lista simple o
+doblemente ligada. Esta mejora se obtiene gracias a la introducción de colores a los nodos del
+\'arbol \footnote{Rojo y negro, de ahi rojinegros.} y a invariantes relacionados con estos, los
+cuales describiremos en la siguiente definici\'on.
 
 \subsection{Definici\'on de {\arns}}
 Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
@@ -75,9 +76,7 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
         \item Un nodo rojo debe tener hijos negros.
         \item Todos los caminos de la raíz a las hojas deben tener la misma cantidad de nodos
         negros.
-        \item Todas las hojas del \'arbol son vacías y de color negro \footnote{Esta invariante
-        depende de la idea de que los nodos vacíos son de color negro, mas adelante se ver\'a que
-        esta condici\'on no es del todo necesaria.}.
+        \item Todas las hojas del \'arbol son vacías y de color negro.
     \end{itemize}
 \end{enumerate}
 
