@@ -1,13 +1,13 @@
 \subsection{Verificación de la operación de inserción}
 
 Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir
-enunciados, ya sean lemas, proposiciones, etc., usandoi las definiciones inductivas presentadas en
+enunciados, ya sean lemas, proposiciones, etc. Estos enunciados los escribiremos usando las definiciones inductivas presentadas en
 la secci\'on pasada, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
 
 A continuaci\'on mostraremos los lemas $ins\_rr\_rb$, $ins\_arb$ y una instancia \cite{classes}
-de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT} y
-la idea principal de estos lemas es dejarnos ver que ciertos arboles que acepten las definiciones
-mas generales, $nearly\_redblack$ y $redred\_tree$, tambien respetan la definici\'on de
+de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT},
+la idea principal de estos enunciados es explicarnos que ciertos \'arboles de b\'usqueda que respeten las definiciones
+mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, tambien como consecuencia respetar\'an
 $is\_redblack$.
 
 \subsubsection{Primer Lema}
@@ -24,16 +24,16 @@ is_redblack n s ->
 \label{lema_1}
 \end{figure}
 
-En este primer lema, figura \ref{lema_1}, enunciamos lo siguiente: Sea $s$ un {\arn} bajo la
-definici\'on de $is\_redblack$, entonces si $s$ es un \'arbol con raiz roja, insertar un elemento
-$x$ en $s$ resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple
+En este primer lema (figura \ref{lema_1}) enunciamos lo siguiente: sea \textit{\textbf{s}} un {\arn} bajo la
+definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raiz roja, insertar un elemento
+\textit{\textbf{x}} en \textit{\textbf{s}} resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple
 con la definici\'on de $is\_redblack$.
 
-En otras palabras lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
+En otras palabras, lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
 un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
-rojos, uno en la ra\'iz y otro en cualquiera de los dos, o en los dos, nodos que siguen.
+rojos, uno en la ra\'iz y otro en cualquiera de los dos, o incluso en los dos odos siguientes.
 
-La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del lema, lo cual
+La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del enunciado, lo cual
 resulta en tres casos:
 
  \begin{minted}{coq}
@@ -47,7 +47,7 @@ ifred (T B l k r) (redred_tree (S n) (ins x (T B l k r)))
                   (is_redblack (S n) (ins x (T B l k r)))
  \end{minted}
 
-La funci\'on $ifred$ que se usa en este lema es una funci\'on auxiliar que nos ayuda a decidir si
+La funci\'on $ifred$ que se usa en este lema, es una funci\'on auxiliar que nos ayuda a decidir si
 un \'arbol es rojo o no.
 
 En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta
@@ -58,18 +58,18 @@ por definici\'on de $ins$.
 Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el
 segundo el \'arbol es rojo y en el tercero es negro.
 
-Analicemos el segundo caso, como el \'arbol es rojo, entra al primer caso de $if\_red$, es decir,
-entra al caso de la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al
+Analicemos el segundo caso; como el \'arbol es rojo entramos al primer caso de $if\_red$, es decir,
+al caso donde se aplica la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al
 \'arbol rojo, sin tener conocimiento de como son los subárboles de este, puede resultar en un
-\'arbol con uno o dos nodos rojos consecutivos en la ra\'iz de este, ya que la operaci'on de
-balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on y como
-los nodos hijos de la raíz \textbf{no} tienen nodo abuelo el balanceo no se efectua en los nodos
-de la raíz, dando lugar a arboles con uno o mas nodos rojos en la raíz\footnote{hasta 3, la raiz y
+\'arbol con uno o dos nodos rojos consecutivos en la ra\'iz del mismo, ya que la operaci\'on de
+balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on, y como
+los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectua en los nodos
+de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raiz y
 sus hijos.}.
 
-El tercer caso describe el caso sobrante, el caso del \'arbol con raiz negra, este caso se
+El caso sobrante, es decir, el caso del \'arbol con raiz negra se
 complica un poco mas que el anterior ya que este es el caso en el que la altura negra del \'arbol
-se aumenta en uno. Este caso verifica que las dos funciones de balanceo, $lbal$ y $rbal$:
+se ve modificada, en otras palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, $lbal$ y $rbal$:
 
 \begin{minted}{coq}
 H1_ : is_redblack n l
@@ -84,7 +84,7 @@ ______________________________________(2/2)
 is_redblack (S n) (rbal l k (ins x r))
 \end{minted}
 
-Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo,
+Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, en otros términos,
 simplificando las expresiones y aplicando las definiciones inductivas\footnote{$is\_redblack$,
 $nearly\_redblack$}.
 
@@ -101,7 +101,7 @@ is_redblack n s -> nearly_redblack n (ins x s).
 \label{lema_2}
 \end{figure}
 
-Este segundo lema, figura \ref{lema_2}, enuncia lo que en el capitulo anterior se menciono acerca
+Este segundo lema (figura \ref{lema_2}) enuncia lo que en el cap\'itulo anterior se menciono acerca
 de la funci\'on $ins$: la funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya
 que es posible que se termine la ejecuci\'on de la funci\'on con un nodo rojo como raíz. La
 demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el lema
@@ -114,14 +114,14 @@ nearly_redblack n (ins x s)
 
 \end{minted}
 
-Como no se sabe si el \'arbol $s$ tiene ra\'iz roja o negra, se tienen que probar los dos casos,
+Como no se sabe si el \'arbol \textit{\textbf{s}} tiene ra\'iz roja o negra, se tienen que probar los dos casos:
 uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$.
-Estos casos se resuelven sencillamente con la aplicación de los dos casos de la definici\'on
+Estos casos se resuelven sencillamente con la aplicación de los dos resoluciones de la definici\'on
 inductiva de $nearly\_redblack$, respectivamente.
 
 \subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
-Para poder probar la insercion es una instancia de la clase $redblack$ vamos a necesitar el
+Para poder probar que la inserci\'on es una instancia de la clase $redblack$, vamos a necesitar el
 lema auxiliar que se encuentra en la figura \ref{lema_3}:
 \begin{figure}
 \centering
@@ -134,7 +134,7 @@ nearly_redblack n t -> redblack (makeBlack t).
 \label{lema_3}
 \end{figure}
 
-Este lema se resuelve destruyendo $t$, de esta manera se generan dos casos y estos se solucionan
+Este lema se resuelve destruyendo \textit{\textbf{t}}, de esta manera se generan dos casos y estos se solucionan
 simplificando las expresiones y aplicando las definiciones inductivas $is\_redblack$ y
 $nearly\_redblack$.
 La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$:
@@ -150,8 +150,8 @@ redblack s -> redblack (insert x s).
 \label{instance_ins}
 \end{figure}
 
-Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$
-para la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la
+Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$,
+la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la
 ra\'iz del \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos
 asegurar que el \'arbol resultante ya no entra en la definici\'on de $redred\_tree$.
 
@@ -174,5 +174,5 @@ con una meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'o
 de inserci\'on.
 
 Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa
-bajo las invariantes establecidas en las definici\'on inductiva $is_redblack$. La operaci\'on ha
+bajo las invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on ha
 sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.
