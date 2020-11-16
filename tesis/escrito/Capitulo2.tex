@@ -29,8 +29,7 @@ casos inalcanzables en la ejecuci\'on, pero tendrian que ser demostrados como ta
 
 A pasear de ello, se realizo trabajo para intentar totalizar las funciones de Haskell y asi poder 
 usar la utilidad \textbf{hs-to-coq} y de esta manera facilitar la traducci\'on, pero por las mismas
-razones antes descritas \footnote{las funciones no eran totales o estas eran demasiado complejas
-que no se sabia que casos hacian falta.}, la herramienta caía en alguna de estas dos situaciones:
+razones antes descritas \footnote{las funciones no eran totales}, la herramienta caía en alguna de estas dos situaciones:
 
 \begin{itemize}
     \item El tiempo de ejecuci\'on de la herramienta era muy alto y eventualmente los recursos de
@@ -44,7 +43,7 @@ que no se sabia que casos hacian falta.}, la herramienta caía en alguna de esta
 
 Por estas razones se busco otro acercamiento para poder verificar esta estructura, entonces,
 sabemos que el equipo de desarrollo de la herramienta hs-to-coq ha traducido exitosamente una
-fracci\'on de las bibliotecas de Haskell a Coq, por esta raz\'on, se opto por el uso de la
+fracci\'on de las bibliotecas de Haskell a Coq\footnote{El nombre de esta es \textit{GHC.Base}, nos referiremos a las funciones usadas con ese mismo nombre.}, por esta raz\'on, se opto por el uso de la
 implementación de {\arns} de las bibliotecas de {\coq}, \cite{MSetRBT}, pero usando los tipos y
 operaciones obtenidos de las traducciones con la herramienta.
 
@@ -214,16 +213,16 @@ sucede por la raz\'on de que los nodos de este color son los que se toman en cue
 un \'arbol cumple con el balanceo adecuado. Al aplicar el balanceo en estos nodos, podemos 
 garantizar que no quedar\'an con nodos negros extras alguno de los hijos de este nodo, es decir, que
 ninguno de los caminos de la ra\'iz a las hojas tenga mas nodos negros que los demas. Esto se puede
-apreciar si nos regresamos a las definiciones de las operaciones de balanceo, tomemos $rbal$ (figura
+apreciar si recordamos lo que se menciono en las definiciones de las operaciones de balanceo, tomemos $rbal$ (figura
 \ref{func_balanceo})\footnote{Con $lbal$ la idea es an\'aloga}, tenemos dos casos:
 
 \begin{itemize}
     \item Sean \textbf{\textit{x}}, \textbf{\textit{y}} y \textbf{\textit{z}} nodos del \'arbol y 
     sea \textbf{\textit{t}} un subárbol, \textbf{\textit{x}} es el nodo al que se le aplica la 
     operaci\'on de balanceo y este es de color negro, \textbf{\textit{t}} es el subárbol izquierdo,
-    \textbf{\textit{y}}es el nodo derecho de \textbf{\textit{x}} y \textbf{\textit{z}} es hijo de
-    \textbf{\textit{y}} \footnote{Es irrelevante si es derecho oizquierdo, el resultado es el mismo.
-    }. Suponiendo que \textbf{\textit{y}} y \textbf{\textit{z}} son rojos\footnote{se viola una 
+    \textbf{\textit{y}} es el nodo derecho de \textbf{\textit{x}} y \textbf{\textit{z}} es hijo de
+    \textbf{\textit{y}} (Es irrelevante si es derecho o izquierdo, el resultado es el mismo.
+    ). Suponiendo que \textbf{\textit{y}} y \textbf{\textit{z}} son rojos\footnote{se viola una 
     invariante, dos nodos rojos contiguos}, se cae en cualquiera de los dos casos de $rbal$ que no 
     sean el caso general. En este momento es donde se efectúa el \textit{balanceo} del árbol y 
     resulta lo siguiente: \textbf{\textit{x}} se vuelve el hijo izquierdo de \textbf{\textit{y}} y
@@ -297,13 +296,19 @@ subárboles restantes de esta operaci\'on (ver figuras \ref{arbolRB_4}, \ref{arb
     búsqueda del nodo a eliminar.
     \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo
     actual no contiene el elemento que buscamos, se compara si es menor o mayor para seguir
-    buscando en el \'arbol izquierdo o derecho respectivamente. Si el siguiente nodo es negro y se
-    encuentra en el sub\'arbol izquierdo, se realiza la operaci\'on $lbalS$ \footnote{Funci\'on de
-    balanceo extendida para subarboles izquierdos.}, por otro lado, si el nodo se encuentra en el
-    sub\'arbol derecho se aplica $rbalS$ \footnote{Funci\'on de balanceo extendida para subarboles
-    derechos.}. Si el elemento en el que estamos no es ni mayor ni menor al que buscamos, en ese
+    buscando en el \'arbol izquierdo o derecho respectivamente, describimos los casos:
+    \begin{itemize}
+        \item Si el nodo es menor y el nodo del \'arbol izquierdo es negro, entonces aplicamos la funci\'on $lbalS$ \footnote{Funci\'on de balanceo extendida para subárboles
+    izquierdos.} al \'arbol resultante de seguir buscando el nodo a eliminar por el subárbol izquierdo. 
+        En otro caso solo seguimos buscando por el subárbol izquierdo.
+        \item Si el nodo es mayor y el nodo del \'arbol derecho es negro, entonces aplicamos la funci\'on $rbalS$ \footnote{Funci\'on de balanceo extendida para subárboles
+    derechos.} al \'arbol resultante de seguir buscando el nodo a eliminar por el subárbol derecho. 
+        En otro caso solo seguimos buscando por el subárbol derecho.
+        \item Si el elemento en el que estamos no es ni mayor ni menor al que buscamos, en ese
     caso eliminamos el elemento y concatenamos los subárboles restantes usando la función $append$
     \footnote{Funci\'on donde se juntan lo arboles restantes de esta operaci\'on}.
+    \end{itemize}
+    
 \end{itemize}
 
 \begin{figure}
@@ -454,13 +459,13 @@ estamos parados, llamémoslo \textbf{\textit{n}}, es negro; esto evita que despu
 nodo y aplicar la funci\'on $append$ se acabe con dos nodos rojos seguidos, es decir, que el hijo y 
 alguno de los nietos del nodo \textbf{\textit{n}} sean rojos.
 
-\subsection{Funci\'on de concatenaci\'on}
+\subsection{Funci\'on de concatenaci\'on ($append$)}
 
 La funci\'on de concatenación (figura \ref{func_app}) es usada cuando se encuentra el elemento que
 se busca eliminar de un {\arn}, esto porque la acci\'on de retirar un nodo del \'arbol resulta
 en dos \'arboles que tienen que ser concatenados, los cuales deben de respetar los invariantes de
 los {\arns}. Esta funci\'on recibe como parámetros los dos \'arboles\footnote{Estos arboles pueden
-no cumplir las invariantes de ls {\arns}.} que estamos buscando juntar. Esta operación se describe
+no cumplir las invariantes de ls {\arns}.} que estamos buscando unir. Esta operación se describe
 con mayor detalle en seguida.
 
 \begin{figure}
