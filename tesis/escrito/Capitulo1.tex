@@ -1,6 +1,7 @@
 \chapter{Introducción}
 
 \section{Motivación}
+\label{motivation}
 Hoy en día en el desarrollo de software existe un conjunto de normas a las cuales se les denomina
 \textit{buenas pr\'acticas de programaci\'on}, las cuales van desde tener una correcta
 indentaci\'on, elegir si usaremos espacios o tabuladores para realizar este acomodo, la
@@ -13,8 +14,7 @@ que recibe un par números naturales, para poder estar totalmente seguros de que
 correcta se tendrían que probar todos los casos, es decir, todas las combinaciones de números
 naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la misma
 cantidad de memoria y de tiempo para poder escribir una prueba unitaria exhaustiva, como la que se
-esta sugiriendo. Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con
-recursos los recursos suficientes.
+esta sugiriendo. Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con los recursos suficientes.
 
 Siendo as\'i, escribir una prueba unitaria exhaustiva no es factible, en tal caso ¿que podríamos
 hacer?; escribir una prueba unitaria que itere sobre un conjunto representativo de los datos que la
@@ -26,7 +26,7 @@ correcto o completo.
 La única manera de que podamos probar que una función o programa es correcto y completo es mediante
 una demostraci\'on matemática formal, el problema con este método es que es muy complejo y
 complicado. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
-programador, un ejemplo de esto son los lenguajes de programación funcionales. Este paradigma lleva
+programador, un ejemplo de esto son los lenguajes de programación funcionales, como lo seria Haskell. Este paradigma lleva
 a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usar\'ia en las
 matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto
 facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin
@@ -38,7 +38,7 @@ demostraci\'on, estan hechos por humanos, por lo tanto son susceptibles a errore
 En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar
 este tipo de problemas, como lo son \textit{demostradores autom\'aticos} y \textit{asistentes de
 prueba}. Nosotros nos enfocaremos en el uso del segundo; en particular en este trabajo usaremos el
-asistente de pruebas llamado {\coq}. Este nos ayudar\'a gui\'andonos por la prueba, llevando un
+asistente de pruebas llamado {\coq}\footnote{Como en este trabajo no se profundizara sobre el funcionamiento de la herramienta, presentamos la pagina de referencia del mismo: \url{https://coq.inria.fr/}}. Este nos ayudar\'a gui\'andonos por la prueba, llevando un
 control de los casos que nos falten por demostrar y las hip\'otesis disponibles para cada caso,
 todo esto sobre programas escritos en el lenguaje funcional del mismo asistente.
 
@@ -117,8 +117,8 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \end{figure}
 
 En la figura \ref{arbolRB_1} podemos ver un ejemplo de un {\arn} que respeta la definici\'on que
-acabamos de presentar; los cuadros con una $x$ en las hojas representan los nodos vacíos y estos
-son negros, los subindices en todos los nodos negros representan la altura negra de este \'arbol.
+acabamos de presentar; las etiquetas de los nodos representan la informaci\'on que se puede almacenar en ellos, siendo en este caso n\'umeros naturales, las letras $x$ en las hojas representan los nodos vacíos y estos
+son negros, y los subíndice de estas etiquetas representan la altura negra de este \'arbol.
 Con este ejemplo se ilustra como la cantidad de nodos negros de la ra\'iz a cualquier hoja es
 siempre la misma.
 
@@ -129,7 +129,7 @@ cero una estructura o traduciendo la misma del lenguaje Haskell a Coq, e incluso
 demostraciones que se realizar\'an con el asistente de pruebas.
 
 \section{Traducción de Haskell a Coq}
-Como mencionamos en la Motivación de este trabajo, existen programas que nos ayudan a realizar la
+El enfoque que hemos decidido darle a este trabajo, consiste en considerar una implementaci\'on de la estructura descrita en la secci\'on pasada y solamente realizar la verificaci\'on formal de la misma, es por esta raz\'on que como mencionamos en la secci\'on \ref{motivation} de este trabajo, existen programas que nos ayudan a realizar la
 verificaci\'on formal de otros programas, llamados asistentes de pruebas, en particular en este
 trabajo se decidió usar {\coq}. Este asistente nos gu\'ia a traves de la prueba recordando cuales
 son las metas que debemos demostrar, nos ofrece `t\'acticas' para poder demostrar dichas metas
@@ -155,6 +155,7 @@ y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\
 
 \subsection{Desventajas}
 \begin{itemize}
+    \item Se utiliza el razonamiento ecuacional, por lo que en general no se usa un lenguaje formal para realizar las demostraciones.
     \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a
     realizar pruebas de este, generalmente esta hecho a mano ``en papel'', lo cual es tedioso y
     susceptible a errores.
@@ -168,7 +169,7 @@ y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\
 \end{itemize}
 
 Este art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
-encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a Coq.
+encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a Coq. Por las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de traducci\'on y enfocarnos \'unicamente en la demostraci\'on de los \arns
 
 \section{Sobre este trabajo}
 El contenido y demostraciones que se describen en este trabajo se encuentran almacenados en:
