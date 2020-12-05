@@ -10,7 +10,7 @@ nuestro programa, en espec\'ifico, realizar pruebas unitarias.
 
 Las \textit{pruebas unitarias} nos ayudan a saber si nuestro código esta teniendo el comportamiento
 que buscamos, pero esto sol\'o nos sirve hasta cierto punto; por ejemplo, si tenemos una funci\'on
-que recibe un par números naturales, para poder estar totalmente seguros de que la funci\'on es
+que recibe un par de números naturales, para poder estar totalmente seguros de que la funci\'on es
 correcta se tendrían que probar todos los casos, es decir, todas las combinaciones de números
 naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la misma
 cantidad de memoria y de tiempo para poder escribir una prueba unitaria exhaustiva, como la que se
@@ -28,8 +28,41 @@ una demostraci\'on matemática formal, el problema con este método es que es mu
 complicado. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
 programador, un ejemplo de esto son los lenguajes de programación funcionales, como lo seria Haskell. Este paradigma lleva
 a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usar\'ia en las
-matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Esto
-facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin
+matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro, demos como ejemplo la funci\'on que calcula el factorial de un n\'umero, esta la escribiremos tanto en Haskell como en la notaci\'on que suele usarse en cursos de matemáticas tradicionales, ver figuras \ref{func_fact_math} y \ref{func_fact_hask}. 
+Podemos apreciar como las definiciones son casi idénticas, ya que ambas definen los siguientes puntos:
+\begin{itemize}
+    \item Ambas definen el tipo de sus variables, o en otras palabras, el conjunto al que las variables corresponden.
+    \item Ambas definiciones establecen de que conjunto\footnote{O tipo de dato.} a que conjunto van las funciones, es decir, la entrada de la funci\'on es un numero natural al igual que el resultado.
+    \item Podemos intercambiar `f' por `fac' en cualquiera de las dos definiciones y el significado no cambiaría.
+\end{itemize}
+
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
+\begin{minted}[escapeinside=||,mathescape=true]{text}
+Sea n |$\in$ $\mathbb{N}$| y |$f(n)$| la función factorial definida como sigue:
+|$f: \mathbb{N} \xrightarrow{} \mathbb{N}$|
+|$f(0) = 1$|
+|$f(n) = n * f(n-1)$|
+\end{minted}
+\caption{Funci\'on factorial.}
+\label{func_fact_math}
+\end{figure}
+
+\begin{figure}
+\centering
+\captionsetup{justification=centering}
+\begin{minted}{haskell}
+fac :: (Integral n) => n -> n
+fac 0 = 1
+fac n = n * fac (n - 1)
+\end{minted}
+\caption{Funci\'on factorial, Haskell.}
+\label{func_fact_hask}
+\end{figure}
+
+Se puede notar como las definiciones corresponden casi perfectamente la una con la otra,
+esto facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin
 embargo, estas demostraciones son realizadas de manera tradicional usando lap\'iz y hojas de papel,
 no obstante, la \'unica manera de que estemos seguros de que nuestra desmostraci\'on es correcta es
 que otra persona lea y entienda la misma. Todos estos procesos, creaci\'on y revisi\'on de la
