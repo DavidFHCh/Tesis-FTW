@@ -23,7 +23,7 @@ manera correcta, en el caso de los {\arns} este tipo de pruebas nos ayudan a ver
 invariables de un determinado \'arbol. La figura \ref{unitTestjava} es una prueba unitaria
 escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{java}
@@ -110,7 +110,7 @@ inserci\'on y eliminaci\'on.
 Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
 estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -154,7 +154,7 @@ inductiva es demasiado restrictiva y esto dificulta poder demostrar las propieda
 por esto pasamos a la segunda definici\'on inductiva, $nearRB$, esta permite mas flexibilidad en el
 \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
 %punto
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -202,7 +202,7 @@ cantidad de nodos negros, es decir, la altura negra del nodo, mientras que el \'
 estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\'
 on en la figura \ref{inductive_isRedB}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -244,7 +244,7 @@ poder probar la correcci\'on de los {\arns}, la definici\'on es demasiado restri
 trabajo proceder con las demostraciones solamente con ella. Por esta razón se agregan dos
 definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$ (figura \ref{inductive_aux}).
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -272,7 +272,7 @@ la excepci\'on de que la ra\'iz puede ser roja.
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
 eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (figura \ref{class_rb}).
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
