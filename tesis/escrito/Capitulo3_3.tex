@@ -6,7 +6,7 @@ que se usaron para poder demostrar la operación, como $append$ y $del$.
 A continuación se describe el razonamiento usado para poder verificar dichas funciones.
 
 \subsubsection{Primer Lema}
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -44,7 +44,7 @@ posteriormente sobre $r$. Los casos base de estas inducciones consisten en simpl
 expresiones y facilmente se llega a una hipotesis o a una contradicci\'on. Estos casos no se
 trataran mas a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -469,7 +469,7 @@ de inserci\'on, como lo son $rbal'$, $rbal$ y $lbal$.
 Para poder resolver esta parte de la demostraci\'on nos apoyaremos de otro lema, figura
 \ref{lema_5}, el cual ilustra una propiedad de la operaci\'on $lbalS$.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -570,7 +570,7 @@ Este siguiente lema utiliza una palabra especial en el lenguaje de {\coq}, `with
 es un truco para demostrar dos lemas simultanemente, el cual es el caso como se ve en la figura
 \ref{lema_6}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -779,7 +779,7 @@ de uno con raiz negra. En seguida uniremos todos estos lemas en uno.
 
 \subsubsection{Instancia de la funci\'on de eliminaci\'on}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -794,7 +794,7 @@ Al igual que en la funci'on de inserción, terminamos la operación de eliminaci
 instancia de la clase $redblack$, figura \ref{instance_del}, al igual que en la operación opuesta,
 requerimos de un lema auxiliar con respecto a la clase $redblack$, figura \ref{lema_7}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
