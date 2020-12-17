@@ -2,48 +2,48 @@
 
 \section{Traducción de implementaciones}
 Se tuvieron un par de aproximaciones para la implementación de {\arns}: la primera fue obtener las
-implementaciones de estos \cite{tesisG} en Haskell, estas fueron utilizadas como entrada para la
-utilidad \textit{hs-to-coq}, es decir, una traducci\'on directa. La segunda aproximación y la que
+implementaciones de estos \cite{tesisG} en Haskell, que fueron utilizadas como entrada para la
+herramienta \textit{hs-to-coq}, es decir, una traducci\'on directa. La segunda aproximación y la que
 se uso para este trabajo, fue obtener de \cite{MSetRBT} la implementaci\'on de los {\arns} que se
-usan en Coq, los cuales son una versi\'on de los {\arns} de Okasaki; en este caso se usaron
-las bibliotecas traducidas de Haskell a Coq, las cuales contienen los tipos y comparaciones del
-primer lenguaje. Esta traducción se obtuvo con la ayuda del traductor \textit{hs-to-coq} y estas
+usan en la biblioteca estandar de Coq, los cuales son una versi\'on de los {\arns} de Okasaki\cite{Okasaki}; en este caso se usaron
+las bibliotecas traducidas de Haskell a Coq, las cuales contienen los tipos y operaciones sobre ellos de Haskell.
+Esta traducción se obtuvo con la ayuda del traductor \textit{hs-to-coq} y estas
 sustituyeron a los tipos y operaciones de Coq. A continuación profundizaremos de estos 
-dos acercamientos.
+dos casos.
 
 \subsection{Traducción directa de implementaciones de Haskell a Coq}
 De un trabajo anterior \cite{tesisG} se obtuvieron diversas implementaciones de {\arns}; estas
 variaban en su mayor parte en las operaciones de borrado, es por ello que dicha operación es
-significativamente mas compleja que su contraparte, i.e. la operación de insersi\'on. Estas 
-variantes son: la implementación de Okasaki\footnote{siendo esta la m\'as simple},
-los constructores inteligentes \footnote{implementaci\'on anterior con optimizaciones} y los 
-tipos anidados \footnote{una implementaci\'on totalmente diferente a las anteriores y mas elegante}.
+significativamente mas compleja que su contraparte, es decir, la operación de inserci\'on. Estas 
+variantes son: la implementación de Okasaki, siendo esta la m\'as simple,
+los constructores inteligentes (implementaci\'on anterior con optimizaciones) y los 
+tipos anidados (una implementaci\'on totalmente diferente a las anteriores y mas elegante).
 
-Por la compleja naturaleza de estas implementaciones\footnote{incluso Okasaki} la traducción
-manual del código de Haskell resulto ser muy problemática, esto porque las implementaciones en
+Por la compleja naturaleza de estas implementaciones, la traducción
+manual del código de Haskell result\'o ser muy problemática, esto porque las implementaciones en
 Haskell se aprovechan del hecho de que en este lenguaje se pueden declarar funciones parciales, lo
 cual representa un reto al momento de intentar traducir a Coq, ya que este lenguaje únicamente 
-acepta funciones totales. Se buscaron soluciones para totalizar estas funciones, sin embargo, estas
-solo traerían problemas al intentar realizar las demostraciones, ya que al totalizar se incluirian 
-casos inalcanzables en la ejecuci\'on, pero tendrian que ser demostrados como tales.
+acepta funciones totales. Se buscaron soluciones para `totalizar' estas funciones, sin embargo,
+solo traerían problemas al intentar realizar las demostraciones, ya que al totalizar se generar\'ian 
+casos inalcanzables en la ejecuci\'on, pero tendrían que ser demostrados para poder completar la verificaci\'on.
 
-A pasear de ello, se realizo trabajo para intentar totalizar las funciones de Haskell y asi poder 
-usar la utilidad \textbf{hs-to-coq} y de esta manera facilitar la traducci\'on, pero por las mismas
-razones antes descritas \footnote{las funciones no eran totales}, la herramienta caía en alguna de estas dos situaciones:
+A pasear de ello, se intent\'o totalizar las funciones de Haskell y asi poder 
+usar la herramienta \textbf{hs-to-coq} y de esta manera facilitar la traducci\'on, pero por las mismas
+razones antes descritas, la herramienta caía en alguna de estas dos situaciones:
 
 \begin{itemize}
     \item El tiempo de ejecuci\'on de la herramienta era muy alto y eventualmente los recursos de
-    la maquina virtual, donde esta herramienta se ejecuto, se quedaba sin recursos\footnote{en
-    especial memoria}. Esto probablemente se deba a la falta de totalidad en alguna función.
+    la maquina virtual, donde esta herramienta se ejecut\'o, se quedaba sin recursos (en
+    especial memoria). Esto probablemente se deba a la falta de totalidad en alguna función.
     \item La herramienta generaba c\'odigo en Coq pero con elementos de Haskell cuyas bibliotecas
-    todavía no habían sido traducidas del todo. Esto porque las implementaciones en Haskell podian
+    todavía no habían sido traducidas del todo. Esto porque las implementaciones en Haskell pod\'ian
     llegar a ser muy complejas y utilizar modulos de GHC, a los cuales todav\'ia no se les hab\'ia
     traducido con la herramienta.
 \end{itemize}{}
 
-Por estas razones se busco otro acercamiento para poder verificar esta estructura, entonces,
+Por estas razones se busc\'o otro acercamiento para poder verificar esta estructura, entonces,
 sabemos que el equipo de desarrollo de la herramienta hs-to-coq ha traducido exitosamente una
-fracci\'on de las bibliotecas de Haskell a Coq\footnote{El nombre de esta es \textit{GHC.Base}, nos referiremos a las funciones usadas con ese mismo nombre.}, por esta raz\'on, se opto por el uso de la
+fracci\'on de las bibliotecas de Haskell a Coq\footnote{El nombre de esta es \textit{GHC.Base}, nos referiremos a las funciones de la biblioteca con ese mismo prefijo.}, por esta raz\'on, se opt\'o por el uso de la
 implementación de {\arns} de las bibliotecas de {\coq}, \cite{MSetRBT}, pero usando los tipos y
 operaciones obtenidos de las traducciones con la herramienta.
 
@@ -51,10 +51,10 @@ operaciones obtenidos de las traducciones con la herramienta.
 
 La inserci\'on de elementos a un {\arn} es la operaci\'on mas sencilla de las dos que se
 verificar\'an en este trabajo. La idea principal detrás de este algoritmo es que \'unicamente se 
-agreguen hojas al \'arbol binario y se efectúen ``giros''\footnote{funciones de balanceo.} para 
-mantener los invariantes de la estructura (ver figura \ref{arbolRB_2} y \ref{arbolRB_3}).
+agreguen hojas al \'arbol binario y se efectúen ``giros'' o funciones de balanceo para 
+mantener las invariantes de la estructura (ver figura \ref{arbolRB_2} y \ref{arbolRB_3}).
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
@@ -93,7 +93,7 @@ mantener los invariantes de la estructura (ver figura \ref{arbolRB_2} y \ref{arb
 \label{arbolRB_2}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
@@ -135,20 +135,13 @@ mantener los invariantes de la estructura (ver figura \ref{arbolRB_2} y \ref{arb
 \label{arbolRB_3}
 \end{figure}
 \subsection{Operaciones de Balanceo}
-Los giros antes mencionados están definidos en las operaciones de balanceo, se tienen dos, una para
+Los giros antes mencionados están definidos en las operaciones de balanceo, las cuales son dos, una para
 los subárboles izquierdos y otra para los derechos. Estas funciones (ver figura \ref{func_balanceo})
-se encargan de solucionar los casos en los que inmediatamente después de agregar una hoja alguno de 
-los invariantes sean violados, por ejemplo, dos nodos rojos que resultan contiguos en algún lugar 
+se encargan de solucionar los casos en los que inmediatamente después de agregar una hoja alguna de 
+las invariantes sean violadas, por ejemplo, dos nodos rojos que resultan contiguos en algún lugar 
 de la estructura del \'arbol.
 
-El balanceo elimina el doble nodo rojo al crear \'unicamente un nodo rojo con dos hijos negros, de 
-igual manera esto nos asegura que el árbol crece de forma controlada en n\'umero de nodos negros
-\footnote{este n\'umero de nodos negros se conoce como altura negra}, esto se debe a que en ningún
-momento se están agregando dos nodos negros contiguos\footnote{Nodos padre e hijo negros después de
-balancear.}; cabe mencionar que esta es la única operación en donde se agregan nodos negros, con la
-excepción de $makeBlack$, la cual describiremos m\'as adelante.
-
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -170,6 +163,13 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \label{func_balanceo}
 \end{figure}
 
+El balanceo elimina el doble nodo rojo al crear \'unicamente un nodo rojo con dos hijos negros, de 
+igual manera esto nos asegura que el árbol crece de forma controlada en n\'umero de nodos negros, es decir,
+mantiene la invariante de la altura negra, lo cual se debe a que en ningún
+momento se están agregando dos nodos negros contiguos\footnote{Nodos padre e hijo negros después de
+balancear.}; cabe mencionar que esta es la única operación en donde se agregan nodos negros, con la
+excepción de $makeBlack$, la cual describiremos m\'as adelante.
+
 En puntos posteriores se explicar\'an los casos de uso de esta función, se desarrollar\'a el 
 porqu\'e los \'unicos casos a los que se les da un trato especial es a los de nodos rojos contiguos
 y en el resto s\'olo se regresa un \'arbol con ra\'iz negra sin hacer mayor acomodo.
@@ -181,7 +181,7 @@ con la letra \textbf{\textit{a}}.} de los elementos que se est\'an agregando al 
 ordenados de la biblioteca $Base$ del compilador de GHC y por esa misma raz\'on estamos usando las
 comparaciones de esa biblioteca.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -244,7 +244,7 @@ la función $ins$ no necesariamente cumple con uno de los invariantes, espec\'if
 raíz del árbol es negra, es por ello que se introducen las definiciones de la figura 
 \ref{raiz_negra_func}.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -311,7 +311,7 @@ subárboles restantes de esta operaci\'on (ver figuras \ref{arbolRB_4}, \ref{arb
     
 \end{itemize}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -339,7 +339,7 @@ Definition remove x t := makeBlack (del x t).
 \label{func_del}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
@@ -378,7 +378,7 @@ Definition remove x t := makeBlack (del x t).
 \label{arbolRB_4}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
@@ -418,7 +418,7 @@ Definition remove x t := makeBlack (del x t).
 \label{arbolRB_5}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
  \begin{tikzpicture}[-,level/.style={sibling distance = 4cm/#1,level distance = 1cm}]
@@ -468,7 +468,7 @@ los {\arns}. Esta funci\'on recibe como parámetros los dos \'arboles\footnote{E
 no cumplir las invariantes de ls {\arns}.} que estamos buscando unir. Esta operación se describe
 con mayor detalle en seguida.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -571,7 +571,7 @@ sucede porque existen casos en los que se puede llegar a eliminar un nodo negro 
 inclusive la misma ra\'iz y tenemos que poder asegurar que las invariantes no se violen después 
 de concatenar estos subárboles restantes.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -600,7 +600,7 @@ b\'asicamente hacen un reacomodo de los nodos de los subarboles para despu\'es l
 funciones $rbal'$ y $lbal$, es por eso que decimos que son extensiones de estas.
 
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -626,7 +626,7 @@ esta funci\'on es $append$. Esto sucede en el caso de que los \'arboles que se l
 sean negros, es decir, la misma razón por la que se aplican las funciones de balanceo en $del$
 sobre los nodos de color negro: para que sus subárboles no se desbalanceen.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
