@@ -21,10 +21,10 @@ hacer para verificar una implementaci\'on?; escribir una prueba unitaria que ite
 funci\'on puede recibir como argumentos. Sin embargo, ¿que se puede esperar si la misma prueba unitaria es errónea?,
 no hay una respuesta clara para esto y la misma industria hoy en día utiliza métodos, como el
 expuesto anteriormente, para probar c\'odigo pero ciertamente esto no es suficiente para decidir si el programa es
-correcto o completo respecto a una especificaci\'on.
+correcto respecto a una especificaci\'on.
 
 La única manera en que se puede demostrar que una función o programa 
-es correcto y completo respecto a una especificación es mediante una prueba 
+es correcto respecto a una especificación es mediante una prueba 
 matemática formal, el problema con este método es que es muy complejo, 
 complicado y a veces tardado para usarse en la industria o en el día a día. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
 programador, un ejemplo de esto son los lenguajes de programación funcionales, como lo seria Haskell. Este paradigma lleva
@@ -67,7 +67,7 @@ esto facilita la demostraci\'on formal de los programas escritos en estos tipos 
 embargo, estas demostraciones son realizadas de manera tradicional usando lap\'iz y hojas de papel,
 no obstante, la \'unica manera en que estemos seguros acerca de la correcci\'on de la desmostraci\'on es
 que otra persona lea, entienda y valide la misma. Todos estos procesos, creaci\'on y revisi\'on de la
-demostraci\'on, estan hechos por humanos, por lo tanto son susceptibles a errores.
+demostraci\'on, están hechos por humanos, por lo tanto son susceptibles a errores.
 
 En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar
 este tipo de problemas, como son los \textit{demostradores autom\'aticos} y los \textit{asistentes de
@@ -78,11 +78,11 @@ control de los casos que nos falten por demostrar y las hip\'otesis disponibles 
 todo esto sobre programas escritos en el lenguaje funcional del mismo asistente.
 
 Sin embargo, el uso de este asistente genera otro problema, no podemos probar cualquier programa
-escrito en un lenguaje funcional, primero tenemos que traducir este programa al lenguaje de Coq
-para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano y/o adaptar una implementación al lenguaje de Coq o utilizar
+escrito en un lenguaje funcional, primero tenemos que traducir este programa al lenguaje de {\coq}
+para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano y/o adaptar una implementación al lenguaje de {\coq} o utilizar
 una herramienta que nos ayude a traducir. En este trabajo usaremos la segunda opci\'on, una
-herramienta llamada `hs-to-coq' \cite{thrc}, para probar formalmente la
-correctud y completud\footnote{Del ingl\'es correctness and completeness.} de una estructura de datos como lo son los {\arns}.
+herramienta llamada \textit{hs-to-coq} \cite{thrc}, para probar formalmente la
+correctud \footnote{Del ingl\'es \textit{correctness}.} de una estructura de datos como lo son los {\arns}.
 
 Tomando como referencia el trabajo \cite{tesisG}, en donde se realizaron diversas implementaciones de {\arns} usando el
 lenguaje de programaci\'on Haskell, por ejemplo, se desarrollaron implementaciones usando constructores inteligentes y otra
@@ -90,7 +90,6 @@ implementaci\'on mas compleja usando tipos anidados. Siendo este trabajo la prin
 de elegir esta estructura de datos no trivial para realizar una verificaci\'on formal de la implementaci\'on de constructores inteligentes.
 
 \section{\Arns}
-%agregar referencia a Canek
 Los {\arns} son una estructura de datos donde sus operaciones de inserci\'on, eliminaci\'on y
 búsqueda se efectúan en tiempo logarítmico, es decir, la complejidad de estas operaciones es:
 $O(log(n))$. Los {\arns} son una subclase de los \'arboles binarios de búsqueda, en los cuales la
@@ -99,7 +98,7 @@ doblemente ligada. Esta mejora se obtiene gracias a la introducción de colores 
 \'arbol (rojo y negro, de ahi rojinegros) y a invariantes relacionados con estos, los
 cuales describiremos en la siguiente definici\'on.
 %cambiar a ambiente de definicion
-\subsection{Definici\'on de {\arns}}
+\begin{defn}{(Definici\'on de {\arns})}
 Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
@@ -115,6 +114,7 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
     \end{itemize}
 \end{enumerate}
 Decimos que la altura negra de un nodo es el n\'umero de nodos negros que aparecen en el camino de ese nodo a la raíz.
+\end{defn}
 
 \begin{figure}[!ht]
 \centering
@@ -159,16 +159,16 @@ Con este ejemplo se ilustra como la cantidad de nodos negros de la ra\'iz a cual
 siempre la misma.
 
 Nos interesa estudiar este tipo no trivial de \textit{\'arboles binarios de búsqueda} para poder
-demostrar la correctud y completud de la implementaci\'on funcional en \cite{tesisG} 
+demostrar la correctud de la implementaci\'on funcional en \cite{tesisG} 
 usando el asistente de pruebas {\coq} y de esta
 manera poder mostrar las ventajas y desventajas de este proceso, el cual comienza escribiendo de
-cero una estructura o traduciendo la misma del lenguaje Haskell a Coq, e incluso hasta las
+cero una estructura o traduciendo la misma del lenguaje Haskell a {\coq}, e incluso hasta las
 demostraciones que se realizar\'an con el asistente de pruebas.
 
-\section{Traducción de Haskell a Coq}
+\section{Traducción de Haskell a {\coq}}
 El enfoque que hemos decidido darle a este trabajo, consiste en considerar una implementaci\'on de la estructura descrita en la secci\'on pasada y solamente realizar la verificaci\'on formal de la misma, es por esta raz\'on que como mencionamos en la secci\'on \ref{motivation} de este trabajo, existen programas llamados asistentes de pruebas que nos ayudan a realizar la
 verificaci\'on formal de otros programas, en particular en este
-trabajo se decidió usar {\coq}. Este asistente nos gu\'ia a traves de la prueba recordando cuales
+trabajo se decidió usar {\coq}. Este asistente nos gu\'ia a través de la prueba recordando cuales
 son las \textit{metas}\footnote{Una meta es..} que debemos demostrar, nos ofrece \textit{t\'acticas}\footnote{Una táctica es...} para poder demostrar dichas metas
 entre otras cosas, sin embargo, esta tambi\'en nos presenta nuevos desaf\'ios.
 
@@ -179,15 +179,15 @@ busca es poder verificar un programa antes escrito, es decir, para el caso de lo
 este código de Haskell a {\coq}.
 
 En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales ventajas
-y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\'on.
+y desventajas de traducir de Haskell a {\coq}, los cuales expondremos a continuaci\'on.
 
 \subsection{Ventajas}
 \begin{itemize}
     \item Haskell es un excelente lenguaje para escribir programas funcionales puros.
     \item La gran comunidad de programadores que usan y mantienen Haskell.
     \item El compilador GHC de Haskell, el cual es muy usado e incluso a nivel industrial.
-    \item El ambiente de Coq es ``amigable'' para desarrollar demostraciones formales.
-    \item Coq permite razonar acerca de programas funcionales totales.
+    \item El ambiente de {\coq} es ``amigable'' para desarrollar demostraciones formales.
+    \item {\coq} permite razonar acerca de programas funcionales totales.
 \end{itemize}
 
 \subsection{Desventajas}
@@ -196,17 +196,17 @@ y desventajas de traducir de Haskell a Coq, los cuales expondremos a continuaci\
     \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a
     realizar pruebas de este, generalmente esta hecho a mano ``en papel'', lo cual es tedioso y
     susceptible a errores.
-    \item Coq no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores
+    \item {\coq} no tiene la extensa biblioteca de funciones ni la misma cantidad de programadores
     que lo usen y mantengan como lo tiene Haskell.
     \item El hecho de que los programadores de Haskell s\'olo razonen acerca de su código
     informalmente puede que resulte en que se generen funciones parciales, es decir, que no se
     cubran todas la combinaciones de parámetros posibles para una funci\'on.
-    \item La traducci\'on de Haskell a Coq s\'olo es posible si todas las funciones a traducir son
+    \item La traducci\'on de Haskell a {\coq} s\'olo es posible si todas las funciones a traducir son
     totales.
 \end{itemize}
 
 Este art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
-encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a Coq. Por las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de traducci\'on y enfocarnos \'unicamente en la verificaci\'on de los \arns
+encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a {\coq}. Por las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de traducci\'on y enfocarnos \'unicamente en la verificaci\'on de los \arns
 
 \section{Sobre este trabajo}
 El contenido y demostraciones que se describen en este trabajo se encuentran almacenados en:
