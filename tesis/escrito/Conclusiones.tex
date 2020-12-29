@@ -20,14 +20,14 @@ En la vida real, esto significaría tener un programa escrito en algún lenguaje
 como Java, Python, Haskell, etc. y traducirlo al lenguaje de la herramienta. Esto requeriría la
 implentaci\'on de un traductor o en su defecto traducir los programas a mano, esta segunda opci\'on
 siendo una soluci\'on no \'optima ya que es muy susceptible a errores. En este trabajo se uso el
-traductor de Haskell a Coq llamado `hs-to-coq' \cite{thrc}, que aunque nos dio algunas bibliotecas
-de Haskell traducidas a Coq, esta sigue en estado de desarrollo y aunque Haskell comparte el mismo
-paradigma que el lenguaje de Coq, lograr traducir en un $100\%$ un lenguaje resulta muy complicado
+traductor de Haskell a {\coq} llamado \textit{hs-to-coq} \cite{thrc}, que aunque nos dio algunas bibliotecas
+de Haskell traducidas a {\coq}, esta sigue en estado de desarrollo y aunque Haskell comparte el mismo
+paradigma que el lenguaje de {\coq}, lograr traducir en un $100\%$ un lenguaje resulta muy complicado
 ya que este siempre esta evolucionando, en especial si es un lenguaje tan ampliamente usado como
 lo es Haskell.
 
 Otra restricci\'on que se tiene que establecer es que no todos los programas escritos en Haskell podrían ser traducidos
-al lenguaje de Coq, este lenguaje a pesar de que entra en la categoría de lenguajes funcionales, este solo acepta funciones totales. Entonces esto introduce otras problemáticas,
+al lenguaje de {\coq}, este lenguaje a pesar de que entra en la categoría de lenguajes funcionales, este solo acepta funciones totales. Entonces esto introduce otras problemáticas,
 la traducción un programa de un paradigma imperativo, l\'ogico, etc. a uno funcional y después
 asegurar que todas las funciones de este son totales.
 
@@ -50,7 +50,7 @@ Otro acercamiento para poder probar este tipo de programas en la industria seria
 mayor parte de estos en el asistente {\coq}, realizando esto con las herramientas que su lenguaje nos provee, de esta manera se pueden realizar
 las demostraciones pertinentes y utilizar la funcionalidad que este posee para extraer c\'odigo en
 otros lenguajes, después de haber realizado la prueba, como lo son Haskell y O'Caml. Sin embargo, esto solo nos permitiría desarrollar
-programas correctos con las funcionalidades que el lenguaje de Coq nos ofrezca.
+programas correctos con las funcionalidades que el lenguaje de {\coq} nos ofrezca.
 
 Retomando el punto anterior, otra soluci\'on seria desarrollar y probar partes clave de los programas a crear, es decir, 
 m\'odulos pequeños como lo serian las estructuras de datos a usar, como lo podrian ser los {\arns}, listas doblemente 
@@ -66,4 +66,4 @@ nuevamente en hacer otro tipo de pruebas, como las unitarias, y como ya hemos me
 programas sean correctos o completos y por lo tanto, nuestros programas solo estarían parcialmente verificados formalmente.
 
 Como podemos apreciar el demostrar programas con un asistente de pruebas, no es el procedimiento mas amigable hoy en día, 
-sin embargo, si se sigue con la actual trayectoria en el desarrollo de herramientas de traducci\'on como lo es `hs-to-coq', eventualmente la industria podría comenzar a utilizar herramientas de este estilo para mejorar la calidad de sus productos. Mientras tanto, se tendrán que seguir desarrollando pruebas unitarias de mejor calidad y lograr generar programas que tiendan a la correcci\'on y completud.
+sin embargo, si se sigue con la actual trayectoria en el desarrollo de herramientas de traducci\'on como lo es \textit{hs-to-coq}, eventualmente la industria podría comenzar a utilizar herramientas de este estilo para mejorar la calidad de sus productos. Mientras tanto, se tendrán que seguir desarrollando pruebas unitarias de mejor calidad y lograr generar programas que tiendan a la correcci\'on y completud.
