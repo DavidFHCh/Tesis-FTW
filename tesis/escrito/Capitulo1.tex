@@ -99,6 +99,7 @@ doblemente ligada. Esta mejora se obtiene gracias a la introducción de colores 
 cuales describiremos en la siguiente definici\'on.
 %cambiar a ambiente de definicion
 \begin{defn}{(Definici\'on de {\arns})}
+\label{defn_arn}
 Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
@@ -221,5 +222,4 @@ usadas para poder verificar la implementación, comenzando con el trabajo de \ci
 \cite{MSetRBT} que se uso en el trabajo.
 
 En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la
-estructura de datos, al igual que las implementaciones y las pruebas realizadas para poder obtener
-el resultado que se busca, i.e. la verificación formal de {\arns}.
+estructura de datos, la cual esta enfocada a las invariantes de los cuatro puntos de la definici\'on \ref{defn_arn} dejando de lado la verificaci\'on de ser un \'arbol de b\'usqueda\footnote{El lector interesado puede revisar \cite{appel}.}.
