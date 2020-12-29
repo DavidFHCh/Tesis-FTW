@@ -7,12 +7,12 @@ la secci\'on pasada, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tre
 A continuaci\'on mostraremos los lemas $ins\_rr\_rb$, $ins\_arb$ y una instancia \cite{classes}
 de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT},
 la idea principal de estos enunciados es explicarnos que ciertos \'arboles de b\'usqueda que respeten las definiciones
-mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, tambien como consecuencia respetar\'an
+mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, también como consecuencia respetar\'an
 $is\_redblack$.
 
 \subsubsection{Primer Lema}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -25,13 +25,13 @@ is_redblack n s ->
 \end{figure}
 
 En este primer lema (figura \ref{lema_1}) enunciamos lo siguiente: sea \textit{\textbf{s}} un {\arn} bajo la
-definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raiz roja, insertar un elemento
+definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raíz roja, insertar un elemento
 \textit{\textbf{x}} en \textit{\textbf{s}} resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple
 con la definici\'on de $is\_redblack$.
 
 En otras palabras, lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
 un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
-rojos, uno en la ra\'iz y otro en cualquiera de los dos, o incluso en los dos odos siguientes.
+rojos, uno en la ra\'iz y otro en cualquiera de los dos, o incluso en los dos nodos siguientes.
 
 La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del enunciado, lo cual
 resulta en tres casos:
@@ -51,7 +51,7 @@ La funci\'on $ifred$ que se usa en este lema, es una funci\'on auxiliar que nos 
 un \'arbol es rojo o no.
 
 En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta
-en uno de los casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacio
+en uno de los casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacío
 no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento, esto
 por definici\'on de $ins$.
 
@@ -63,11 +63,11 @@ al caso donde se aplica la definici\'on $redred\_tree$, lo cual significa que al
 \'arbol rojo, sin tener conocimiento de como son los subárboles de este, puede resultar en un
 \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz del mismo, ya que la operaci\'on de
 balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on, y como
-los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectua en los nodos
-de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raiz y
+los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectúa en los nodos
+de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raíz y
 sus hijos.}.
 
-El caso sobrante, es decir, el caso del \'arbol con raiz negra se
+El caso sobrante, es decir, el caso del \'arbol con raíz negra se
 complica un poco mas que el anterior ya que este es el caso en el que la altura negra del \'arbol
 se ve modificada, en otras palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, $lbal$ y $rbal$:
 
@@ -90,7 +90,7 @@ $nearly\_redblack$}.
 
 \subsubsection{Segundo Lema}
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -123,7 +123,7 @@ inductiva de $nearly\_redblack$, respectivamente.
 
 Para poder probar que la inserci\'on es una instancia de la clase $redblack$, vamos a necesitar el
 lema auxiliar que se encuentra en la figura \ref{lema_3}:
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -139,7 +139,7 @@ simplificando las expresiones y aplicando las definiciones inductivas $is\_redbl
 $nearly\_redblack$.
 La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$:
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -169,10 +169,10 @@ ______________________________________(1/1)
 nearly_redblack n (ins x s)
 \end{minted}
 
-Esta ultima meta se resulve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja
+Esta ultima meta se resuelve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja
 con una meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on
 de inserci\'on.
 
-Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta y completa
-bajo las invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on ha
+Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta
+respecto a las invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on ha
 sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.
