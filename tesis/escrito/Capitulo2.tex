@@ -5,13 +5,13 @@ Se tuvieron un par de aproximaciones para la implementación de {\arns}: la prim
 implementaciones de estos \cite{tesisG} en Haskell, que fueron utilizadas como entrada para la
 herramienta \textit{hs-to-coq}, es decir, una traducci\'on directa. La segunda aproximación y la que
 se uso para este trabajo, fue obtener de \cite{MSetRBT} la implementaci\'on de los {\arns} que se
-usan en la biblioteca estandar de Coq, los cuales son una versi\'on de los {\arns} de Okasaki\cite{Okasaki}; en este caso se usaron
-las bibliotecas traducidas de Haskell a Coq, las cuales contienen los tipos y operaciones sobre ellos de Haskell.
+usan en la biblioteca estándar de {\coq}, los cuales son una versi\'on de los {\arns} de Okasaki\cite{Okasaki}; en este caso se usaron
+las bibliotecas traducidas de Haskell a {\coq}, las cuales contienen los tipos y operaciones sobre ellos de Haskell.
 Esta traducción se obtuvo con la ayuda del traductor \textit{hs-to-coq} y estas
-sustituyeron a los tipos y operaciones de Coq. A continuación profundizaremos de estos 
+sustituyeron a los tipos y operaciones de {\coq}. A continuación profundizaremos de estos 
 dos casos.
 
-\subsection{Traducción directa de implementaciones de Haskell a Coq}
+\subsection{Traducción directa de implementaciones de Haskell a {\coq}}
 De un trabajo anterior \cite{tesisG} se obtuvieron diversas implementaciones de {\arns}; estas
 variaban en su mayor parte en las operaciones de borrado, es por ello que dicha operación es
 significativamente mas compleja que su contraparte, es decir, la operación de inserci\'on. Estas 
@@ -22,28 +22,28 @@ tipos anidados (una implementaci\'on totalmente diferente a las anteriores y mas
 Por la compleja naturaleza de estas implementaciones, la traducción
 manual del código de Haskell result\'o ser muy problemática, esto porque las implementaciones en
 Haskell se aprovechan del hecho de que en este lenguaje se pueden declarar funciones parciales, lo
-cual representa un reto al momento de intentar traducir a Coq, ya que este lenguaje únicamente 
+cual representa un reto al momento de intentar traducir a {\coq}, ya que este lenguaje únicamente 
 acepta funciones totales. Se buscaron soluciones para `totalizar' estas funciones, sin embargo,
 solo traerían problemas al intentar realizar las demostraciones, ya que al totalizar se generar\'ian 
 casos inalcanzables en la ejecuci\'on, pero tendrían que ser demostrados para poder completar la verificaci\'on.
 
-A pasear de ello, se intent\'o totalizar las funciones de Haskell y asi poder 
-usar la herramienta \textbf{hs-to-coq} y de esta manera facilitar la traducci\'on, pero por las mismas
+A pasear de ello, se intent\'o totalizar las funciones de Haskell y así poder 
+usar la herramienta \textit{hs-to-coq} y de esta manera facilitar la traducci\'on, pero por las mismas
 razones antes descritas, la herramienta caía en alguna de estas dos situaciones:
 
 \begin{itemize}
     \item El tiempo de ejecuci\'on de la herramienta era muy alto y eventualmente los recursos de
     la maquina virtual, donde esta herramienta se ejecut\'o, se quedaba sin recursos (en
     especial memoria). Esto probablemente se deba a la falta de totalidad en alguna función.
-    \item La herramienta generaba c\'odigo en Coq pero con elementos de Haskell cuyas bibliotecas
+    \item La herramienta generaba c\'odigo en {\coq} pero con elementos de Haskell cuyas bibliotecas
     todavía no habían sido traducidas del todo. Esto porque las implementaciones en Haskell pod\'ian
-    llegar a ser muy complejas y utilizar modulos de GHC, a los cuales todav\'ia no se les hab\'ia
+    llegar a ser muy complejas y utilizar módulos de GHC, a los cuales todav\'ia no se les hab\'ia
     traducido con la herramienta.
 \end{itemize}{}
 
 Por estas razones se busc\'o otro acercamiento para poder verificar esta estructura, entonces,
-sabemos que el equipo de desarrollo de la herramienta hs-to-coq ha traducido exitosamente una
-fracci\'on de las bibliotecas de Haskell a Coq\footnote{El nombre de esta es \textit{GHC.Base}, nos referiremos a las funciones de la biblioteca con ese mismo prefijo.}, por esta raz\'on, se opt\'o por el uso de la
+sabemos que el equipo de desarrollo de la herramienta \textit{hs-to-coq} ha traducido exitosamente una
+fracci\'on de las bibliotecas de Haskell a {\coq}\footnote{El nombre de esta es \textit{GHC.Base}, nos referiremos a las funciones de la biblioteca con ese mismo prefijo.}, por esta raz\'on, se opt\'o por el uso de la
 implementación de {\arns} de las bibliotecas de {\coq}, \cite{MSetRBT}, pero usando los tipos y
 operaciones obtenidos de las traducciones con la herramienta.
 
@@ -212,7 +212,7 @@ operaciones de balanceo solo se efectúan cuando el nodo por el que se esta pasa
 sucede por la raz\'on de que los nodos de este color son los que se toman en cuenta para decidir si
 un \'arbol cumple con el balanceo adecuado. Al aplicar el balanceo en estos nodos, podemos 
 garantizar que no quedar\'an con nodos negros extras alguno de los hijos de este nodo, es decir, que
-ninguno de los caminos de la ra\'iz a las hojas tenga mas nodos negros que los demas. Esto se puede
+ninguno de los caminos de la ra\'iz a las hojas tenga mas nodos negros que los demás. Esto se puede
 apreciar si recordamos lo que se menciono en las definiciones de las operaciones de balanceo, tomemos $rbal$ (figura
 \ref{func_balanceo})\footnote{Con $lbal$ la idea es an\'aloga}, tenemos dos casos:
 
@@ -239,7 +239,7 @@ Este balanceo es necesario en esta funci\'on, ya que todos los elementos nuevos 
 \'arbol son hojas rojas, esto puede traer consigo violaciones a los invariantes, en especial al de
 que existan dos nodos rojos contiguos y esta opearci\'on ayuda a mitigar este problema.
 
-A pesar de que las operaciones de balanceo cuidan la mayoria invariantes en el cuerpo del \'arbol,
+A pesar de que las operaciones de balanceo cuidan la mayoría invariantes en el cuerpo del \'arbol,
 la función $ins$ no necesariamente cumple con uno de los invariantes, espec\'ificamente en el que la
 raíz del árbol es negra, es por ello que se introducen las definiciones de la figura 
 \ref{raiz_negra_func}.
@@ -291,7 +291,7 @@ subárboles restantes de esta operaci\'on (ver figuras \ref{arbolRB_4}, \ref{arb
 
 \begin{itemize}
     \item Si se recibe un \'arbol vacío como argumento de la funci\'on, se regresa este mismo; pues
-    eliminar un elemento del \'arbol vacío termina siendo vacio. También este caso sirve para
+    eliminar un elemento del \'arbol vacío termina siendo vacío. También este caso sirve para
     cuando un elemento no es encontrado en el \'arbol, es el caso base de la recursi\'on de
     búsqueda del nodo a eliminar.
     \item En otro caso, se realiza recursivamente la búsqueda del elemento a eliminar. Si el nodo
@@ -622,7 +622,7 @@ Definition rbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{figure}
 
 Existe otra función donde se utiliza una de estas operaciones de balanceo, específicamente $lbalS$,
-esta funci\'on es $append$. Esto sucede en el caso de que los \'arboles que se le esten pasando como parámetros
+esta funci\'on es $append$. Esto sucede en el caso de que los \'arboles que se le estén pasando como parámetros
 sean negros, es decir, la misma razón por la que se aplican las funciones de balanceo en $del$
 sobre los nodos de color negro: para que sus subárboles no se desbalanceen.
 
