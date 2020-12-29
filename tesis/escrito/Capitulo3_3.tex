@@ -20,14 +20,14 @@ is_redblack n l -> is_redblack n r ->
 \end{figure}
 
 La funci\'on mas importante para la operaci\'on de eliminaci\'on es $append$, la cual concatena
-dos subarboles. Estos dos subarboles son el resultado de buscar, encontrar y eliminar un nodo. En
+dos subárboles. Estos dos subárboles son el resultado de buscar, encontrar y eliminar un nodo. En
 este primer lema se enuncia lo antes descrito: que para cualesquiera dos \'arboles si estos
 cumplen con la definici\'on inductiva de $is\_redblack$, ambos con altura $n$, el resultado de
-concatenar es casi un {\arn}, en otras palabras, la concatenaci\'on cumple con la definicion de
-$nearly\_redblack$. Pero si los \'arboles que se van a concatenar ademas de cumplir con
-$is\_redblack$, tambien cumplen con $notred$, es decir, las raices de dichos arboles no son rojas,
-el resultado de concatenar respeta tambien la definici\'on $is\_redblack$. La demostracio\'on de
-este lema en coq se describe en seguida:
+concatenar es casi un {\arn}, en otras palabras, la concatenaci\'on cumple con la definición de
+$nearly\_redblack$. Pero si los \'arboles que se van a concatenar además de cumplir con
+$is\_redblack$, también cumplen con $notred$, es decir, las raices de dichos arboles no son rojas,
+el resultado de concatenar respeta también la definici\'on $is\_redblack$. La demostracio\'on de
+este lema en {\coq} se describe en seguida:
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -38,10 +38,10 @@ Forall (r : RB a) (n : nat),
       /\ (notred l -> notred r -> is_redblack n (append l r))
 \end{minted}
 
-En este primera etapa de la demostraci\'on podemos ver lo que se describio en el parrafo anterior.
-Se decidio proseguir con esta demostraci\'on usando inducci\'on, primero sobre el arbol $l$ y
-posteriormente sobre $r$. Los casos base de estas inducciones consisten en simplificacion de las
-expresiones y facilmente se llega a una hipotesis o a una contradicci\'on. Estos casos no se
+En este primera etapa de la demostraci\'on podemos ver lo que se describió en el párrafo anterior.
+Se decidió proseguir con esta demostraci\'on usando inducci\'on, primero sobre el árbol $l$ y
+posteriormente sobre $r$. Los casos base de estas inducciones consisten en simplificación de las
+expresiones y fácilmente se llega a una hipótesis o a una contradicci\'on. Estos casos no se
 trataran mas a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
 
 \begin{figure}[!ht]
@@ -95,7 +95,7 @@ son los siguientes:
 \end{itemize}
 
 En estos cuatro casos se tiene que cuidar demasiado el hecho de no desbalancear el \'arbol, en
-especial en los casos donde se manejan nodos negros, ya que estos son los unicos nodos
+especial en los casos donde se manejan nodos negros, ya que estos son los únicos nodos
 considerados para el balanceo.
 
 En las siguientes subsecciones explicamos mas a fondo los pasos usados para probar estos casos.
@@ -103,7 +103,7 @@ En las siguientes subsecciones explicamos mas a fondo los pasos usados para prob
 
 \paragraph{Concatenaci\'on de dos \'arboles rojos.}
 
-Este primer caso es la concatenaci\'on de dos \'arboles con raices rojas, en el siguiente
+Este primer caso es la concatenaci\'on de dos \'arboles con raíces rojas, en el siguiente
 fragmento de la salida del asistente de pruebas se observa como la meta es una conjunci\'on.
 
 \begin{minted}{coq}
@@ -129,7 +129,7 @@ forall n : nat,
 \end{minted}
 
 Podemos observar que la segunda parte de la conjunci\'on es una contradicci\'on, ya que al
-introducir los antecedentes de la meta tendriamos lo siguiente:
+introducir los antecedentes de la meta tendríamos lo siguiente:
 
 \begin{minted}{coq}
 H21 : notred (T R ll lx lr)
@@ -142,8 +142,8 @@ Evidentemente las dos funciones $notred$ de las hip\'otesis $H21$ y $H22$ se eva
 esto es una contradicci\'on.
 
 Nos queda por demostrar la primera parte de la conjunci\'on, la meta de este caso, como se ve en
-seguida, es que al ser concatenados un par de arboles rojos el arbol resultante cumple con la
-definici\'on de ser de $nearly\_redblack$, es decir, que la raiz del \'arbol puede tener dos nodos
+seguida, es que al ser concatenados un par de arboles rojos el árbol resultante cumple con la
+definici\'on de ser de $nearly\_redblack$, es decir, que la raíz del \'arbol puede tener dos nodos
 rojos consecutivos.
 
 \begin{minted}{coq}
@@ -151,7 +151,7 @@ ______________________________________(1/2)
 nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
 
-El siguiente paso seria simplificar esta expresion, la cual cae en el caso de dos nodos rojos de la funcion $append$ y nos resulta en la siguiente meta:
+El siguiente paso seria simplificar esta expresión, la cual cae en el caso de dos nodos rojos de la función $append$ y nos resulta en la siguiente meta:
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -168,7 +168,7 @@ sea $rbt$, esto nos daria dos casos:
 \begin{itemize}
     \item El primer caso, como se ve en seguida, se puede resolver usando las definiciones
     inductivas de $redred\_tree$ e $is\_redblack$, y las metas resultantes son resultados directos
-    de aplicar las hipotesis que se muestran.
+    de aplicar las hipótesis que se muestran.
     \begin{minted}{coq}
         H8 : notred lr
         H9 : is_redblack n ll
@@ -182,11 +182,11 @@ sea $rbt$, esto nos daria dos casos:
         redred_tree n (T R ll lx (T R E rx rr))
     \end{minted}
     \item El segundo caso es un poco mas complejo, pues se tienen que ver los casos en que $rbt$,
-    resulta en un \'arbol con raiz roja y negra:
+    resulta en un \'arbol con raíz roja y negra:
     \begin{itemize}
         \item En caso de que el \'arbol sea rojo, se aplica de igual manera las definiciones
         inductivas mencionados en el caso anterior y las metas resultantes son implicaciones
-        directas de las hipotesis que se muestran.
+        directas de las hipótesis que se muestran.
     \begin{minted}{coq}
     H6 : notred ll
     H9 : is_redblack n ll
@@ -199,7 +199,7 @@ sea $rbt$, esto nos daria dos casos:
     \end{minted}
         \item El caso donde el \'arbol es negro, al igual que en el caso pasado se hacen uso de
         las defincionces inductivas ya mencionadas y se siguen directamente de las siguientes
-        hipotesis.
+        hipótesis.
     \begin{minted}{coq}
     H6 : notred ll
     H8 : notred lr
@@ -246,7 +246,7 @@ forall n : nat,
 
 En este segundo caso la conjunci\'on tambien contiene una contradicci\'on en la mitad derecha de
 esta, ya que se tiene \textit{notred (T R ll lx lr)}, entonces al igual que el caso pasado solo
-resolveremos la primera mitad de la conjunci\'on. Para esta demostracion tenemos que guiar al asistente de pruebas un poco mas de lo normal, pues le tenemos que decirle que $r$ y el arbol \textit{(T B rl rx rr)} son el mismo.
+resolveremos la primera mitad de la conjunci\'on. Para esta demostración tenemos que guiar al asistente de pruebas un poco mas de lo normal, pues le tenemos que decirle que $r$ y el árbol \textit{(T B rl rx rr)} son el mismo.
 
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
@@ -263,9 +263,9 @@ nearly_redblack n (T R ll lx (append lr r))
 \end{minted}
 
 Podemos observar que se realizo una simplificaci\'on de la meta, donde se desarrollo lo mas
-posible la funci\'on append y se intodujeron los antecedentes a las hip\'otesis. Para poder
-demostrar esta nueva meta tenemos que destruir la hipotesis `IHlr', lo cual nos introduciria los
-dos antecedendetes de la misma como metas. Se destruye esta hipotesis para poder obtener su consecuente como hip\'otesis.
+posible la funci\'on append y se introdujeron los antecedentes a las hip\'otesis. Para poder
+demostrar esta nueva meta tenemos que destruir la hipótesis `IHlr', lo cual nos introduciría los
+dos antecedentes de la misma como metas. Se destruye esta hipótesis para poder obtener su consecuente como hip\'otesis.
 
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
@@ -292,7 +292,7 @@ nearly_redblack n (T R ll lx (append lr r))
 \end{minted}
 
 Para poder demostrar los dos primeros casos basta con aplicar la definici\'on inductiva
-$is\_redblack$, lo cual nos introduce las hipotesis necesarias para poder cumplir las metas.
+$is\_redblack$, lo cual nos introduce las hipótesis necesarias para poder cumplir las metas.
 Para el \'ultimo caso nos basta de igual manera con aplicar la misma definici\'on inductiva a H1 y
 a la meta aplicar las definiciones de $nearly\_redblack$ y $redred\_tree$ y esto nos da metas, que
 gracias a las nuevas hip\'otesis integradas por H1, se pueden probar sin mayor problema.
@@ -328,7 +328,7 @@ forall n : nat,
 \end{minted}
 
 En este caso al igual que los dos pasados, como uno\footnote{o los dos.} de los arboles es de
-color rojo, la segunda parte de la conjunci\'on vuelve a ser una contradicci\'on, por la expresion
+color rojo, la segunda parte de la conjunci\'on vuelve a ser una contradicci\'on, por la expresión
 $notred$.
 
 Entonces solo nos quedamos con la primera mitad de la conjunci\'on:
@@ -347,7 +347,7 @@ ______________________________________(1/2)
 nearly_redblack n (T R (append l rl) rx rr)
 \end{minted}
 
-Podemos apreciar que este caso es el caso espejo del caso pasdo, entonces el procedimiento a usar
+Podemos apreciar que este caso es el caso espejo del caso pasado, entonces el procedimiento a usar
 para demostrar esta meta es el mismo, lo \'unico que cambia es cuales hip\'otesis se usan para
 lograr esto. En el caso pasado se destruyo la hip\'otesis IHlr, en este caso se usa su contraparte
 IHrl y el resto de la demostraci\'on se sigue directamente de las nuevas metas introducidas y del
@@ -409,11 +409,11 @@ notred (T B ll lx lr)
 \end{minted}
 
 Estos casos base se resuelven aplicando las definiciones inductivas correspondientes tanto a las
-metas como a las hip\'otesis H1 y H2, esto nos da las hipotesis necesarias para probar estos dos
+metas como a las hip\'otesis H1 y H2, esto nos da las hipótesis necesarias para probar estos dos
 casos.
 
-Nos queda por probar el paso inductivo, en seguida podemos ver que la hipotesis de inducci\'on
-`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipotesis, en el siguiente paso se explica porque se decidio destruir esta hip\'otesis y no su contraparte IHrl.
+Nos queda por probar el paso inductivo, en seguida podemos ver que la hipótesis de inducci\'on
+`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipótesis, en el siguiente paso se explica porque se decidio destruir esta hip\'otesis y no su contraparte IHrl.
 
 \begin{minted}{coq}
 IHlr : forall n : nat,
@@ -448,7 +448,7 @@ ______________________________________(1/1)
 nearly_redblack (S n) (append (T B ll lx lr) (T B rl rx rr))
 \end{minted}
 
-Despues de simplificar la meta de este caso, nos queda una meta que depende del resultado de una
+después de simplificar la meta de este caso, nos queda una meta que depende del resultado de una
 llamada recursiva a $append$ de los subarboles $lr$ y $rl$, lo cual nos genera otros dos casos:
 
 \begin{minted}{coq}
@@ -483,15 +483,15 @@ nearly_redblack n l -> is_redblack (S n) r ->
 \end{figure}
 
 
-Lo que el lema, arriba escrito en sintaxis de coq, quiere decir es que si tenemos un par de
+Lo que el lema, arriba escrito en sintaxis de {\coq}, quiere decir es que si tenemos un par de
 arboles, sean l y r, un n\'umero natural n y un elemento x, si el \'arbol $l$ cumple con la
 definici\'on inductiva $nearly\_redblack$ y r no es de color rojo y cumple con la definici\'on
 inductiva $is\_redblack$, entonces balancear estos dos arboles con $lbalS$ resulta en un {\arn}
 que cumple con la definici\'on $is_redblack$.
 
-Ls demostraci\'on de este lema se convierte en un analisis de casos en el cual solamente es
+Ls demostraci\'on de este lema se convierte en un análisis de casos en el cual solamente es
 necesario simplificar, aplicar las definiciones inductivas y las metas que se generan son
-consecuencias directas de las hipotesis generadas, la inducci\'on no es necesaria.
+consecuencias directas de las hipótesis generadas, la inducci\'on no es necesaria.
 
 Regresando a las dos metas generadas por destruir la func\'on append, si nos fijamos en la primera
 , podemos ver que se puede aplicar directamente el lema $lbalS_rb$, lo cual nos genera 3 nuevas metas:
@@ -512,7 +512,7 @@ Estas metas de nuevo caen en el caso de simplificar y aplicar las respectivas de
 inductivas para obtener las metas deseadas, de esta manera el primer caso queda resuelto.
 
 Ahora nos vamos al segundo caso generado al destruir la funci\'on $append$ el cual nos dice que
-tenemos que hacer un analisis de casos sobre el color del nodo:
+tenemos que hacer un análisis de casos sobre el color del nodo:
 
 \begin{minted}{coq}
 H1 : is_redblack (S n) (T B ll lx lr)
@@ -524,9 +524,9 @@ ______________________________________(2/2)
 is_redblack (S n) (lbalS ll lx (T B (T B r1 a0 r2) rx rr))
 \end{minted}
 
-Ese analisis de casos nos da dos metas nuevas, una por color, el primer caso solamente requiere
+Ese análisis de casos nos da dos metas nuevas, una por color, el primer caso solamente requiere
 simplificaci\'on y aplicaci\'on de definiciones inductivas para obtener las metas deseadas. El
-segundo caso sigue los mismos pasos con la unica diferencia se volver a aplicar el lema $lbalS$.
+segundo caso sigue los mismos pasos con la única diferencia se volver a aplicar el lema $lbalS$.
 
 De esta manera queda demostrada la primera mitad de la conjunci\'on.
 
@@ -556,18 +556,18 @@ is_redblack (S n)
   end
 \end{minted}
 
-Al hacer el analisis de casos destruyendo la funci\'on $append$ con los parametros $lr$ y $rl$,
+Al hacer el análisis de casos destruyendo la funci\'on $append$ con los parametros $lr$ y $rl$,
 obtenemos exactamente las mismas metas que en la primera parte de la conjunci\'on y al tener mas
-hipotesis la demostraci\'on se acorta por un par de pasos pero el procedimiento es el mismo.
+hipótesis la demostraci\'on se acorta por un par de pasos pero el procedimiento es el mismo.
 
 De esta manera el primer lema queda demostrado, con esta demostraci\'on, a pesar de ser larga y
 tediosa, se puede observar el poder del asistente de pruebas, ya que las demostraciones se reducen
 a álgebra ecuacional, es decir, tratar de igualar la meta con lo que se tiene como hip\'otesis,
-esto se seguira viendo en las siguientes pruebas.
+esto se seguirá viendo en las siguientes pruebas.
 
 \subsubsection{Segundo Lema}
 Este siguiente lema utiliza una palabra especial en el lenguaje de {\coq}, `with', esta palabra
-es un truco para demostrar dos lemas simultanemente, el cual es el caso como se ve en la figura
+es un truco para demostrar dos lemas simultáneamente, el cual es el caso como se ve en la figura
 \ref{lema_6}.
 
 \begin{figure}[!ht]
@@ -619,8 +619,8 @@ is_redblack (S n) s -> isblack s -> nearly_redblack n (del x s)
 
 Este lema enuncia lo siguiente: Sea un \'arbol $s$, un elemento $x$ y un n\'umero natural $n$, si
 $s$ cumple con la definicion inductiva $is\_redblack$ y $s$ es negro, entonces $s$ cumple con la
-definición de $nearly\_redblack$ despues de eliminar el elemento $x$. En otras palabras, si tenemos
-un \'arbol con la raiz de color negro, el resultado de eliminar un elemento ser\'a un \'arbol casi
+definición de $nearly\_redblack$ después de eliminar el elemento $x$. En otras palabras, si tenemos
+un \'arbol con la raíz de color negro, el resultado de eliminar un elemento ser\'a un \'arbol casi
  rojinegro.
 
 La prueba empieza con una inducci\'on sobre $s$ lo cual nos da las dos metas siguientes:
@@ -636,7 +636,7 @@ forall n : nat,
 \end{minted}
 
 A primera vista podemos apreciar que la primera meta contiene un antecedente falso, el \'arbol
-vacio $E$ no puede ser negro, entonces esta meta es una contradicci\'on. La segunda meta podemos
+vacío $E$ no puede ser negro, entonces esta meta es una contradicci\'on. La segunda meta podemos
 ver que si analizamos los dos casos del color del \'arbol, el caso rojo es igualmente una
 contradicci\'on por el mismo antecedente $isblack$. Esto solo nos deja con el caso negro de la
 segunda meta.
@@ -653,9 +653,9 @@ is_redblack (S n) (T B s1 a0 s2)
 nearly_redblack n (del x (T B s1 a0 s2))
 \end{minted}
 
-Despues de introducir los antecedentes y simplificar la meta, se hace un analisis de casos sobre la
-operaci\'on $del$, primero se ve el caso si el nodo a eliminar esta en el subarbol derecho y
-despues en el izquierdo.
+Después de introducir los antecedentes y simplificar la meta, se hace un análisis de casos sobre la
+operaci\'on $del$, primero se ve el caso si el nodo a eliminar esta en el subárbol derecho y
+después en el izquierdo.
 
 \begin{minted}{coq}
 IHs1 : forall n : nat, is_redblack (S n) s1 ->
@@ -683,18 +683,18 @@ nearly_redblack n
  else append s1 s2)
 \end{minted}
 
-Seguimos con el analisis de los dos casos:
+Seguimos con el análisis de los dos casos:
 \begin{itemize}
-  \item En el primer caso seguimos con la destrucci\'on del \'arbol $s1$ para tener un analisis de
-  casos, si simplificamos con las definciones inductivas estas metas, eventualmente encontramos
+  \item En el primer caso seguimos con la destrucci\'on del \'arbol $s1$ para tener un análisis de
+  casos, si simplificamos con las definiciones inductivas estas metas, eventualmente encontramos
   metas de las siguientes formas:
 \begin{minted}{coq}
 is_redblack n (del x E)
 
 is_redblack n (del x (T R s1_1 a1 s1_2))
 \end{minted}
-  Estos casos son casos particulares del lema $del\_rb$, para solucionar esto usamos una tactica de
-  coq llamada $assert$, la cual nos deja agregar hip\'otesis, las cuales despues tendremos que
+  Estos casos son casos particulares del lema $del\_rb$, para solucionar esto usamos una táctica de
+  {\coq} llamada $assert$, la cual nos deja agregar hip\'otesis, las cuales después tendremos que
   demostrar, en este caso esta quedara demostrada al terminar de demostrar todo este lema.
   Entonces como en este caso estamos destruyendo $s1$, la hip\'otesis a agregar seria:
 \begin{minted}{coq}
@@ -703,7 +703,7 @@ IHl' : forall n : nat, is_redblack n s1 ->
 \end{minted}
   Al agregarla al inicio de la prueba podemos solamente aplicarla cuando lleguemos a los casos
   arriba mencionados.
-  \item El segundo caso se divide en dos, la primera parte es el caso espejo al pasado, se realiza lo mismo pero para el \'arbol $s2$, lo cual nos da la siguiente hipotesis a agregar:
+  \item El segundo caso se divide en dos, la primera parte es el caso espejo al pasado, se realiza lo mismo pero para el \'arbol $s2$, lo cual nos da la siguiente hipótesis a agregar:
 \begin{minted}{coq}
 IHr' : forall n : nat, is_redblack n s2 ->
                   notblack s2 -> is_redblack n (del x s2)
@@ -725,13 +725,13 @@ is_redblack n s -> notblack s -> is_redblack n (del x s)
 
 Este segundo lema enuncia lo siguiente: Sea un \'arbol $s$, un elemento $x$ y un n\'umero natural
 $n$, si $s$ cumple con la definicion inductiva $is\_redblack$ y $s$ no es negro, entonces $s$
-cumple con la definición de $is\_redblack$ despues de eliminar el elemento $x$. En otras palabras,
-si tenemos un \'arbol con la raiz de color rojo, el resultado de eliminar un elemento ser\'a un
+cumple con la definición de $is\_redblack$ después de eliminar el elemento $x$. En otras palabras,
+si tenemos un \'arbol con la raíz de color rojo, el resultado de eliminar un elemento ser\'a un
 \'arbol casi rojinegro.
 
 El enunciado con respecto al anterior busca que el resultado sea mas especifico, pues la propiedad
 de ser $is\_redblack$ es la que buscamos que las operaciones cumplan. Sin embargo la demostraci\'on
-en terminos de {\coq} no es muy distinta; iniciamos con inducci\'on sobre s.
+en términos de {\coq} no es muy distinta; iniciamos con inducci\'on sobre s.
 
 \begin{minted}{coq}
 ______________________________________(1/2)
@@ -745,7 +745,7 @@ forall n : nat, is_redblack n (T c s1 a0 s2) ->
 \end{minted}
 
 La primera meta se soluciona simplificando hasta obtener la meta deseada, mientras que la segunda
-meta se le hace un analisis sobre el color $c$, el cual arroja dos casos, rojo y negro. El caso de
+meta se le hace un análisis sobre el color $c$, el cual arroja dos casos, rojo y negro. El caso de
 que $c$ sea negro es una contradicci\'on porque no cumple con la meta de ser $notblack$, solamente
 nos enfocaremos en el caso en que $c$ es rojo.
 
@@ -762,9 +762,9 @@ ______________________________________(1/1)
 is_redblack n (del x (T R s1 a0 s2))
 \end{minted}
 
-Al igual que en $del\_arb$ se hacen los casos de si el elemento a eliminar esta en el subarbol
-derecho o izquierdo. Otra similitud que esta prueba tiene con respecto con la pasada es que tambien
-tenemos que agregar una hipotesis extra, en este caso de $del\_arb$. De aqui en adelente la prueba
+Al igual que en $del\_arb$ se hacen los casos de si el elemento a eliminar esta en el subárbol
+derecho o izquierdo. Otra similitud que esta prueba tiene con respecto con la pasada es que también
+tenemos que agregar una hipótesis extra, en este caso de $del\_arb$. De aquí en adelante la prueba
 es muy similar a la anterior, simplificar, aplicar definiciones inductivas hasta llegar a
 contradicciones o a las metas deseadas.
 
@@ -774,8 +774,8 @@ Estos son lemas de balanceo sencillos de demostrar pero muy largos, tediosos y r
 tanto no se incluiran en este trabajo.
 
 Hasta este momento solo se han demostrado partes de la operacion total de eliminación, como juntar
-dos subarboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un arbol con raiz roja o
-de uno con raiz negra. En seguida uniremos todos estos lemas en uno.
+dos subarboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un arbol con raíz roja o
+de uno con raíz negra. En seguida uniremos todos estos lemas en uno.
 
 \subsubsection{Instancia de la funci\'on de eliminaci\'on}
 
@@ -807,9 +807,9 @@ nearly_redblack n t -> redblack (makeBlack t).
 
 
 Lo que este enunciado describe es la propiedad de que si un \'arbol $t$ cumple con la definici\'on
-inductiva de ser $nearly\_redblack$, pintar su raiz de color negro lo convierte en una instancia de
+inductiva de ser $nearly\_redblack$, pintar su raíz de color negro lo convierte en una instancia de
 la clase $redblack$. La desmostraci\'on de este lema es muy simple gracias al asistente de pruebas,
-ya que solo basta con hacer un analisis de casos sobre el \'arbol $t$:
+ya que solo basta con hacer un análisis de casos sobre el \'arbol $t$:
 
 \begin{itemize}
   \item El \'arbol vacio $E$, la meta a demostrar para este caso es:
@@ -827,7 +827,7 @@ H2 : is_redblack n (T c t1 a0 t2)
 ______________________________________(1/2)
 redblack (makeBlack (T c t1 a0 t2))
 \end{minted}
-        Este primer caso se reduce a hacer un analisis de casos sobre el color $c$, la soluci\'on
+        Este primer caso se reduce a hacer un análisis de casos sobre el color $c$, la soluci\'on
         de ambos colores consiste en, decir que existe $n'$ tal que su valor es \textit{S(n)},
         despuésde esto se simplifican las expresiones hasta obtener que las metas cumplan con las
         hip\'otesis.
@@ -837,7 +837,7 @@ H2 : redred_tree n (T c t1 a0 t2)
 ______________________________________(2/2)
 redblack (makeBlack (T c t1 a0 t2))
 \end{minted}
-        El segundo caso es mas corto que el primero, ya que al hacer el analisis de los colores,
+        El segundo caso es mas corto que el primero, ya que al hacer el análisis de los colores,
         podemos ver que la definición de $redred\_tree$ no esta definida para \'arboles negros,
         entonces solo nos queda demostrar para \'arbles rojos, sin embargo, los pasos a seguir para
         este caso son los mismos que para el color rojo del caso anterior.
@@ -845,7 +845,7 @@ redblack (makeBlack (T c t1 a0 t2))
 
 Con este lema demostrado ya contamos con todas las herramientas para poder demostrar que si tenemos
 un \'arbol que es instancia de la clase $redblack$ y eliminamos un elemento de el, este sigue
-siendo instancia de la clase, esta demostraci\'on comienza con un analisis de casos sobre el
+siendo instancia de la clase, esta demostraci\'on comienza con un análisis de casos sobre el
 \'arbol $s$:
 
 \begin{minted}{coq}
@@ -877,7 +877,7 @@ is_redblack n (del x (T R s1 c0 s2))
 \end{minted}
 
 La cual es un caso particular del lema $del\_rb$, nos basta con aplicarlo, simplificar y esta meta
-queda resuelta. La \'unica meta que nos quedaria por demostrar seria el caso de de la raiz negra:
+queda resuelta. La \'unica meta que nos quedaría por demostrar seria el caso de de la raíz negra:
 
 \begin{minted}{coq}
 H1 : is_redblack n (T B s1 c0 s2)
@@ -885,7 +885,7 @@ ______________________________________(1/1)
 redblack (makeBlack (del x (T B s1 c0 s2)))
 \end{minted}
 
-En este caso hacemos un analisis sobre $n$, los dos casos serian 0 y \textit{S(n)}. Para 0 basta
+En este caso hacemos un análisis sobre $n$, los dos casos serian 0 y \textit{S(n)}. Para 0 basta
 con simplificar y la meta se resuelve, pero para \textit{S(n)}, es necesario volver a aplicar el
 lema $makeBlack\_rb$, una vez que hacemos esto, nos queda la siguiente meta:
 
@@ -900,8 +900,8 @@ nuevamente, las metas resultantes quedan resueltas. Podemos ver que las demostra
 este trabajo, en especial en la operaci\'on de eliminación, son muy repetitivas, y solo buscamos
 hacer que las metas empaten con las hip\'otesis que tenemos.
 
-Con esta operaci\'on desmostrada podemos decir que tenemos una estructura correcta y completa que
-cumple con los invariantes descritos por las definiciones inductivas de $is\_redblack$ con las
-operaciones de borrado e inserción y de la misma manera que estas dos operaciones son metodos de la
+Con esta operaci\'on demostrada podemos decir que tenemos una estructura correcta respecto
+a los invariantes descritos por las definiciones inductivas de $is\_redblack$ con las
+operaciones de borrado e inserción y de la misma manera que estas dos operaciones son métodos de la
 clase $redblack$, por lo cual podemos hacer estas operaciones cuantas veces queramos y el resultado
-seguira siendo instancia de esta clase.
+seguirá siendo instancia de esta clase.
