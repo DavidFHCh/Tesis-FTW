@@ -3,10 +3,10 @@
 En el primer cap\'itulo de este trabajo se menciono que los {\arns} son una estructura de datos
 que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
 estructuras de datos como: las listas simples, las listas doblemente ligadas y \'arboles de
-búsqueda. En el segundo cap\'itulo se muestran las implementaciones de los algoritmos de esta
+búsqueda. En el segundo cap\'itulo se muestran las implementaciones funcionales de los algoritmos de esta
 estructura de datos y podemos notar como estas implementaciones no son triviales, es decir, son
-rebuscadas, enredosas y complicadas de programar en un lenguaje que utilice el paradigma de programaci\'on funcional como
-lo hace {\coq}, e incluso en un lenguaje con un paradigma imperativo como \textit{Java} o \textit{C}.
+rebuscadas por los tipos usados en un lenguaje que utiliza el estilo de programaci\'on funcional como
+lo hace {\coq}, e incluso son diferentes y alejadas de una implementaci\'on en un lenguaje con un paradigma imperativo como \textit{Java} o \textit{C}.
 Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas, en otras palabras, se desea verificar que las implementaciones de las operaciones
 descritas en el capitulo anterior respeten en todos los casos los invariantes de los {\arns}.
 
@@ -18,9 +18,9 @@ tiempo y sobre todo que sean fidedignas. De nada nos servirían pruebas unitaria
 escritas o que estas mismas sean demasiado complejas y puedan contener errores.
 
 Este tipo de pruebas son usadas para verificar que cada componente de un programa funcione de
-manera correcta, en el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
+manera esperada, en el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
 invariables de un determinado \'arbol. La figura \ref{unitTestjava} es una prueba unitaria
-escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn}.
+escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn} \cite{CanekPU}.
 
 \begin{figure}[!ht]
 \centering
@@ -82,12 +82,12 @@ usar\'a {\coq} para realizar estas pruebas formales.
 
 La verificaci\'on formal de un programa usando {\coq} esta compuesto de las siguientes etapas:
 \begin{itemize}
-    \item Capturar los invariantes de los {\arns} usando definiciones inductivas en {\coq}, de
-    esta manera podemos saber si las operaciones que se implementaron las respetan.
+    \item Capturar los invariantes o propiedades de un programa usando definiciones inductivas en {\coq}, de
+    esta manera podemos saber si las operaciones que se implementaron las respetan. Las operaciones pueden o no estar programadas en {\coq}.
     \item Enunciar lemas, corolarios y teoremas que describan los comportamientos de las
     operaciones que queremos verificar y escribirlos en {\coq}, usando las definiciones inductivas
     descritas en el punto anterior.
-    \item Por \', demostrar todos los enunciados del punto anterior utilizando las t\'acticas
+    \item Por \'ultimo, demostrar todos los enunciados del punto anterior utilizando las t\'acticas
     que el asistente de pruebas nos provee.
 \end{itemize}{}
 
@@ -98,12 +98,15 @@ poder escribir una o varias definiciones inductivas que describan a la estructur
 invariantes. Después, con estas mismas es que se enuncian los lemas, clases y posteriormente
 instancias de las clases.
 
-A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas,
+A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas\footnote{Obtenidas de los trabajos \cite{tesisG} y \cite{MSetRBT} respectivamente.},
 los cuales nos ayudaran a verificar formalmente los {\arns}. La primera es un primer intento que es
 insuficiente ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos.
 El segundo intento es un conjunto de definiciones inductivas que tienen mas detalle para describir
 los invariantes. Estas definiciones est\'an relacionadas con las propiedades de las operaciones de
 inserci\'on y eliminaci\'on.
+
+Es importante mencionar que estas definiciones aprovechan la expresividad de la lógica o de 
+los tipos de {\coq} ya que se est\'an usando a su vez otros tipos inductivos para describir las invariantes.
 
 \subsubsection{Primer Conjunto de Definiciones Inductivas}
 Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
@@ -178,7 +181,7 @@ Con estas modificaciones se permite una cosa, que en la ra\'iz del \'arbol pueda
 dos nodos rojos contiguos.
 
 \paragraph{Intento de Verificaci\'on}
-Utilizando las funciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido de
+Utilizando las definiciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido de
 verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo, al
 estar desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de
 hipótesis para poder probar una meta. Esto se debe probablemente a una mala elección de estilo de
@@ -226,14 +229,14 @@ definici\'on $is\_redblack$ tiene tres casos,$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desa
 \begin{itemize}
         \item \textbf{RB\_Leaf}: el árbol vació es roji-negro. Este caso nos dice que el \'arbol
         vacío es un {\arn}.
-        \item \textbf{RB\_R}: un árbol rojo donde lleves contados \textbf{\textit{n}} nodos negros, donde sus
-        hijos sean{\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles
+        \item \textbf{RB\_R}: un árbol rojo donde se lleven contabilizados \textbf{\textit{n}} nodos negros, donde sus
+        hijos sean {\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles
         del árbol que esta recibiendo la función no pueden ser rojos, esto porque el árbol que se
         esta analizando tiene raíz roja. Como no se esta analizando algún nodo negro, la altura
         negra se mantiene en \textbf{\textit{n}}.
-        \item \textbf{RB\_B}: un árbol negro donde lleves contados $n+1$ nodos negros, incluido
-        el actual, y sus hijos sean {\arns}. En este ultimo caso se tiene la libertad de que los
-        subárboles sean del color que sea, pero la altura del consecuente es $S(n)$ porque el nodo
+        \item \textbf{RB\_B}: un árbol negro donde se lleven contabilizados $n+1$ nodos negros, incluido
+        el actual, y sus hijos sean {\arns}. En este \'ultimo caso se tiene la libertad de que los
+        subárboles sean de cualquier color, pero la altura del \'arbol de regreso es $S(n)$ porque el nodo
         que se esta analizando es de color negro, los antecedentes al no tomar en cuenta a su nodo
         padre tienen altura \textbf{\textit{n}}.
 \end{itemize}
@@ -282,8 +285,8 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 \label{class_rb}
 \end{figure}
 
-Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que un {\arn} es aquel que tiene una altura
-negra $d$ y cumple con las invariantes establecidas por la definici\'on $is\_redblack$.
+Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} (\textit{t: RB a}), existe una altura
+negra $d$ que cumple con las invariantes establecidas por la definici\'on $is\_redblack$. Esta clase representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de \textit{Haskell}.
 
 \paragraph{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de definiciones de la secci\'on pasada, la definici\'on de
