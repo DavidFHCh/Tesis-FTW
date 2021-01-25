@@ -1,6 +1,6 @@
 \chapter{Verificación de {\arns}}
 
-En el primer cap\'itulo de este trabajo se menciono que los {\arns} son una estructura de datos
+En el primer cap\'itulo de este trabajo se mencion\'o que los {\arns} son una estructura de datos
 que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
 estructuras de datos como: las listas simples, las listas doblemente ligadas y \'arboles de
 búsqueda. En el segundo cap\'itulo se muestran las implementaciones funcionales de los algoritmos de esta
@@ -68,8 +68,10 @@ dado, no nos asegura que todos los \'arboles creados por nuestras operaciones de
 eliminaci\'on los respeten. La \'unica manera de que esta prueba podr\'ia verificar esto ser\'ia
 realizando todas las combinaciones de operaciones y entradas posibles y aplicar la prueba a todos los
 resultados de estas entradas. Esto es una prueba exhaustiva y en este caso \footnote{De hecho en la
-mayoria.} las posibildades son infinitas, es decir, no existe modo de realizar todas estas pruebas
-en un tiempo razonable, lo cual contradice totalmente la definici\'on de prueba unitaria.
+mayoría.} las posibilidades son infinitas, es decir, no existe modo de realizar todas estas pruebas
+en un tiempo razonable, m\'as a\'un, no existe memoria suficiente para almacenar los infinitos valores que se necesitar\'ian para realizar dichas pruebas. 
+
+Finalmente, como las pruebas unitarias no nos permiten cubrir todos los casos necesarios para poder probar en su totalidad un programa, es que se requiere utilizar algún otro tipo de herramienta para realizar una verificaci\'on, en este trabajo usaremos {\coq}.
 
 
 \section{Verificaci\'on Formal en {\coq}}
@@ -77,8 +79,7 @@ en un tiempo razonable, lo cual contradice totalmente la definici\'on de prueba 
 Es claro que las pruebas unitarias no nos son suficientes para poder verificar formalmente un
 programa, es por esto que se requieren realizar demostraciones matemáticas para poder obtener los
 resultados que buscamos, pero de igual manera no queremos escribir a mano estas demostraciones ya
-que al igual que las pruebas unitarias estas son susceptibles al error humano, por esta raz\'on se
-usar\'a {\coq} para realizar estas pruebas formales.
+que al igual que las pruebas unitarias estas son susceptibles al error humano, por esta raz\'on es que es mejor que un sistema como {\coq} guíe la demostraci\'on para verificar cada paso, ya que a su vez esta herramienta esta verificada para asegurar que no se incluyan errores y también para garantizar la consistencia de las pruebas\cite{Geuvers2009}.
 
 La verificaci\'on formal de un programa usando {\coq} esta compuesto de las siguientes etapas:
 \begin{itemize}
@@ -110,7 +111,7 @@ los tipos de {\coq} ya que se est\'an usando a su vez otros tipos inductivos par
 
 \subsubsection{Primer Conjunto de Definiciones Inductivas}
 Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
-estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma.
+estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma. Utilizar una definici\'on mas restrictiva que otra es una implementaci\'on, hasta cierto punto, de la t\'ecnica \textit{divide y vencerás}\footnote{\textit{Divide and conquer} en ingles.}, la cual es una manera de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En este caso la división se realiza en las invariantes.
 
 \begin{figure}[!ht]
 \centering
@@ -151,7 +152,7 @@ cuales describiremos a continuaci\'on:
         porque \textbf{\textit{t}} es negro y aqui se le suma uno a \textbf{\textit{n}} porque tanto \textbf{\textit{tl}} y \textbf{\textit{tr}} son negros.
 \end{itemize}
 
-Con estos tres casos podemos asegurar que los invariantes se respetan, pero esta funci\'on
+Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on
 inductiva es demasiado restrictiva y esto dificulta poder demostrar las propiedades de los {\arns},
 por esto pasamos a la segunda definici\'on inductiva, $nearRB$, esta permite mas flexibilidad en el
 \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
@@ -269,7 +270,9 @@ definici\'on $nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz
 aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ de
 $is\_redblack$ pero sin las restricciones de que los sub\'arboles sean rojos, lo cual nos permite
 que hayan dos nodos rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con
-la excepci\'on de que la ra\'iz puede ser roja.
+la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función $make_black$ al final de las operaciones que se realicen. 
+
+Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de \textit{divide y vencerás}, es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas las invariantes.} para al final utilizar estos resultados para realizar la demostraci\'on de la definición mas estricta.
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
 eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (figura \ref{class_rb}).
@@ -286,7 +289,7 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 \end{figure}
 
 Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} (\textit{t: RB a}), existe una altura
-negra $d$ que cumple con las invariantes establecidas por la definici\'on $is\_redblack$. Esta clase representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de \textit{Haskell}.
+negra $d$ que cumple con las invariantes establecidas por la definici\'on $is\_redblack$. Esta clase\footnote{Las clases en este contexto funcional se pueden ver, desde un alto nivel, como equivalencias a las clases del paradigma orientado a objetos.} representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de \textit{Haskell}.
 
 \paragraph{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de definiciones de la secci\'on pasada, la definici\'on de
