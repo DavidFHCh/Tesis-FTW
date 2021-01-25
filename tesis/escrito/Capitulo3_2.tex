@@ -114,14 +114,17 @@ nearly_redblack n (ins x s)
 
 \end{minted}
 
+Aplicamos el lema $ins\_rr\_rb$ a la hip\'otesis porque este nos genera dos casos, uno con la funci\'on $redred\_tree$ y otro con $is\_redblack$. Lo que hace necesario
+que se aplique este lema, es que con ayuda de las definiciones que introduce son con las que $nearly\_redblack$ fue definido.
+
 Como no se sabe si el \'arbol \textit{\textbf{s}} tiene ra\'iz roja o negra, se tienen que probar los dos casos:
 uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$.
-Estos casos se resuelven sencillamente con la aplicación de los dos resoluciones de la definici\'on
+Estos casos se resuelven sencillamente con la aplicación de alguno de los dos casos de la definici\'on
 inductiva de $nearly\_redblack$, respectivamente.
 
 \subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
-Para poder probar que la inserci\'on es una instancia de la clase $redblack$, vamos a necesitar el
+Para poder probar que el resultado de la inserci\'on es una instancia de la clase $redblack$,es decir, que se cumplen con las propiedades descritas por la clase, vamos a necesitar el
 lema auxiliar que se encuentra en la figura \ref{lema_3}:
 \begin{figure}[!ht]
 \centering
@@ -134,10 +137,10 @@ nearly_redblack n t -> redblack (makeBlack t).
 \label{lema_3}
 \end{figure}
 
-Este lema se resuelve destruyendo \textit{\textbf{t}}, de esta manera se generan dos casos y estos se solucionan
-simplificando las expresiones y aplicando las definiciones inductivas $is\_redblack$ y
-$nearly\_redblack$.
-La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$:
+Este lema auxiliar se resuelve siguiendo la idea de que la definici\'on inductiva $nearly\_redblack$ únicamente viola las invariantes al poder tener dos 
+nodos rojos consecutivos en su raíz, entonces, si se ``pinta'' la raíz de negro con la función $makeBlack$, el \'arbol resultante es un {\arn} le cual respeta la la definición de la clase $redblack$.
+
+La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$, la cual también nos generar\'a una demostraci\'on:
 
 \begin{figure}[!ht]
 \centering
@@ -151,7 +154,7 @@ redblack s -> redblack (insert x s).
 \end{figure}
 
 Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$,
-la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es pintar la
+la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es ``pintar'' la
 ra\'iz del \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos
 asegurar que el \'arbol resultante ya no entra en la definici\'on de $redred\_tree$.
 
