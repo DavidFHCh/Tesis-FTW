@@ -88,13 +88,13 @@ is_redblack n (T B ll lx lr)
 Esta doble inducci\'on nos deja con cuatro casos, expuestos en la figura \ref{casos_append}, estos
 son los siguientes:
 \begin{itemize}
-    \item Los arboles a concatenar son rojos.
-    \item El arbol que se concatenar a la izquierda es rojo y el derecho es negro.
-    \item El arbol que se concatenar a la izquierda es negro y el derecho es rojo.
-    \item Los arboles a concatenar son negros.
+    \item Los \'arboles a concatenar son rojos.
+    \item El \'arbol que se concatenar a la izquierda es rojo y el derecho es negro.
+    \item El \'arbol que se concatenar a la izquierda es negro y el derecho es rojo.
+    \item Los \'arboles a concatenar son negros.
 \end{itemize}
 
-En estos cuatro casos se tiene que cuidar demasiado el hecho de no desbalancear el \'arbol, en
+En estos cuatro casos se cuida demasiado el hecho de no desbalancear el \'arbol, en otras palabras, que la altura negra sea la misma al terminar de la concatenaci\'on, es por eso que se tiene cuidado
 especial en los casos donde se manejan nodos negros, ya que estos son los únicos nodos
 considerados para el balanceo.
 
@@ -218,9 +218,9 @@ sea $rbt$, esto nos daria dos casos:
     \end{itemize}
 \end{itemize}
 
-Con este procedimiento queda demostrado este caso de juntar dos \'aboles rojos con la funci\'on
+Con este procedimiento queda demostrado este caso de concatenar/unir dos \'aboles rojos con la funci\'on
 $append$, se puede apreciar como los pasos de la demostraci\'on tienden a repetirse, esto puede
-significar que existan una serie de comandos del asistente de pruebas que nos ayuden a acortar
+significar que existan una serie de comandos y/o t\'acticas del asistente de pruebas que nos ayuden a acortar
 esta prueba, sin embargo, en este trabajo se esta tomando el camino mas extenso para mostrar la
 simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
 
@@ -355,7 +355,7 @@ uso de las definiciones inductivas mencionadas en el caso pasado.
 
 \paragraph{Concatenaci\'on de dos \'arboles negros.}
 
-Este \'ultimo caso es el \'unico que no incluye una contradicci\'on ya que la contradicci'on se
+Este \'ultimo caso es el \'unico que no incluye una contradicci\'on ya que esta se
 daba al tener un \'arbol rojo como uno de los dos \'arboles que se pasan a la funci\'on $append$,
 pero en este caso los dos \'arboles a concatenar son negros, entonces la conjunci\'on completa
 ser\'a probada.
@@ -382,7 +382,9 @@ forall n : nat,
            -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
 
-Esta demostraci\'on se inicia con una inducci\'on sobre $n$, lo cual nos da el caso base con $n=0$
+Esta demostraci\'on se inicia con una inducci\'on sobre la altura negra, es decir, una inducción sobre $n$. Esto porque hacer la inducción sobre esta propiedad nos garantiza que el resultado de la concatenación no estará desbalanceado.
+
+Esta inducci\'on nos da el caso base con $n=0$
 , seguido de la separaci\'on de la conjunci\'on y esto nos da 2 casos base, como se muestra en
 seguida:
 
@@ -413,7 +415,7 @@ metas como a las hip\'otesis H1 y H2, esto nos da las hipótesis necesarias para
 casos.
 
 Nos queda por probar el paso inductivo, en seguida podemos ver que la hipótesis de inducci\'on
-`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipótesis, en el siguiente paso se explica porque se decidio destruir esta hip\'otesis y no su contraparte IHrl.
+`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipótesis, en el siguiente paso se explica porque se decidió destruir esta hip\'otesis y no su contraparte IHrl.
 
 \begin{minted}{coq}
 IHlr : forall n : nat,
@@ -449,7 +451,7 @@ nearly_redblack (S n) (append (T B ll lx lr) (T B rl rx rr))
 \end{minted}
 
 después de simplificar la meta de este caso, nos queda una meta que depende del resultado de una
-llamada recursiva a $append$ de los subarboles $lr$ y $rl$, lo cual nos genera otros dos casos:
+llamada recursiva a $append$ de los subárboles $lr$ y $rl$, lo cual nos genera otros dos casos:
 
 \begin{minted}{coq}
 ______________________________________(1/2)
@@ -463,7 +465,7 @@ is_redblack (S n)
 \end{minted}
 
 Como podemos ver en ambas metas, tenemos una funci\'on nueva, $lbalS$, esta es una funci\'on de
-balanceo,la cual extiende a las funciones que ya se habian usado con anterioridad en la funci\'on
+balanceo,la cual extiende a las funciones que ya se habían usado con anterioridad en la funci\'on
 de inserci\'on, como lo son $rbal'$, $rbal$ y $lbal$.
 
 Para poder resolver esta parte de la demostraci\'on nos apoyaremos de otro lema, figura
@@ -493,7 +495,7 @@ Ls demostraci\'on de este lema se convierte en un análisis de casos en el cual 
 necesario simplificar, aplicar las definiciones inductivas y las metas que se generan son
 consecuencias directas de las hipótesis generadas, la inducci\'on no es necesaria.
 
-Regresando a las dos metas generadas por destruir la func\'on append, si nos fijamos en la primera
+Regresando a las dos metas generadas por destruir la funci\'on append, si nos fijamos en la primera
 , podemos ver que se puede aplicar directamente el lema $lbalS_rb$, lo cual nos genera 3 nuevas metas:
 
 \begin{minted}{coq}
@@ -771,10 +773,10 @@ contradicciones o a las metas deseadas.
 En este lema se usan lemas auxiliares muy similares a $lbalS\_rb$\footnote{descrito en la prueba de
 la  funci\'on $append$}, como su espejo $rbalS\_rb$ o sus contrapartes $rbalS\_arb$ y $lbalS\_arb$.
 Estos son lemas de balanceo sencillos de demostrar pero muy largos, tediosos y repetitivos, por lo
-tanto no se incluiran en este trabajo.
+tanto no se incluirán en este trabajo\footnote{Se pueden consultar en: \url{https://github.com/DavidFHCh/Tesis-FTW}}.
 
-Hasta este momento solo se han demostrado partes de la operacion total de eliminación, como juntar
-dos subarboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un arbol con raíz roja o
+Hasta este momento solo se han demostrado partes de la operación total de eliminación, como juntar
+dos subárboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un árbol con raíz roja o
 de uno con raíz negra. En seguida uniremos todos estos lemas en uno.
 
 \subsubsection{Instancia de la funci\'on de eliminaci\'on}
