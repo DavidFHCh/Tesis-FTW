@@ -94,7 +94,8 @@ son los siguientes:
     \item Los \'arboles a concatenar son negros.
 \end{itemize}
 
-En estos cuatro casos se cuida demasiado el hecho de no desbalancear el \'arbol, en otras palabras, que la altura negra sea la misma al terminar de la concatenaci\'on, es por eso que se tiene cuidado
+En estos cuatro casos se cuida demasiado el hecho de no desbalancear el \'arbol, en otras palabras, 
+que la altura negra sea la misma al terminar de la concatenaci\'on, es por eso que se tiene cuidado
 especial en los casos donde se manejan nodos negros, ya que estos son los únicos nodos
 considerados para el balanceo.
 
@@ -151,7 +152,8 @@ ______________________________________(1/2)
 nearly_redblack n (append (T R ll lx lr) (T R rl rx rr))
 \end{minted}
 
-El siguiente paso seria simplificar esta expresión, la cual cae en el caso de dos nodos rojos de la función $append$ y nos resulta en la siguiente meta:
+El siguiente paso seria simplificar esta expresión, la cual cae en el caso de dos nodos rojos de la 
+función $append$ y nos resulta en la siguiente meta:
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -218,11 +220,11 @@ sea $rbt$, esto nos daria dos casos:
     \end{itemize}
 \end{itemize}
 
-Con este procedimiento queda demostrado este caso de concatenar/unir dos \'aboles rojos con la funci\'on
-$append$, se puede apreciar como los pasos de la demostraci\'on tienden a repetirse, esto puede
-significar que existan una serie de comandos y/o t\'acticas del asistente de pruebas que nos ayuden a acortar
-esta prueba, sin embargo, en este trabajo se esta tomando el camino mas extenso para mostrar la
-simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
+Con este procedimiento queda demostrado este caso de concatenar/unir dos \'aboles rojos con la 
+funci\'on $append$, se puede apreciar como los pasos de la demostraci\'on tienden a repetirse, esto 
+puede significar que existan una serie de comandos y/o t\'acticas del asistente de pruebas que nos 
+ayuden a acortar esta prueba, sin embargo, en este trabajo se esta tomando el camino mas extenso 
+para mostrar la simplificaci\'on de la linea de pensamiento al demostrar estructuras complejas.
 
 \paragraph{Concatenaci\'on de un \'arbol rojo y uno negro.}
 
@@ -246,7 +248,9 @@ forall n : nat,
 
 En este segundo caso la conjunci\'on tambien contiene una contradicci\'on en la mitad derecha de
 esta, ya que se tiene \textit{notred (T R ll lx lr)}, entonces al igual que el caso pasado solo
-resolveremos la primera mitad de la conjunci\'on. Para esta demostración tenemos que guiar al asistente de pruebas un poco mas de lo normal, pues le tenemos que decirle que $r$ y el árbol \textit{(T B rl rx rr)} son el mismo.
+resolveremos la primera mitad de la conjunci\'on. Para esta demostración tenemos que guiar al 
+asistente de pruebas un poco mas de lo normal, pues le tenemos que decirle que $r$ y el árbol 
+\textit{(T B rl rx rr)} son el mismo.
 
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
@@ -265,7 +269,8 @@ nearly_redblack n (T R ll lx (append lr r))
 Podemos observar que se realizo una simplificaci\'on de la meta, donde se desarrollo lo mas
 posible la funci\'on append y se introdujeron los antecedentes a las hip\'otesis. Para poder
 demostrar esta nueva meta tenemos que destruir la hipótesis `IHlr', lo cual nos introduciría los
-dos antecedentes de la misma como metas. Se destruye esta hipótesis para poder obtener su consecuente como hip\'otesis.
+dos antecedentes de la misma como metas. Se destruye esta hipótesis para poder obtener su 
+consecuente como hip\'otesis.
 
 \begin{minted}{coq}
 r := T B rl rx rr : RB a
@@ -382,7 +387,9 @@ forall n : nat,
            -> is_redblack n (append (T B ll lx lr) (T B rl rx rr)))
 \end{minted}
 
-Esta demostraci\'on se inicia con una inducci\'on sobre la altura negra, es decir, una inducción sobre $n$. Esto porque hacer la inducción sobre esta propiedad nos garantiza que el resultado de la concatenación no estará desbalanceado.
+Esta demostraci\'on se inicia con una inducci\'on sobre la altura negra, es decir, una inducción 
+sobre $n$. Esto porque hacer la inducción sobre esta propiedad nos garantiza que el resultado de la 
+concatenación no estará desbalanceado.
 
 Esta inducci\'on nos da el caso base con $n=0$
 , seguido de la separaci\'on de la conjunci\'on y esto nos da 2 casos base, como se muestra en
@@ -415,7 +422,8 @@ metas como a las hip\'otesis H1 y H2, esto nos da las hipótesis necesarias para
 casos.
 
 Nos queda por probar el paso inductivo, en seguida podemos ver que la hipótesis de inducci\'on
-`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipótesis, en el siguiente paso se explica porque se decidió destruir esta hip\'otesis y no su contraparte IHrl.
+`IH' es parte de IHlr, la cual se obtuvo de destruir esa hipótesis, en el siguiente paso se explica 
+porque se decidió destruir esta hip\'otesis y no su contraparte IHrl.
 
 \begin{minted}{coq}
 IHlr : forall n : nat,
@@ -496,7 +504,8 @@ necesario simplificar, aplicar las definiciones inductivas y las metas que se ge
 consecuencias directas de las hipótesis generadas, la inducci\'on no es necesaria.
 
 Regresando a las dos metas generadas por destruir la funci\'on append, si nos fijamos en la primera
-, podemos ver que se puede aplicar directamente el lema $lbalS_rb$, lo cual nos genera 3 nuevas metas:
+, podemos ver que se puede aplicar directamente el lema $lbalS_rb$, lo cual nos genera 3 nuevas 
+metas:
 
 \begin{minted}{coq}
 H1 : is_redblack (S n) (T B ll lx lr)
@@ -705,7 +714,8 @@ IHl' : forall n : nat, is_redblack n s1 ->
 \end{minted}
   Al agregarla al inicio de la prueba podemos solamente aplicarla cuando lleguemos a los casos
   arriba mencionados.
-  \item El segundo caso se divide en dos, la primera parte es el caso espejo al pasado, se realiza lo mismo pero para el \'arbol $s2$, lo cual nos da la siguiente hipótesis a agregar:
+  \item El segundo caso se divide en dos, la primera parte es el caso espejo al pasado, se realiza 
+  lo mismo pero para el \'arbol $s2$, lo cual nos da la siguiente hipótesis a agregar:
 \begin{minted}{coq}
 IHr' : forall n : nat, is_redblack n s2 ->
                   notblack s2 -> is_redblack n (del x s2)
@@ -773,7 +783,8 @@ contradicciones o a las metas deseadas.
 En este lema se usan lemas auxiliares muy similares a $lbalS\_rb$\footnote{descrito en la prueba de
 la  funci\'on $append$}, como su espejo $rbalS\_rb$ o sus contrapartes $rbalS\_arb$ y $lbalS\_arb$.
 Estos son lemas de balanceo sencillos de demostrar pero muy largos, tediosos y repetitivos, por lo
-tanto no se incluirán en este trabajo\footnote{Se pueden consultar en: \url{https://github.com/DavidFHCh/Tesis-FTW}}.
+tanto no se incluirán en este trabajo\footnote{Se pueden consultar en: 
+\url{https://github.com/DavidFHCh/Tesis-FTW}}.
 
 Hasta este momento solo se han demostrado partes de la operación total de eliminación, como juntar
 dos subárboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un árbol con raíz roja o

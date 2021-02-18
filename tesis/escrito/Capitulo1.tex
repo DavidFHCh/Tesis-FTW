@@ -4,37 +4,48 @@
 \label{motivation}
 Hoy en día en el desarrollo de software existe un conjunto de normas a las cuales se les denomina
 \textit{buenas pr\'acticas de programaci\'on}, las cuales van desde tener una correcta
-indentaci\'on, en particular, elegir si usaremos espacios o tabuladores para realizar este acomodo, la
-documentaci\'on del c\'odigo, respetar las convenciones del lenguaje que estamos usado y verificar
-que nuestro programa se comporta de la manera deseada, en espec\'ifico, se pueden realizar pruebas unitarias.
+indentaci\'on, en particular, elegir si usaremos espacios o tabuladores para realizar este acomodo, 
+la documentaci\'on del c\'odigo, respetar las convenciones del lenguaje que estamos usado y 
+verificar que nuestro programa se comporta de la manera deseada, en espec\'ifico, se pueden 
+realizar pruebas unitarias.
 
 Las \textit{pruebas unitarias} nos ayudan a saber si un código tiene el comportamiento
 que buscamos, pero esto sol\'o nos sirve hasta cierto punto; por ejemplo, si tenemos una funci\'on
-que recibe un par de números naturales, para poder verificar que la funci\'on es
-correcta se tendrían que probar todos los casos de entradas, es decir, todas las combinaciones de pares de números
-naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la misma
-cantidad de memoria y de tiempo para poder ejecutar una prueba unitaria exhaustiva.
-Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con los recursos suficientes.
+que recibe un par de números naturales, para poder verificar que la funci\'on es correcta se 
+tendrían que probar todos los casos de entradas, es decir, todas las combinaciones de pares de 
+números naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la 
+misma cantidad de memoria y de tiempo para poder ejecutar una prueba unitaria exhaustiva. 
+Teóricamente esto es posible, pero en la pr\'actica simplemente no contamos con los recursos 
+suficientes.
 
 Siendo as\'i, escribir una prueba unitaria exhaustiva no es factible, en tal caso ¿que podríamos
-hacer para verificar una implementaci\'on?; escribir una prueba unitaria que itere sobre un conjunto representativo de los datos que la
-funci\'on puede recibir como argumentos. Sin embargo, ¿que se puede esperar si la misma prueba unitaria es errónea?,
-no hay una respuesta clara para esto y la misma industria hoy en día utiliza métodos, como el
-expuesto anteriormente, para probar c\'odigo pero ciertamente esto no es suficiente para decidir si el programa es
-correcto respecto a una especificaci\'on.
+hacer para verificar una implementaci\'on?; escribir una prueba unitaria que itere sobre un conjunto
+representativo de los datos que la funci\'on puede recibir como argumentos. Sin embargo, ¿que se 
+puede esperar si la misma prueba unitaria es errónea?, no hay una respuesta clara para esto y la 
+misma industria hoy en día utiliza métodos, como el expuesto anteriormente, para probar c\'odigo 
+pero ciertamente esto no es suficiente para decidir si el programa es correcto respecto a una 
+especificaci\'on.
 
 La única manera en que se puede demostrar que una función o programa 
 es correcto respecto a una especificación es mediante una prueba 
 matemática formal, el problema con este método es que es muy complejo, 
-complicado y a veces tardado para usarse en la industria o en el día a día. A lo largo del tiempo se ha buscado la manera de hacer este proceso mas amigable al
-programador, un ejemplo de esto son los lenguajes de programación funcionales, como lo seria Haskell. Este paradigma lleva
-a los programas a un contexto donde la notaci\'on es muy parecida a lo que se usar\'ia en las
-matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Damos como ejemplo la funci\'on que calcula el factorial de un n\'umero, esta la escribiremos tanto en Haskell como en la notaci\'on que suele usarse en cursos de matemáticas tradicionales, ver figuras \ref{func_fact_hask} y \ref{func_fact_math}. 
-Podemos apreciar como las definiciones son casi idénticas, ya que ambas definen los siguientes puntos:
+complicado y a veces tardado para usarse en la industria o en el día a día. A lo largo del tiempo 
+se ha buscado la manera de hacer este proceso mas amigable al programador, un ejemplo de esto son 
+los lenguajes de programación funcionales, como lo seria Haskell. Este paradigma lleva a los 
+programas a un contexto donde la notaci\'on es muy parecida a lo que se usar\'ia en las
+matemáticas tradicionales, es decir, funciones que van de un conjunto de datos a otro. Damos como 
+ejemplo la funci\'on que calcula el factorial de un n\'umero, esta la escribiremos tanto en Haskell 
+como en la notaci\'on que suele usarse en cursos de matemáticas tradicionales, ver figuras 
+\ref{func_fact_hask} y \ref{func_fact_math}. 
+Podemos apreciar como las definiciones son casi idénticas, ya que ambas definen los siguientes 
+puntos:
 \begin{itemize}
-    \item Ambas definen el tipo de sus variables, o en otras palabras, el conjunto al que las variables pertenecen.
-    \item Ambas definiciones establecen de que tipo de dato toman sus argumentos, es decir, la entrada de la funci\'on es un numero natural al igual que el resultado.
-    \item Podemos intercambiar `f' por `fac' en cualquiera de las dos definiciones y el significado no cambiaría.
+    \item Ambas definen el tipo de sus variables, o en otras palabras, el conjunto al que las 
+    variables pertenecen.
+    \item Ambas definiciones establecen de que tipo de dato toman sus argumentos, es decir, la 
+    entrada de la funci\'on es un numero natural al igual que el resultado.
+    \item Podemos intercambiar `f' por `fac' en cualquiera de las dos definiciones y el significado 
+    no cambiaría.
 \end{itemize}
 %agregar ejemplo de java
 \begin{figure}[!ht]
@@ -69,25 +80,30 @@ no obstante, la \'unica manera en que estemos seguros acerca de la correcci\'on 
 que otra persona lea, entienda y valide la misma. Todos estos procesos, creaci\'on y revisi\'on de la
 demostraci\'on, están hechos por humanos, por lo tanto son susceptibles a errores.
 
-En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar
-este tipo de problemas, como son los \textit{demostradores autom\'aticos} y los \textit{asistentes de
-prueba}. Estas herramientas son sistemas o programas que realizan o gestionan demostraciones. Nosotros
-nos enfocaremos en el uso del segundo; en particular en este trabajo usaremos el
-asistente interactivo de pruebas llamado {\coq}\footnote{Como en este trabajo no se profundizara sobre el funcionamiento de la herramienta, presentamos la pagina de referencia del mismo: \url{https://coq.inria.fr/}}. Este nos ayudar\'a gui\'andonos por la prueba, llevando un
-control de los casos que nos falten por demostrar y las hip\'otesis disponibles para cada caso,
-todo esto sobre programas escritos en el lenguaje funcional del mismo asistente.
+En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar este
+tipo de problemas, como son los \textit{demostradores autom\'aticos} y los \textit{asistentes de
+prueba}. Estas herramientas son sistemas o programas que realizan o gestionan demostraciones. 
+Nosotros nos enfocaremos en el uso del segundo; en particular en este trabajo usaremos el asistente 
+interactivo de pruebas llamado {\coq}\footnote{Como en este trabajo no se profundizara sobre el 
+funcionamiento de la herramienta, presentamos la pagina de referencia del mismo: 
+\url{https://coq.inria.fr/}}. Este nos ayudar\'a gui\'andonos por la prueba, llevando un control de 
+los casos que nos falten por demostrar y las hip\'otesis disponibles para cada caso, todo esto sobre 
+programas escritos en el lenguaje funcional del mismo asistente.
 
 Sin embargo, el uso de este asistente genera otro problema, no podemos probar cualquier programa
 escrito en un lenguaje funcional, primero tenemos que traducir este programa al lenguaje de {\coq}
-para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano y/o adaptar una implementación al lenguaje de {\coq} o utilizar
-una herramienta que nos ayude a traducir. En este trabajo usaremos la segunda opci\'on, una
-herramienta llamada \textit{hs-to-coq} \cite{thrc}, para probar formalmente la
-correctud \footnote{Del ingl\'es \textit{correctness}.} de una estructura de datos como lo son los {\arns}.
+para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano y/o adaptar 
+una implementación al lenguaje de {\coq} o utilizar una herramienta que nos ayude a traducir. En 
+este trabajo usaremos la segunda opci\'on, una herramienta llamada \textit{hs-to-coq} \cite{thrc}, 
+para probar formalmente la correctud \footnote{Del ingl\'es \textit{correctness}.} de una estructura 
+de datos como lo son los {\arns}.
 
-Tomando como referencia el trabajo \cite{tesisG}, en donde se realizaron diversas implementaciones de {\arns} usando el
-lenguaje de programaci\'on Haskell, por ejemplo, se desarrollaron implementaciones usando constructores inteligentes y otra
-implementaci\'on mas compleja usando tipos anidados. Siendo este trabajo la principal motivaci\'on
-de elegir esta estructura de datos no trivial para realizar una verificaci\'on formal de la implementaci\'on de constructores inteligentes.
+Tomando como referencia el trabajo \cite{tesisG}, en donde se realizaron diversas implementaciones 
+de {\arns} usando ellenguaje de programaci\'on Haskell, por ejemplo, se desarrollaron 
+implementaciones usando constructores inteligentes y otra implementaci\'on mas compleja usando tipos 
+anidados. Siendo este trabajo la principal motivaci\'on de elegir esta estructura de datos no 
+trivial para realizar una verificaci\'on formal de la implementaci\'on de constructores 
+inteligentes.
 
 \section{\Arns}
 Los {\arns} son una estructura de datos donde sus operaciones de inserci\'on, eliminaci\'on y
@@ -114,7 +130,8 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
         \item Todas las hojas del \'arbol son vacías y de color negro.
     \end{itemize}
 \end{enumerate}
-Decimos que la altura negra de un nodo es el n\'umero de nodos negros que aparecen en el camino de ese nodo a la raíz.
+Decimos que la altura negra de un nodo es el n\'umero de nodos negros que aparecen en el camino de 
+ese nodo a la raíz.
 \end{defn}
 
 \begin{figure}[!ht]
@@ -154,30 +171,33 @@ Decimos que la altura negra de un nodo es el n\'umero de nodos negros que aparec
 \end{figure}
 
 En la figura \ref{arbolRB_1} podemos ver un ejemplo de un {\arn} que respeta la definici\'on que
-acabamos de presentar; las etiquetas de los nodos representan la informaci\'on que se puede almacenar en ellos, siendo en este caso n\'umeros naturales, las etiquetas $x$ en las hojas representan los nodos vacíos y estos
-son negros, y los subíndices de que aparecen en los nodos negros representan la altura negra del sub\'arbol.
-Con este ejemplo se ilustra como la cantidad de nodos negros de la ra\'iz a cualquier hoja es
-siempre la misma.
+acabamos de presentar; las etiquetas de los nodos representan la informaci\'on que se puede 
+almacenar en ellos, siendo en este caso n\'umeros naturales, las etiquetas $x$ en las hojas 
+representan los nodos vacíos y estos son negros, y los subíndices de que aparecen en los nodos 
+negros representan la altura negra del sub\'arbol. Con este ejemplo se ilustra como la cantidad de 
+nodos negros de la ra\'iz a cualquier hoja es siempre la misma.
 
 Nos interesa estudiar este tipo no trivial de \textit{\'arboles binarios de búsqueda} para poder
-demostrar la correctud de la implementaci\'on funcional en \cite{tesisG} 
-usando el asistente de pruebas {\coq} y de esta
-manera poder mostrar las ventajas y desventajas de este proceso, el cual comienza escribiendo de
-cero una estructura o traduciendo la misma del lenguaje Haskell a {\coq}, e incluso hasta las
-demostraciones que se realizar\'an con el asistente de pruebas.
+demostrar la correctud de la implementaci\'on funcional en \cite{tesisG} usando el asistente de 
+pruebas {\coq} y de esta manera poder mostrar las ventajas y desventajas de este proceso, el cual 
+comienza escribiendo de cero una estructura o traduciendo la misma del lenguaje Haskell a {\coq}, e 
+incluso hasta las demostraciones que se realizar\'an con el asistente de pruebas.
 
 \section{Traducción de Haskell a {\coq}}
-El enfoque que hemos decidido darle a este trabajo, consiste en considerar una implementaci\'on de la estructura descrita en la secci\'on pasada y solamente realizar la verificaci\'on formal de la misma, es por esta raz\'on que como mencionamos en la secci\'on \ref{motivation} de este trabajo, existen programas llamados asistentes de pruebas que nos ayudan a realizar la
-verificaci\'on formal de otros programas, en particular en este
-trabajo se decidió usar {\coq}. Este asistente nos gu\'ia a través de la prueba recordando cuales
-son las \textit{metas}\footnote{Una meta es..} que debemos demostrar, nos ofrece \textit{t\'acticas}\footnote{Una táctica es...} para poder demostrar dichas metas
-entre otras cosas, sin embargo, esta tambi\'en nos presenta nuevos desaf\'ios.
+El enfoque que hemos decidido darle a este trabajo, consiste en considerar una implementaci\'on de 
+la estructura descrita en la secci\'on pasada y solamente realizar la verificaci\'on formal de la 
+misma, es por esta raz\'on que como mencionamos en la secci\'on \ref{motivation} de este trabajo, 
+existen programas llamados asistentes de pruebas que nos ayudan a realizar la verificaci\'on formal 
+de otros programas, en particular en este trabajo se decidió usar {\coq}. Este asistente nos gu\'ia 
+a través de la prueba recordando cuales son las \textit{metas}\footnote{Una meta es..} que debemos 
+demostrar, nos ofrece \textit{t\'acticas}\footnote{Una táctica es...} para poder demostrar dichas 
+metas entre otras cosas, sin embargo, esta tambi\'en nos presenta nuevos desaf\'ios.
 
-Al comenzar a utilizar el asistente nos encontramos con las primeras problem\'aticas, estas
-consisten en decidir si vamos a escribir el programa directamente en el lenguaje de {\coq} o si lo que
-buscamos es traducir un programa ya existente al lenguaje del asistente de pruebas; como lo que se
-busca es poder verificar un programa antes escrito, es decir, para el caso de los {\arns} queremos traducir
-este código de Haskell a {\coq}.
+Al comenzar a utilizar el asistente nos encontramos con las primeras problem\'aticas, estas 
+consisten en decidir si vamos a escribir el programa directamente en el lenguaje de {\coq} o si lo 
+que buscamos es traducir un programa ya existente al lenguaje del asistente de pruebas; como lo que 
+se busca es poder verificar un programa antes escrito, es decir, para el caso de los {\arns} 
+queremos traducir este código de Haskell a {\coq}.
 
 En el articulo `Total Haskell is Reasonable Coq' \cite{thrc} se describen las principales ventajas
 y desventajas de traducir de Haskell a {\coq}, los cuales expondremos a continuaci\'on.
@@ -193,7 +213,8 @@ y desventajas de traducir de Haskell a {\coq}, los cuales expondremos a continua
 
 \subsection{Desventajas}
 \begin{itemize}
-    \item Haskell utiliza el razonamiento ecuacional, por lo que en general no se usa un lenguaje formal para realizar las demostraciones.
+    \item Haskell utiliza el razonamiento ecuacional, por lo que en general no se usa un lenguaje 
+    formal para realizar las demostraciones.
     \item Los programadores de Haskell razonan acerca de su código informalmente, si se llegan a
     realizar pruebas de este, generalmente esta hecho a mano ``en papel'', lo cual es tedioso y
     susceptible a errores.
@@ -202,24 +223,30 @@ y desventajas de traducir de Haskell a {\coq}, los cuales expondremos a continua
     \item El hecho de que los programadores de Haskell s\'olo razonen acerca de su código
     informalmente puede que resulte en que se generen funciones parciales, es decir, que no se
     cubran todas la combinaciones de parámetros posibles para una funci\'on.
-    \item La traducci\'on de Haskell a {\coq} s\'olo es posible si todas las funciones a traducir son
-    totales.
+    \item La traducci\'on de Haskell a {\coq} s\'olo es posible si todas las funciones a traducir 
+    son totales.
 \end{itemize}
 
 Este art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
-encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a {\coq}. Por las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de traducci\'on y enfocarnos \'unicamente en la verificaci\'on de los \arns
+encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a {\coq}. Por
+las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de 
+traducci\'on y enfocarnos \'unicamente en la verificaci\'on de los {\arns}.
 
 \section{Sobre este trabajo}
 El contenido y demostraciones que se describen en este trabajo se encuentran almacenados en:
 \url{https://github.com/DavidFHCh/Tesis-FTW}. Aqu\'i presentamos definiciones, lemas y clases sin
-incluir las demostraciones en {\coq}, en otras palabras, los scripts de prueba. En su lugar se describen de manera informal las demostraciones para poder entender en alto nivel la estructura de la verificaci\'on formal realizada.
+incluir las demostraciones en {\coq}, en otras palabras, los scripts de prueba. En su lugar se 
+describen de manera informal las demostraciones para poder entender en alto nivel la estructura de 
+la verificaci\'on formal realizada.
 
 En este trabajo se opt\'o por usar el traductor \textit{hs-to-coq}, ya que la traducci\'on manual
 resultaria ser muy tediosa y esta es susceptible a errores, tambi\'en se desviaría el enfoque de
 este trabajo, el cual es la verificaci\'on de la estructura, no la traducci\'on de la misma. La
 herramienta fue utilizada para obtener las traducciones de las bibliotecas de Haskell; estas fueron
-usadas para poder verificar la implementación, comenzando con el trabajo de \cite{tesisG} y adecuándolo a la implementaci\'on de 
-\cite{MSetRBT} que se uso en el trabajo.
+usadas para poder verificar la implementación, comenzando con el trabajo de \cite{tesisG} y 
+adecuándolo a la implementaci\'on de \cite{MSetRBT} que se uso en el trabajo.
 
 En los siguientes capítulos se describe el procedimiento usado para la verificaci\'on de la
-estructura de datos, la cual esta enfocada a las invariantes de los cuatro puntos de la definici\'on \ref{defn_arn} dejando de lado la verificaci\'on de ser un \'arbol de b\'usqueda\footnote{El lector interesado puede revisar \cite{appel}.}.
+estructura de datos, la cual esta enfocada a las invariantes de los cuatro puntos de la definici\'on
+ \ref{defn_arn} dejando de lado la verificaci\'on de ser un \'arbol de b\'usqueda\footnote{El lector
+  interesado puede revisar \cite{appel}.}.

@@ -270,9 +270,14 @@ definici\'on $nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz
 aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ de
 $is\_redblack$ pero sin las restricciones de que los sub\'arboles sean rojos, lo cual nos permite
 que hayan dos nodos rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con
-la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función $make_black$ al final de las operaciones que se realicen. 
+la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de 
+balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función $make_black$ 
+al final de las operaciones que se realicen. 
 
-Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de \textit{divide y vencerás}, es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas las invariantes.} para al final utilizar estos resultados para realizar la demostraci\'on de la definición mas estricta.
+Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de 
+\textit{divide y vencerás}, es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas 
+las invariantes.} para al final utilizar estos resultados para realizar la demostraci\'on de la 
+definición mas estricta.
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
 eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (figura \ref{class_rb}).
@@ -288,8 +293,13 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 \label{class_rb}
 \end{figure}
 
-Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} (\textit{t: RB a}), existe una altura
-negra $d$ que cumple con las invariantes establecidas por la definici\'on $is\_redblack$. Esta clase\footnote{Las clases en este contexto funcional se pueden ver, desde un alto nivel, como equivalencias a las clases del paradigma orientado a objetos.} representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de \textit{Haskell}.
+Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} 
+(\textit{t: RB a}), existe una altura negra $d$ que cumple con las invariantes establecidas por la 
+definici\'on $is\_redblack$. Esta clase\footnote{Las clases en este contexto funcional se pueden 
+ver, desde un alto nivel, como equivalencias a las clases del paradigma orientado a objetos.} 
+representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras 
+de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de 
+\textit{Haskell}.
 
 \paragraph{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de definiciones de la secci\'on pasada, la definici\'on de

@@ -1,14 +1,15 @@
 \subsection{Verificación de la operación de inserción}
 
 Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir
-enunciados, ya sean lemas, proposiciones, etc. Estos enunciados los escribiremos usando las definiciones inductivas presentadas en
-la secci\'on pasada, es decir, $is\_redblack$, $nearly\_redblack$ y $redred\_tree$.
+enunciados, ya sean lemas, proposiciones, etc. Estos enunciados los escribiremos usando las 
+definiciones inductivas presentadas en la secci\'on pasada, es decir, $is\_redblack$, 
+$nearly\_redblack$ y $redred\_tree$.
 
 A continuaci\'on mostraremos los lemas $ins\_rr\_rb$, $ins\_arb$ y una instancia \cite{classes}
 de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT},
-la idea principal de estos enunciados es explicarnos que ciertos \'arboles de b\'usqueda que respeten las definiciones
-mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, también como consecuencia respetar\'an
-$is\_redblack$.
+la idea principal de estos enunciados es explicarnos que ciertos \'arboles de b\'usqueda que 
+respeten las definiciones mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, también 
+como consecuencia respetar\'an $is\_redblack$.
 
 \subsubsection{Primer Lema}
 
@@ -24,17 +25,17 @@ is_redblack n s ->
 \label{lema_1}
 \end{figure}
 
-En este primer lema (figura \ref{lema_1}) enunciamos lo siguiente: sea \textit{\textbf{s}} un {\arn} bajo la
-definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raíz roja, insertar un elemento
-\textit{\textbf{x}} en \textit{\textbf{s}} resulta en un \'arbol que cumple la definci\'on de $redred\_tree$, en otro caso cumple
-con la definici\'on de $is\_redblack$.
+En este primer lema (figura \ref{lema_1}) enunciamos lo siguiente: sea \textit{\textbf{s}} un {\arn} 
+bajo la definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raíz roja, 
+insertar un elemento \textit{\textbf{x}} en \textit{\textbf{s}} resulta en un \'arbol que cumple la 
+definci\'on de $redred\_tree$, en otro caso cumple con la definici\'on de $is\_redblack$.
 
 En otras palabras, lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
 un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
 rojos, uno en la ra\'iz y otro en cualquiera de los dos, o incluso en los dos nodos siguientes.
 
-La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del enunciado, lo cual
-resulta en tres casos:
+La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del enunciado, lo 
+cual resulta en tres casos:
 
  \begin{minted}{coq}
 ______________________________________(1/3)
@@ -63,13 +64,14 @@ al caso donde se aplica la definici\'on $redred\_tree$, lo cual significa que al
 \'arbol rojo, sin tener conocimiento de como son los subárboles de este, puede resultar en un
 \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz del mismo, ya que la operaci\'on de
 balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on, y como
-los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectúa en los nodos
-de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raíz y
+los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectúa en los nodos de la raíz, 
+dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raíz y
 sus hijos.}.
 
-El caso sobrante, es decir, el caso del \'arbol con raíz negra se
-complica un poco mas que el anterior ya que este es el caso en el que la altura negra del \'arbol
-se ve modificada, en otras palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, $lbal$ y $rbal$:
+El caso sobrante, es decir, el caso del \'arbol con raíz negra se complica un poco mas que el 
+anterior ya que este es el caso en el que la altura negra del \'arbol se ve modificada, en otras 
+palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, $lbal$ y 
+$rbal$:
 
 \begin{minted}{coq}
 H1_ : is_redblack n l
@@ -114,18 +116,20 @@ nearly_redblack n (ins x s)
 
 \end{minted}
 
-Aplicamos el lema $ins\_rr\_rb$ a la hip\'otesis porque este nos genera dos casos, uno con la funci\'on $redred\_tree$ y otro con $is\_redblack$. Lo que hace necesario
-que se aplique este lema, es que con ayuda de las definiciones que introduce son con las que $nearly\_redblack$ fue definido.
+Aplicamos el lema $ins\_rr\_rb$ a la hip\'otesis porque este nos genera dos casos, uno con la 
+funci\'on $redred\_tree$ y otro con $is\_redblack$. Lo que hace necesario que se aplique este lema, 
+es que con ayuda de las definiciones que introduce son con las que $nearly\_redblack$ fue definido.
 
-Como no se sabe si el \'arbol \textit{\textbf{s}} tiene ra\'iz roja o negra, se tienen que probar los dos casos:
-uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con $redred\_tree$.
-Estos casos se resuelven sencillamente con la aplicación de alguno de los dos casos de la definici\'on
-inductiva de $nearly\_redblack$, respectivamente.
+Como no se sabe si el \'arbol \textit{\textbf{s}} tiene ra\'iz roja o negra, se tienen que probar 
+los dos casos: uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con 
+$redred\_tree$. Estos casos se resuelven sencillamente con la aplicación de alguno de los dos casos 
+de la definici\'on inductiva de $nearly\_redblack$, respectivamente.
 
 \subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
-Para poder probar que el resultado de la inserci\'on es una instancia de la clase $redblack$,es decir, que se cumplen con las propiedades descritas por la clase, vamos a necesitar el
-lema auxiliar que se encuentra en la figura \ref{lema_3}:
+Para poder probar que el resultado de la inserci\'on es una instancia de la clase $redblack$, es 
+decir, que se cumplen con las propiedades descritas por la clase, vamos a necesitar el lema auxiliar
+que se encuentra en la figura \ref{lema_3}:
 \begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
@@ -137,10 +141,13 @@ nearly_redblack n t -> redblack (makeBlack t).
 \label{lema_3}
 \end{figure}
 
-Este lema auxiliar se resuelve siguiendo la idea de que la definici\'on inductiva $nearly\_redblack$ únicamente viola las invariantes al poder tener dos 
-nodos rojos consecutivos en su raíz, entonces, si se ``pinta'' la raíz de negro con la función $makeBlack$, el \'arbol resultante es un {\arn} le cual respeta la la definición de la clase $redblack$.
+Este lema auxiliar se resuelve siguiendo la idea de que la definici\'on inductiva $nearly\_redblack$
+únicamente viola las invariantes al poder tener dos nodos rojos consecutivos en su raíz, entonces, 
+si se ``pinta'' la raíz de negro con la función $makeBlack$, el \'arbol resultante es un {\arn} le 
+cual respeta la la definición de la clase $redblack$.
 
-La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$, la cual también nos generar\'a una demostraci\'on:
+La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$, la cual 
+también nos generar\'a una demostraci\'on:
 
 \begin{figure}[!ht]
 \centering
@@ -176,6 +183,6 @@ Esta ultima meta se resuelve aplicando el segundo lema que enunciamos, $ins\_arb
 con una meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on
 de inserci\'on.
 
-Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta
-respecto a las invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on ha
-sido verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.
+Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta respecto a las 
+invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on  ha sido 
+verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.
