@@ -132,30 +132,38 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 \label{inductive_isRB}
 \end{figure}
 
-La primera definici\'on llamada $isRB$ (figura \ref{inductive_isRB}) tiene tres casos, los
-cuales describiremos a continuaci\'on:
+La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$} (figura \ref{inductive_isRB}) 
+tiene tres casos, los cuales describiremos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es roji-negro. En este caso
         se tiene un s\'olo nodo, es decir, una hoja\footnote{Recordemos que las hojas son vacias y de
         color negro.}.
-        \item \textbf{IsRB\_r}: Para cualesquiera \'arboles \textbf{\textit{tl}} y \textbf{\textit{tr}} que cumplan con la
-        definici\'on $isRB$ con color rojo y altura \textbf{\textit{n}}, se cumple que un \'arbol de color rojo con
-        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple con $isRB$ con color negro y altura \textbf{\textit{n}}. El
-        color se refiere al color del padre, en este caso, en la llamada de $isRB$ a \textbf{\textit{tl}} y \textbf{\textit{tr}} se
-        le pasa el color rojo porque \textbf{\textit{t}} es rojo. La altura \textbf{\textit{n}} se refiere a que hay \textbf{\textit{n}} nodos
-        negros en cualquier camino del nodo actual a alguna hoja, aqui no crece \textbf{\textit{n}} porque tanto
+        \item \textbf{IsRB\_r}: Para cualesquiera \'arboles \textbf{\textit{tl}} y 
+        \textbf{\textit{tr}} que cumplan con la definici\'on \hyperref[inductive_isRB]{$isRB$} con 
+        color rojo y altura \textbf{\textit{n}}, se cumple que un \'arbol de color rojo con 
+        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple 
+        con \hyperref[inductive_isRB]{$isRB$} con color negro y altura \textbf{\textit{n}}. El color 
+        se refiere al color del padre, en este caso, en la llamada de 
+        \hyperref[inductive_isRB]{$isRB$} a \textbf{\textit{tl}} y \textbf{\textit{tr}} se le pasa 
+        el color rojo porque \textbf{\textit{t}} es rojo. La altura \textbf{\textit{n}} se refiere a 
+        que hay \textbf{\textit{n}} nodos negros en cualquier camino del nodo actual a alguna hoja, 
+        aqui no crece \textbf{\textit{n}} porque tanto
         \textbf{\textit{tl}} y \textbf{\textit{tr}} son rojos.
-        \item \textbf{IsRB\_b}: Para cualesquiera \'arboles \textbf{\textit{tl}} y \textbf{\textit{tr}} que cumplan con la
-        definici\'on $isRB$ con color negro y altura \textbf{\textit{n}}, se cumple que un \'arbol de color negro
-        con \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple con $isRB$ con cualquier color y altura
-        $S(n)$. En este caso, en la llamada de $isRB$ a \textbf{\textit{tl}} y \textbf{\textit{tr}} se le pasa el color negro
-        porque \textbf{\textit{t}} es negro y aqui se le suma uno a \textbf{\textit{n}} porque tanto \textbf{\textit{tl}} y \textbf{\textit{tr}} son negros.
+        \item \textbf{IsRB\_b}: Para cualesquiera \'arboles \textbf{\textit{tl}} y 
+        \textbf{\textit{tr}} que cumplan con la definici\'on \hyperref[inductive_isRB]{$isRB$} con 
+        color negro y altura \textbf{\textit{n}}, se cumple que un \'arbol de color negro con 
+        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple 
+        con \hyperref[inductive_isRB]{$isRB$} con cualquier color y altura $S(n)$. En este caso, en 
+        la llamada de \hyperref[inductive_isRB]{$isRB$} a \textbf{\textit{tl}} y 
+        \textbf{\textit{tr}} se le pasa el color negro porque \textbf{\textit{t}} es negro y aqui se 
+        le suma uno a \textbf{\textit{n}} porque tanto \textbf{\textit{tl}} y \textbf{\textit{tr}} 
+        son negros.
 \end{itemize}
 
 Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on
 inductiva es demasiado restrictiva y esto dificulta poder demostrar las propiedades de los {\arns},
-por esto pasamos a la segunda definici\'on inductiva, $nearRB$, esta permite mas flexibilidad en el
-\'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
+por esto pasamos a la segunda definici\'on inductiva, \hyperref[inductive_nearRB]{$nearRB$}, esta 
+permite mas flexibilidad en el \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
 %punto
 \begin{figure}[!ht]
 \centering
@@ -176,14 +184,14 @@ Inductive nearRB : Tree -> nat -> Prop :=
 \end{figure}
 
 Podemos apreciar que solo se tienen dos casos y no se tiene un argumento para un color, sin
-embargo, a diferencia de $isRB$ esta no se llama recursivamente, en lugar de eso se llama a $isRb$
-inmediatamente, además podemos ver que ambas definiciones comparten el contador de nodos negros.
-Con estas modificaciones se permite una cosa, que en la ra\'iz del \'arbol puedan haber a lo m\'as
-dos nodos rojos contiguos.
+embargo, a diferencia de \hyperref[inductive_isRB]{$isRB$} esta no se llama recursivamente, en lugar
+de eso se llama a \hyperref[inductive_isRB]{$isRB$} inmediatamente, además podemos ver que ambas 
+definiciones comparten el contador de nodos negros. Con estas modificaciones se permite una cosa, 
+que en la ra\'iz del \'arbol puedan haber a lo m\'as dos nodos rojos contiguos.
 
 \paragraph{Intento de Verificaci\'on}
-Utilizando las definiciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido de
-verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo, al
+Utilizando las definiciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido 
+de verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo, al
 estar desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de
 hipótesis para poder probar una meta. Esto se debe probablemente a una mala elección de estilo de
 demostraci\'on, implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se noto
@@ -199,11 +207,11 @@ Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos rea
 siguiente pregunta: ¿c\'omo capturar las invariantes de los {\arns}, y al mismo tiempo facilitar la
 verificaci\'on de estos?
 
-Utilizamos una definición inductiva, llamada $is\_redblack$ para poder capturar los invariantes,
-la cual lleva como parámetros un contador y un \'arbol. El contador lleva el control de la
-cantidad de nodos negros, es decir, la altura negra del nodo, mientras que el \'arbol es aquel que
-estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se presenta esta definici\'
-on en la figura \ref{inductive_isRedB}.
+Utilizamos una definición inductiva, llamada \hyperref[inductive_isRedB]{$is\_redblack$} para poder 
+capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador lleva 
+el control de la cantidad de nodos negros, es decir, la altura negra del nodo, mientras que el 
+\'arbol es aquel que estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se 
+presenta esta definici\'on en la figura \ref{inductive_isRedB}.
 
 \begin{figure}[!ht]
 \centering
@@ -225,27 +233,29 @@ Podemos notar ciertas similitudes con la definición inductiva de la secci\'on p
 embargo, el principal cambio que presenta esta definición, es el hecho de que se dejan de controlar
 los colores de los subárboles en los parámetros de la definici\'on y se crea la funci\'on $notred$,
 la cual, como su nombre dice, verifica que el \'arbol que se este pasando no tenga raíz roja. La
-definici\'on $is\_redblack$ tiene tres casos,$RB\_Leaf$, $RB\_R$ y $RB\_B$. Desarrollando la idea de cada caso:
+definici\'on \hyperref[inductive_isRedB]{$is\_redblack$} tiene tres casos,$RB\_Leaf$, $RB\_R$ y 
+$RB\_B$. Desarrollando la idea de cada caso:
 
 \begin{itemize}
         \item \textbf{RB\_Leaf}: el árbol vació es roji-negro. Este caso nos dice que el \'arbol
         vacío es un {\arn}.
-        \item \textbf{RB\_R}: un árbol rojo donde se lleven contabilizados \textbf{\textit{n}} nodos negros, donde sus
-        hijos sean {\arns} y no sean rojos. Este caso nos dice explícitamente que los subárboles
-        del árbol que esta recibiendo la función no pueden ser rojos, esto porque el árbol que se
-        esta analizando tiene raíz roja. Como no se esta analizando algún nodo negro, la altura
-        negra se mantiene en \textbf{\textit{n}}.
-        \item \textbf{RB\_B}: un árbol negro donde se lleven contabilizados $n+1$ nodos negros, incluido
-        el actual, y sus hijos sean {\arns}. En este \'ultimo caso se tiene la libertad de que los
-        subárboles sean de cualquier color, pero la altura del \'arbol de regreso es $S(n)$ porque el nodo
-        que se esta analizando es de color negro, los antecedentes al no tomar en cuenta a su nodo
-        padre tienen altura \textbf{\textit{n}}.
+        \item \textbf{RB\_R}: un árbol rojo donde se lleven contabilizados \textbf{\textit{n}} nodos 
+        negros, donde sus hijos sean {\arns} y no sean rojos. Este caso nos dice explícitamente que 
+        los subárboles del árbol que esta recibiendo la función no pueden ser rojos, esto porque el 
+        árbol que se esta analizando tiene raíz roja. Como no se esta analizando algún nodo negro, 
+        la altura negra se mantiene en \textbf{\textit{n}}.
+        \item \textbf{RB\_B}: un árbol negro donde se lleven contabilizados $n+1$ nodos negros, 
+        incluido el actual, y sus hijos sean {\arns}. En este \'ultimo caso se tiene la libertad de 
+        que los subárboles sean de cualquier color, pero la altura del \'arbol de regreso es $S(n)$ 
+        porque el nodo que se esta analizando es de color negro, los antecedentes al no tomar en 
+        cuenta a su nodo padre tienen altura \textbf{\textit{n}}.
 \end{itemize}
 
 Esta definici\'on captura los invariantes que estamos buscando, sin embargo, no es suficiente para
-poder probar la correcci\'on de los {\arns}, la definici\'on es demasiado restrictiva y costaría mucho
-trabajo proceder con las demostraciones solamente con ella. Por esta razón se agregan dos
-definiciones inductivas auxiliares; $redred\_tree$ y $nearly\_redblack$ (figura \ref{inductive_aux}).
+poder probar la correcci\'on de los {\arns}, la definici\'on es demasiado restrictiva y costaría 
+mucho trabajo proceder con las demostraciones solamente con ella. Por esta razón se agregan dos
+definiciones inductivas auxiliares; \hyperref[inductive_isRedB]{$redred\_tree$} y 
+\hyperref[inductive_isRedB]{$nearly\_redblack$} (figura \ref{inductive_aux}).
 
 \begin{figure}[!ht]
 \centering
@@ -261,18 +271,21 @@ Inductive nearly_redblack {a}
  | ARB_RB : is_redblack n t -> nearly_redblack n t
  | ARB_RR : redred_tree n t -> nearly_redblack n t.
 \end{minted}
-\caption{Funciones inductivas $redred\_tree$ y $nearly\_redblack$.}
+\caption{Funciones inductivas \hyperref[inductive_isRedB]{$redred\_tree$} y 
+\hyperref[inductive_isRedB]{$nearly\_redblack$}.}
 \label{inductive_aux}
 \end{figure}
 
-Podemos notar que estas definiciones son versiones menos restrictivas de $is\_redblack$. La
-definici\'on $nearly\_redblack$ permite que existan dos nodos rojos en la ra\'iz del \'arbol,
-aprovech\'andose de $redred\_tree$, pues esta definici\'on es exactamente el caso $RB\_R$ de
-$is\_redblack$ pero sin las restricciones de que los sub\'arboles sean rojos, lo cual nos permite
-que hayan dos nodos rojos exactamente en la ra\'iz. Entonces un $nearly\_redblack$ es un {\arn} con
-la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de 
-balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función $make_black$ 
-al final de las operaciones que se realicen. 
+Podemos notar que estas definiciones son versiones menos restrictivas de 
+\hyperref[inductive_isRedB]{$is\_redblack$}. La definici\'on 
+\hyperref[inductive_isRedB]{$nearly\_redblack$} permite que existan dos nodos rojos en la ra\'iz del 
+\'arbol, aprovech\'andose de \hyperref[inductive_isRedB]{$redred\_tree$}, pues esta definici\'on es 
+exactamente el caso $RB\_R$ de \hyperref[inductive_isRedB]{$is\_redblack$} pero sin las 
+restricciones de que los sub\'arboles sean rojos, lo cual nos permite que hayan dos nodos rojos 
+exactamente en la ra\'iz. Entonces un \hyperref[inductive_isRedB]{$nearly\_redblack$} es un {\arn} 
+con la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de 
+balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función 
+\hyperref[raiz_negra_func]{$makeBlack$} al final de las operaciones que se realicen. 
 
 Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de 
 \textit{divide y vencerás}, es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas 
@@ -295,19 +308,19 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 
 Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} 
 (\textit{t: RB a}), existe una altura negra $d$ que cumple con las invariantes establecidas por la 
-definici\'on $is\_redblack$. Esta clase\footnote{Las clases en este contexto funcional se pueden 
-ver, desde un alto nivel, como equivalencias a las clases del paradigma orientado a objetos.} 
-representa un refinamiento en los tipos inductivos para describir las invariantes de las estructuras 
-de datos y es mas expresivo que los tipos de datos usados en la implementaci\'on de 
-\textit{Haskell}.
+definici\'on \hyperref[inductive_isRedB]{$is\_redblack$}. Esta clase\footnote{Las clases en este 
+contexto funcional se pueden ver, desde un alto nivel, como equivalencias a las clases del paradigma 
+orientado a objetos.} representa un refinamiento en los tipos inductivos para describir las 
+invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la 
+implementaci\'on de \textit{Haskell}.
 
 \paragraph{Segundo Intento de Verificaci\'on}
 En contraste con el conjunto de definiciones de la secci\'on pasada, la definici\'on de
-$nearly\_redblack$ se reescribe, dejando de codificar las invariantes en las llamadas recursivas
-de la definición, creando funciones auxiliares para capturar los invariantes de manera mas
-sencilla, como $redred\_tree$ y $notred$. Además se crea la clase de {\arns}, lo cual afina mas la
-definici\'on de los mismos. Tomando en cuenta todas estas modificaciones a las definiciones fue que
-se eligió este conjunto para verificar formalmente la estructura de datos\footnote{La elecci\'on
-de este conjunto fue correcta ya que facilito la demostraci\'on de las propiedades y probo ser
-suficiente para verificar la estructura.}.
+\hyperref[inductive_isRedB]{$nearly\_redblack$} se reescribe, dejando de codificar las invariantes 
+en las llamadas recursivas de la definición, creando funciones auxiliares para capturar los 
+invariantes de manera mas sencilla, como \hyperref[inductive_isRedB]{$redred\_tree$} y $notred$. 
+Además se crea la clase de {\arns}, lo cual afina mas la definici\'on de los mismos. Tomando en 
+cuenta todas estas modificaciones a las definiciones fue que se eligió este conjunto para verificar 
+formalmente la estructura de datos\footnote{La elecci\'onde este conjunto fue correcta ya que 
+facilito la demostraci\'on de las propiedades y probo ser suficiente para verificar la estructura.}. 
 Estas definiciones inductivas fueron obtenidas de \cite{MSetRBT}.

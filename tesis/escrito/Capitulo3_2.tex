@@ -2,14 +2,17 @@
 
 Para poder realizar la verificaci\'on de la operaci\'on de inserci\'on es necesario escribir
 enunciados, ya sean lemas, proposiciones, etc. Estos enunciados los escribiremos usando las 
-definiciones inductivas presentadas en la secci\'on pasada, es decir, $is\_redblack$, 
-$nearly\_redblack$ y $redred\_tree$.
+definiciones inductivas presentadas en la secci\'on pasada, es decir, 
+\hyperref[inductive_isRedB]{$is\_redblack$}, \hyperref[inductive_isRedB]{$nearly\_redblack$} y 
+\hyperref[inductive_isRedB]{$redred\_tree$}.
 
-A continuaci\'on mostraremos los lemas $ins\_rr\_rb$, $ins\_arb$ y una instancia \cite{classes}
-de la clase $redblack$, $add\_rb$. Estos lemas y la instancia fueron obtenidos de \cite{MSetRBT},
-la idea principal de estos enunciados es explicarnos que ciertos \'arboles de b\'usqueda que 
-respeten las definiciones mas generales, es decir, $nearly\_redblack$ y $redred\_tree$, también 
-como consecuencia respetar\'an $is\_redblack$.
+A continuaci\'on mostraremos los lemas \hyperref[lema_1]{$ins\_rr\_rb$}, 
+\hyperref[lema_2]{$ins\_arb$} y una instancia \cite{classes} de la clase 
+\hyperref[class_rb]{$redblack$}, $add\_rb$. Estos lemas y la instancia fueron obtenidos de 
+\cite{MSetRBT}, la idea principal de estos enunciados es explicarnos que ciertos \'arboles de 
+b\'usqueda que respeten las definiciones mas generales, es decir, 
+\hyperref[inductive_isRedB]{$nearly\_redblack$} y \hyperref[inductive_isRedB]{$redred\_tree$}, 
+también como consecuencia respetar\'an \hyperref[inductive_isRedB]{$is\_redblack$}.
 
 \subsubsection{Primer Lema}
 
@@ -26,9 +29,10 @@ is_redblack n s ->
 \end{figure}
 
 En este primer lema (figura \ref{lema_1}) enunciamos lo siguiente: sea \textit{\textbf{s}} un {\arn} 
-bajo la definici\'on de $is\_redblack$, entonces si \textit{\textbf{s}} es un \'arbol con raíz roja, 
-insertar un elemento \textit{\textbf{x}} en \textit{\textbf{s}} resulta en un \'arbol que cumple la 
-definci\'on de $redred\_tree$, en otro caso cumple con la definici\'on de $is\_redblack$.
+bajo la definici\'on de \hyperref[inductive_isRedB]{$is\_redblack$}, entonces si \textit{\textbf{s}} 
+es un \'arbol con raíz roja, insertar un elemento \textit{\textbf{x}} en \textit{\textbf{s}} resulta 
+en un \'arbol que cumple la definci\'on de \hyperref[inductive_isRedB]{$redred\_tree$}, en otro caso 
+cumple con la definici\'on de \hyperref[inductive_isRedB]{$is\_redblack$}.
 
 En otras palabras, lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
 un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
@@ -52,26 +56,26 @@ La funci\'on $ifred$ que se usa en este lema, es una funci\'on auxiliar que nos 
 un \'arbol es rojo o no.
 
 En el primero de estos casos notamos que su soluci\'on se da simplificando las funciones y resulta
-en uno de los casos de $is\_redblack$, especificamente en el caso $RB\_R$, ya que el \'arbol vacío
-no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un \'arbol rojo con un elemento, esto
-por definici\'on de $ins$.
+en uno de los casos de \hyperref[inductive_isRedB]{$is\_redblack$}, especificamente en el caso 
+$RB\_R$, ya que el \'arbol vacío no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un 
+\'arbol rojo con un elemento, esto por definici\'on de \hyperref[func_ins]{$ins$}.
 
 Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el
 segundo el \'arbol es rojo y en el tercero es negro.
 
 Analicemos el segundo caso; como el \'arbol es rojo entramos al primer caso de $if\_red$, es decir,
-al caso donde se aplica la definici\'on $redred\_tree$, lo cual significa que al insertar un elemento al
-\'arbol rojo, sin tener conocimiento de como son los subárboles de este, puede resultar en un
-\'arbol con uno o dos nodos rojos consecutivos en la ra\'iz del mismo, ya que la operaci\'on de
-balanceo se fija en los nodos hijos y nietos del nodo al que se le aplica la operaci\'on, y como
-los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se efectúa en los nodos de la raíz, 
-dando lugar a arboles con uno o mas nodos rojos consecutivos en la raíz\footnote{hasta 3, la raíz y
-sus hijos.}.
+al caso donde se aplica la definici\'on \hyperref[inductive_isRedB]{$redred\_tree$}, lo cual 
+significa que al insertar un elemento al \'arbol rojo, sin tener conocimiento de como son los 
+subárboles de este, puede resultar en un \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz 
+del mismo, ya que la operaci\'on de balanceo se fija en los nodos hijos y nietos del nodo al que se 
+le aplica la operaci\'on, y como los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se 
+efectúa en los nodos de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la 
+raíz\footnote{hasta 3, la raíz y sus hijos.}.
 
 El caso sobrante, es decir, el caso del \'arbol con raíz negra se complica un poco mas que el 
 anterior ya que este es el caso en el que la altura negra del \'arbol se ve modificada, en otras 
-palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, $lbal$ y 
-$rbal$:
+palabras, puede aumentar en uno. Este caso se verifica con las dos funciones de balanceo, 
+\hyperref[func_balanceo]{$lbal$} y \hyperref[func_balanceo]{$rbal$}:
 
 \begin{minted}{coq}
 H1_ : is_redblack n l
@@ -86,9 +90,10 @@ ______________________________________(2/2)
 is_redblack (S n) (rbal l k (ins x r))
 \end{minted}
 
-Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, en otros términos,
-simplificando las expresiones y aplicando las definiciones inductivas\footnote{$is\_redblack$,
-$nearly\_redblack$}.
+Estos casos son análogos y los dos se resuelven simplificando las funciones de balanceo, en otros 
+términos, simplificando las expresiones y aplicando las definiciones inductivas 
+\footnote{\hyperref[inductive_isRedB]{$is\_redblack$}, 
+\hyperref[inductive_isRedB]{$nearly\_redblack$}}.
 
 \subsubsection{Segundo Lema}
 
@@ -104,10 +109,10 @@ is_redblack n s -> nearly_redblack n (ins x s).
 \end{figure}
 
 Este segundo lema (figura \ref{lema_2}) enuncia lo que en el cap\'itulo anterior se menciono acerca
-de la funci\'on $ins$: la funci\'on $ins$ no garantiza que el \'arbol resultante sea un {\arn}, ya
-que es posible que se termine la ejecuci\'on de la funci\'on con un nodo rojo como raíz. La
-demostraci\'on comienza introduciendo los antecedentes a las hipótesis y aplicando el lema
-anterior, $ins\_rr\_rb$, a una de las hip\'otesis:
+de la funci\'on \hyperref[func_ins]{$ins$}: la funci\'on \hyperref[func_ins]{$ins$} no garantiza que 
+el \'arbol resultante sea un {\arn}, ya que es posible que se termine la ejecuci\'on de la funci\'on 
+con un nodo rojo como raíz. La demostraci\'on comienza introduciendo los antecedentes a las 
+hipótesis y aplicando el lema anterior, \hyperref[lema_1]{$ins\_rr\_rb$}, a una de las hip\'otesis:
 
 \begin{minted}{coq}
 H1 : ifred s (redred_tree n (ins x s)) (is_redblack n (ins x s))
@@ -116,20 +121,23 @@ nearly_redblack n (ins x s)
 
 \end{minted}
 
-Aplicamos el lema $ins\_rr\_rb$ a la hip\'otesis porque este nos genera dos casos, uno con la 
-funci\'on $redred\_tree$ y otro con $is\_redblack$. Lo que hace necesario que se aplique este lema, 
-es que con ayuda de las definiciones que introduce son con las que $nearly\_redblack$ fue definido.
+Aplicamos el lema \hyperref[lema_1]{$ins\_rr\_rb$} a la hip\'otesis porque este nos genera dos 
+casos, uno con la funci\'on \hyperref[inductive_isRedB]{$redred\_tree$} y otro con 
+\hyperref[inductive_isRedB]{$is\_redblack$}. Lo que hace necesario que se aplique este lema, es que 
+con ayuda de las definiciones que introduce son con las que 
+\hyperref[inductive_isRedB]{$nearly\_redblack$} fue definido.
 
 Como no se sabe si el \'arbol \textit{\textbf{s}} tiene ra\'iz roja o negra, se tienen que probar 
-los dos casos: uno con la hipótesis de que el \'arbol resultante sea $is\_redblack$ y otro con 
-$redred\_tree$. Estos casos se resuelven sencillamente con la aplicación de alguno de los dos casos 
-de la definici\'on inductiva de $nearly\_redblack$, respectivamente.
+los dos casos: uno con la hipótesis de que el \'arbol resultante sea 
+\hyperref[inductive_isRedB]{$is\_redblack$} y otro con \hyperref[inductive_isRedB]{$redred\_tree$}. 
+Estos casos se resuelven sencillamente con la aplicación de alguno de los dos casos de la 
+definici\'on inductiva de \hyperref[inductive_isRedB]{$nearly\_redblack$}, respectivamente.
 
 \subsubsection{Instancia de la Funci\'on de Inserci\'on}
 
-Para poder probar que el resultado de la inserci\'on es una instancia de la clase $redblack$, es 
-decir, que se cumplen con las propiedades descritas por la clase, vamos a necesitar el lema auxiliar
-que se encuentra en la figura \ref{lema_3}:
+Para poder probar que el resultado de la inserci\'on es una instancia de la clase 
+\hyperref[class_rb]{$redblack$}, es decir, que se cumplen con las propiedades descritas por la 
+clase, vamos a necesitar el lema auxiliar que se encuentra en la figura \ref{lema_3}:
 \begin{figure}[!ht]
 \centering
 \captionsetup{justification=centering}
@@ -141,13 +149,14 @@ nearly_redblack n t -> redblack (makeBlack t).
 \label{lema_3}
 \end{figure}
 
-Este lema auxiliar se resuelve siguiendo la idea de que la definici\'on inductiva $nearly\_redblack$
-únicamente viola las invariantes al poder tener dos nodos rojos consecutivos en su raíz, entonces, 
-si se ``pinta'' la raíz de negro con la función $makeBlack$, el \'arbol resultante es un {\arn} le 
-cual respeta la la definición de la clase $redblack$.
+Este lema auxiliar se resuelve siguiendo la idea de que la definici\'on inductiva 
+\hyperref[inductive_isRedB]{$nearly\_redblack$} únicamente viola las invariantes al poder tener dos 
+nodos rojos consecutivos en su raíz, entonces, si se ``pinta'' la raíz de negro con la función 
+\hyperref[raiz_negra_func]{$makeBlack$}, el \'arbol resultante es un {\arn} le cual respeta la la 
+definición de la clase \hyperref[class_rb]{$redblack$}.
 
-La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase $redblack$, la cual 
-también nos generar\'a una demostraci\'on:
+La figura \ref{instance_ins} enuncia la instancia de inserci\'on de la clase 
+\hyperref[class_rb]{$redblack$}, la cual también nos generar\'a una demostraci\'on:
 
 \begin{figure}[!ht]
 \centering
@@ -156,14 +165,16 @@ también nos generar\'a una demostraci\'on:
 Instance add_rb {a} `{GHC.Base.Ord a} (x:a) (s: RB a) :
 redblack s -> redblack (insert x s).
 \end{minted}
-\caption{Instancia de inserci\'on de la clase $redBlack$.}
+\caption{Instancia de inserci\'on de la clase \hyperref[class_rb]{$redblack$}.}
 \label{instance_ins}
 \end{figure}
 
-Para poder crear la instancia de la clase $redblack$ es necesario usar la definici\'on $insert$,
-la cual es una envoltura para la funci\'on $ins$. Esta funci\'on lo que hace es ``pintar'' la
-ra\'iz del \'arbol resultante de la funci\'on $ins$ de color negro. De esta manera podemos
-asegurar que el \'arbol resultante ya no entra en la definici\'on de $redred\_tree$.
+Para poder crear la instancia de la clase \hyperref[class_rb]{$redblack$} es necesario usar la 
+definici\'on \hyperref[raiz_negra_func]{$insert$}, la cual es una envoltura para la funci\'on 
+\hyperref[func_ins]{$ins$}. Esta funci\'on lo que hace es ``pintar'' la ra\'iz del \'arbol 
+resultante de la funci\'on \hyperref[func_ins]{$ins$} de color negro. De esta manera podemos 
+asegurar que el \'arbol resultante ya no entra en la definici\'on de 
+\hyperref[inductive_isRedB]{$redred\_tree$}.
 
 \begin{minted}{coq}
 H1 : is_redblack n s
@@ -171,7 +182,8 @@ ______________________________________(1/1)
 redblack (makeBlack (ins x s))
 \end{minted}
 
-En este momento se utiliza el lema auxiliar $makeBlack\_rb$ el cual nos devuelve lo siguiente:
+En este momento se utiliza el lema auxiliar \hyperref[lema_3]{$makeBlack\_rb$} el cual nos devuelve 
+lo siguiente:
 
 \begin{minted}{coq}
 H1 : is_redblack n s
@@ -179,10 +191,11 @@ ______________________________________(1/1)
 nearly_redblack n (ins x s)
 \end{minted}
 
-Esta ultima meta se resuelve aplicando el segundo lema que enunciamos, $ins\_arb$, lo cual nos deja
-con una meta idéntica a la hipótesis H1 y con esto terminamos la verificaci\'on de la operaci\'on
-de inserci\'on.
+Esta ultima meta se resuelve aplicando el segundo lema que enunciamos, 
+\hyperref[lema_2]{$ins\_arb$}, lo cual nos deja con una meta idéntica a la hipótesis H1 y con esto 
+terminamos la verificaci\'on de la operaci\'on de inserci\'on.
 
 Se puede decir que esta implementaci\'on de la funci\'on de inserci\'on es correcta respecto a las 
-invariantes establecidas en la definici\'on inductiva $is\_redblack$. La operaci\'on  ha sido 
-verificada formalmente, ahora continuaremos con la funci\'on de eliminaci\'on.
+invariantes establecidas en la definici\'on inductiva \hyperref[inductive_isRedB]{$is\_redblack$}. 
+La operaci\'on  ha sido verificada formalmente, ahora continuaremos con la funci\'on de 
+eliminaci\'on.
