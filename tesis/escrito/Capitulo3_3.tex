@@ -632,7 +632,7 @@ Lo que el asistente de pruebas esta haciendo es que nos esta integrando al ambie
 los dos lemas, de esta manera podemos realizar suposiciones con estos y asi ayudarnos a demostrar
 los lemas. Realizaremos las pruebas de estos lemas por separado.
 
-\paragraph{Prueba de $del\_arb$}
+\paragraph{Prueba de \hyperref[lema_6]{$del\_arb$}}
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -715,10 +715,11 @@ is_redblack n (del x E)
 
 is_redblack n (del x (T R s1_1 a1 s1_2))
 \end{minted}
-  Estos casos son casos particulares del lema $del\_rb$, para solucionar esto usamos una táctica de
-  {\coq} llamada $assert$, la cual nos deja agregar hip\'otesis, las cuales después tendremos que
-  demostrar, en este caso esta quedara demostrada al terminar de demostrar todo este lema.
-  Entonces como en este caso estamos destruyendo $s1$, la hip\'otesis a agregar seria:
+  Estos casos son casos particulares del lema \hyperref[lema_6]{$del\_rb$}, para solucionar esto 
+  usamos una táctica de {\coq} llamada $assert$, la cual nos deja agregar hip\'otesis, las cuales 
+  después tendremos que demostrar, en este caso esta quedara demostrada al terminar de demostrar 
+  todo este lema. Entonces como en este caso estamos destruyendo $s1$, la hip\'otesis a agregar 
+  seria:
 \begin{minted}{coq}
 IHl' : forall n : nat, is_redblack n s1 ->
                   notblack s1 -> is_redblack n (del x s1)
@@ -739,7 +740,7 @@ nearly_redblack n (append s1 s2)
   La cual es un caso particular del lema antes demostrado \hyperref[lema_4]{$append\_arb\_rb$}.
 \end{itemize}
 
-\paragraph{Prueba de $del\_rb$}
+\paragraph{Prueba de \hyperref[lema_6]{$del\_rb$}}
 
 \begin{minted}{coq}
 ______________________________________(1/1)
@@ -786,11 +787,11 @@ ______________________________________(1/1)
 is_redblack n (del x (T R s1 a0 s2))
 \end{minted}
 
-Al igual que en $del\_arb$ se hacen los casos de si el elemento a eliminar esta en el subárbol
-derecho o izquierdo. Otra similitud que esta prueba tiene con respecto con la pasada es que también
-tenemos que agregar una hipótesis extra, en este caso de $del\_arb$. De aquí en adelante la prueba
-es muy similar a la anterior, simplificar, aplicar definiciones inductivas hasta llegar a
-contradicciones o a las metas deseadas.
+Al igual que en \hyperref[lema_6]{$del\_arb$} se hacen los casos de si el elemento a eliminar esta 
+en el subárbol derecho o izquierdo. Otra similitud que esta prueba tiene con respecto con la pasada 
+es que también tenemos que agregar una hipótesis extra, en este caso de 
+\hyperref[lema_6]{$del\_arb$}. De aquí en adelante la prueba es muy similar a la anterior, 
+simplificar, aplicar definiciones inductivas hasta llegar a contradicciones o a las metas deseadas.
 
 En este lema se usan lemas auxiliares muy similares a $lbalS\_rb$\footnote{descrito en la prueba de
 la  funci\'on \hyperref[func_app]{$append$}}, como su espejo $rbalS\_rb$ o sus contrapartes 
@@ -905,8 +906,9 @@ ______________________________________(1/1)
 is_redblack n (del x (T R s1 c0 s2))
 \end{minted}
 
-La cual es un caso particular del lema $del\_rb$, nos basta con aplicarlo, simplificar y esta meta
-queda resuelta. La \'unica meta que nos quedaría por demostrar seria el caso de de la raíz negra:
+La cual es un caso particular del lema \hyperref[lema_6]{$del\_rb$}, nos basta con aplicarlo, 
+simplificar y esta meta queda resuelta. La \'unica meta que nos quedaría por demostrar seria el caso 
+de de la raíz negra:
 
 \begin{minted}{coq}
 H1 : is_redblack n (T B s1 c0 s2)
@@ -924,10 +926,10 @@ ______________________________________(1/1)
 nearly_redblack n (del x (T B s1 c0 s2))
 \end{minted}
 
-La cual resulta ser un caso particular del lema $del\_arb$, al aplicar este lema y simplificar
-nuevamente, las metas resultantes quedan resueltas. Podemos ver que las demostraciones cubiertas en
-este trabajo, en especial en la operaci\'on de eliminación, son muy repetitivas, y solo buscamos
-hacer que las metas empaten con las hip\'otesis que tenemos.
+La cual resulta ser un caso particular del lema \hyperref[lema_6]{$del\_arb$}, al aplicar este lema 
+y simplificar nuevamente, las metas resultantes quedan resueltas. Podemos ver que las demostraciones 
+cubiertas en este trabajo, en especial en la operaci\'on de eliminación, son muy repetitivas, y solo 
+buscamos hacer que las metas empaten con las hip\'otesis que tenemos.
 
 Con esta operaci\'on demostrada podemos decir que tenemos una estructura correcta respecto
 a los invariantes descritos por las definiciones inductivas de 
