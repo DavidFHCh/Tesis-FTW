@@ -378,3 +378,48 @@ exact H1.
 exact H3.
 inversion H3.
 Qed.
+
+(** *** Lema makeBlack_rb
+Este lema enuncia que si se tiene un arbol casi rojinegro y se pinta su raiz de negro, este se vuelve un arbol rojinegro.
+*)
+Lemma makeBlack_rb {a} `{GHC.Base.Ord a} n t : 
+nearly_redblack n t -> redblack (makeBlack t).
+Proof.
+destruct t.
+exists 0.
+simpl;trivial.
+destruct 1.
+inversion H1.
+exists (S n).
+simpl.
+constructor.
+exact H9.
+exact H10.
+exists (S n0).
+simpl.
+constructor.
+exact H5.
+exact H8.
+exists (S n).
+simpl.
+inversion H1.
+constructor.
+exact H4.
+exact H7.
+Qed.
+
+(** *** Lema makeRed_rr
+Este lema enuncia que si se tiene un arbol rojinegro y se pinta su raiz de rojo, este se vuelve un arbol casi rojinegro.
+*)
+Lemma makeRed_rr {a} `{GHC.Base.Ord a} t n :
+ is_redblack (S n) t -> notred t -> redred_tree n (makeRed t).
+Proof.
+destruct t.
+inversion 1.
+inversion 1.
+simpl;contradiction.
+intro.
+constructor.
+exact H5.
+exact H8.
+Qed.
