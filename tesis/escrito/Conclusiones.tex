@@ -1,36 +1,36 @@
-\chapter{Conclusiones}
+\chapter*{Conclusiones}
 Como se ha ilustrado a lo largo de este trabajo, lo que buscamos es otra manera de demostrar la 
 correcci\'on de una estructura de datos, en este caso de un {\arn} usando un asistente de pruebas 
 como lo es {\coq} con una biblioteca de tipos y funciones que se tradujeron de Haskell.
 
 Hemos mencionado en repetidas ocasiones que la opci\'on mas tradicional para realizar una prueba de 
 este estilo seria usar lápiz y papel, pero como se ha visto en capítulos anteriores el desarrollo de
-la prueba puede llegar a generar demasiados casos, esto lo convierte en una tarea muy complicada y 
+la prueba puede llegar a generar demasiados casos. Esto lo convierte en una tarea muy complicada y 
 tediosa de escribir, y posteriormente de leer y entender por alguien mas. En cambio un asistente de 
-pruebas como lo es {\coq} da herramientas para simplificar esta tarea y logra reducirla a álgebra 
-ecuacional, ya que como se vio en este trabajo, lo \'unico que se busca obtener es que las metas que 
-queremos probar se igualen con alguna de las hip\'otesis que se tienen, lo cual también tiene sus 
+pruebas como {\coq} simplifica esta tarea y logra reducirla a álgebra 
+ecuacional ya que, como se vio en este trabajo, lo \'unico que se busca obtener es que las metas que 
+queremos probar se igualen con alguna de las hip\'otesis que se tienen. Esto también tiene sus 
 detrimentos ya que se deja de razonar de manera formal.
 
-Sin embargo, el uso de una herramienta de esta naturaleza por si sola no simplifica del todo este
-tipo de pruebas, ya que para poder llegar a un escenario donde se pueda desarrollar una 
+Sin embargo, el uso de una herramienta de esta naturaleza por s\'i sola no simplifica del todo este
+tipo de pruebas. Para poder llegar a un escenario donde se pueda desarrollar una 
 demostraci\'on primero tenemos que tener claro que es lo que se quiere probar y codificarlo en el 
 lenguaje que la herramienta comprenda.
 
 En la vida real, esto significaría tener un programa escrito en algún lenguaje de programaci\'on
 como Java, Python, Haskell, etc. y traducirlo al lenguaje de la herramienta. Esto requeriría la
 implentaci\'on de un traductor o en su defecto traducir los programas a mano, esta segunda opci\'on
-siendo una soluci\'on no \'optima ya que es muy susceptible a errores. En este trabajo se uso el
+siendo una soluci\'on no \'optima ya que es muy susceptible a errores. En este trabajo se us\'o el
 traductor de Haskell a {\coq} llamado \textit{hs-to-coq} \cite{thrc}, que aunque nos dio algunas 
-bibliotecas de Haskell traducidas a {\coq}, esta sigue en estado de desarrollo y aunque Haskell 
+bibliotecas de Haskell traducidas a {\coq}, sigue en estado de desarrollo. Adem\'as, aunque Haskell 
 comparte el mismo paradigma que el lenguaje de {\coq}, lograr traducir en un $100\%$ un lenguaje 
 resulta muy complicado ya que este siempre esta evolucionando, en especial si es un lenguaje tan 
 ampliamente usado como lo es Haskell.
 
 Otra restricci\'on que se tiene que establecer es que no todos los programas escritos en Haskell 
-podrían ser traducidos al lenguaje de {\coq}, este lenguaje a pesar de que entra en la categoría de 
-lenguajes funcionales, este solo acepta funciones totales. Entonces esto introduce otras 
-problemáticas, la traducción un programa de un paradigma imperativo, l\'ogico, etc. a uno funcional 
+podrían ser traducidos al lenguaje de {\coq}. Este lenguaje a pesar de que entra en la categoría de 
+lenguajes funcionales, solo acepta funciones totales. Esto introduce otras 
+problemáticas: la traducción un programa de un paradigma imperativo, l\'ogico, etc. a uno funcional 
 y después asegurar que todas las funciones de este son totales.
 
 Supongamos que resolvemos todos estos problemas que se han presentado hasta ahora, es decir,
@@ -40,44 +40,44 @@ guardar invariantes de tu programa, y con estas escribir los lemas que se buscan
 decir que tu programa ha sido verificado formalmente, lo cual podría tomar el mismo tiempo que tomo
 traducir todo el programa al lenguaje de la herramienta.
 
-Actualmente en la industria lo que se hace para minimizar los errores en c\'odigo, es hacer que este
+Actualmente en la industria lo que se hace para minimizar los errores en c\'odigo es hacer que este
 pase por una serie de filtros, es decir, que otra persona revise tu c\'odigo para ayudarte a 
-encontrar defectos, también en ejecutar pruebas ya existentes para asegurar que el nuevo c\'odigo no
+encontrar defectos y ejecutar pruebas ya existentes. Con esto se busca asegurar que el nuevo c\'odigo no
 introduzca errores a componentes que funcionaban correctamente dentro del programa y que se escriban 
 pruebas que confirmen el correcto funcionamiento del c\'odigo a introducir. En este momento la idea 
 de poder probar que un programa cualquiera puede ser probado formalmente usando un asistente de 
 pruebas es muy atractiva, ya que un \'unico desarrollador podr\'ia desarrollar la prueba y no 
 depender de código ajeno que muestre que su programa es correcto. Sin embargo, esta idea resulta muy 
-poco factible hoy en día, ya que además de los problemas expuestos con anterioridad (las 
-traducciones del c\'odigo implementado) se le suma el hecho de que se tendrían que traducir y probar 
-todas las bibliotecas ocupadas del lenguaje que se esta usando, esto antes de pensar en probar tu 
+poco factible hoy en día ya que, además de los problemas expuestos con anterioridad (las 
+traducciones del c\'odigo implementado), se suma el hecho de que se tendrían que traducir y probar 
+todas las bibliotecas ocupadas del lenguaje que se esta usando antes de pensar en probar un 
 programa.
 
-Otro acercamiento para poder probar este tipo de programas en la industria seria desarrollar la 
-mayor parte de estos en el asistente {\coq}, realizando esto con las herramientas que su lenguaje 
+Otro acercamiento para poder probar este tipo de programas en la industria ser\'ia desarrollar la 
+mayor parte de estos en el asistente {\coq}. Realizando esto con las herramientas que su lenguaje 
 nos provee, de esta manera se pueden realizar las demostraciones pertinentes y utilizar la 
 funcionalidad que este posee para extraer c\'odigo en otros lenguajes, después de haber realizado la 
 prueba, como lo son Haskell y O'Caml. Sin embargo, esto solo nos permitiría desarrollar programas 
 correctos con las funcionalidades que el lenguaje de {\coq} nos ofrezca.
 
 Retomando el punto anterior, otra soluci\'on seria desarrollar y probar partes clave de los 
-programas a crear, es decir, m\'odulos pequeños como lo serian las estructuras de datos a usar, como 
+programas a crear, es decir, m\'odulos pequeños como lo serian las estructuras de datos como 
 lo podrian ser los {\arns}, listas doblemente ligadas, colas, pilas u otros tipos de \'arboles. Una 
-vez implementados estos m\'odulos se podrían usar en cualquier parte de c\'odigo, el problema con 
+vez implementados estos m\'odulos se podrían usar en cualquier parte de c\'odigo. el problema con 
 hacer esto es que dependiendo del lenguaje al que se extraiga el programa probado, puede ser 
 contraproducente para el desempeño del mismo. Este degradado en el desempeño se puede dar por 
-razones ajenas al c\'odigo y mas por asuntos relacionados a la implementaci\'on del compilador que 
-se usar\'a para generar c\'odigo ejecutable y que tan optimizado es el mismo. Por ejemplo, el 
+razones ajenas al c\'odigo y por asuntos relacionados a la implementaci\'on del compilador que 
+se usar\'a para generar c\'odigo ejecutable y la optimizaci\'on del mismo. Por ejemplo, el 
 lenguaje C es conocido por ser muy usado en programas que requieren ser muy rápidos en sus 
 operaciones.
 
 Otro problema es que como no todo el co\'digo estaría probado formalmente, para componentes mas 
 grandes se necesitaría caer nuevamente en hacer otro tipo de pruebas, como las unitarias, y como ya 
-hemos mencionado, estas no nos aseguran que los programas sean correctos o completos y por lo tanto, 
+hemos mencionado, estas no nos aseguran que los programas sean correctos o completos. Por lo tanto, 
 nuestros programas solo estarían parcialmente verificados formalmente.
 
-Como podemos apreciar el demostrar programas con un asistente de pruebas, no es el procedimiento mas 
-amigable hoy en día, sin embargo, si se sigue con la actual trayectoria en el desarrollo de 
+Como podemos apreciar, demostrar programas con un asistente de pruebas no es el procedimiento mas 
+amigable hoy en día. Sin embargo, si se sigue con la actual trayectoria en el desarrollo de 
 herramientas de traducci\'on como lo es \textit{hs-to-coq}, eventualmente la industria podría 
 comenzar a utilizar herramientas de este estilo para mejorar la calidad de sus productos. Mientras 
 tanto, se tendrán que seguir desarrollando pruebas unitarias de mejor calidad y lograr generar 

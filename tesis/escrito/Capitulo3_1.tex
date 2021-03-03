@@ -1,8 +1,8 @@
-\chapter{Verificación de {\arns}}
+\chapter{Verificación en {\coq}}
 
 En el primer cap\'itulo de este trabajo se mencion\'o que los {\arns} son una estructura de datos
 que mejora el tiempo de acceso, de inserción y eliminación de elementos con respecto a otras
-estructuras de datos como: las listas simples, las listas doblemente ligadas y \'arboles de
+estructuras de datos como las listas simples, las listas doblemente ligadas y los \'arboles de
 búsqueda. En el segundo cap\'itulo se muestran las implementaciones funcionales de los algoritmos de esta
 estructura de datos y podemos notar como estas implementaciones no son triviales, es decir, son
 rebuscadas por los tipos usados en un lenguaje que utiliza el estilo de programaci\'on funcional como
@@ -13,12 +13,12 @@ descritas en el capitulo anterior respeten en todos los casos los invariantes de
 \section{Pruebas unitarias}
 Las \textit{pruebas unitarias} \cite{unittest} son bloques de c\'odigo, funciones o m\'etodos, que
 invocan a otros bloques para poder verificar ciertas suposiciones sobre el programa a probar. Estas
-pruebas en principio deben de ser fáciles de escribir, entender, extender, que se ejecuten en poco
-tiempo y sobre todo que sean fidedignas. De nada nos servirían pruebas unitarias que estén mal
+pruebas en principio deben de ser fáciles de escribir, entender, extender, deben ejecutarse en poco
+tiempo y sobre todo ser fidedignas. De nada nos servirían pruebas unitarias que estén mal
 escritas o que estas mismas sean demasiado complejas y puedan contener errores.
 
 Este tipo de pruebas son usadas para verificar que cada componente de un programa funcione de
-manera esperada, en el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
+manera esperada. En el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
 invariables de un determinado \'arbol. La figura \ref{unitTestjava} es una prueba unitaria
 escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn} \cite{CanekPU}.
 
@@ -64,12 +64,12 @@ escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra 
 \end{figure}
 
 Sin embargo, el hecho de que las pruebas unitarias puedan verificar los invariantes de un \'arbol
-dado, no nos asegura que todos los \'arboles creados por nuestras operaciones de inserci\'on y
+dado no nos asegura que todos los \'arboles creados por nuestras operaciones de inserci\'on y
 eliminaci\'on los respeten. La \'unica manera de que esta prueba podr\'ia verificar esto ser\'ia
 realizando todas las combinaciones de operaciones y entradas posibles y aplicar la prueba a todos los
-resultados de estas entradas. Esto es una prueba exhaustiva y en este caso \footnote{De hecho en la
+resultados de estas entradas. Esto es una prueba exhaustiva y en este caso\footnote{De hecho en la
 mayoría.} las posibilidades son infinitas, es decir, no existe modo de realizar todas estas pruebas
-en un tiempo razonable, m\'as a\'un, no existe memoria suficiente para almacenar los infinitos valores que se necesitar\'ian para realizar dichas pruebas. 
+en un tiempo razonable. M\'as a\'un, no existe memoria suficiente para almacenar los infinitos valores que se necesitar\'ian para realizar dichas pruebas. 
 
 Finalmente, como las pruebas unitarias no nos permiten cubrir todos los casos necesarios para poder probar en su totalidad un programa, es que se requiere utilizar algún otro tipo de herramienta para realizar una verificaci\'on, en este trabajo usaremos {\coq}.
 
@@ -78,8 +78,8 @@ Finalmente, como las pruebas unitarias no nos permiten cubrir todos los casos ne
 
 Es claro que las pruebas unitarias no nos son suficientes para poder verificar formalmente un
 programa, es por esto que se requieren realizar demostraciones matemáticas para poder obtener los
-resultados que buscamos, pero de igual manera no queremos escribir a mano estas demostraciones ya
-que al igual que las pruebas unitarias estas son susceptibles al error humano, por esta raz\'on es que es mejor que un sistema como {\coq} guíe la demostraci\'on para verificar cada paso, ya que a su vez esta herramienta esta verificada para asegurar que no se incluyan errores y también para garantizar la consistencia de las pruebas\cite{Geuvers2009}.
+resultados que buscamos pero de igual manera no queremos escribir a mano estas demostraciones ya
+que al igual que las pruebas unitarias estas son susceptibles al error humano. Por esta raz\'on es que es mejor que un sistema como {\coq} guíe la demostraci\'on para verificar cada paso, ya que a su vez esta herramienta esta verificada para asegurar que no se incluyan errores y también para garantizar la consistencia de las pruebas\cite{Geuvers2009}.
 
 La verificaci\'on formal de un programa usando {\coq} esta compuesto de las siguientes etapas:
 \begin{itemize}
@@ -111,7 +111,7 @@ los tipos de {\coq} ya que se est\'an usando a su vez otros tipos inductivos par
 
 \subsubsection{Primer Conjunto de Definiciones Inductivas}
 Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
-estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma. Utilizar una definici\'on mas restrictiva que otra es una implementaci\'on, hasta cierto punto, de la t\'ecnica \textit{divide y vencerás}\footnote{\textit{Divide and conquer} en ingles.}, la cual es una manera de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En este caso la división se realiza en las invariantes.
+estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma. Utilizar una definici\'on mas restrictiva que otra es una implementaci\'on, hasta cierto punto, de la t\'ecnica \textit{divide y vencerás}\footnote{\textit{Divide and conquer} en ingl\'es.}, la cual es una manera de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En este caso la división se realiza en las invariantes.
 
 \begin{figure}[!ht]
 \centering
@@ -136,7 +136,7 @@ La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$} (figura \ref{i
 tiene tres casos, los cuales describiremos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es roji-negro. En este caso
-        se tiene un s\'olo nodo, es decir, una hoja\footnote{Recordemos que las hojas son vacias y de
+        se tiene un s\'olo nodo, es decir, una hoja\footnote{Recordemos que las hojas son vac\'ias y de
         color negro.}.
         \item \textbf{IsRB\_r}: Para cualesquiera \'arboles \textbf{\textit{tl}} y 
         \textbf{\textit{tr}} que cumplan con la definici\'on \hyperref[inductive_isRB]{$isRB$} con 
@@ -191,14 +191,14 @@ que en la ra\'iz del \'arbol puedan haber a lo m\'as dos nodos rojos contiguos.
 
 \paragraph{Intento de Verificaci\'on}
 Utilizando las definiciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido 
-de verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}, sin embargo, al
-estar desarrollando la demostraci\'on se encontró un problema, la falta de un conjunto de
+de verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}. Sin embargo, al
+estar desarrollando la demostraci\'on se encontró un problema: la falta de un conjunto de
 hipótesis para poder probar una meta. Esto se debe probablemente a una mala elección de estilo de
-demostraci\'on, implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se noto
+demostraci\'on, implementaci\'on o de las definiciones inductivas mostradas anteriormente. Se not\'o
 que el hecho de que toda la informaci\'on referente a los invariantes estuviera codificada en las
 dos funciones inductivas, sin uso de ``funciones auxiliares'' complica la verificaci\'on. Se
-llego a esta conclusi\'on ya que el caso ``sencillo'' de la verificaci\'on de {\arns} es la inserci
-\'on y con este conjunto de funciones inductivas las demostraciones se volvían muy largas y
+lleg\'o a esta conclusi\'on ya que el caso ``sencillo'' de la verificaci\'on de {\arns} es la 
+inserci\'on y con este conjunto de funciones inductivas las demostraciones se volvían muy largas y
 complicadas de seguir.
 
 \subsubsection{Segundo Conjunto de Definiciones Inductivas}
@@ -229,9 +229,9 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
 \label{inductive_isRedB}
 \end{figure}
 
-Podemos notar ciertas similitudes con la definición inductiva de la secci\'on pasada, sin
+Podemos notar ciertas similitudes con la definición inductiva de la secci\'on pasada. Sin
 embargo, el principal cambio que presenta esta definición, es el hecho de que se dejan de controlar
-los colores de los subárboles en los parámetros de la definici\'on y se crea la funci\'on $notred$,
+los colores de los subárboles en los parámetros de la definici\'on y se crea la funci\'on $notred$
 la cual, como su nombre dice, verifica que el \'arbol que se este pasando no tenga raíz roja. La
 definici\'on \hyperref[inductive_isRedB]{$is\_redblack$} tiene tres casos,$RB\_Leaf$, $RB\_R$ y 
 $RB\_B$. Desarrollando la idea de cada caso:
@@ -252,7 +252,7 @@ $RB\_B$. Desarrollando la idea de cada caso:
 \end{itemize}
 
 Esta definici\'on captura los invariantes que estamos buscando, sin embargo, no es suficiente para
-poder probar la correcci\'on de los {\arns}, la definici\'on es demasiado restrictiva y costaría 
+poder probar la correcci\'on de los {\arns}. La definici\'on es demasiado restrictiva y costaría 
 mucho trabajo proceder con las demostraciones solamente con ella. Por esta razón se agregan dos
 definiciones inductivas auxiliares; \hyperref[inductive_isRedB]{$redred\_tree$} y 
 \hyperref[inductive_isRedB]{$nearly\_redblack$} (figura \ref{inductive_aux}).
@@ -283,12 +283,12 @@ Podemos notar que estas definiciones son versiones menos restrictivas de
 exactamente el caso $RB\_R$ de \hyperref[inductive_isRedB]{$is\_redblack$} pero sin las 
 restricciones de que los sub\'arboles sean rojos, lo cual nos permite que hayan dos nodos rojos 
 exactamente en la ra\'iz. Entonces un \hyperref[inductive_isRedB]{$nearly\_redblack$} es un {\arn} 
-con la excepci\'on de que la ra\'iz puede ser roja. Esto porque si analizamos nuestras funciones de 
-balanceo, no tenemos manera de pintar la raíz de negro, mas que al utilizar la función 
+con la excepci\'on de que la ra\'iz puede ser roja. Esto sucede porque si analizamos nuestras funciones de 
+balanceo, no tenemos manera de pintar la raíz de negro mas que al utilizar la función 
 \hyperref[raiz_negra_func]{$makeBlack$} al final de las operaciones que se realicen. 
 
 Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de 
-\textit{divide y vencerás}, es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas 
+\textit{divide y vencerás}. Es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas 
 las invariantes.} para al final utilizar estos resultados para realizar la demostraci\'on de la 
 definición mas estricta.
 
@@ -321,6 +321,6 @@ en las llamadas recursivas de la definición, creando funciones auxiliares para 
 invariantes de manera mas sencilla, como \hyperref[inductive_isRedB]{$redred\_tree$} y $notred$. 
 Además se crea la clase de {\arns}, lo cual afina mas la definici\'on de los mismos. Tomando en 
 cuenta todas estas modificaciones a las definiciones fue que se eligió este conjunto para verificar 
-formalmente la estructura de datos\footnote{La elecci\'onde este conjunto fue correcta ya que 
-facilito la demostraci\'on de las propiedades y probo ser suficiente para verificar la estructura.}. 
+formalmente la estructura de datos\footnote{La elecci\'on de este conjunto fue correcta ya que 
+facilito la demostraci\'on de las propiedades y prob\'o ser suficiente para verificar la estructura.}. 
 Estas definiciones inductivas fueron obtenidas de \cite{MSetRBT}.

@@ -34,8 +34,8 @@ es un \'arbol con raíz roja, insertar un elemento \textit{\textbf{x}} en \texti
 en un \'arbol que cumple la definci\'on de \hyperref[inductive_isRedB]{$redred\_tree$}, en otro caso 
 cumple con la definici\'on de \hyperref[inductive_isRedB]{$is\_redblack$}.
 
-En otras palabras, lo que este enunciado quiere decirnos es que si tenemos un {\arn} e insertamos
-un elemento a ese \'arbol el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
+En otras palabras, lo que esta enunciado es que si tenemos un {\arn} e insertamos
+un elemento a ese \'arbol, el resultado puede tener ra\'iz roja, e incluso puede tener dos nodos
 rojos, uno en la ra\'iz y otro en cualquiera de los dos, o incluso en los dos nodos siguientes.
 
 La demostraci\'on de este lema comienza con una inducci\'on sobre el antecedente del enunciado, lo 
@@ -60,17 +60,17 @@ en uno de los casos de \hyperref[inductive_isRedB]{$is\_redblack$}, especificame
 $RB\_R$, ya que el \'arbol vacío no es rojo y la simplificaci\'on de $(ins(x,E))$ resulta en un 
 \'arbol rojo con un elemento, esto por definici\'on de \hyperref[func_ins]{$ins$}.
 
-Los dos casos sobrantes estan relacionados con los colores de las raices del \'arbol, en el
+Los dos casos sobrantes estan relacionados con los colores de las ra\'ices del \'arbol, en el
 segundo el \'arbol es rojo y en el tercero es negro.
 
 Analicemos el segundo caso; como el \'arbol es rojo entramos al primer caso de $if\_red$, es decir,
 al caso donde se aplica la definici\'on \hyperref[inductive_isRedB]{$redred\_tree$}, lo cual 
 significa que al insertar un elemento al \'arbol rojo, sin tener conocimiento de como son los 
 subárboles de este, puede resultar en un \'arbol con uno o dos nodos rojos consecutivos en la ra\'iz 
-del mismo, ya que la operaci\'on de balanceo se fija en los nodos hijos y nietos del nodo al que se 
+del mismo. Ya que la operaci\'on de balanceo se fija en los nodos hijos y nietos del nodo al que se 
 le aplica la operaci\'on, y como los nodos hijos de la raíz no tienen nodo abuelo, el balanceo no se 
 efectúa en los nodos de la raíz, dando lugar a arboles con uno o mas nodos rojos consecutivos en la 
-raíz\footnote{hasta 3, la raíz y sus hijos.}.
+raíz\footnote{Hasta 3, la raíz y sus hijos.}.
 
 El caso sobrante, es decir, el caso del \'arbol con raíz negra se complica un poco mas que el 
 anterior ya que este es el caso en el que la altura negra del \'arbol se ve modificada, en otras 
