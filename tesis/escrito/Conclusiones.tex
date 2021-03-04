@@ -35,14 +35,19 @@ y después asegurar que todas las funciones de este son totales.
 
 Supongamos que resolvemos todos estos problemas que se han presentado hasta ahora, es decir,
 tenemos un programa donde todas sus funciones son totales y se logro traducir correcta y
-completamente. Ahora se tienen que generar las definiciones inductivas, las cuales te ayudaran a
-guardar invariantes de tu programa, y con estas escribir los lemas que se buscan probar para poder
-decir que tu programa ha sido verificado formalmente, lo cual podría tomar el mismo tiempo que tomo
+completamente. Ahora se tienen que generar las definiciones inductivas, las 
+cuales ayudaran a
+guardar invariantes del programa, y con estas escribir los lemas que se buscan 
+probar para poder
+asegurar que el programa en cuesti\'on ha sido verificado formalmente, lo cual 
+podría tomar el mismo tiempo que tom\'o
 traducir todo el programa al lenguaje de la herramienta.
 
-Actualmente en la industria lo que se hace para minimizar los errores en c\'odigo es hacer que este
-pase por una serie de filtros, es decir, que otra persona revise tu c\'odigo para ayudarte a 
-encontrar defectos y ejecutar pruebas ya existentes. Con esto se busca asegurar que el nuevo c\'odigo no
+Actualmente en la industria lo que se hace para minimizar los errores en 
+c\'odigo es hacer que este
+pase por una serie de filtros, es decir, que otra persona revise el c\'odigo 
+para identificar defectos y ejecutar pruebas ya existentes. Con esto se busca 
+asegurar que el nuevo c\'odigo no
 introduzca errores a componentes que funcionaban correctamente dentro del programa y que se escriban 
 pruebas que confirmen el correcto funcionamiento del c\'odigo a introducir. En este momento la idea 
 de poder probar que un programa cualquiera puede ser probado formalmente usando un asistente de 
@@ -51,7 +56,7 @@ depender de código ajeno que muestre que su programa es correcto. Sin embargo, 
 poco factible hoy en día ya que, además de los problemas expuestos con anterioridad (las 
 traducciones del c\'odigo implementado), se suma el hecho de que se tendrían que traducir y probar 
 todas las bibliotecas ocupadas del lenguaje que se esta usando antes de pensar en probar un 
-programa.
+programa usando una herramienta como {\coq}.
 
 Otro acercamiento para poder probar este tipo de programas en la industria ser\'ia desarrollar la 
 mayor parte de estos en el asistente {\coq}. Realizando esto con las herramientas que su lenguaje 
@@ -60,10 +65,12 @@ funcionalidad que este posee para extraer c\'odigo en otros lenguajes, después 
 prueba, como lo son Haskell y O'Caml. Sin embargo, esto solo nos permitiría desarrollar programas 
 correctos con las funcionalidades que el lenguaje de {\coq} nos ofrezca.
 
-Retomando el punto anterior, otra soluci\'on seria desarrollar y probar partes clave de los 
+Retomando el punto anterior, otra soluci\'on ser\'ia desarrollar y probar 
+partes clave de los 
 programas a crear, es decir, m\'odulos pequeños como lo serian las estructuras de datos como 
 lo podrian ser los {\arns}, listas doblemente ligadas, colas, pilas u otros tipos de \'arboles. Una 
-vez implementados estos m\'odulos se podrían usar en cualquier parte de c\'odigo. el problema con 
+vez implementados estos m\'odulos se podrían usar en cualquier parte de 
+c\'odigo. El inconveniente con 
 hacer esto es que dependiendo del lenguaje al que se extraiga el programa probado, puede ser 
 contraproducente para el desempeño del mismo. Este degradado en el desempeño se puede dar por 
 razones ajenas al c\'odigo y por asuntos relacionados a la implementaci\'on del compilador que 

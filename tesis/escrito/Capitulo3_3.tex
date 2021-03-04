@@ -47,7 +47,8 @@ En este primera etapa de la demostraci\'on podemos ver lo que se describió en e
 Se decidió proseguir con esta demostraci\'on usando inducci\'on, primero sobre el árbol $l$ y
 posteriormente sobre $r$. Los casos base de estas inducciones consisten en simplificación de las
 expresiones y fácilmente se llega a una hipótesis o a una contradicci\'on. Estos casos no se
-trataran m\'as a fondo en este trabajo, nos pasaremos directamente a los casos mas interesantes.
+trataran m\'as a fondo en este trabajo, pasaremos directamente a los casos 
+mas interesantes.
 
 
 
@@ -95,8 +96,10 @@ is_redblack n (T B ll lx lr)
 Esta doble inducci\'on nos deja con los siguientes cuatro casos, expuestos en la figura \ref{casos_append}:
 \begin{itemize}
     \item Los \'arboles a concatenar son rojos.
-    \item El \'arbol que se concatenar a la izquierda es rojo y el derecho es negro.
-    \item El \'arbol que se concatenar a la izquierda es negro y el derecho es rojo.
+    \item El \'arbol que se concatenar\'a a la izquierda es rojo y el derecho 
+es negro.
+    \item El \'arbol que se concatenar\'a a la izquierda es negro y el derecho 
+es rojo.
     \item Los \'arboles a concatenar son negros.
 \end{itemize}
 
@@ -802,8 +805,10 @@ $rbalS\_arb$ y $lbalS\_arb$. Estos son lemas de balanceo sencillos de demostrar 
 tediosos y repetitivos, por lo tanto no se incluirán en este trabajo\footnote{Se pueden consultar 
 en: \url{https://github.com/DavidFHCh/Tesis-FTW}}.
 
-Hasta este momento solo se han demostrado partes de la operación total de eliminación, como juntar
-dos subárboles despu\'es de eliminar su ra\'iz, que pasa si eliminamos de un árbol con raíz roja o
+Hasta este momento solo se han demostrado partes de la operación total de 
+eliminación, como unir
+dos subárboles despu\'es de eliminar su ra\'iz, qu\'e sucede si eliminamos de 
+un árbol con raíz roja o
 de uno con raíz negra. En seguida uniremos todos estos lemas en uno.
 
 \subsubsection{Instancia de la funci\'on de eliminaci\'on}
@@ -838,7 +843,8 @@ nearly_redblack n t -> redblack (makeBlack t).
 
 Lo que este enunciado describe es la propiedad de que si un \'arbol $t$ cumple con la definici\'on
 inductiva de ser \hyperref[inductive_isRedB]{$nearly\_redblack$}, pintar su raíz de color negro lo 
-convierte en una instancia de la clase \hyperref[class_rb]{$redblack$}. La desmostraci\'on de este 
+convierte en una instancia de la clase \hyperref[class_rb]{$redblack$}. La 
+demostraci\'on de este 
 lema es muy simple gracias al asistente de pruebas, ya que solo basta con hacer un análisis de casos 
 sobre el \'arbol $t$:
 
@@ -876,9 +882,11 @@ redblack (makeBlack (T c t1 a0 t2))
         anterior.
 \end{itemize}
 
-Con este lema demostrado ya contamos con todas las herramientas para poder demostrar que si tenemos
+Con este lema demostrado ya contamos con todas las herramientas para poder 
+demostrar que si tenemos a 
 un \'arbol que es instancia de la clase \hyperref[class_rb]{$redblack$} y eliminamos un elemento de 
-el, este sigue siendo instancia de la clase, esta demostraci\'on comienza con un análisis de casos 
+\'el, el \'arbol resultante sigue siendo instancia de la clase, esta 
+demostraci\'on comienza con un análisis de casos 
 sobre el \'arbol $s$:
 
 \begin{minted}{coq}
