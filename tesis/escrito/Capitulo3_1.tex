@@ -8,70 +8,7 @@ estructura de datos y podemos notar como estas implementaciones no son triviales
 rebuscadas por los tipos usados en un lenguaje que utiliza el estilo de programaci\'on funcional como
 lo hace {\coq}, e incluso son diferentes y alejadas de una implementaci\'on en un lenguaje con un paradigma imperativo como \textit{Java} o \textit{C}.
 Por esta razón es que nos preocupa que las implementaciones que realicemos sean correctas, en otras palabras, se desea verificar que las implementaciones de las operaciones
-descritas en el capitulo anterior respeten en todos los casos los invariantes de los {\arns}.
-
-\section{Pruebas unitarias}
-Las \textit{pruebas unitarias} \cite{unittest} son bloques de c\'odigo, funciones o m\'etodos, que
-invocan a otros bloques para poder verificar ciertas suposiciones sobre el programa a probar. Estas
-pruebas en principio deben de ser fáciles de escribir, entender, extender, deben ejecutarse en poco
-tiempo y sobre todo ser fidedignas. De nada nos servirían pruebas unitarias que estén mal
-escritas o que estas mismas sean demasiado complejas y puedan contener errores.
-
-Este tipo de pruebas son usadas para verificar que cada componente de un programa funcione de
-manera esperada. En el caso de los {\arns} este tipo de pruebas nos ayudan a verificar los
-invariables de un determinado \'arbol. La figura \ref{unitTestjava} es una prueba unitaria
-escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra de un {\arn} \cite{CanekPU}.
-
-\begin{figure}[!ht]
-\centering
-\captionsetup{justification=centering}
-\begin{minted}{java}
-
-    /* Valida que los caminos del vértice a sus hojas tengan todos
-       el mismo número de vértices negros. */
-    private static <T extends Comparable<T>> int
-    validaCaminos(ArbolRojinegro<T> arbol,
-                  VerticeArbolBinario<T> v) {
-        int ni = -1, nd = -1;
-        if (v.hayIzquierdo()) {
-            VerticeArbolBinario<T> i = v.izquierdo();
-            ni = validaCaminos(arbol, i);
-        } else {
-            ni = 1;
-        }
-        if (v.hayDerecho()) {
-            VerticeArbolBinario<T> d = v.derecho();
-            nd = validaCaminos(arbol, d);
-        } else {
-            nd = 1;
-        }
-        Assert.assertTrue(ni == nd);
-        switch (arbol.getColor(v)) {
-        case NEGRO:
-            return 1 + ni;
-        case ROJO:
-            return ni;
-        default:
-            Assert.fail();
-        }
-        // Inalcanzable.
-        return -1;
-    }
-
-\end{minted}
-\caption{Prueba unitaria escrita en Java.\cite{CanekPU}}
-\label{unitTestjava}
-\end{figure}
-
-Sin embargo, el hecho de que las pruebas unitarias puedan verificar los invariantes de un \'arbol
-dado no nos asegura que todos los \'arboles creados por nuestras operaciones de inserci\'on y
-eliminaci\'on los respeten. La \'unica manera de que esta prueba podr\'ia verificar esto ser\'ia
-realizando todas las combinaciones de operaciones y entradas posibles y aplicar la prueba a todos los
-resultados de estas entradas. Esto es una prueba exhaustiva y en este caso\footnote{De hecho en la
-mayoría.} las posibilidades son infinitas, es decir, no existe modo de realizar todas estas pruebas
-en un tiempo razonable. M\'as a\'un, no existe memoria suficiente para almacenar los infinitos valores que se necesitar\'ian para realizar dichas pruebas. 
-
-Finalmente, como las pruebas unitarias no nos permiten cubrir todos los casos necesarios para poder probar en su totalidad un programa, es que se requiere utilizar algún otro tipo de herramienta para realizar una verificaci\'on, en este trabajo usaremos {\coq}.
+descritas en el cap\'itulo anterior respeten en todos los casos los invariantes de los {\arns}.
 
 
 \section{Verificaci\'on Formal en {\coq}}
@@ -92,16 +29,18 @@ La verificaci\'on formal de un programa usando {\coq} esta compuesto de las sigu
     que el asistente de pruebas nos provee.
 \end{itemize}{}
 
-\subsection{Capturando invariantes de los {\Arns}}
+\subsection{Capturando invariantes de los {\arns}}
 Una de las etapas m\'as importantes al realizar la verificaci\'on formal en {\coq} de cualquier estructura de
 datos, inclusive de cualquier programa, es capturar sus invariantes de manera correcta, es decir,
 poder escribir una o varias definiciones inductivas que describan a la estructura de datos y sus
 invariantes. Después, con estas mismas es que se enuncian los lemas, clases y posteriormente
 instancias de las clases.
 
-A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre ellas\footnote{Obtenidas de los trabajos \cite{tesisG} y \cite{MSetRBT} respectivamente.},
+A continuaci\'on se describen dos conjuntos de definiciones inductivas, muy similares entre 
+ellas\footnote{Obtenidas de los trabajos \cite{tesisG} y \cite{MSetRBT} respectivamente.},
 los cuales nos ayudaran a verificar formalmente los {\arns}. La primera es un primer intento que es
-insuficiente ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos.
+insuficiente ya que los tipos inductivos y los principios de demostraci\'on no son los \'optimos, es decir, 
+describen correctamente lo que es un {\arn} pero nos dificultan demasiado la demostraci\'on.
 El segundo intento es un conjunto de definiciones inductivas que tienen mas detalle para describir
 los invariantes. Estas definiciones est\'an relacionadas con las propiedades de las operaciones de
 inserci\'on y eliminaci\'on.
@@ -109,11 +48,14 @@ inserci\'on y eliminaci\'on.
 Es importante mencionar que estas definiciones aprovechan la expresividad de la lógica o de 
 los tipos de {\coq} ya que se est\'an usando a su vez otros tipos inductivos para describir las invariantes.
 
-\subsubsection{Primer Conjunto de Definiciones Inductivas}
+\subsubsection{Primer conjunto de definiciones inductivas}
 Los dos conjuntos de definiciones inductivas comparten la misma idea: una definici\'on que describe
-estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma. Utilizar una definici\'on mas restrictiva que otra es una implementaci\'on, hasta cierto punto, de la t\'ecnica \textit{divide y vencerás}\footnote{\textit{Divide and conquer} en ingl\'es.}, la cual es una manera de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En este caso la división se realiza en las invariantes.
+estrictamente lo que es un {\arn} y otra definici\'on m\'as laxa de la misma. Utilizar una definici\'on
+mas restrictiva que otra es una implementaci\'on, hasta cierto punto, de la t\'ecnica 
+\textit{divide y vencerás}\footnote{\textit{Divide and conquer} en ingl\'es.}, la cual es una manera 
+de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En este caso la división se realiza en las invariantes.
 
-\begin{figure}[!ht]
+\begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -130,42 +72,42 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 \end{minted}
 \caption{Funci\'on inductiva isRB.}
 \label{inductive_isRB}
-\end{figure}
+\end{listing}
 
 La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$} (figura \ref{inductive_isRB}) 
 tiene tres casos, los cuales describiremos a continuaci\'on:
 \begin{itemize}
-        \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es roji-negro. En este caso
+        \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es rojinegro. En este caso
         se tiene un s\'olo nodo, es decir, una hoja\footnote{Recordemos que las hojas son vac\'ias y de
         color negro.}.
         \item \textbf{IsRB\_r}: Para cualesquiera \'arboles \textbf{\textit{tl}} y 
         \textbf{\textit{tr}} que cumplan con la definici\'on \hyperref[inductive_isRB]{$isRB$} con 
         color rojo y altura \textbf{\textit{n}}, se cumple que un \'arbol de color rojo con 
-        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple 
+        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, llam\'emosle \textbf{\textit{t}}, cumple 
         con \hyperref[inductive_isRB]{$isRB$} con color negro y altura \textbf{\textit{n}}. El color 
         se refiere al color del padre, en este caso, en la llamada de 
         \hyperref[inductive_isRB]{$isRB$} a \textbf{\textit{tl}} y \textbf{\textit{tr}} se le pasa 
         el color rojo porque \textbf{\textit{t}} es rojo. La altura \textbf{\textit{n}} se refiere a 
         que hay \textbf{\textit{n}} nodos negros en cualquier camino del nodo actual a alguna hoja, 
-        aqui no crece \textbf{\textit{n}} porque tanto
+        aqu\'i no crece \textbf{\textit{n}} porque tanto
         \textbf{\textit{tl}} y \textbf{\textit{tr}} son rojos.
         \item \textbf{IsRB\_b}: Para cualesquiera \'arboles \textbf{\textit{tl}} y 
         \textbf{\textit{tr}} que cumplan con la definici\'on \hyperref[inductive_isRB]{$isRB$} con 
         color negro y altura \textbf{\textit{n}}, se cumple que un \'arbol de color negro con 
-        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, sea \textbf{\textit{t}}, cumple 
+        \textbf{\textit{tl}} y \textbf{\textit{tr}} como subarboles, llam\'emosle \textbf{\textit{t}}, cumple 
         con \hyperref[inductive_isRB]{$isRB$} con cualquier color y altura $S(n)$. En este caso, en 
         la llamada de \hyperref[inductive_isRB]{$isRB$} a \textbf{\textit{tl}} y 
-        \textbf{\textit{tr}} se le pasa el color negro porque \textbf{\textit{t}} es negro y aqui se 
+        \textbf{\textit{tr}} se le pasa el color negro porque \textbf{\textit{t}} es negro y aqu\'i se 
         le suma uno a \textbf{\textit{n}} porque tanto \textbf{\textit{tl}} y \textbf{\textit{tr}} 
         son negros.
 \end{itemize}
 
 Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on
 inductiva es demasiado restrictiva y esto dificulta poder demostrar las propiedades de los {\arns},
-por esto pasamos a la segunda definici\'on inductiva, \hyperref[inductive_nearRB]{$nearRB$}, esta 
+por esto pasamos a la segunda definici\'on inductiva, \hyperref[inductive_nearRB]{$nearRB$}, \'esta 
 permite mas flexibilidad en el \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
 %punto
-\begin{figure}[!ht]
+\begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -179,17 +121,17 @@ Inductive nearRB : Tree -> nat -> Prop :=
          isRB tr Black n ->
          nearRB (T Black tl k kv tr) (S n).
 \end{minted}
-\caption{Funci\'on inductiva nearRB.}
+\caption{Funci\'on inductiva \emph{nearRB}.}
 \label{inductive_nearRB}
-\end{figure}
+\end{listing}
 
-Podemos apreciar que solo se tienen dos casos y no se tiene un argumento para un color, sin
-embargo, a diferencia de \hyperref[inductive_isRB]{$isRB$} esta no se llama recursivamente, en lugar
+Podemos apreciar que s\'olo se tienen dos casos y no se tiene un argumento para un color, sin
+embargo, a diferencia de \hyperref[inductive_isRB]{$isRB$} \'esta no se llama recursivamente, en lugar
 de eso se llama a \hyperref[inductive_isRB]{$isRB$} inmediatamente, además podemos ver que ambas 
 definiciones comparten el contador de nodos negros. Con estas modificaciones se permite una cosa, 
 que en la ra\'iz del \'arbol puedan haber a lo m\'as dos nodos rojos contiguos.
 
-\paragraph{Intento de Verificaci\'on}
+\paragraph{Intento de verificaci\'on}
 Utilizando las definiciones inductivas descritas en esta secci\'on se realiz\'o un intento fallido 
 de verificac\'on de la operaci\'on de inserci\'on, como se muestra en \cite{appel}. Sin embargo, al
 estar desarrollando la demostraci\'on se encontró un problema: la falta de un conjunto de
@@ -201,11 +143,11 @@ lleg\'o a esta conclusi\'on ya que el caso ``sencillo'' de la verificaci\'on de 
 inserci\'on y con este conjunto de funciones inductivas las demostraciones se volvían muy largas y
 complicadas de seguir.
 
-\subsubsection{Segundo Conjunto de Definiciones Inductivas}
+\subsubsection{Segundo conjunto de definiciones inductivas}
 
 Con el conocimiento que se obtuvo del conjunto de definiciones anterior, nos realizamos la
 siguiente pregunta: ¿c\'omo capturar las invariantes de los {\arns}, y al mismo tiempo facilitar la
-verificaci\'on de estos?
+verificaci\'on de \'estos?
 
 Utilizamos una definición inductiva, llamada \hyperref[inductive_isRedB]{$is\_redblack$} para poder 
 capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador lleva 
@@ -213,7 +155,7 @@ el control de la cantidad de nodos negros, es decir, la altura negra del nodo, m
 \'arbol es aquel que estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se 
 presenta esta definici\'on en la figura \ref{inductive_isRedB}.
 
-\begin{figure}[!ht]
+\begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -227,7 +169,7 @@ Inductive is_redblack {a} `{GHC.Base.Ord a} : nat -> RB a -> Prop :=
 \end{minted}
 \caption{Funci\'on inductiva $is\_redblack$.}
 \label{inductive_isRedB}
-\end{figure}
+\end{listing}
 
 Podemos notar ciertas similitudes con la definición inductiva de la secci\'on pasada. Sin
 embargo, el principal cambio que presenta esta definición, es el hecho de que se dejan de controlar
@@ -237,7 +179,7 @@ definici\'on \hyperref[inductive_isRedB]{$is\_redblack$} tiene tres casos,$RB\_L
 $RB\_B$. Desarrollando la idea de cada caso:
 
 \begin{itemize}
-        \item \textbf{RB\_Leaf}: el árbol vació es roji-negro. Este caso nos dice que el \'arbol
+        \item \textbf{RB\_Leaf}: el árbol vac\'io es rojinegro. Este caso nos dice que el \'arbol
         vacío es un {\arn}.
         \item \textbf{RB\_R}: un árbol rojo donde se lleven contabilizados \textbf{\textit{n}} nodos 
         negros, donde sus hijos sean {\arns} y no sean rojos. Este caso nos dice explícitamente que 
@@ -257,7 +199,7 @@ mucho trabajo proceder con las demostraciones solamente con ella. Por esta razó
 definiciones inductivas auxiliares; \hyperref[inductive_isRedB]{$redred\_tree$} y 
 \hyperref[inductive_isRedB]{$nearly\_redblack$} (figura \ref{inductive_aux}).
 
-\begin{figure}[!ht]
+\begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -274,7 +216,7 @@ Inductive nearly_redblack {a}
 \caption{Funciones inductivas \hyperref[inductive_isRedB]{$redred\_tree$} y 
 \hyperref[inductive_isRedB]{$nearly\_redblack$}.}
 \label{inductive_aux}
-\end{figure}
+\end{listing}
 
 Podemos notar que estas definiciones son versiones menos restrictivas de 
 \hyperref[inductive_isRedB]{$is\_redblack$}. La definici\'on 
@@ -290,12 +232,12 @@ balanceo, no tenemos manera de pintar la raíz de negro mas que al utilizar la f
 Estas definiciones, a diferencia del conjunto anterior, utilizan mas acentuadamente la t\'ecnica de 
 \textit{divide y vencerás}. Es decir, se buscan demostrar definiciones mas laxas\footnote{Sin todas 
 las invariantes.} para al final utilizar estos resultados para realizar la demostraci\'on de la 
-definición mas estricta.
+definición m\'as estricta.
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
 eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (figura \ref{class_rb}).
 
-\begin{figure}[!ht]
+\begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}
 \begin{minted}{coq}
@@ -304,7 +246,7 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 \end{minted}
 \caption{Clase de \'arboles $redblack$.}
 \label{class_rb}
-\end{figure}
+\end{listing}
 
 Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} 
 (\textit{t: RB a}), existe una altura negra $d$ que cumple con las invariantes establecidas por la 
@@ -314,13 +256,13 @@ orientado a objetos.} representa un refinamiento en los tipos inductivos para de
 invariantes de las estructuras de datos y es mas expresivo que los tipos de datos usados en la 
 implementaci\'on de \textit{Haskell}.
 
-\paragraph{Segundo Intento de Verificaci\'on}
+\paragraph{Segundo intento de verificaci\'on}
 En contraste con el conjunto de definiciones de la secci\'on pasada, la definici\'on de
 \hyperref[inductive_isRedB]{$nearly\_redblack$} se reescribe, dejando de codificar las invariantes 
-en las llamadas recursivas de la definición, creando funciones auxiliares para capturar los 
+en las llamadas recursivas de la definición, creando funciones auxiliares para capturar las 
 invariantes de manera mas sencilla, como \hyperref[inductive_isRedB]{$redred\_tree$} y $notred$. 
 Además se crea la clase de {\arns}, lo cual afina mas la definici\'on de los mismos. Tomando en 
 cuenta todas estas modificaciones a las definiciones fue que se eligió este conjunto para verificar 
 formalmente la estructura de datos\footnote{La elecci\'on de este conjunto fue correcta ya que 
-facilito la demostraci\'on de las propiedades y prob\'o ser suficiente para verificar la estructura.}. 
+facilit\'o la demostraci\'on de las propiedades y prob\'o ser suficiente para verificar la estructura.}. 
 Estas definiciones inductivas fueron obtenidas de \cite{MSetRBT}.
