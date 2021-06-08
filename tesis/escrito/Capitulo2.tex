@@ -51,6 +51,47 @@ una fracci\'on de las bibliotecas de Haskell a {\coq}\footnote{El nombre de esta
 esta raz\'on, se opt\'o por el uso de la implementación de {\arns} de las bibliotecas de {\coq}, 
 \cite{MSetRBT}, pero usando los tipos y operaciones obtenidos de las traducciones con la herramienta.
 
+\section{Definci\'on en Coq de los {\arns}}
+
+La biblioteca de {\coq} contiene una gran variedad de funciones y estructuras de datos, 
+implementadas y verificadas con los tipos nativos del lenguaje de Coq. En este trabajo
+tomaremos la implementaci\'on de los {\arns} de la biblioteca antes mencionada, 
+sustituiremos los tipos de Coq por los tipos que la herramienta \textit{hs-to-coq} obtuvo
+de realizar la traducci\'on de las bibliotecas de Haskell al lenguaje de Coq.
+
+\begin{listing}[!ht]
+\centering
+\captionsetup{justification=centering}
+\begin{minted}{coq}
+
+Inductive Color : Type := R : Color |  B : Color.
+
+Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
+
+Arguments E {_}.
+Arguments T {_} _ _ _ _.
+\end{minted}
+\caption{{\Arns} en Coq.}
+\label{arnsdefcoq}
+\end{listing}
+
+En el c\'odigo \ref{arnsdefcoq} definimos los colores y la forma de los {\arns}, podemos notar que un \'arbol esta definido de la siguiente manera:
+\begin{itemize}
+    \item Se define un tipo inductivo\footnote{Un tipo creado en Coq con la palabra reservada \textit{\textbf{Inductive}} se refiere un tipo al cual se le puede aplicar recursi\'on estructural. Este comando genera los constructores necesarios para el tipo que se esta definiendo, y en algunos casos, destructores.\cite{IndAndRec}} con dos colores: $R$ y $B$\footnote{Se refieren a los nombres en ingl\'es del color rojo y negro, i.e. \textit{Red} y \textit{Black}.}.
+    \item Se define un segundo tipo inductivo con las dos formas de un {\arn}:
+    \begin{itemize}
+        \item \textit{\textbf{E}}, el cual es el \'arbol vacío.
+        \item Un \'arbol \textit{\textbf{T}}; el cual contiene un Color, un {\arn}, un tipo \textit{\textbf{a}} y otro {\arn}.
+    \end{itemize}
+\end{itemize}
+
+El tipo \textit{\textbf{a}} que se usa en la definici\'on de los \'arboles se refiere a 
+un tipo ordenado, mas especificamente que pertenezca a la definici\'on de tipo ordenado 
+de la biblioteca de Haskell\cite{orderings}. A lo largo de este trabajo se podr\'a 
+encontrar que las funciones de inserci\'on, eliminaci\'on y sus respectivas funciones 
+auxiliares, tendr\'an la siguiente anotaci\'on: \textit{`\{GHC.Base.Ord a\}}. La cual 
+indica que la funci\'on solo acepta tipos que respeten dicha anotaci\'on.
+
 \section{Inserción de elementos en un {\arn}}
 
 La inserci\'on de elementos a un {\arn} es la operaci\'on m\'as sencilla de las dos que se
@@ -163,7 +204,7 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 
 \subsection{Operaciones de balanceo}
 Los giros antes mencionados están definidos en las operaciones de balanceo, las cuales son dos: una 
-para los subárboles izquierdos y otra para los derechos. Estas funciones (ver figura 
+para los subárboles izquierdos y otra para los derechos. Estas funciones\footnote{La palabra reservada \textit{\textbf{Definition}}, se refiere a una sustituci\'on textual de una expresi\'on por otra.\cite{coqdefs}} (ver figura 
 \ref{func_balanceo}) se encargan de solucionar los casos en los que inmediatamente después de 
 agregar una hoja alguna de las invariantes sean violadas, por ejemplo, dos nodos rojos que resultan 
 contiguos en algún lugar de la estructura del \'arbol.
@@ -212,7 +253,8 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
 \label{func_ins}
 \end{listing}
 
-Analizando m\'as detenidamente la funci\'on (figura \ref{func_ins}) se puede observar que las
+Analizando m\'as detenidamente la funci\'on\footnote{La palabra reservada \textit{\textbf{Fixpoint}}
+se refiere a una funci\'on recursiva, aplicada a, al menos, un tipo inductivo definido con la palabra reservada \textit{\textbf{Inductive}}\cite{IndAndRec}.} (figura \ref{func_ins}) se puede observar que las
 operaciones de balanceo s\'olo se efectúan cuando el nodo por el que se est\'a pasando es negro, esto
 sucede porque los nodos de este color son los que se toman en cuenta para decidir si
 un \'arbol cumple con el balanceo adecuado. Al aplicar el balanceo en estos nodos, podemos 
@@ -511,7 +553,7 @@ con dos nodos rojos seguidos, es decir, que el hijo y alguno de los nietos del n
     \label{func_app}
     \end{listing}
 
-La funci\'on de concatenación (figura \ref{func_app}) es usada cuando se ha encontrado el elemento a 
+La funci\'on de concatenación (c\'odigo \ref{func_app}) es usada cuando se ha encontrado el elemento a 
 eliminar en un {\arn}, resultando en dos \'arboles que tienen que ser concatenados, los cuales deben 
 de respetar los invariantes de los {\arns}. Esta funci\'on recibe como parámetros los dos 
 \'arboles\footnote{Estos arboles pueden no cumplir con todas las invariantes de los {\arns}.} que 
@@ -575,13 +617,13 @@ siguiente sección.
 En la secci\'on 2.2 de este trabajo se trat\'o la inserci\'on de elementos a un {\arn}, en donde se
 describen un par de funciones llamadas `de balanceo', tratadas en las subsecci\'on 2.2.1; estas 
 funciones a su vez toman los nombres \hyperref[func_balanceo]{$rbal$} y 
-\hyperref[func_balanceo]{$lbal$} (figura \ref{func_balanceo}). Estas operaciones resultan 
+\hyperref[func_balanceo]{$lbal$} (c\'odigo \ref{func_balanceo}). Estas operaciones resultan 
 insuficientes para balancear un \'arbol al momento de eliminar un nodo y concatenar los dos 
 \'arboles restantes con la función \hyperref[func_app]{$append$}, es por esto que se implementan las
 extensiones de estas funciones, llamadas \hyperref[lbalS]{$lbalS$} y \hyperref[lbalS]{$rbalS$} 
-(figuras \ref{lbalS} y \ref{rbalS} respectivamente) las cuales a su vez llaman a las funciones 
+(c\'odigos \ref{lbalS} y \ref{rbalS} respectivamente) las cuales a su vez llaman a las funciones 
 \hyperref[rbal_2]{$rbal'$}\footnote{La funci\'on \hyperref[rbal_2]{$rbal'$} es una variación de la 
-función \hyperref[func_balanceo]{$rbal$}, s\'olo cambia el orden de la caza de patrones.} (figura
+función \hyperref[func_balanceo]{$rbal$}, s\'olo cambia el orden de la caza de patrones.} (c\'odigo
 \ref{rbal_2}) y \hyperref[func_balanceo]{$lbal$}. Estas extensiones agregan mas casos de manejo de 
 subárboles negros, esto sucede porque existen casos en los que se puede llegar a eliminar un nodo 
 negro intermedio del \'arbol o inclusive la misma ra\'iz y se debe poder asegurar que las invariantes 
@@ -609,7 +651,7 @@ Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{listing}
 
 Las funciones \hyperref[lbalS]{$rbalS$} y \hyperref[lbalS]{$lbalS$} son usadas en la funci\'on 
-\hyperref[func_del]{$del$} (figura \ref{func_del}) cuando la llamada recursiva busca el nodo a 
+\hyperref[func_del]{$del$} (c\'odigo \ref{func_del}) cuando la llamada recursiva busca el nodo a 
 eliminar en un sub\'arbol con ra\'iz negra, al aplicar la funci\'on de balanceo en estos nodos 
 podemos asegurar que los dos subárboles de este nodo no se van a desequilibrar, es decir, que un 
 subárbol tenga mayor altura negra que el otro. Estas funciones b\'asicamente hacen un reacomodo de 

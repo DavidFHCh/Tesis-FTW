@@ -6,7 +6,7 @@ como lo es {\coq} con una biblioteca de tipos y funciones que se tradujeron de H
 Hemos mencionado en repetidas ocasiones que la opci\'on mas tradicional para realizar una prueba de 
 este estilo seria usar lápiz y papel, pero como se ha visto en capítulos anteriores el desarrollo de
 la prueba puede llegar a generar demasiados casos. Esto lo convierte en una tarea muy complicada y 
-tediosa de escribir, y posteriormente de leer y entender por alguien mas. En cambio un asistente de 
+tediosa de escribir, y posteriormente de leer y entender por alguien m\'as. En cambio un asistente de 
 pruebas como {\coq} simplifica esta tarea y logra reducirla a álgebra 
 ecuacional ya que, como se vio en este trabajo, lo \'unico que se busca obtener es que las metas que 
 queremos probar se igualen con alguna de las hip\'otesis que se tienen. Esto también tiene sus 
@@ -24,20 +24,20 @@ siendo una soluci\'on no \'optima ya que es muy susceptible a errores. En este t
 traductor de Haskell a {\coq} llamado \textit{hs-to-coq} \cite{thrc}, que aunque nos dio algunas 
 bibliotecas de Haskell traducidas a {\coq}, sigue en estado de desarrollo. Adem\'as, aunque Haskell 
 comparte el mismo paradigma que el lenguaje de {\coq}, lograr traducir en un $100\%$ un lenguaje 
-resulta muy complicado ya que este siempre esta evolucionando, en especial si es un lenguaje tan 
+resulta muy complicado ya que \'este siempre est\'a evolucionando, en especial si es un lenguaje tan 
 ampliamente usado como lo es Haskell.
 
 Otra restricci\'on que se tiene que establecer es que no todos los programas escritos en Haskell 
 podrían ser traducidos al lenguaje de {\coq}. Este lenguaje a pesar de que entra en la categoría de 
-lenguajes funcionales, solo acepta funciones totales. Esto introduce otras 
+lenguajes funcionales, s\'olo acepta funciones totales. Esto introduce otras 
 problemáticas: la traducción un programa de un paradigma imperativo, l\'ogico, etc. a uno funcional 
-y después asegurar que todas las funciones de este son totales.
+y después asegurar que todas las funciones de \'este son totales.
 
 Supongamos que resolvemos todos estos problemas que se han presentado hasta ahora, es decir,
-tenemos un programa donde todas sus funciones son totales y se logro traducir correcta y
+tenemos un programa donde todas sus funciones son totales y se logr\'o traducir correcta y
 completamente. Ahora se tienen que generar las definiciones inductivas, las 
-cuales ayudaran a
-guardar invariantes del programa, y con estas escribir los lemas que se buscan 
+cuales ayudar\'an a
+guardar invariantes del programa, y con \'estas escribir los lemas que se buscan 
 probar para poder
 asegurar que el programa en cuesti\'on ha sido verificado formalmente, lo cual 
 podría tomar el mismo tiempo que tom\'o
@@ -55,20 +55,20 @@ pruebas es muy atractiva, ya que un \'unico desarrollador podr\'ia desarrollar l
 depender de código ajeno que muestre que su programa es correcto. Sin embargo, esta idea resulta muy 
 poco factible hoy en día ya que, además de los problemas expuestos con anterioridad (las 
 traducciones del c\'odigo implementado), se suma el hecho de que se tendrían que traducir y probar 
-todas las bibliotecas ocupadas del lenguaje que se esta usando antes de pensar en probar un 
+todas las bibliotecas ocupadas del lenguaje que se est\'a usando antes de pensar en probar un 
 programa usando una herramienta como {\coq}.
 
 Otro acercamiento para poder probar este tipo de programas en la industria ser\'ia desarrollar la 
 mayor parte de estos en el asistente {\coq}. Realizando esto con las herramientas que su lenguaje 
 nos provee, de esta manera se pueden realizar las demostraciones pertinentes y utilizar la 
-funcionalidad que este posee para extraer c\'odigo en otros lenguajes, después de haber realizado la 
-prueba, como lo son Haskell y O'Caml. Sin embargo, esto solo nos permitiría desarrollar programas 
+funcionalidad que \'este posee para extraer c\'odigo en otros lenguajes, después de haber realizado la 
+prueba, como lo son Haskell y O'Caml. Sin embargo, esto s\'olo nos permitiría desarrollar programas 
 correctos con las funcionalidades que el lenguaje de {\coq} nos ofrezca.
 
 Retomando el punto anterior, otra soluci\'on ser\'ia desarrollar y probar 
 partes clave de los 
-programas a crear, es decir, m\'odulos pequeños como lo serian las estructuras de datos como 
-lo podrian ser los {\arns}, listas doblemente ligadas, colas, pilas u otros tipos de \'arboles. Una 
+programas a crear, es decir, m\'odulos pequeños como lo ser\'ian las estructuras de datos como 
+lo podrían ser los {\arns}, listas doblemente ligadas, colas, pilas u otros tipos de \'arboles. Una 
 vez implementados estos m\'odulos se podrían usar en cualquier parte de 
 c\'odigo. El inconveniente con 
 hacer esto es que dependiendo del lenguaje al que se extraiga el programa probado, puede ser 
@@ -78,14 +78,14 @@ se usar\'a para generar c\'odigo ejecutable y la optimizaci\'on del mismo. Por e
 lenguaje C es conocido por ser muy usado en programas que requieren ser muy rápidos en sus 
 operaciones.
 
-Otro problema es que como no todo el co\'digo estaría probado formalmente, para componentes mas 
+Otro problema es que como no todo el co\'digo estaría probado formalmente, para componentes m\'as 
 grandes se necesitaría caer nuevamente en hacer otro tipo de pruebas, como las unitarias, y como ya 
-hemos mencionado, estas no nos aseguran que los programas sean correctos o completos. Por lo tanto, 
-nuestros programas solo estarían parcialmente verificados formalmente.
+hemos mencionado, \'estas no nos aseguran que los programas sean correctos o completos. Por lo tanto, 
+nuestros programas s\'olo estarían parcialmente verificados formalmente.
 
 Como podemos apreciar, demostrar programas con un asistente de pruebas no es el procedimiento mas 
 amigable hoy en día. Sin embargo, si se sigue con la actual trayectoria en el desarrollo de 
 herramientas de traducci\'on como lo es \textit{hs-to-coq}, eventualmente la industria podría 
 comenzar a utilizar herramientas de este estilo para mejorar la calidad de sus productos. Mientras 
 tanto, se tendrán que seguir desarrollando pruebas unitarias de mejor calidad y lograr generar 
-programas que tiendan a la correcci\'on y completud.
+programas que tiendan a la correcci\'on.
