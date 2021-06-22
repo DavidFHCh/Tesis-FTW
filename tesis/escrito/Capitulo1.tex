@@ -3,15 +3,14 @@
 \section{Motivación}
 \label{motivation}
 Hoy en día en el desarrollo de software existe un conjunto de normas a las cuales se les 
-denomina \textit{buenas pr\'acticas de programaci\'on}, las cuales van desde tener una correcta
-indentaci\'on. En particular, elegir si usaremos espacios o tabuladores para realizar dicha 
+denomina \textit{buenas pr\'acticas de programaci\'on}. Algunos ejemplos de estas practicas ser\'ian: elegir si usaremos espacios o tabuladores para realizar la 
 indentaci\'on, la documentaci\'on del c\'odigo, respetar las convenciones del lenguaje que estamos 
 usado y verificar que nuestro programa se comporta de la manera deseada. En espec\'ifico, se pueden 
 realizar pruebas unitarias.
 
 Las \textit{pruebas unitarias} nos ayudan a saber si un código tiene el comportamiento
 que buscamos, pero esto s\'olo nos sirve hasta cierto punto; por ejemplo, si tenemos una funci\'on
-que recibe un par de números naturales, para poder verificar que la funci\'on es correcta se 
+que recibe un par de números naturales, para poder verificar que la funci\'on es correcta\footnote{Podemos decir que una funci\'on es correcta si para toda entrada, la funci\'on regresa la salida esperada respecto a una especificaci\'on.} se 
 tendrían que probar todos los casos de entradas, es decir, todas las combinaciones de pares de 
 números naturales que existan, sin embargo, estas combinaciones son infinitas y se necesitaría la 
 misma cantidad de memoria y de tiempo para poder ejecutar una prueba unitaria exhaustiva. 
@@ -20,7 +19,7 @@ suficientes.
 
 Siendo as\'i, escribir una prueba unitaria exhaustiva no es factible, en tal caso ¿que podríamos
 hacer para verificar una implementaci\'on? Escribir una prueba unitaria que itere sobre un conjunto
-representativo de los datos que la funci\'on puede recibir como argumentos. Sin embargo, ¿qu\'e se 
+representativo de los datos que la funci\'on puede recibir como argumentos es una opci\'on. Sin embargo, ¿qu\'e se 
 puede esperar si la prueba unitaria misma es errónea? No hay una respuesta clara para esto y la 
 industria hoy en día utiliza métodos como el expuesto anteriormente para probar c\'odigo pero, 
 ciertamente, esto no es suficiente para decidir si el programa es correcto respecto a una 
@@ -72,15 +71,15 @@ Sea n |$\in$ $\mathbb{N}$| y |$f(n)$| la función factorial definida como sigue:
 \label{func_fact_math}
 \end{listing}
 
-Se puede notar como las definiciones corresponden casi perfectamente la una con la otra. Esto 
+La gran similitud entre estas definiciones 
 facilita la demostraci\'on formal de los programas escritos en estos tipos de lenguajes, sin
-embargo, estas demostraciones son realizadas de manera tradicional usando l\'apiz y hojas de papel.
+embargo, estas demostraciones son realizadas de manera tradicional usando l\'apiz y papel.
 No obstante, la \'unica manera en que estemos seguros acerca de la correcci\'on de la
 demostraci\'on es que otra persona lea, entienda y valide la misma. Todos estos procesos as\'i como 
 la creaci\'on y revisi\'on de la demostraci\'on, están hechos por humanos, por lo tanto son 
 susceptibles a errores.
 
-En los últimos años han entrado en desarrollando diversos programas que nos ayudan a solucionar este
+En los últimos años han comenzado su desarrollando diversos programas que nos ayudan a solucionar este
 tipo de problemas, como son los \textit{demostradores autom\'aticos} y los \textit{asistentes de
 prueba}. Estas herramientas son sistemas o programas que realizan o gestionan demostraciones. 
 Nosotros nos enfocaremos en el segundo uso; en particular en este trabajo usaremos el asistente 
@@ -92,7 +91,7 @@ programas escritos en el lenguaje funcional del mismo asistente.
 
 Sin embargo, el uso de este asistente genera otro problema: no podemos probar cualquier programa
 escrito en un lenguaje funcional, primero tenemos que traducir este programa al lenguaje de {\coq}
-para poder comenzar con las demostraciones. Aquí tenemos dos opciones: traducir a mano o adaptar 
+para poder comenzar con las demostraciones. Aquí tenemos tres opciones: traducir a mano, o adaptar 
 una implementación al lenguaje de {\coq}, o utilizar una herramienta que nos ayude a traducir. En 
 este trabajo usaremos la segunda opci\'on, una herramienta llamada \textit{hs-to-coq} \cite{thrc}, 
 para probar formalmente la correcci\'on\footnote{Del ingl\'es \textit{correctness}.} de una estructura 
@@ -101,8 +100,12 @@ de datos como lo son los {\arns}\footnote{M\'as adelante se definir\'a esta clas
 Tomando como referencia el trabajo \cite{tesisG}, en donde se realizaron diversas implementaciones 
 de {\arns} usando el lenguaje de programaci\'on Haskell, por ejemplo, se desarrollaron 
 implementaciones usando constructores inteligentes y otra implementaci\'on mas compleja usando tipos 
-anidados. La principal motivación de elegir esta estructura de datos no trivial para este trabajo es
-realizar una verificaci\'on formal de la implementaci\'on de constructores inteligentes.
+anidados. La principal motivación de elegir esta estructura de datos no trivial para este trabajo fue
+realizar una verificaci\'on formal de la implementaci\'on de constructores inteligentes. Sin embargo,
+por motivos que se tocaran en secciones posteriores, realizar una traducci\'on del c\'odigo de dicha tesis
+resulto no factible. Lo cual nos obligo a tomar otro camino: tomar la implementación de Coq de {\arns}
+con pequeñas adecuaciones sacadas del c\'odigo de la tesis antes mencionada, entre otras cosas que
+se explicaran mas adelante.
 
 \section{\Arns}
 Los {\arns} son una estructura de datos donde sus operaciones de inserci\'on, eliminaci\'on y
@@ -112,14 +115,13 @@ complejidad de dichas operaciones crece hasta $O(n)$, como si estos fueran una l
 doblemente ligada. Esta mejora se obtiene gracias a la introducción de colores a los nodos del
 \'arbol (rojo y negro, de ah\'i rojinegros) y a invariantes relacionados con estos, los
 cuales describiremos en la siguiente definici\'on.
-%cambiar a ambiente de definicion
+
 \begin{defn}{({\Arns})}
 \label{defn_arn}
-Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
+Un \'arbol binario de búsqueda es un {\arn}\cite{canekED} si satisface lo siguiente:
 \begin{enumerate}
     \item Todos sus nodos son rojos o negros.
-    \item La ra\'iz es negra\footnote{Dec\'imos que un \'arbol es negro o rojo si el nodo de la
-    ra\'iz es de ese color.}.
+    \item La ra\'iz es negra 
     \item Las siguientes invariantes se tienen que cumplir:
     \begin{itemize}
         \item Un nodo rojo debe tener hijos negros.
@@ -128,7 +130,8 @@ Un \'arbol binario de búsqueda es un {\arn} si satisface lo siguiente:
         \item Todas las hojas del \'arbol son vacías y de color negro.
     \end{itemize}
 \end{enumerate}
-Decimos que la altura negra de un nodo es el n\'umero de nodos negros que aparecen en el camino de 
+Dec\'imos que un \'arbol es negro o rojo si la ra\'iz es de ese color. Tambien podemos decir que la
+altura negra de un nodo es el n\'umero de nodos negros que aparecen en el camino de 
 ese nodo a la raíz.
 \end{defn}
 
@@ -171,15 +174,15 @@ ese nodo a la raíz.
 En la figura \ref{arbolRB_1} podemos ver un ejemplo de un {\arn} que respeta la definici\'on que
 acabamos de presentar: las etiquetas de los nodos representan la informaci\'on que se puede 
 almacenar en ellos, siendo en este caso n\'umeros naturales, las etiquetas $x$ en las hojas 
-representan los nodos vacíos y estos son negros, y los subíndices de que aparecen en los nodos 
+representan los nodos vacíos y estos son negros, y los subíndices que aparecen en los nodos 
 negros representan la altura negra del sub\'arbol. Con este ejemplo se ilustra c\'omo la cantidad de 
 nodos negros de la ra\'iz a cualquier hoja es siempre la misma.
 
 Nos interesa estudiar este tipo no trivial de \textit{\'arboles binarios de búsqueda} para poder
 demostrar la correcci\'on de la implementaci\'on funcional en \cite{tesisG} usando el asistente de 
-pruebas {\coq}. De esta manera mostraremos las ventajas y desventajas de este proceso, el cual 
-comienza escribiendo de cero una estructura o traduciendo la misma del lenguaje Haskell a {\coq}, e 
-incluso hasta las demostraciones que se realizar\'an con el asistente de pruebas.
+pruebas {\coq}. De esta manera mostraremos las ventajas y desventajas del proceso de verificaci\'on de una estructura de datos, el cual 
+comienza escribiendo de cero una estructura o traduciendo la misma del lenguaje Haskell a {\coq}, y 
+de igual manera las demostraciones que se realizar\'an con el asistente de pruebas. En este trabajo se nos enfocaremos en c\'odigo ya traducido. 
 
 \section{Pruebas unitarias}
 Las \textit{pruebas unitarias} \cite{unittest} son bloques de c\'odigo, funciones o m\'etodos, que
@@ -234,9 +237,9 @@ escrita en el lenguaje de programaci\'on Java, la cual verifica la altura negra 
 \label{unitTestjava}
 \end{listing}
 
-Sin embargo, como se menciono en la motivaci\'on, el hecho de que las pruebas unitarias puedan verificar los invariantes de un \'arbol
+Sin embargo, como se menciono en la motivaci\'on, el hecho de que las pruebas unitarias puedan verificar las invariantes de un \'arbol
 dado no nos asegura que todos los \'arboles creados por nuestras operaciones de inserci\'on y
-eliminaci\'on los respeten. La \'unica manera de que esta prueba podr\'ia verificar esto ser\'ia
+eliminaci\'on las respeten. La \'unica manera de que esta prueba podr\'ia verificar esto ser\'ia
 realizando todas las combinaciones de operaciones y entradas posibles y aplicar la prueba a todos los
 resultados de estas entradas. Esto es una prueba exhaustiva y en este caso\footnote{De hecho en la
 mayoría.} las posibilidades son infinitas, es decir, no existe modo de realizar todas estas pruebas
@@ -249,9 +252,7 @@ Finalmente, como las pruebas unitarias no nos permiten cubrir todos los casos ne
 \section{Traducción de Haskell a {\coq}}
 El enfoque que hemos decidido darle a este trabajo consiste en considerar una implementaci\'on de 
 la estructura descrita en la secci\'on \ref{motivation} y solamente realizar la verificaci\'on formal de la 
-misma. Es por esta raz\'on que, como mencionamos en la secci\'on \ref{motivation} de este trabajo, 
-existen programas llamados asistentes de pruebas que nos ayudan a realizar la verificaci\'on formal 
-de otros programas. Para este trabajo decidimos usar {\coq}. Este asistente nos gu\'ia a través de 
+misma. Para este trabajo decidimos usar {\coq}. Este asistente nos gu\'ia a través de 
 la prueba recordando cu\'ales son las \textit{metas}\footnote{Una meta consiste de dos cosas: la 
 conclusi\'on y un contexto. El segundo contiene las hipotesis, definiciones y variables que podemos 
 usar para demostrar la conclusi\'on.\cite{GOALS}.} que debemos demostrar y tambi\'en nos ofrece 
@@ -294,7 +295,7 @@ y desventajas de traducir de Haskell a {\coq}, los cuales expondremos a continua
     son totales.
 \end{itemize}
 
-Este art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
+El art\'iculo propone el uso de una herramienta llamada \textit{hs-to-coq}, la cual actualmente se
 encuentra en etapa de desarrollo y est\'a siendo usada para traducir código de Haskell a {\coq}. Por
 las razones expuestas al comienzo de esta secci\'on es que decidimos usar esta herramienta de 
 traducci\'on y enfocarnos \'unicamente en la verificaci\'on de los {\arns}.
@@ -306,10 +307,7 @@ incluir las demostraciones en {\coq}, en otras palabras, los \emph{scripts} de p
 describen de manera informal las demostraciones para poder entender en alto nivel la estructura de 
 la verificaci\'on formal realizada.
 
-En este trabajo se opt\'o por usar el traductor \textit{hs-to-coq}, ya que la traducci\'on manual
-resultar\'ia ser muy tediosa y \'esta es susceptible a errores, tambi\'en se desviaría el enfoque de
-este trabajo, el cual es la verificaci\'on de la estructura, no la traducci\'on de la misma. La
-herramienta fue utilizada para obtener las traducciones de las bibliotecas de Haskell; est\'as fueron
+La herramienta \textit{hs-to-coq} fue utilizada para obtener las traducciones de las bibliotecas de Haskell; est\'as fueron
 usadas para poder verificar la implementación, comenzando con el trabajo de \cite{tesisG} y 
 adecuándolo a la implementaci\'on de \cite{MSetRBT} que se us\'o en el trabajo.
 

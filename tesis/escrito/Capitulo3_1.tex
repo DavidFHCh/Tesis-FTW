@@ -61,20 +61,20 @@ de resolver problemas mas complejos dividiéndolo en partes mas pequeñas. En es
 \begin{minted}{coq}
 Inductive isRB : Tree -> color -> nat -> Prop :=
  | IsRB_leaf: forall c, isRB E c 0
- | IsRB_r: forall tl k kv tr n,
+ | IsRB_r: forall tl k tr n,
           isRB tl Red n ->
           isRB tr Red n ->
-          isRB (T Red tl k kv tr) Black n
- | IsRB_b: forall c tl k kv tr n,
+          isRB (T Red tl k tr) Black n
+ | IsRB_b: forall c tl k tr n,
           isRB tl Black n ->
           isRB tr Black n ->
-          isRB (T Black tl k kv tr) c (S n).
+          isRB (T Black tl k tr) c (S n).
 \end{minted}
 \caption{Funci\'on inductiva isRB.}
 \label{inductive_isRB}
 \end{listing}
 
-La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$} (figura \ref{inductive_isRB}) 
+La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$}\footnote{Las variables \textit{\textbf{n}} y \textit{\textbf{c}} se refieren a la altura negra y al color del nodo anterior, respectivamente.} (figura \ref{inductive_isRB}) 
 tiene tres casos, los cuales describiremos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es rojinegro. En este caso
@@ -112,14 +112,14 @@ permite mas flexibilidad en el \'arbol, se muestra y describe en la figura \ref{
 \captionsetup{justification=centering}
 \begin{minted}{coq}
 Inductive nearRB : Tree -> nat -> Prop :=
-| nrRB_r: forall tl k kv tr n,
+| nrRB_r: forall tl k tr n,
          isRB tl Black n ->
          isRB tr Black n ->
-         nearRB (T Red tl k kv tr) n
-| nrRB_b: forall tl k kv tr n,
+         nearRB (T Red tl k tr) n
+| nrRB_b: forall tl k tr n,
          isRB tl Black n ->
          isRB tr Black n ->
-         nearRB (T Black tl k kv tr) (S n).
+         nearRB (T Black tl k tr) (S n).
 \end{minted}
 \caption{Funci\'on inductiva \emph{nearRB}.}
 \label{inductive_nearRB}

@@ -3,7 +3,7 @@
 \section{Traducción de implementaciones}
 Se tomaron un par de implementaciones funcionales de {\arns} para verificarlas. La primera contiene 
 las implementaciones de \cite{tesisG} en Haskell que fueron utilizadas como entrada para la 
-herramienta \textit{hs-to-coq}, es decir, una traducci\'on directa. La segunda implementaci\'on y la 
+herramienta \textit{hs-to-coq}, es decir, una traducci\'on directa\footnote{Por motivos de como se  escribieron las implementaciones, la traducción no pudo realizarse.}. La segunda implementaci\'on y la 
 que se us\'o para este trabajo, fue obtener de \cite{MSetRBT} la implementaci\'on de los {\arns} que 
 se usan en la biblioteca estándar de {\coq}, los cuales son una versi\'on de los {\arns} de 
 \cite{Okasaki}. En el segundo caso, se usaron las bibliotecas traducidas de Haskell a {\coq}, 
@@ -21,14 +21,14 @@ Okasaki (siendo esta la m\'as simple) los constructores inteligentes (implementa
 optimizaciones) y los tipos anidados (una implementaci\'on totalmente diferente a las anteriores y 
 m\'as elegante).
 
-Por la compleja naturaleza de estas implementaciones, la traducción manual del código de Haskell 
-result\'o ser muy problemática, esto porque en las implementaciones escritas en Haskell se tom\'o 
+Por la compleja naturaleza de estas implementaciones, el intento de realizar la traducción manual del código de Haskell 
+result\'o ser muy problemática y no se llevo a cabo, esto porque en las implementaciones escritas en Haskell se tom\'o 
 ventaja del hecho de que en este lenguaje se pueden declarar funciones parciales, lo cual representa
 un reto al momento de intentar traducir a {\coq}, ya que este lenguaje únicamente 
 acepta funciones totales. Se buscaron soluciones para `totalizar' estas funciones. Sin embargo,
 s\'olo traerían problemas al intentar realizar las demostraciones, ya que al totalizar se generar\'ian 
 casos inalcanzables en la ejecuci\'on, pero tendrían que ser demostrados para poder completar la 
-verificaci\'on.
+verificaci\'on. 
 
 A pesar de ello, se intent\'o totalizar las funciones de Haskell y así poder usar la herramienta 
 \textit{hs-to-coq} y de esta manera facilitar la traducci\'on pero, por las mismas razones antes 
@@ -43,6 +43,28 @@ descritas, la herramienta caía en alguna de estas dos situaciones:
     llegar a ser muy complejas y utilizar módulos de GHC, a los cuales todav\'ia no se les hab\'ia
     traducido con la herramienta.
 \end{itemize}{}
+
+Por ejemplo el c\'odigo \ref{acolejem}, se presenta una funci\'on de una de las implementaciones que propone 
+\cite{tesisG}, {\arns} con aritm\'etica de colores para controlar la invariante. Podemos notar que el \'ultimo
+caso de la caza de patrones devuelve un error, esto no estaba en el c\'odigo de Haskell original, pero al querer 
+realizar la traducci\'on con la herramienta \textit{hs-to-coq} era necesario agregar ese caso. El problema en 
+este caso es que \textit{error} no estaba en la biblioteca de traducciones de \textit{hs-to-coq}, por lo cual no 
+podiamos verificar. Se penso en usar tipos \textit{Option} y regresar \textit{None} en lugar de errores, pero la 
+verificaci\'on habr\'ia aumentado considerablemente su complejidad.
+
+\begin{listing}[!ht]
+    \centering
+    \captionsetup{justification=centering}
+    \begin{minted}{haskell}
+        sucBlack:: Color -> Color
+        sucBlack NB = R
+        sucBlack R = B
+        sucBlack B = BB
+        sucBlack BB = error "no hay sucesor para BB"
+    \end{minted}
+    \caption{Ejemplo de `totalizaci\'on' de funci\'on.}
+    \label{acolejem}
+    \end{listing}
 
 Por estas razones se busc\'o otro acercamiento para poder verificar esta estructura.
 Sabemos que el equipo de desarrollo de la herramienta \textit{hs-to-coq} ha traducido exitosamente 
