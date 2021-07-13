@@ -74,7 +74,7 @@ Inductive isRB : Tree -> color -> nat -> Prop :=
 \label{inductive_isRB}
 \end{listing}
 
-La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$}\footnote{Las variables \textit{\textbf{n}} y \textit{\textbf{c}} se refieren a la altura negra y al color del nodo anterior, respectivamente.} (figura \ref{inductive_isRB}) 
+La primera definici\'on llamada \hyperref[inductive_isRB]{$isRB$}\footnote{Las variables \textit{\textbf{n}} y \textit{\textbf{c}} se refieren a la altura negra y al color del nodo anterior, respectivamente.} (c\'odigo \ref{inductive_isRB}) 
 tiene tres casos, los cuales describiremos a continuaci\'on:
 \begin{itemize}
         \item \textbf{IsRB\_Leaf}: el árbol vacío con altura negra 0 es rojinegro. En este caso
@@ -105,7 +105,7 @@ tiene tres casos, los cuales describiremos a continuaci\'on:
 Con estos tres casos podemos asegurar que las invariantes se respetan, pero esta funci\'on
 inductiva es demasiado restrictiva y esto dificulta poder demostrar las propiedades de los {\arns},
 por esto pasamos a la segunda definici\'on inductiva, \hyperref[inductive_nearRB]{$nearRB$}, \'esta 
-permite mas flexibilidad en el \'arbol, se muestra y describe en la figura \ref{inductive_nearRB}.
+permite mas flexibilidad en el \'arbol, se muestra y describe en el c\'odigo \ref{inductive_nearRB}.
 %punto
 \begin{listing}[!ht]
 \centering
@@ -153,7 +153,7 @@ Utilizamos una definición inductiva, llamada \hyperref[inductive_isRedB]{$is\_r
 capturar los invariantes, la cual lleva como parámetros un contador y un \'arbol. El contador lleva 
 el control de la cantidad de nodos negros, es decir, la altura negra del nodo, mientras que el 
 \'arbol es aquel que estamos buscando verificar que cumpla con las invariantes de un {\arn}. Se 
-presenta esta definici\'on en la figura \ref{inductive_isRedB}.
+presenta esta definici\'on en el c\'odigo \ref{inductive_isRedB}.
 
 \begin{listing}[!ht]
 \centering
@@ -197,7 +197,7 @@ Esta definici\'on captura los invariantes que estamos buscando, sin embargo, no 
 poder probar la correcci\'on de los {\arns}. La definici\'on es demasiado restrictiva y costaría 
 mucho trabajo proceder con las demostraciones solamente con ella. Por esta razón se agregan dos
 definiciones inductivas auxiliares; \hyperref[inductive_isRedB]{$redred\_tree$} y 
-\hyperref[inductive_isRedB]{$nearly\_redblack$} (figura \ref{inductive_aux}).
+\hyperref[inductive_isRedB]{$nearly\_redblack$} (c\'odigo \ref{inductive_aux}).
 
 \begin{listing}[!ht]
 \centering
@@ -235,7 +235,7 @@ las invariantes.} para al final utilizar estos resultados para realizar la demos
 definición m\'as estricta.
 
 Finalmente, lo que se busca demostrar es que los {\arns} con las operaciones de inserci\'on y
-eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (figura \ref{class_rb}).
+eliminaci\'on est\'en dentro de la clase de \'arboles $redblack$ (c\'odigo \ref{class_rb}).
 
 \begin{listing}[!ht]
 \centering
@@ -248,7 +248,7 @@ Class redblack {a} `{GHC.Base.Ord a} (t:RB a) :=
 \label{class_rb}
 \end{listing}
 
-Lo que estamos describiendo con el enunciado de la figura \ref{class_rb} es que dado un {\arn} 
+Lo que estamos describiendo con el enunciado del c\'odigo \ref{class_rb} es que dado un {\arn} 
 (\textit{t: RB a}), existe una altura negra $d$ que cumple con las invariantes establecidas por la 
 definici\'on \hyperref[inductive_isRedB]{$is\_redblack$}. Esta clase\footnote{Las clases en este 
 contexto funcional se pueden ver, desde un alto nivel, como equivalencias a las clases del paradigma 

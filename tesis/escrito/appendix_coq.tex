@@ -2,17 +2,16 @@
 \chapter{Conceptos básicos de {\sc Coq}}
 
 Para una mejor comprensi\'on de las pruebas realizadas en este trabajo, daremos una breve explicación
-del asistente de pruebas {\coq}. Nos enfocaremos solamente en las herramientas que se usaron en este
-trabajo.
+del asistente de pruebas {\coq}. Nos enfocaremos solamente en las características de \textit{Coq} que se usaron en este trabajo. Este apéndice está basado en el manual del asistente que el lector puede consultar en \cite{coqdefs}.
 
-Lo primero que se hace al querer probar un programa en Coq es escribirlo en su propio lenguaje. Este
+Lo primero que se hace al querer probar un programa en \textit{Coq} es escribirlo en su propio lenguaje llamado Gallina. Este
 contiene varias palabras reservadas para el desarrollo de funciones y de tipos especiales para el uso
 de las mismas, en seguida explicaremos las que se usaron:
 
 \begin{itemize}
   \item \textbf{\textit{Inductive}} - Esta palabra reservada se refiere a un tipo al cual se le puede aplicar inducc\'on
-    estructural. Al usar esta palabra para definir a un tipo, se generan los constructores necesarios, y en algunos casos,
-    destructores\cite{IndAndRec}. En el c\'odigo \ref{ind_example} presentamos un ejemplo de uso, definiendo los 
+    estructural. Al usar esta palabra para definir a un tipo, se establecen los constructores, y en algunos casos,
+    destructores. En el c\'odigo \ref{ind_example} presentamos un ejemplo de uso, definiendo los 
     n\'umeros naturales.
     \begin{listing}[!ht]
     \centering
@@ -26,7 +25,7 @@ de las mismas, en seguida explicaremos las que se usaron:
     \label{ind_example}
     \end{listing}
   \item \textbf{\textit{Fixpoint}} - Esta palabra reservada se refiere a la definici\'on de una funci\'on recursiva, aplicada a, al menos, 
-    un tipo inductivo definido con la palabra reservada \textbf{\textit{Inductive}}\cite{IndAndRec}. El c\'odigo \ref{fix_example} presentamos una funci\'on recursiva usando el tipo definido arriba. 
+    un tipo inductivo definido con la palabra reservada \textbf{\textit{Inductive}}. El c\'odigo \ref{fix_example} presentamos una funci\'on recursiva usando el tipo definido arriba. 
     \begin{listing}[!ht]
       \centering
       \captionsetup{justification=centering}
@@ -41,7 +40,7 @@ de las mismas, en seguida explicaremos las que se usaron:
       \label{fix_example}
       \end{listing}
   \item \textbf{\textit{Definition}} - Esta palabra reservada b\'asicamente se refiere a una sustituci\'on textual de 
-    una expresión por otra \cite{coqdefs}. En el c\'odigo \ref{def_example} se hace una sustituci\'on textual para aumentar en uno el valor de $n$.
+    una expresión por otra. En el c\'odigo \ref{def_example} se hace una sustituci\'on textual para aumentar en uno el valor de $n$.
     \begin{listing}[!ht]
       \centering
       \captionsetup{justification=centering}
@@ -58,19 +57,18 @@ de las mismas, en seguida explicaremos las que se usaron:
 \end{itemize}
 
 
-Los tipos inductivos tambien los usamos para definir las invariantes o especificación formal del programa 
+En los mecanismos de definición anteriores se hace uso de la coincidencia de patrones o pattern matching. Los tipos inductivos tambien los usamos para definir las invariantes o especificación formal del programa 
 que se busca verificar. En el c\'odigo \hyperref[inductive_isRB]{$isRB$} definimos la especificación 
 de los {\arns}.
 
 Una vez escrito el programa y su especificación, procedemos a escribir lemas que nos ayuden a verificar
 la correcci\'on con respecto a la especificación dada. Esto lo logramos con la palabra reservada 
-\textbf{\textit{Lemma}} (ver \hyperref[lema_1]{\textit{ins\_rr\_rb}}). Al usar esta palabra Coq entra en modo 
+\textbf{\textit{Lemma}}\footnote{Además de esta palabra también se puede usar Theorem, Proposition, Corolary, para indicar una proposición.} (ver \hyperref[lema_1]{\textit{ins\_rr\_rb}}). Al usar esta palabra \textit{Coq} entra en modo 
 prueba, con lo cual se pueden usar las \textit{t\'acticas}.
 
-Las t\'acticas\cite{TACTICS} (ver c\'odigo \ref{tacticas_example}) son palabras como: \textit{intros}, \textit{destruct}, \textit{apply}, \textit{constructor}, etc. Estas 
-t\'acticas nos ayudan a transformar el estado actual de una prueba, denominado \textit{meta}. Una
-sucesión de t\'acticas eventualmente generan una prueba completa, la cual siempre empieza con la palabra
-\textit{Proof} y termina con \textit{Qed}.
+Las t\'acticas (ver c\'odigo \ref{tacticas_example}) son palabras reservadas como: \textit{intros}, \textit{destruct}, \textit{apply}, \textit{constructor}, etc. Estas 
+t\'acticas son funciones que nos ayudan a transformar el estado actual de una prueba, denominado \textit{meta}. Una
+sucesión de t\'acticas eventualmente generan una prueba completa, a cual opcionalmente empieza con la palabra \textit{Proof} y siempre termina con \textit{Qed}.
 
 \begin{listing}[!ht]
 \centering
@@ -89,7 +87,7 @@ Qed.
 \end{listing}
 
 Las metas (ver c\'odigo \ref{meta_example}) consisten de dos partes: la conclusi\'on y un contexto. El segundo contiene las hip\'otesis, definiciones y variables que podemos 
-usar para demostrar la conclusi\'on con el uso de las t\'acticas.\cite{GOALS}. 
+usar para demostrar la conclusi\'on con el uso de las t\'acticas. 
 \begin{listing}[!ht]
 \centering
 \captionsetup{justification=centering}

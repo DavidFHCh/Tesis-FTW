@@ -73,7 +73,7 @@ una fracci\'on de las bibliotecas de Haskell a {\coq}\footnote{El nombre de esta
 esta raz\'on, se opt\'o por el uso de la implementación de {\arns} de las bibliotecas de {\coq}, 
 \cite{MSetRBT}, pero usando los tipos y operaciones obtenidos de las traducciones con la herramienta.
 
-\section{Definci\'on en Coq de los {\arns}}
+\section{Definici\'on en Coq de los {\arns}}
 
 La biblioteca de {\coq} contiene una gran variedad de funciones y estructuras de datos, 
 implementadas y verificadas con los tipos nativos del lenguaje de Coq. En este trabajo
@@ -88,7 +88,8 @@ de realizar la traducci\'on de las bibliotecas de Haskell al lenguaje de Coq.
 
 Inductive Color : Type := R : Color |  B : Color.
 
-Inductive RB a : Type := E : RB a |  T : Color -> (RB a) -> a -> (RB a) -> RB a.
+Inductive RB a : Type := E : RB a |  
+        T : Color -> (RB a) -> a -> (RB a) -> RB a.
 
 Arguments E {_}.
 Arguments T {_} _ _ _ _.
@@ -115,6 +116,7 @@ auxiliares, tendr\'an la siguiente anotaci\'on: \textit{`\{GHC.Base.Ord a\}}. La
 indica que la funci\'on solo acepta tipos que respeten dicha anotaci\'on.
 
 \section{Inserción de elementos en un {\arn}}
+\label{sec_ins}
 
 La inserci\'on de elementos a un {\arn} es la operaci\'on m\'as sencilla de las dos que se
 verificar\'an en este trabajo. La idea principal detrás de este algoritmo es que \'unicamente se 
@@ -225,6 +227,8 @@ Definition lbal {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{listing}
 
 \subsection{Operaciones de balanceo}
+\label{subsec_bal}
+
 Los giros antes mencionados están definidos en las operaciones de balanceo, las cuales son dos: una 
 para los subárboles izquierdos y otra para los derechos. Estas funciones (ver figura 
 \ref{func_balanceo}) se encargan de solucionar los casos en los que inmediatamente después de 
@@ -377,14 +381,14 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
 \label{func_ins}
 \end{listing}
 
-Analizando m\'as detenidamente la funci\'on (figura \ref{func_ins}) se puede observar que las
+Analizando m\'as detenidamente la funci\'on (c\'odigo \ref{func_ins}) se puede observar que las
 operaciones de balanceo s\'olo se efectúan cuando el nodo por el que se est\'a pasando es negro, esto
 sucede porque los nodos de este color son los que se toman en cuenta para decidir si
 un \'arbol cumple con el balanceo adecuado. Al aplicar el balanceo en estos nodos, podemos 
 garantizar que no quedar\'an con nodos negros extras alguno de los hijos de este nodo, es decir, que
 ninguno de los caminos de la ra\'iz a las hojas tenga mas nodos negros que los demás. Esto se puede
 apreciar si recordamos lo que se mencion\'o en las definiciones de las operaciones de balanceo, 
-tomemos \hyperref[func_balanceo]{$rbal$} (figura \ref{func_balanceo})
+tomemos \hyperref[func_balanceo]{$rbal$} (c\'odigo \ref{func_balanceo})
 \footnote{Con \hyperref[func_balanceo]{$lbal$} la idea es an\'aloga.}, tenemos dos casos:
 
 \begin{itemize}
@@ -457,7 +461,7 @@ para mantener las invariantes de los {\arns}. Esto se suscita al eliminar un nod
 \subsection{Funci\'on de eliminaci\'on}
 
 Para poder comprender la l\'ogica de las funciones que conforman a la operaci\'on de eliminaci\'on
-es necesario comenzar por la funci\'on que retira el nodo del \'arbol (ver la figura \ref{func_del}).
+es necesario comenzar por la funci\'on que retira el nodo del \'arbol (ver el c\'odigo \ref{func_del}).
 La idea central de esta operaci\'on es bastante simple: como los {\arns} son \'arboles de búsqueda,
 lo primero que hacemos es buscar el nodo a eliminar. Si se encuentra se elimina y se concatenan los
 subárboles restantes de esta operaci\'on (ver figuras \ref{arbolRB_4}, \ref{arbolRB_5} y
@@ -737,8 +741,8 @@ siguiente sección.
 
 \subsection{Extensi\'on de funciones de balanceo}
 
-En la secci\'on 2.2 de este trabajo se trat\'o la inserci\'on de elementos a un {\arn}, en donde se
-describen un par de funciones llamadas `de balanceo', tratadas en las subsecci\'on 2.2.1; estas 
+En la secci\'on \hyperref[sec_ins]{2.3} de este trabajo se trat\'o la inserci\'on de elementos a un {\arn}, en donde se
+describen un par de funciones llamadas `de balanceo', tratadas en las subsecci\'on \hyperref[subsec_bal]{2.3.1}; estas 
 funciones a su vez toman los nombres \hyperref[func_balanceo]{$rbal$} y 
 \hyperref[func_balanceo]{$lbal$} (c\'odigo \ref{func_balanceo}). Estas operaciones resultan 
 insuficientes para balancear un \'arbol al momento de eliminar un nodo y concatenar los dos 
