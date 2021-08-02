@@ -11,7 +11,7 @@ de las mismas, en seguida explicaremos las que se usaron:
 \begin{itemize}
   \item \textbf{\textit{Inductive}} - Esta palabra reservada se refiere a un tipo al cual se le puede aplicar inducc\'on
     estructural. Al usar esta palabra para definir a un tipo, se establecen los constructores, y en algunos casos,
-    destructores. En el c\'odigo \ref{ind_example} presentamos un ejemplo de uso, definiendo los 
+    destructores. En el listado \ref{ind_example} presentamos un ejemplo de uso, definiendo los 
     n\'umeros naturales.
     \begin{listing}[!ht]
     \centering
@@ -25,7 +25,7 @@ de las mismas, en seguida explicaremos las que se usaron:
     \label{ind_example}
     \end{listing}
   \item \textbf{\textit{Fixpoint}} - Esta palabra reservada se refiere a la definici\'on de una funci\'on recursiva, aplicada a, al menos, 
-    un tipo inductivo definido con la palabra reservada \textbf{\textit{Inductive}}. El c\'odigo \ref{fix_example} presentamos una funci\'on recursiva usando el tipo definido arriba. 
+    un tipo inductivo definido con la palabra reservada \textbf{\textit{Inductive}}. El listado \ref{fix_example} presentamos una funci\'on recursiva usando el tipo definido arriba. 
     \begin{listing}[!ht]
       \centering
       \captionsetup{justification=centering}
@@ -40,7 +40,7 @@ de las mismas, en seguida explicaremos las que se usaron:
       \label{fix_example}
       \end{listing}
   \item \textbf{\textit{Definition}} - Esta palabra reservada b\'asicamente se refiere a una sustituci\'on textual de 
-    una expresión por otra. En el c\'odigo \ref{def_example} se hace una sustituci\'on textual para aumentar en uno el valor de $n$.
+    una expresión por otra. En el listado \ref{def_example} se hace una sustituci\'on textual para aumentar en uno el valor de $n$.
     \begin{listing}[!ht]
       \centering
       \captionsetup{justification=centering}
@@ -66,7 +66,7 @@ la correcci\'on con respecto a la especificación dada. Esto lo logramos con la 
 \textbf{\textit{Lemma}}\footnote{Además de esta palabra también se puede usar Theorem, Proposition, Corolary, para indicar una proposición.} (ver \hyperref[lema_1]{\textit{ins\_rr\_rb}}). Al usar esta palabra \textit{Coq} entra en modo 
 prueba, con lo cual se pueden usar las \textit{t\'acticas}.
 
-Las t\'acticas (ver c\'odigo \ref{tacticas_example}) son palabras reservadas como: \textit{intros}, \textit{destruct}, \textit{apply}, \textit{constructor}, etc. Estas 
+Las t\'acticas (ver listado \ref{tacticas_example}) son palabras reservadas como: \textit{intros}, \textit{destruct}, \textit{apply}, \textit{constructor}, etc. Estas 
 t\'acticas son funciones que nos ayudan a transformar el estado actual de una prueba, denominado \textit{meta}. Una
 sucesión de t\'acticas eventualmente generan una prueba completa, a cual opcionalmente empieza con la palabra \textit{Proof} y siempre termina con \textit{Qed}.
 
@@ -86,7 +86,7 @@ Qed.
 \label{tacticas_example}
 \end{listing}
 
-Las metas (ver c\'odigo \ref{meta_example}) consisten de dos partes: la conclusi\'on y un contexto. El segundo contiene las hip\'otesis, definiciones y variables que podemos 
+Las metas (ver listado \ref{meta_example}) consisten de dos partes: la conclusi\'on y un contexto. El segundo contiene las hip\'otesis, definiciones y variables que podemos 
 usar para demostrar la conclusi\'on con el uso de las t\'acticas. 
 \begin{listing}[!ht]
 \centering

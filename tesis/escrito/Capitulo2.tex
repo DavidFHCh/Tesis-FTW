@@ -44,7 +44,7 @@ descritas, la herramienta caía en alguna de estas dos situaciones:
     traducido con la herramienta.
 \end{itemize}{}
 
-Por ejemplo el c\'odigo \ref{acolejem}, se presenta una funci\'on de una de las implementaciones que propone 
+Por ejemplo el listado \ref{acolejem}, se presenta una funci\'on de una de las implementaciones que propone 
 \cite{tesisG}, {\arns} con aritm\'etica de colores para controlar la invariante. Podemos notar que el \'ultimo
 caso de la caza de patrones devuelve un error, esto no estaba en el c\'odigo de Haskell original, pero al querer 
 realizar la traducci\'on con la herramienta \textit{hs-to-coq} era necesario agregar ese caso. El problema en 
@@ -98,7 +98,7 @@ Arguments T {_} _ _ _ _.
 \label{arnsdefcoq}
 \end{listing}
 
-En el c\'odigo \ref{arnsdefcoq} definimos los colores y la forma de los {\arns}, podemos notar que un \'arbol esta definido de la siguiente manera:
+En el listado \ref{arnsdefcoq} definimos los colores y la forma de los {\arns}, podemos notar que un \'arbol esta definido de la siguiente manera:
 \begin{itemize}
     \item Se define un tipo inductivo con dos colores: $R$ y $B$\footnote{Se refieren a los nombres en ingl\'es del color rojo y negro, i.e. \textit{Red} y \textit{Black}.}.
     \item Se define un segundo tipo inductivo con las dos formas de un {\arn}:
@@ -381,14 +381,14 @@ Fixpoint ins {a} `{GHC.Base.Ord a} (x:a) (s:RB a) :=
 \label{func_ins}
 \end{listing}
 
-Analizando m\'as detenidamente la funci\'on (c\'odigo \ref{func_ins}) se puede observar que las
+Analizando m\'as detenidamente la funci\'on (listado \ref{func_ins}) se puede observar que las
 operaciones de balanceo s\'olo se efectúan cuando el nodo por el que se est\'a pasando es negro, esto
 sucede porque los nodos de este color son los que se toman en cuenta para decidir si
 un \'arbol cumple con el balanceo adecuado. Al aplicar el balanceo en estos nodos, podemos 
 garantizar que no quedar\'an con nodos negros extras alguno de los hijos de este nodo, es decir, que
 ninguno de los caminos de la ra\'iz a las hojas tenga mas nodos negros que los demás. Esto se puede
 apreciar si recordamos lo que se mencion\'o en las definiciones de las operaciones de balanceo, 
-tomemos \hyperref[func_balanceo]{$rbal$} (c\'odigo \ref{func_balanceo})
+tomemos \hyperref[func_balanceo]{$rbal$} (listado \ref{func_balanceo})
 \footnote{Con \hyperref[func_balanceo]{$lbal$} la idea es an\'aloga.}, tenemos dos casos:
 
 \begin{itemize}
@@ -461,7 +461,7 @@ para mantener las invariantes de los {\arns}. Esto se suscita al eliminar un nod
 \subsection{Funci\'on de eliminaci\'on}
 
 Para poder comprender la l\'ogica de las funciones que conforman a la operaci\'on de eliminaci\'on
-es necesario comenzar por la funci\'on que retira el nodo del \'arbol (ver el c\'odigo \ref{func_del}).
+es necesario comenzar por la funci\'on que retira el nodo del \'arbol (ver el listado \ref{func_del}).
 La idea central de esta operaci\'on es bastante simple: como los {\arns} son \'arboles de búsqueda,
 lo primero que hacemos es buscar el nodo a eliminar. Si se encuentra se elimina y se concatenan los
 subárboles restantes de esta operaci\'on (ver figuras \ref{arbolRB_4}, \ref{arbolRB_5} y
@@ -680,7 +680,7 @@ con dos nodos rojos seguidos, es decir, que el hijo y alguno de los nietos del n
     \label{func_app}
     \end{listing}
 
-La funci\'on de concatenación (c\'odigo \ref{func_app}) es usada cuando se ha encontrado el elemento a 
+La funci\'on de concatenación (listado \ref{func_app}) es usada cuando se ha encontrado el elemento a 
 eliminar en un {\arn}, resultando en dos \'arboles que tienen que ser concatenados, los cuales deben 
 de respetar los invariantes de los {\arns}. Esta funci\'on recibe como parámetros los dos 
 \'arboles\footnote{Estos arboles pueden no cumplir con todas las invariantes de los {\arns}.} que 
@@ -744,7 +744,7 @@ siguiente sección.
 En la secci\'on \hyperref[sec_ins]{2.3} de este trabajo se trat\'o la inserci\'on de elementos a un {\arn}, en donde se
 describen un par de funciones llamadas `de balanceo', tratadas en las subsecci\'on \hyperref[subsec_bal]{2.3.1}; estas 
 funciones a su vez toman los nombres \hyperref[func_balanceo]{$rbal$} y 
-\hyperref[func_balanceo]{$lbal$} (c\'odigo \ref{func_balanceo}). Estas operaciones resultan 
+\hyperref[func_balanceo]{$lbal$} (listado \ref{func_balanceo}). Estas operaciones resultan 
 insuficientes para balancear un \'arbol al momento de eliminar un nodo y concatenar los dos 
 \'arboles restantes con la función \hyperref[func_app]{$append$}, es por esto que se implementan las
 extensiones de estas funciones, llamadas \hyperref[lbalS]{$lbalS$} y \hyperref[lbalS]{$rbalS$} 
@@ -778,7 +778,7 @@ Definition lbalS {a} `{GHC.Base.Ord a} (l:RB a) (k:a) (r:RB a) :=
 \end{listing}
 
 Las funciones \hyperref[lbalS]{$rbalS$} y \hyperref[lbalS]{$lbalS$} son usadas en la funci\'on 
-\hyperref[func_del]{$del$} (c\'odigo \ref{func_del}) cuando la llamada recursiva busca el nodo a 
+\hyperref[func_del]{$del$} (listado \ref{func_del}) cuando la llamada recursiva busca el nodo a 
 eliminar en un sub\'arbol con ra\'iz negra, al aplicar la funci\'on de balanceo en estos nodos 
 podemos asegurar que los dos subárboles de este nodo no se van a desequilibrar, es decir, que un 
 subárbol tenga mayor altura negra que el otro. Estas funciones b\'asicamente hacen un reacomodo de 
